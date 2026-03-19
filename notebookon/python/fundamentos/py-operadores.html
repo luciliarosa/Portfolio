@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operadores — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08); --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px; --font-body:'Nunito',sans-serif; --font-serif:'Lora',serif; --font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:0;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;} .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    /* op table card */
+    .op-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:0;overflow:hidden;box-shadow:var(--shadow);}
+    .op-card-header{padding:14px 18px 10px;border-bottom:1.5px solid var(--rule2);display:flex;align-items:center;gap:8px;}
+    .op-card-header h3{font-size:14px;font-weight:700;color:var(--ink);}
+    .op-card-header .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+    .badge-blue{background:#E6F1FB;color:#0C447C;} .badge-amber{background:#FAEEDA;color:#854F0B;}
+    .badge-teal{background:#E1F5EE;color:#085041;} .badge-coral{background:#FAECE7;color:#993C1D;}
+    .badge-purple{background:#EEEDFE;color:#3C3489;}
+    .op-table{width:100%;border-collapse:collapse;}
+    .op-table tr:last-child td{border-bottom:none;}
+    .op-table td{padding:9px 18px;font-size:13px;color:var(--ink2);border-bottom:1px solid var(--rule2);}
+    .op-table td:first-child{font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--accent2);width:60px;}
+    .op-table td:last-child{font-family:var(--font-mono);font-size:12px;color:var(--ink3);}
+    .op-table tr:hover td{background:var(--paper2);}
+    /* code */
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:20px 22px;overflow-x:auto;box-shadow:var(--shadow-lg);margin-bottom:1.5rem;}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;} .cm{color:#6c7086;} .str{color:#a6e3a1;} .fn{color:#cba6f7;} .vr{color:#fab387;} .num{color:#f9e2af;} .op{color:#f38ba8;}
+    /* info */
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    /* precedence list */
+    .prec-list{list-style:none;display:flex;flex-direction:column;gap:0;}
+    .prec-item{display:flex;align-items:center;gap:14px;padding:10px 18px;border-bottom:1px solid var(--rule2);font-size:13px;color:var(--ink2);}
+    .prec-item:last-child{border-bottom:none;}
+    .prec-num{font-family:var(--font-mono);font-size:11px;color:var(--ink4);min-width:24px;text-align:center;}
+    .prec-op{font-family:var(--font-mono);font-size:14px;font-weight:500;color:var(--accent2);min-width:60px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="py-variaveis.html" class="nav-link">Variáveis</a>
+    <a href="py-operadores.html" class="nav-link active">Operadores</a>
+    <a href="py-condicionais.html" class="nav-link">Condicionais</a>
+    <a href="py-lacos.html" class="nav-link">Laços</a>
+    <a href="py-funcoes.html" class="nav-link">Funções</a>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#python">Python</a><span>›</span>
+    <a href="../../index.html#python">Fundamentos</a><span>›</span>
+    <span>Operadores</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 02 · Python · Fundamentos</p>
+    <h1 class="article-title">Operadores em<br>Python</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span><span class="tag gray">Mundo 1</span>
+      <span class="dot"></span><span style="font-size:12px;color:var(--ink4)">📖 Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- ARITMÉTICOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Operadores aritméticos</p>
+    <div class="op-card" style="margin-bottom:1.5rem;">
+      <div class="op-card-header">
+        <h3>Matemática básica</h3>
+        <span class="badge badge-blue">Aritméticos</span>
+      </div>
+      <table class="op-table">
+        <tr><td>+</td><td>Adição</td><td>5 + 3 → 8</td></tr>
+        <tr><td>-</td><td>Subtração</td><td>10 - 4 → 6</td></tr>
+        <tr><td>*</td><td>Multiplicação</td><td>3 * 4 → 12</td></tr>
+        <tr><td>/</td><td>Divisão (resultado float)</td><td>10 / 3 → 3.333...</td></tr>
+        <tr><td>//</td><td>Divisão inteira (quociente)</td><td>10 // 3 → 3</td></tr>
+        <tr><td>%</td><td>Módulo (resto da divisão)</td><td>10 % 3 → 1</td></tr>
+        <tr><td>**</td><td>Potenciação</td><td>2 ** 8 → 256</td></tr>
+      </table>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">a</span>, <span class="vr">b</span> = <span class="num">10</span>, <span class="num">3</span>
+<span class="fn">print</span>(<span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span>)   <span class="cm"># 13</span>
+<span class="fn">print</span>(<span class="vr">a</span> <span class="op">-</span> <span class="vr">b</span>)   <span class="cm"># 7</span>
+<span class="fn">print</span>(<span class="vr">a</span> <span class="op">*</span> <span class="vr">b</span>)   <span class="cm"># 30</span>
+<span class="fn">print</span>(<span class="vr">a</span> <span class="op">/</span> <span class="vr">b</span>)   <span class="cm"># 3.3333...</span>
+<span class="fn">print</span>(<span class="vr">a</span> <span class="op">//</span> <span class="vr">b</span>)  <span class="cm"># 3  (quociente inteiro)</span>
+<span class="fn">print</span>(<span class="vr">a</span> <span class="op">%</span> <span class="vr">b</span>)   <span class="cm"># 1  (resto)</span>
+<span class="fn">print</span>(<span class="num">2</span> <span class="op">**</span> <span class="num">10</span>) <span class="cm"># 1024 (potência)</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RELACIONAIS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Operadores relacionais (de comparação)</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>🔍 Comparam valores e retornam True ou False</h3>
+      <p>Esses operadores são usados para comparar dois valores. O resultado é sempre um booleano (<code>True</code> ou <code>False</code>), fundamental para condicionais e laços.</p>
+    </div>
+    <div class="op-card" style="margin-bottom:1.5rem;">
+      <div class="op-card-header">
+        <h3>Comparações</h3>
+        <span class="badge badge-teal">Relacionais</span>
+      </div>
+      <table class="op-table">
+        <tr><td>==</td><td>Igual a</td><td>5 == 5 → True</td></tr>
+        <tr><td>!=</td><td>Diferente de</td><td>5 != 3 → True</td></tr>
+        <tr><td>&gt;</td><td>Maior que</td><td>7 > 3 → True</td></tr>
+        <tr><td>&lt;</td><td>Menor que</td><td>2 &lt; 9 → True</td></tr>
+        <tr><td>&gt;=</td><td>Maior ou igual</td><td>5 >= 5 → True</td></tr>
+        <tr><td>&lt;=</td><td>Menor ou igual</td><td>3 &lt;= 4 → True</td></tr>
+      </table>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">nota</span> = <span class="num">7.5</span>
+<span class="fn">print</span>(<span class="vr">nota</span> <span class="op">>=</span> <span class="num">7</span>)   <span class="cm"># True  — aprovado?</span>
+<span class="fn">print</span>(<span class="vr">nota</span> <span class="op">==</span> <span class="num">10</span>)  <span class="cm"># False — nota máxima?</span>
+<span class="fn">print</span>(<span class="vr">nota</span> <span class="op">!=</span> <span class="num">5</span>)   <span class="cm"># True  — nota é 5?</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- LÓGICOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Operadores lógicos</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>🧠 Combinam condições booleanas</h3>
+      <p>Usados para juntar duas ou mais comparações. O Guanabara ensina com a analogia de perguntas: <em>"É maior de 18 E tem habilitação?"</em></p>
+    </div>
+    <div class="g3" style="margin-bottom:1.5rem;">
+      <div class="op-card">
+        <div class="op-card-header"><h3>and</h3><span class="badge badge-blue">E lógico</span></div>
+        <table class="op-table">
+          <tr><td>T and T</td><td style="width:auto">→ True</td></tr>
+          <tr><td>T and F</td><td>→ False</td></tr>
+          <tr><td>F and T</td><td>→ False</td></tr>
+          <tr><td>F and F</td><td>→ False</td></tr>
+        </table>
+      </div>
+      <div class="op-card">
+        <div class="op-card-header"><h3>or</h3><span class="badge badge-amber">OU lógico</span></div>
+        <table class="op-table">
+          <tr><td>T or T</td><td>→ True</td></tr>
+          <tr><td>T or F</td><td>→ True</td></tr>
+          <tr><td>F or T</td><td>→ True</td></tr>
+          <tr><td>F or F</td><td>→ False</td></tr>
+        </table>
+      </div>
+      <div class="op-card">
+        <div class="op-card-header"><h3>not</h3><span class="badge badge-coral">NÃO lógico</span></div>
+        <table class="op-table">
+          <tr><td>not True</td><td>→ False</td></tr>
+          <tr><td>not False</td><td>→ True</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">idade</span>  = <span class="num">20</span>
+<span class="vr">carteira</span> = <span class="kw">True</span>
+
+<span class="fn">print</span>(<span class="vr">idade</span> <span class="op">>=</span> <span class="num">18</span> <span class="kw">and</span> <span class="vr">carteira</span>)  <span class="cm"># True — pode dirigir</span>
+<span class="fn">print</span>(<span class="vr">idade</span> <span class="op">&lt;</span> <span class="num">18</span> <span class="kw">or</span> <span class="vr">carteira</span>)    <span class="cm"># True — ao menos uma é true</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="vr">carteira</span>)                <span class="cm"># False — inverso de True</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ATRIBUIÇÃO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Operadores de atribuição</p>
+    <div class="op-card">
+      <div class="op-card-header"><h3>Atalhos para atribuição</h3><span class="badge badge-purple">Atribuição</span></div>
+      <table class="op-table">
+        <tr><td>=</td><td>Atribuição simples</td><td>x = 5</td></tr>
+        <tr><td>+=</td><td>Soma e atribui</td><td>x += 3 &nbsp;→ x = x + 3</td></tr>
+        <tr><td>-=</td><td>Subtrai e atribui</td><td>x -= 2 &nbsp;→ x = x - 2</td></tr>
+        <tr><td>*=</td><td>Multiplica e atribui</td><td>x *= 4 &nbsp;→ x = x * 4</td></tr>
+        <tr><td>/=</td><td>Divide e atribui</td><td>x /= 2 &nbsp;→ x = x / 2</td></tr>
+        <tr><td>**=</td><td>Potencia e atribui</td><td>x **= 2 → x = x ** 2</td></tr>
+        <tr><td>%=</td><td>Módulo e atribui</td><td>x %= 3 &nbsp;→ x = x % 3</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- PRECEDÊNCIA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Ordem de precedência (do maior para o menor)</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>🎯 O Guanabara usa a sigla PEMDAS</h3>
+      <p>Quando há vários operadores numa expressão, Python segue uma ordem. Use parênteses <code>()</code> para forçar a ordem que você quer — eles têm prioridade máxima.</p>
+    </div>
+    <div class="op-card">
+      <ul class="prec-list">
+        <li class="prec-item"><span class="prec-num">1º</span><span class="prec-op">( )</span><span>Parênteses — maior prioridade</span></li>
+        <li class="prec-item"><span class="prec-num">2º</span><span class="prec-op">**</span><span>Potenciação</span></li>
+        <li class="prec-item"><span class="prec-num">3º</span><span class="prec-op">* / // %</span><span>Multiplicação, divisão, módulo</span></li>
+        <li class="prec-item"><span class="prec-num">4º</span><span class="prec-op">+ -</span><span>Adição e subtração</span></li>
+        <li class="prec-item"><span class="prec-num">5º</span><span class="prec-op">== != > < >= <=</span><span>Relacionais</span></li>
+        <li class="prec-item"><span class="prec-num">6º</span><span class="prec-op">not</span><span>Negação lógica</span></li>
+        <li class="prec-item"><span class="prec-num">7º</span><span class="prec-op">and</span><span>E lógico</span></li>
+        <li class="prec-item"><span class="prec-num">8º</span><span class="prec-op">or</span><span>OU lógico — menor prioridade</span></li>
+      </ul>
+    </div>
+    <div class="code-wrap" style="margin-top:1rem;">
+      <pre><span class="fn">print</span>(<span class="num">2</span> <span class="op">+</span> <span class="num">3</span> <span class="op">*</span> <span class="num">4</span>)      <span class="cm"># 14 — multiplicação primeiro</span>
+<span class="fn">print</span>((<span class="num">2</span> <span class="op">+</span> <span class="num">3</span>) <span class="op">*</span> <span class="num">4</span>)    <span class="cm"># 20 — parênteses forçam a soma</span>
+<span class="fn">print</span>(<span class="num">2</span> <span class="op">**</span> <span class="num">3</span> <span class="op">**</span> <span class="num">2</span>)    <span class="cm"># 512 — potência é da direita pra esquerda: 3**2=9, 2**9=512</span></pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="py-variaveis.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">Variáveis e Tipos</span>
+    </a>
+    <a href="py-condicionais.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Condicionais</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

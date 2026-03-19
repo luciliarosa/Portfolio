@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Condicionais — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08); --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px; --font-body:'Nunito',sans-serif; --font-serif:'Lora',serif; --font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;} .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:20px 22px;overflow-x:auto;box-shadow:var(--shadow-lg);margin-bottom:1.5rem;}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;} .cm{color:#6c7086;} .str{color:#a6e3a1;} .fn{color:#cba6f7;} .vr{color:#fab387;} .num{color:#f9e2af;} .op{color:#f38ba8;}
+    /* estrutura visual */
+    .estrutura{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .estrutura .titulo{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+    .estrutura .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+    .badge-green{background:#EAF3DE;color:#27500A;} .badge-amber{background:#FAEEDA;color:#854F0B;} .badge-blue{background:#E6F1FB;color:#0C447C;}
+    .estrutura p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .estrutura .sinopse{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:10px 12px;border-radius:6px;margin-top:10px;color:var(--ink3);line-height:1.7;}
+    /* fluxo visual simples */
+    .flow{display:flex;flex-direction:column;align-items:center;gap:0;margin:1.5rem 0;}
+    .flow-box{background:#fff;border:1.5px solid var(--rule);border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--ink);box-shadow:var(--shadow);min-width:180px;text-align:center;}
+    .flow-box.cond{background:#E6F1FB;border-color:#378ADD;color:#0C447C;}
+    .flow-box.sim{background:#EAF3DE;border-color:#639922;color:#27500A;}
+    .flow-box.nao{background:#FAECE7;border-color:#D85A30;color:#993C1D;}
+    .flow-box.fim{background:var(--paper2);color:var(--ink3);}
+    .flow-arrow{font-size:18px;color:var(--ink4);line-height:1;padding:2px 0;}
+    .flow-branch{display:flex;gap:24px;align-items:flex-start;justify-content:center;width:100%;}
+    .flow-branch-side{display:flex;flex-direction:column;align-items:center;gap:0;}
+    .flow-label{font-size:11px;font-weight:700;color:var(--ink4);margin:2px 0;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="py-variaveis.html" class="nav-link">Variáveis</a>
+    <a href="py-operadores.html" class="nav-link">Operadores</a>
+    <a href="py-condicionais.html" class="nav-link active">Condicionais</a>
+    <a href="py-lacos.html" class="nav-link">Laços</a>
+    <a href="py-funcoes.html" class="nav-link">Funções</a>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#python">Python</a><span>›</span>
+    <a href="../../index.html#python">Fundamentos</a><span>›</span>
+    <span>Condicionais</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 03 · Python · Fundamentos</p>
+    <h1 class="article-title">Estruturas<br>Condicionais</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span><span class="tag gray">Mundo 1 &amp; 2</span>
+      <span class="dot"></span><span style="font-size:12px;color:var(--ink4)">📖 Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- INTRO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que são condicionais?</p>
+    <div class="info">
+      <h3>🚦 O programa tomando decisões</h3>
+      <p>O Guanabara explica que condicionais são como semáforos no código: dependendo da situação, o programa segue um caminho ou outro. Sem elas, o código sempre faria a mesma coisa, independente dos dados.</p>
+    </div>
+  </section>
+
+  <!-- IF -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">if — se isso for verdade, faça</p>
+    <div class="estrutura">
+      <div class="titulo"><span class="badge badge-green">if</span> Condição simples</div>
+      <p>O bloco só executa se a condição for <code>True</code>. Em Python, a indentação (4 espaços) define o que está dentro do if.</p>
+      <div class="sinopse">if condição:<br>&nbsp;&nbsp;&nbsp;&nbsp;# código que roda se for True</div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">idade</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Qual é a sua idade? "</span>))
+
+<span class="kw">if</span> <span class="vr">idade</span> <span class="op">>=</span> <span class="num">18</span>:
+    <span class="fn">print</span>(<span class="str">"Você é maior de idade."</span>)
+    <span class="fn">print</span>(<span class="str">"Pode entrar!"</span>)</pre>
+    </div>
+  </section>
+
+  <!-- IF ELSE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">if / else — se sim faça isso, senão faça aquilo</p>
+    <div class="g2" style="margin-bottom:1rem;">
+      <div class="flow">
+        <div class="flow-box cond">idade &gt;= 18?</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-branch">
+          <div class="flow-branch-side">
+            <div class="flow-label">True ✅</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-box sim">Maior de idade</div>
+          </div>
+          <div class="flow-branch-side">
+            <div class="flow-label">False ❌</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-box nao">Menor de idade</div>
+          </div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box fim">continua...</div>
+      </div>
+      <div>
+        <div class="code-wrap" style="height:100%;margin-bottom:0;">
+          <pre><span class="vr">idade</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Idade: "</span>))
+
+<span class="kw">if</span> <span class="vr">idade</span> <span class="op">>=</span> <span class="num">18</span>:
+    <span class="fn">print</span>(<span class="str">"Maior de idade."</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Menor de idade."</span>)</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IF ELIF ELSE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">if / elif / else — múltiplas condições</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>🎯 elif = "senão se"</h3>
+      <p>Quando há mais de duas possibilidades, usamos <code>elif</code> (abreviação de <em>else if</em>). O Python verifica cada condição em ordem — a primeira que for <code>True</code> ganha, as outras são ignoradas.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">nota</span> = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Digite a nota (0 a 10): "</span>))
+
+<span class="kw">if</span> <span class="vr">nota</span> <span class="op">>=</span> <span class="num">9</span>:
+    <span class="fn">print</span>(<span class="str">"Conceito A — Excelente!"</span>)
+<span class="kw">elif</span> <span class="vr">nota</span> <span class="op">>=</span> <span class="num">7</span>:
+    <span class="fn">print</span>(<span class="str">"Conceito B — Bom!"</span>)
+<span class="kw">elif</span> <span class="vr">nota</span> <span class="op">>=</span> <span class="num">5</span>:
+    <span class="fn">print</span>(<span class="str">"Conceito C — Recuperação."</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Conceito D — Reprovado."</span>)</pre>
+    </div>
+  </section>
+
+  <!-- ANINHAMENTO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Condicionais aninhadas (if dentro de if)</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>🪆 Boneca russa de condições</h3>
+      <p>É possível colocar um <code>if</code> dentro de outro. Cada nível de aninhamento aumenta a indentação. Use com cuidado — muitos níveis tornam o código difícil de ler.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">idade</span>     = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Idade: "</span>))
+<span class="vr">tem_rg</span>    = <span class="fn">input</span>(<span class="str">"Tem RG? (s/n): "</span>)
+
+<span class="kw">if</span> <span class="vr">idade</span> <span class="op">>=</span> <span class="num">18</span>:
+    <span class="kw">if</span> <span class="vr">tem_rg</span> <span class="op">==</span> <span class="str">"s"</span>:
+        <span class="fn">print</span>(<span class="str">"Acesso liberado!"</span>)
+    <span class="kw">else</span>:
+        <span class="fn">print</span>(<span class="str">"Maior de idade, mas sem RG."</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Menor de idade. Acesso negado."</span>)</pre>
+    </div>
+  </section>
+
+  <!-- OPERADOR TERNÁRIO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Operador ternário — if em uma linha</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>⚡ Forma compacta para condições simples</h3>
+      <p>Quando a condição é simples e cabe em uma linha, o Python permite essa forma compacta. Não substitui o if/else para lógicas complexas.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">idade</span> = <span class="num">20</span>
+
+<span class="cm"># Forma longa</span>
+<span class="kw">if</span> <span class="vr">idade</span> <span class="op">>=</span> <span class="num">18</span>:
+    <span class="vr">status</span> = <span class="str">"maior"</span>
+<span class="kw">else</span>:
+    <span class="vr">status</span> = <span class="str">"menor"</span>
+
+<span class="cm"># Forma compacta (ternário) ✅</span>
+<span class="vr">status</span> = <span class="str">"maior"</span> <span class="kw">if</span> <span class="vr">idade</span> <span class="op">>=</span> <span class="num">18</span> <span class="kw">else</span> <span class="str">"menor"</span>
+<span class="fn">print</span>(<span class="vr">status</span>)  <span class="cm"># → maior</span></pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="py-operadores.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">Operadores</span>
+    </a>
+    <a href="py-lacos.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Laços de Repetição</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

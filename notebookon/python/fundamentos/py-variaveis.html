@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Variáveis e Tipos — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08); --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px; --font-body:'Nunito',sans-serif; --font-serif:'Lora',serif; --font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:0;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .article-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;} .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    /* cards grid */
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+    /* tipo card */
+    .tipo{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+    .tipo .tipo-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;font-weight:500;padding:4px 10px;border-radius:6px;margin-bottom:10px;}
+    .tipo h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .tipo p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .tipo .exemplo{margin-top:10px;font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:8px 10px;border-radius:6px;color:var(--ink2);}
+    /* color chips */
+    .chip-int   {background:#dbeafe;color:#1e40af;}
+    .chip-float {background:#fef9c3;color:#854d0e;}
+    .chip-str   {background:#dcfce7;color:#166534;}
+    .chip-bool  {background:#fce7f3;color:#9d174d;}
+    /* info card */
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;align-items:flex-start;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    /* code */
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:20px 22px;overflow-x:auto;box-shadow:var(--shadow-lg);margin-bottom:1.5rem;}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;} .cm{color:#6c7086;} .str{color:#a6e3a1;} .fn{color:#cba6f7;} .slf{color:#f38ba8;} .vr{color:#fab387;} .num{color:#f9e2af;}
+    /* rule box */
+    .rule-box{background:#fff;border:1.5px solid var(--rule);border-left:4px solid var(--accent2);border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .rule-box h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .rule-box p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .rule-box code{font-family:var(--font-mono);font-size:11.5px;background:var(--paper2);padding:1px 6px;border-radius:4px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3,.g4{grid-template-columns:1fr;}}
+    @media(max-width:480px){.g4{grid-template-columns:repeat(2,1fr);}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="py-variaveis.html" class="nav-link active">Variáveis</a>
+    <a href="py-operadores.html" class="nav-link">Operadores</a>
+    <a href="py-condicionais.html" class="nav-link">Condicionais</a>
+    <a href="py-lacos.html" class="nav-link">Laços</a>
+    <a href="py-funcoes.html" class="nav-link">Funções</a>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#python">Python</a><span>›</span>
+    <a href="../../index.html#python">Fundamentos</a><span>›</span>
+    <span>Variáveis e Tipos</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 01 · Python · Fundamentos</p>
+    <h1 class="article-title">Variáveis e<br>Tipos Primitivos</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span><span class="tag gray">Mundo 1</span>
+      <span class="dot"></span><span style="font-size:12px;color:var(--ink4)">📖 Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- O QUE É UMA VARIÁVEL -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é uma variável?</p>
+    <div class="info">
+      <h3>📦 Caixinhas na memória</h3>
+      <p>O Guanabara explica que uma variável é como uma <strong>caixinha na memória do computador</strong> onde você guarda um valor. Você dá um nome pra caixinha e pode colocar, tirar e trocar o valor dentro dela a qualquer momento.</p>
+    </div>
+    <div class="rule-box">
+      <h4>Como criar uma variável em Python</h4>
+      <p>Em Python é simples — sem precisar declarar o tipo, basta escrever <code>nome = valor</code>. O Python identifica o tipo sozinho (tipagem dinâmica).</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm"># Criando variáveis</span>
+<span class="vr">nome</span>  = <span class="str">"Lucilia"</span>     <span class="cm"># str (texto)</span>
+<span class="vr">idade</span> = <span class="num">21</span>             <span class="cm"># int (inteiro)</span>
+<span class="vr">altura</span>= <span class="num">1.68</span>           <span class="cm"># float (decimal)</span>
+<span class="vr">dev</span>   = <span class="kw">True</span>           <span class="cm"># bool (verdadeiro/falso)</span>
+
+<span class="cm"># Exibindo</span>
+<span class="fn">print</span>(<span class="vr">nome</span>)   <span class="cm"># → Lucilia</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="vr">idade</span>))  <span class="cm"># → &lt;class 'int'&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TIPOS PRIMITIVOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Os 4 tipos primitivos do Python</p>
+    <div class="g2" style="margin-bottom:12px;">
+      <div class="tipo">
+        <span class="tipo-chip chip-int">🔢 int</span>
+        <h3>Inteiro</h3>
+        <p>Números sem casas decimais. Positivos ou negativos, sem limite de tamanho em Python.</p>
+        <div class="exemplo">idade = 21<br>ano = 2025<br>negativo = -5</div>
+      </div>
+      <div class="tipo">
+        <span class="tipo-chip chip-float">🔣 float</span>
+        <h3>Real (ponto flutuante)</h3>
+        <p>Números com casa decimal. O separador é o ponto <code>.</code>, não a vírgula.</p>
+        <div class="exemplo">altura = 1.68<br>pi = 3.14159<br>preco = 9.90</div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="tipo">
+        <span class="tipo-chip chip-str">💬 str</span>
+        <h3>String (texto)</h3>
+        <p>Qualquer sequência de caracteres entre aspas simples <code>'</code> ou duplas <code>"</code>. Números dentro de aspas também são string.</p>
+        <div class="exemplo">nome = "Lucilia"<br>msg = 'Olá, mundo!'<br>cep = "01310-100"</div>
+      </div>
+      <div class="tipo">
+        <span class="tipo-chip chip-bool">✅ bool</span>
+        <h3>Booleano</h3>
+        <p>Só dois valores possíveis: <code>True</code> ou <code>False</code>. Muito usado em condicionais e laços. Atenção: começa com maiúscula!</p>
+        <div class="exemplo">logado = True<br>admin = False<br>ativo = True</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- INPUT E CONVERSÃO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Entrada de dados e conversão de tipos</p>
+    <div class="info" style="margin-bottom:12px;">
+      <h3>⌨️ input() — lendo do teclado</h3>
+      <p>A função <strong>input()</strong> sempre retorna uma <strong>string</strong>, mesmo que o usuário digite um número. Por isso é necessário converter o tipo quando precisa fazer cálculos.</p>
+    </div>
+    <div class="g3" style="margin-bottom:1.5rem;">
+      <div class="rule-box" style="margin-bottom:0">
+        <h4>int()</h4>
+        <p>Converte para inteiro.<br><code>int("21")</code> → <code>21</code></p>
+      </div>
+      <div class="rule-box" style="margin-bottom:0">
+        <h4>float()</h4>
+        <p>Converte para decimal.<br><code>float("1.68")</code> → <code>1.68</code></p>
+      </div>
+      <div class="rule-box" style="margin-bottom:0">
+        <h4>str()</h4>
+        <p>Converte para texto.<br><code>str(21)</code> → <code>"21"</code></p>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm"># Lendo e convertendo</span>
+<span class="vr">nome</span>  = <span class="fn">input</span>(<span class="str">"Qual é o seu nome? "</span>)
+<span class="vr">idade</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Qual é a sua idade? "</span>))
+<span class="vr">altura</span>= <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Qual é a sua altura? "</span>))
+
+<span class="fn">print</span>(<span class="str">f"Olá, </span><span class="vr">{nome}</span><span class="str">! Você tem </span><span class="vr">{idade}</span><span class="str"> anos e </span><span class="vr">{altura}</span><span class="str">m de altura."</span>)</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- REGRAS DE NOMES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Regras para nomear variáveis</p>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0">
+        <h3>✅ Pode</h3>
+        <ul>
+          <li>Começar com letra ou underline: <code>nome</code>, <code>_total</code></li>
+          <li>Usar letras, números e underline: <code>nota1</code>, <code>media_final</code></li>
+          <li>Letras maiúsculas e minúsculas (são diferentes!): <code>Idade</code> ≠ <code>idade</code></li>
+          <li>Usar <strong>snake_case</strong> para nomes compostos: <code>minha_variavel</code></li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent);margin-bottom:0">
+        <h3>❌ Não pode</h3>
+        <ul>
+          <li>Começar com número: <code>1nota</code> — inválido</li>
+          <li>Ter espaços: <code>minha variavel</code> — inválido</li>
+          <li>Usar caracteres especiais: <code>nota!</code>, <code>média</code> — inválido</li>
+          <li>Usar palavras reservadas: <code>if</code>, <code>for</code>, <code>while</code>, <code>class</code>...</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- F-STRING -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Formatando saída com f-string</p>
+    <div class="info">
+      <h3>🖨️ f-string — a forma moderna de exibir</h3>
+      <p>O Guanabara ensina o <strong>f-string</strong> (formatted string) como a maneira mais limpa de combinar texto e variáveis. Basta colocar um <code>f</code> antes das aspas e usar <code>{variavel}</code> dentro do texto.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">nome</span>  = <span class="str">"Lucilia"</span>
+<span class="vr">idade</span> = <span class="num">21</span>
+<span class="vr">curso</span> = <span class="str">"Python"</span>
+
+<span class="cm"># Forma antiga (concatenação)</span>
+<span class="fn">print</span>(<span class="str">"Olá, "</span> + <span class="vr">nome</span> + <span class="str">". Você tem "</span> + <span class="fn">str</span>(<span class="vr">idade</span>) + <span class="str">" anos."</span>)
+
+<span class="cm"># Forma moderna com f-string ✅</span>
+<span class="fn">print</span>(<span class="str">f"Olá, </span><span class="vr">{nome}</span><span class="str">. Você tem </span><span class="vr">{idade}</span><span class="str"> anos e estuda </span><span class="vr">{curso}</span><span class="str">."</span>)
+<span class="cm"># → Olá, Lucilia. Você tem 21 anos e estuda Python.</span></pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="../../index.html#python" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Python — Fundamentos</span>
+    </a>
+    <a href="py-operadores.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Operadores</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>História da POO — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);
+      --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;
+      --font-serif:'Lora',serif;
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:var(--font-body);
+      background:var(--paper); color:var(--ink);
+      min-height:100vh;
+      background-image:repeating-linear-gradient(
+        transparent,transparent 31px,
+        rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px
+      );
+      background-attachment:fixed;
+    }
+
+    /* NAV */
+    .nav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(250,247,242,.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1.5px solid var(--rule);
+      padding:0 2rem;
+      display:flex; align-items:center;
+      height:56px; gap:0;
+    }
+    .nav-brand {
+      font-family:var(--font-serif); font-size:16px; font-weight:600;
+      color:var(--ink); text-decoration:none;
+      display:flex; align-items:center; gap:8px;
+      margin-right:2rem; white-space:nowrap;
+    }
+    .nav-links { display:flex; align-items:center; gap:4px; flex:1; overflow-x:auto; }
+    .nav-links::-webkit-scrollbar { display:none; }
+    .nav-link {
+      font-size:13px; font-weight:600; color:var(--ink3);
+      text-decoration:none; padding:6px 12px; border-radius:6px;
+      transition:background .15s,color .15s; white-space:nowrap;
+    }
+    .nav-link:hover { background:var(--paper3); color:var(--ink); }
+    .nav-link.active { background:var(--ink); color:var(--paper); }
+    .nav-sep { width:1px; height:18px; background:var(--rule); margin:0 4px; flex-shrink:0; }
+
+    /* PAGE */
+    .page { max-width:800px; margin:0 auto; padding:0 1.5rem 5rem; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display:flex; align-items:center; gap:6px;
+      font-size:12px; color:var(--ink4); padding:16px 0 0;
+    }
+    .breadcrumb a { color:var(--ink3); text-decoration:none; }
+    .breadcrumb a:hover { color:var(--accent2); }
+
+    /* HERO */
+    .article-hero { padding:2rem 0 2.5rem; }
+    .article-eyebrow {
+      font-family:var(--font-mono); font-size:11px; color:var(--ink4);
+      letter-spacing:.06em; margin-bottom:10px;
+    }
+    .article-title {
+      font-family:var(--font-serif); font-size:clamp(26px,5vw,40px);
+      font-weight:600; line-height:1.2; color:var(--ink); margin-bottom:12px;
+    }
+    .article-meta {
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .article-meta span { font-size:12px; color:var(--ink4); }
+    .article-meta .dot { width:3px; height:3px; border-radius:50%; background:var(--ink4); }
+    .tag {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px;
+    }
+    .tag.py { background:#dbeafe; color:#1e40af; }
+    .tag.gray { background:var(--paper3); color:var(--ink3); }
+
+    hr { border:none; border-top:1.5px solid var(--rule2); margin:2rem 0; }
+
+    /* SEC TITLE */
+    .sec-title {
+      font-size:11px; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--ink4); margin-bottom:14px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .sec-title::after { content:''; flex:1; height:1px; background:var(--rule2); }
+
+    /* INTRO BOX */
+    .intro-box {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:20px 22px;
+      box-shadow:var(--shadow); margin-bottom:2rem;
+    }
+    .intro-box p { font-size:14px; color:var(--ink2); line-height:1.8; }
+    .intro-box strong { color:var(--ink); font-weight:700; }
+
+    /* PROBLEM CARDS */
+    .problem-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:2rem; }
+    .problem-card {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:16px 18px;
+      box-shadow:var(--shadow);
+    }
+    .problem-card .icon { font-size:22px; margin-bottom:8px; }
+    .problem-card h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .problem-card p { font-size:12px; color:var(--ink3); line-height:1.65; }
+
+    /* TIMELINE */
+    .timeline { position:relative; padding-left:32px; }
+    .timeline::before {
+      content:''; position:absolute; left:10px; top:0; bottom:0;
+      width:2px; background:var(--rule);
+    }
+    .tl-item { position:relative; margin-bottom:2rem; }
+    .tl-dot {
+      position:absolute; left:-26px; top:6px;
+      width:16px; height:16px; border-radius:50%;
+      background:var(--paper); border:2.5px solid var(--ink4);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .tl-dot.filled  { background:var(--ink);    border-color:var(--ink); }
+    .tl-dot.accent  { background:var(--accent);  border-color:var(--accent); }
+    .tl-dot.blue    { background:#2563a8;         border-color:#2563a8; }
+    .tl-dot.green   { background:#1a7a50;         border-color:#1a7a50; }
+    .tl-dot.amber   { background:#d97706;         border-color:#d97706; }
+    .tl-year {
+      font-family:var(--font-mono); font-size:11px; font-weight:500;
+      color:var(--ink4); margin-bottom:5px;
+    }
+    .tl-card {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:18px 20px;
+      box-shadow:var(--shadow);
+    }
+    .tl-card h3 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:8px; }
+    .tl-card p  { font-size:13px; color:var(--ink2); line-height:1.75; }
+    .tl-card p + p { margin-top:8px; }
+    .person {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:12px; font-weight:700; color:var(--ink3);
+      background:var(--paper2); padding:4px 11px;
+      border-radius:20px; margin-top:11px; margin-right:6px;
+    }
+
+    /* QUOTE */
+    .quote {
+      border-left:4px solid var(--accent2);
+      padding:14px 20px;
+      background:var(--paper2);
+      border-radius:0 var(--radius) var(--radius) 0;
+      margin:1.5rem 0;
+    }
+    .quote p {
+      font-family:var(--font-serif); font-style:italic;
+      font-size:14px; color:var(--ink2); line-height:1.75;
+    }
+    .quote cite {
+      display:block; font-size:12px; font-style:normal;
+      color:var(--ink4); margin-top:6px; font-weight:700;
+    }
+
+    /* SUMMARY BOX */
+    .summary {
+      background:var(--paper2); border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:20px 22px;
+      margin-top:2rem;
+    }
+    .summary h3 {
+      font-size:13px; font-weight:700; color:var(--ink);
+      margin-bottom:12px; display:flex; align-items:center; gap:8px;
+    }
+    .summary ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .summary li {
+      font-size:13px; color:var(--ink2); line-height:1.6;
+      display:flex; align-items:flex-start; gap:10px;
+    }
+    .summary li::before { content:'→'; color:var(--accent2); font-weight:700; flex-shrink:0; margin-top:1px; }
+
+    /* NEXT PREV */
+    .nav-pages {
+      display:flex; gap:12px; margin-top:2.5rem; flex-wrap:wrap;
+    }
+    .nav-page {
+      flex:1; min-width:200px;
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:14px 18px;
+      text-decoration:none; color:var(--ink);
+      display:flex; flex-direction:column; gap:4px;
+      transition:transform .15s, box-shadow .15s;
+      box-shadow:var(--shadow);
+    }
+    .nav-page:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+    .nav-page .np-label { font-size:11px; color:var(--ink4); font-weight:700; }
+    .nav-page .np-title { font-size:14px; font-weight:700; color:var(--accent2); }
+
+    /* FADE */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade { animation:fadeUp .45s ease both; }
+
+    @media(max-width:600px){
+      .nav { padding:0 1rem; }
+      .page { padding:0 1rem 4rem; }
+      .problem-grid { grid-template-columns:1fr; }
+    }
+    @media(max-width:480px){
+      .problem-grid { grid-template-columns:repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <span>📓</span> Lucilia's Notebook
+  </a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html#python" class="nav-link">Python</a>
+    <a href="historia-poo.html" class="nav-link active">História da POO</a>
+    <a href="poo-conceitos.html" class="nav-link">Classes e Objetos</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb fade">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="index.html#python">Python</a>
+    <span>›</span>
+    <span>Orientação a Objetos</span>
+    <span>›</span>
+    <span>História da POO</span>
+  </nav>
+
+  <!-- HERO -->
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 01 · Python · POO</p>
+    <h1 class="article-title">A História da Programação<br>Orientada a Objetos</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span>
+      <span class="tag gray">POO</span>
+      <span class="dot"></span>
+      <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr />
+
+  <!-- POR QUE A POO NASCEU -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Por que a POO nasceu?</p>
+    <div class="intro-box">
+      <p>
+        O Guanabara começa a aula explicando que a POO não surgiu do nada — ela nasceu de uma <strong>necessidade real</strong>. Antes dela, existia a <strong>programação estruturada</strong> (ou procedural), onde o código era escrito como uma sequência de passos e procedimentos. Funcionava bem para programas pequenos, mas conforme os sistemas cresciam, o código virava um <strong>espaguete impossível de manter</strong>.
+      </p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">🍝</div>
+        <h3>Código Espaguete</h3>
+        <p>O código estruturado crescia de forma desorganizada. Uma mudança em um lugar quebrava coisas em outro.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🔁</div>
+        <h3>Repetição de Código</h3>
+        <p>Não havia forma fácil de reaproveitar lógica. A mesma coisa era escrita várias vezes em lugares diferentes.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🤯</div>
+        <h3>Difícil de Entender</h3>
+        <p>Não havia representação do "mundo real" no código. Variáveis e funções soltas sem organização clara.</p>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>A ideia central da POO é simples: o mundo é feito de objetos. Por que o código não seria também?</p>
+      <cite>— Conceito central explicado pelo Guanabara</cite>
+    </div>
+  </section>
+
+  <!-- LINHA DO TEMPO -->
+  <section class="fade">
+    <p class="sec-title">A linha do tempo da POO</p>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot filled"></div>
+        <p class="tl-year">Anos 1950–60 · Programação Estruturada</p>
+        <div class="tl-card">
+          <h3>🏗️ O mundo antes da POO</h3>
+          <p>A programação era basicamente <strong>sequencial e procedural</strong>. As linguagens da época (Fortran, COBOL, ALGOL) funcionavam como listas de instruções. Isso era suficiente para cálculos e automações simples, mas os sistemas foram ficando maiores.</p>
+          <p>O Guanabara explica que a programação passou por gerações: da linguagem de máquina (binário), passando por Assembly, até linguagens de alto nível como COBOL e C — cada geração tentando tornar o código mais legível e organizado.</p>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot accent"></div>
+        <p class="tl-year">1967 · Noruega</p>
+        <div class="tl-card">
+          <h3>🇳🇴 Simula 67 — a semente da POO</h3>
+          <p>Tudo começou com dois noruegueses que trabalhavam no <strong>Centro de Computação da Noruega</strong>. Eles precisavam simular sistemas do mundo real no computador e perceberam que precisavam de uma forma melhor de organizar o código.</p>
+          <p>Eles criaram o <strong>Simula 67</strong>, a <strong>primeira linguagem a usar os conceitos de classe e herança</strong>. O nome vem de "simulação" — a ideia era modelar objetos do mundo real dentro do programa. Ela foi derivada do ALGOL.</p>
+          <span class="person">👤 Ole-Johan Dahl</span>
+          <span class="person">👤 Kristen Nygaard</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <p class="tl-year">Anos 1970 · Xerox PARC, Califórnia</p>
+        <div class="tl-card">
+          <h3>🔬 Smalltalk — a POO "de verdade" e o nome</h3>
+          <p>O lendário laboratório <strong>Xerox PARC</strong> foi onde a POO ganhou forma definitiva. Um pesquisador chamado <strong>Alan Kay</strong> — matemático e biólogo de formação — tinha uma visão revolucionária: e se objetos fossem como pequenos computadores autônomos, trocando mensagens entre si?</p>
+          <p>Foi Alan Kay quem <strong>criou a linguagem Smalltalk</strong> e quem <strong>cunhou o próprio termo "Programação Orientada a Objetos"</strong>. O nome Smalltalk vinha da ideia de que programar deveria ser tão simples quanto uma conversa casual — um "papo furado" em inglês.</p>
+          <p>O Smalltalk foi a primeira linguagem <strong>100% orientada a objetos</strong> — tudo nela é um objeto, sem exceção.</p>
+          <span class="person">👤 Alan Kay — "pai da POO"</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot amber"></div>
+        <p class="tl-year">Anos 1980 · Bell Labs</p>
+        <div class="tl-card">
+          <h3>⚙️ C++ — POO chega ao mercado</h3>
+          <p>O Smalltalk era elegante, mas não tinha apelo comercial suficiente. Foi <strong>Bjarne Stroustrup</strong>, nos Bell Labs, quem pegou a linguagem C — muito popular na época — e adicionou conceitos de orientação a objetos, criando o <strong>C++</strong>.</p>
+          <p>O C++ não é "puramente" OO (você ainda pode programar no estilo procedural nele), mas foi ele que levou os conceitos da POO para o mercado de desenvolvimento de software em larga escala.</p>
+          <span class="person">👤 Bjarne Stroustrup</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot green"></div>
+        <p class="tl-year">1995 · Sun Microsystems</p>
+        <div class="tl-card">
+          <h3>☕ Java — POO vira padrão da indústria</h3>
+          <p>Uma equipe na <strong>Sun Microsystems</strong>, liderada por <strong>James Gosling</strong>, criou o <strong>Java</strong>. A linguagem foi influenciada tanto pelo Smalltalk quanto pelo C++, mas com uma proposta única: <em>"escreva uma vez, execute em qualquer lugar"</em> — graças à <strong>JVM (Java Virtual Machine)</strong>.</p>
+          <p>Com a explosão da internet nos anos 90, o Java se tornou a linguagem OO mais popular do mundo e consolidou definitivamente a POO como o paradigma dominante da engenharia de software.</p>
+          <span class="person">👤 James Gosling</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot filled"></div>
+        <p class="tl-year">Hoje — Python, C#, JavaScript e mais</p>
+        <div class="tl-card">
+          <h3>🌍 POO em todo lugar</h3>
+          <p>Hoje praticamente todas as linguagens populares suportam orientação a objetos: <strong>Python, JavaScript, PHP, Ruby, Swift, Kotlin, C#</strong>... O paradigma venceu porque resolveu de verdade os problemas que a programação estruturada não conseguia.</p>
+          <p>O Guanabara destaca: entender <strong>por que a POO foi criada</strong> é fundamental para entender como usá-la corretamente — não é só sintaxe, é uma forma de pensar o código.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- RESUMO -->
+  <div class="summary fade">
+    <h3>📌 Resumo da aula</h3>
+    <ul>
+      <li>A POO nasceu para resolver os problemas do código espaguete da programação estruturada.</li>
+      <li>Os noruegueses <strong>Ole-Johan Dahl e Kristen Nygaard</strong> criaram o Simula 67 (1967) — primeira linguagem com classes e herança.</li>
+      <li><strong>Alan Kay</strong> criou o Smalltalk nos anos 70 e <strong>cunhou o termo "Orientação a Objetos"</strong>.</li>
+      <li><strong>Bjarne Stroustrup</strong> criou o C++ nos anos 80, levando a POO para o mercado.</li>
+      <li><strong>James Gosling</strong> e a Sun criaram o Java em 1995, tornando a POO o paradigma dominante.</li>
+      <li>A ideia central: modelar o código como o mundo real — cheio de objetos com características e comportamentos.</li>
+    </ul>
+  </div>
+
+  <!-- NAVEGAÇÃO ENTRE AULAS -->
+  <div class="nav-pages fade">
+    <a href="../../index.html#python" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Python — Orientação a Objetos</span>
+    </a>
+    <a href="poo-conceitos.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Classes, Objetos e os 4 Pilares</span>
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

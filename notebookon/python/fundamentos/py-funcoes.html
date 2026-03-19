@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funções — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08); --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px; --font-body:'Nunito',sans-serif; --font-serif:'Lora',serif; --font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;} .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:20px 22px;overflow-x:auto;box-shadow:var(--shadow-lg);margin-bottom:1.5rem;}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;} .cm{color:#6c7086;} .str{color:#a6e3a1;} .fn{color:#cba6f7;} .vr{color:#fab387;} .num{color:#f9e2af;} .op{color:#f38ba8;}
+    .estrutura{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .estrutura .titulo{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+    .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+    .badge-blue{background:#E6F1FB;color:#0C447C;} .badge-teal{background:#E1F5EE;color:#085041;} .badge-purple{background:#EEEDFE;color:#3C3489;} .badge-amber{background:#FAEEDA;color:#854F0B;} .badge-coral{background:#FAECE7;color:#993C1D;} .badge-green{background:#EAF3DE;color:#27500A;}
+    .estrutura p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .estrutura .sinopse{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:10px 12px;border-radius:6px;margin-top:10px;color:var(--ink3);line-height:1.7;}
+    /* anatomia da função */
+    .anatomy{position:relative;margin:1.5rem 0;}
+    .anatomy pre{font-family:var(--font-mono);font-size:13.5px;line-height:2;background:#1e1c1a;padding:22px 24px;border-radius:var(--radius);color:#e8e0d5;}
+    .anat-label{position:absolute;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+    /* fun type cards */
+    .fun-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .fun-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+    .fun-card p{font-size:12px;color:var(--ink2);line-height:1.65;margin-bottom:8px;}
+    .fun-card .ex{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:8px 10px;border-radius:6px;color:var(--ink3);line-height:1.7;}
+    /* scope */
+    .scope-demo{display:flex;flex-direction:column;gap:0;margin:1rem 0;}
+    .scope-box{padding:12px 18px;font-size:13px;color:var(--ink2);border:1.5px solid var(--rule);border-radius:var(--radius);background:#fff;position:relative;}
+    .scope-box .scope-label{position:absolute;top:-10px;left:14px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+    .scope-inner{margin:8px 0 0 20px;padding:10px 14px;border:1.5px dashed rgba(37,99,168,.3);border-radius:8px;background:#E6F1FB22;font-family:var(--font-mono);font-size:12px;color:#0C447C;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="py-variaveis.html" class="nav-link">Variáveis</a>
+    <a href="py-operadores.html" class="nav-link">Operadores</a>
+    <a href="py-condicionais.html" class="nav-link">Condicionais</a>
+    <a href="py-lacos.html" class="nav-link">Laços</a>
+    <a href="py-funcoes.html" class="nav-link active">Funções</a>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#python">Python</a><span>›</span>
+    <a href="../../index.html#python">Fundamentos</a><span>›</span>
+    <span>Funções</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 05 · Python · Fundamentos</p>
+    <h1 class="article-title">Funções em<br>Python</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span><span class="tag gray">Mundo 1 &amp; 3</span>
+      <span class="dot"></span><span style="font-size:12px;color:var(--ink4)">📖 Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- INTRO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é uma função?</p>
+    <div class="info">
+      <h3>📦 Um bloco de código com nome e reutilizável</h3>
+      <p>O Guanabara compara funções a receitas de bolo: você escreve a receita uma vez e pode usá-la quantas vezes quiser, com ingredientes (parâmetros) diferentes. <strong>Funções evitam repetição e organizam o código.</strong></p>
+    </div>
+    <div class="info">
+      <h3>💡 Por que usar funções?</h3>
+      <ul>
+        <li>Evita repetir o mesmo bloco de código em vários lugares</li>
+        <li>Facilita a leitura e a manutenção do programa</li>
+        <li>Permite testar partes do código de forma isolada</li>
+        <li>Divide problemas grandes em partes menores e gerenciáveis</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ANATOMIA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Anatomia de uma função</p>
+    <div class="code-wrap">
+      <pre><span class="cm">#  palavra-chave   nome    parâmetros</span>
+<span class="cm">#      ↓            ↓          ↓</span>
+    <span class="kw">def</span>  <span class="fn">saudacao</span>(<span class="vr">nome</span>, <span class="vr">periodo</span>):
+        <span class="str">"""Exibe uma saudação personalizada."""</span>   <span class="cm"># ← docstring</span>
+        <span class="vr">mensagem</span> = <span class="str">f"Boa </span><span class="vr">{periodo}</span><span class="str">, </span><span class="vr">{nome}</span><span class="str">!"</span>
+        <span class="kw">return</span> <span class="vr">mensagem</span>                             <span class="cm"># ← retorno</span>
+
+<span class="cm"># chamando a função:</span>
+<span class="vr">resultado</span> = <span class="fn">saudacao</span>(<span class="str">"Lucilia"</span>, <span class="str">"tarde"</span>)  <span class="cm"># ← argumentos</span>
+<span class="fn">print</span>(<span class="vr">resultado</span>)  <span class="cm"># → Boa tarde, Lucilia!</span></pre>
+    </div>
+    <div class="g3">
+      <div class="estrutura">
+        <div class="titulo"><span class="badge badge-blue">def</span></div>
+        <p>Palavra-chave que define uma função. Seguida do nome e parênteses com os parâmetros.</p>
+      </div>
+      <div class="estrutura">
+        <div class="titulo"><span class="badge badge-teal">parâmetros</span></div>
+        <p>Variáveis que a função recebe como entrada. São locais à função.</p>
+      </div>
+      <div class="estrutura">
+        <div class="titulo"><span class="badge badge-purple">return</span></div>
+        <p>Devolve um valor para quem chamou a função. Sem ele, a função retorna <code>None</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TIPOS DE FUNÇÃO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Tipos de função</p>
+    <div class="g2" style="margin-bottom:12px;">
+      <div class="fun-card">
+        <h3><span class="badge badge-blue" style="margin-right:4px">Sem parâmetro</span> sem retorno</h3>
+        <p>A mais simples — só executa, não recebe nada e não devolve nada.</p>
+        <div class="ex"><span style="color:#89b4fa">def</span> <span style="color:#cba6f7">oi</span>():<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#cba6f7">print</span>(<span style="color:#a6e3a1">"Olá!"</span>)<br><br><span style="color:#cba6f7">oi</span>()  <span style="color:#6c7086"># → Olá!</span></div>
+      </div>
+      <div class="fun-card">
+        <h3><span class="badge badge-teal" style="margin-right:4px">Com parâmetro</span> sem retorno</h3>
+        <p>Recebe dados, mas não devolve — apenas age sobre eles (ex: imprimir).</p>
+        <div class="ex"><span style="color:#89b4fa">def</span> <span style="color:#cba6f7">oi</span>(<span style="color:#fab387">nome</span>):<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#cba6f7">print</span>(<span style="color:#a6e3a1">f"Olá, {nome}!"</span>)<br><br><span style="color:#cba6f7">oi</span>(<span style="color:#a6e3a1">"Lucilia"</span>)</div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="fun-card">
+        <h3><span class="badge badge-amber" style="margin-right:4px">Com parâmetro</span> com retorno</h3>
+        <p>A mais comum — recebe dados, processa e devolve um resultado.</p>
+        <div class="ex"><span style="color:#89b4fa">def</span> <span style="color:#cba6f7">soma</span>(<span style="color:#fab387">a</span>, <span style="color:#fab387">b</span>):<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#89b4fa">return</span> <span style="color:#fab387">a</span> + <span style="color:#fab387">b</span><br><br><span style="color:#fab387">r</span> = <span style="color:#cba6f7">soma</span>(<span style="color:#f9e2af">3</span>, <span style="color:#f9e2af">5</span>)<br><span style="color:#6c7086"># r = 8</span></div>
+      </div>
+      <div class="fun-card">
+        <h3><span class="badge badge-purple" style="margin-right:4px">Valor padrão</span> nos parâmetros</h3>
+        <p>Parâmetros podem ter valores default — se não passado, usa o padrão.</p>
+        <div class="ex"><span style="color:#89b4fa">def</span> <span style="color:#cba6f7">potencia</span>(<span style="color:#fab387">base</span>, <span style="color:#fab387">exp</span>=<span style="color:#f9e2af">2</span>):<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#89b4fa">return</span> <span style="color:#fab387">base</span> ** <span style="color:#fab387">exp</span><br><br><span style="color:#cba6f7">potencia</span>(<span style="color:#f9e2af">3</span>)     <span style="color:#6c7086"># → 9</span><br><span style="color:#cba6f7">potencia</span>(<span style="color:#f9e2af">2</span>, <span style="color:#f9e2af">10</span>) <span style="color:#6c7086"># → 1024</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ESCOPO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Escopo de variáveis — local vs global</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>🔭 Onde a variável "existe"?</h3>
+      <p>O Guanabara explica que variáveis criadas <strong>dentro</strong> de uma função são <strong>locais</strong> — só existem lá dentro. Variáveis fora das funções são <strong>globais</strong> e podem ser lidas (mas não alteradas diretamente) dentro das funções.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">nome</span> = <span class="str">"Lucilia"</span>  <span class="cm"># variável GLOBAL</span>
+
+<span class="kw">def</span> <span class="fn">apresentar</span>():
+    <span class="vr">curso</span> = <span class="str">"Python"</span>  <span class="cm"># variável LOCAL (só existe aqui)</span>
+    <span class="fn">print</span>(<span class="str">f"{nome} estuda {curso}"</span>)  <span class="cm"># lê a global nome ✅</span>
+
+<span class="fn">apresentar</span>()
+<span class="fn">print</span>(<span class="vr">nome</span>)   <span class="cm"># ✅ funciona — nome é global</span>
+<span class="fn">print</span>(<span class="vr">curso</span>)  <span class="cm"># ❌ NameError — curso não existe aqui!</span>
+
+<span class="cm"># Para alterar uma global dentro de uma função, use global:</span>
+<span class="vr">contador</span> = <span class="num">0</span>
+<span class="kw">def</span> <span class="fn">incrementar</span>():
+    <span class="kw">global</span> <span class="vr">contador</span>
+    <span class="vr">contador</span> <span class="op">+=</span> <span class="num">1</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- FUNÇÕES EMBUTIDAS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Principais funções embutidas do Python</p>
+    <div class="g3">
+      <div class="fun-card"><h3>print()</h3><p>Exibe valores no terminal. Pode receber múltiplos argumentos e o separador <code>sep</code>.</p></div>
+      <div class="fun-card"><h3>input()</h3><p>Lê um texto digitado pelo usuário. Sempre retorna string.</p></div>
+      <div class="fun-card"><h3>type()</h3><p>Retorna o tipo de um valor: <code>int</code>, <code>str</code>, <code>float</code>, <code>bool</code>...</p></div>
+      <div class="fun-card"><h3>len()</h3><p>Retorna o tamanho (número de itens) de uma string, lista, etc.</p></div>
+      <div class="fun-card"><h3>range()</h3><p>Gera uma sequência de números. Usado principalmente com <code>for</code>.</p></div>
+      <div class="fun-card"><h3>int / float / str</h3><p>Convertem tipos: <code>int("5")</code> → <code>5</code>, <code>str(3.14)</code> → <code>"3.14"</code>.</p></div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- EXEMPLO COMPLETO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Exemplo completo — calculadora com funções</p>
+    <div class="code-wrap">
+      <pre><span class="kw">def</span> <span class="fn">somar</span>(<span class="vr">a</span>, <span class="vr">b</span>):       <span class="kw">return</span> <span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span>
+<span class="kw">def</span> <span class="fn">subtrair</span>(<span class="vr">a</span>, <span class="vr">b</span>):    <span class="kw">return</span> <span class="vr">a</span> <span class="op">-</span> <span class="vr">b</span>
+<span class="kw">def</span> <span class="fn">multiplicar</span>(<span class="vr">a</span>, <span class="vr">b</span>): <span class="kw">return</span> <span class="vr">a</span> <span class="op">*</span> <span class="vr">b</span>
+<span class="kw">def</span> <span class="fn">dividir</span>(<span class="vr">a</span>, <span class="vr">b</span>):
+    <span class="kw">if</span> <span class="vr">b</span> <span class="op">==</span> <span class="num">0</span>:
+        <span class="kw">return</span> <span class="str">"Erro: divisão por zero!"</span>
+    <span class="kw">return</span> <span class="vr">a</span> <span class="op">/</span> <span class="vr">b</span>
+
+<span class="cm"># Programa principal</span>
+<span class="vr">n1</span> = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Primeiro número: "</span>))
+<span class="vr">op</span> = <span class="fn">input</span>(<span class="str">"Operação (+, -, *, /): "</span>)
+<span class="vr">n2</span> = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Segundo número: "</span>))
+
+<span class="kw">if</span> <span class="vr">op</span> <span class="op">==</span> <span class="str">"+"</span>:   <span class="vr">res</span> = <span class="fn">somar</span>(<span class="vr">n1</span>, <span class="vr">n2</span>)
+<span class="kw">elif</span> <span class="vr">op</span> <span class="op">==</span> <span class="str">"-"</span>: <span class="vr">res</span> = <span class="fn">subtrair</span>(<span class="vr">n1</span>, <span class="vr">n2</span>)
+<span class="kw">elif</span> <span class="vr">op</span> <span class="op">==</span> <span class="str">"*"</span>: <span class="vr">res</span> = <span class="fn">multiplicar</span>(<span class="vr">n1</span>, <span class="vr">n2</span>)
+<span class="kw">elif</span> <span class="vr">op</span> <span class="op">==</span> <span class="str">"/"</span>: <span class="vr">res</span> = <span class="fn">dividir</span>(<span class="vr">n1</span>, <span class="vr">n2</span>)
+<span class="kw">else</span>: <span class="vr">res</span> = <span class="str">"Operação inválida"</span>
+
+<span class="fn">print</span>(<span class="str">f"Resultado: </span><span class="vr">{res}</span><span class="str">"</span>)</pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="py-lacos.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">Laços de Repetição</span>
+    </a>
+    <a href="../orientacao-a-objetos/historia-poo.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próximos tópicos →</span>
+      <span class="np-title">Orientação a Objetos</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

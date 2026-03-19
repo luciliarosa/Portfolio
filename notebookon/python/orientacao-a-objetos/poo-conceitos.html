@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classes e Objetos — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);
+      --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;
+      --font-serif:'Lora',serif;
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:var(--font-body);
+      background:var(--paper); color:var(--ink);
+      min-height:100vh;
+      background-image:repeating-linear-gradient(
+        transparent,transparent 31px,
+        rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px
+      );
+      background-attachment:fixed;
+    }
+
+    /* NAV */
+    .nav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(250,247,242,.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1.5px solid var(--rule);
+      padding:0 2rem;
+      display:flex; align-items:center;
+      height:56px; gap:0;
+    }
+    .nav-brand {
+      font-family:var(--font-serif); font-size:16px; font-weight:600;
+      color:var(--ink); text-decoration:none;
+      display:flex; align-items:center; gap:8px;
+      margin-right:2rem; white-space:nowrap;
+    }
+    .nav-links { display:flex; align-items:center; gap:4px; flex:1; overflow-x:auto; }
+    .nav-links::-webkit-scrollbar { display:none; }
+    .nav-link {
+      font-size:13px; font-weight:600; color:var(--ink3);
+      text-decoration:none; padding:6px 12px; border-radius:6px;
+      transition:background .15s,color .15s; white-space:nowrap;
+    }
+    .nav-link:hover { background:var(--paper3); color:var(--ink); }
+    .nav-link.active { background:var(--ink); color:var(--paper); }
+    .nav-sep { width:1px; height:18px; background:var(--rule); margin:0 4px; flex-shrink:0; }
+
+    /* PAGE */
+    .page { max-width:800px; margin:0 auto; padding:0 1.5rem 5rem; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display:flex; align-items:center; gap:6px;
+      font-size:12px; color:var(--ink4); padding:16px 0 0;
+    }
+    .breadcrumb a { color:var(--ink3); text-decoration:none; }
+    .breadcrumb a:hover { color:var(--accent2); }
+
+    /* HERO */
+    .article-hero { padding:2rem 0 2.5rem; }
+    .article-eyebrow {
+      font-family:var(--font-mono); font-size:11px; color:var(--ink4);
+      letter-spacing:.06em; margin-bottom:10px;
+    }
+    .article-title {
+      font-family:var(--font-serif); font-size:clamp(26px,5vw,40px);
+      font-weight:600; line-height:1.2; color:var(--ink); margin-bottom:12px;
+    }
+    .article-meta {
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .article-meta .dot { width:3px; height:3px; border-radius:50%; background:var(--ink4); }
+    .tag {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px;
+    }
+    .tag.py { background:#dbeafe; color:#1e40af; }
+    .tag.gray { background:var(--paper3); color:var(--ink3); }
+
+    hr { border:none; border-top:1.5px solid var(--rule2); margin:2rem 0; }
+
+    /* SEC TITLE */
+    .sec-title {
+      font-size:11px; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--ink4); margin-bottom:14px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .sec-title::after { content:''; flex:1; height:1px; background:var(--rule2); }
+
+    /* CARDS */
+    .cards-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .cards-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+
+    .card {
+      background:var(--paper);
+      border:1.5px solid var(--rule);
+      border-radius:var(--radius);
+      padding:16px 18px;
+    }
+    .card.blue   { border-left:4px solid #378ADD; }
+    .card.purple { border-left:4px solid #7F77DD; }
+    .card.teal   { border-left:4px solid #1D9E75; }
+    .card.amber  { border-left:4px solid #BA7517; }
+    .card.coral  { border-left:4px solid #D85A30; }
+    .card.green  { border-left:4px solid #639922; }
+    .card h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .card p  { font-size:12px; color:var(--ink2); line-height:1.65; }
+
+    /* BADGE */
+    .badge {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px; margin-bottom:8px;
+    }
+    .badge.blue   { background:#E6F1FB; color:#0C447C; }
+    .badge.purple { background:#EEEDFE; color:#3C3489; }
+    .badge.teal   { background:#E1F5EE; color:#085041; }
+    .badge.amber  { background:#FAEEDA; color:#854F0B; }
+    .badge.coral  { background:#FAECE7; color:#993C1D; }
+    .badge.green  { background:#EAF3DE; color:#27500A; }
+
+    /* ANALOGY */
+    .analogy {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:18px 20px;
+      display:flex; gap:16px; align-items:flex-start;
+      box-shadow:var(--shadow);
+    }
+    .analogy-icon { font-size:28px; flex-shrink:0; padding-top:1px; }
+    .analogy h3 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .analogy p  { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+    .analogy code {
+      font-family:var(--font-mono); font-size:11px;
+      background:var(--paper2); padding:1px 6px; border-radius:4px;
+    }
+
+    /* PILLAR */
+    .pillar {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:18px 20px;
+      box-shadow:var(--shadow);
+    }
+    .pillar .num { font-size:11px; font-weight:700; color:var(--ink4); margin-bottom:5px; }
+    .pillar h3   { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:7px; }
+    .pillar p    { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+
+    /* CODE */
+    .code-wrap {
+      background:#1e1c1a; border-radius:var(--radius);
+      padding:20px 22px; overflow-x:auto;
+      box-shadow:var(--shadow-lg);
+    }
+    .code-wrap pre {
+      font-family:var(--font-mono); font-size:13px;
+      line-height:1.85; color:#e8e0d5; white-space:pre;
+    }
+    .kw  { color:#89b4fa; }
+    .cm  { color:#6c7086; }
+    .str { color:#a6e3a1; }
+    .fn  { color:#cba6f7; }
+    .slf { color:#f38ba8; }
+    .vr  { color:#fab387; }
+
+    /* NAV PAGES */
+    .nav-pages { display:flex; gap:12px; margin-top:2.5rem; flex-wrap:wrap; }
+    .nav-page {
+      flex:1; min-width:200px;
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:14px 18px;
+      text-decoration:none; color:var(--ink);
+      display:flex; flex-direction:column; gap:4px;
+      transition:transform .15s,box-shadow .15s;
+      box-shadow:var(--shadow);
+    }
+    .nav-page:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+    .nav-page .np-label { font-size:11px; color:var(--ink4); font-weight:700; }
+    .nav-page .np-title { font-size:14px; font-weight:700; color:var(--accent2); }
+
+    /* FADE */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade { animation:fadeUp .45s ease both; }
+
+    @media(max-width:600px){
+      .nav { padding:0 1rem; }
+      .page { padding:0 1rem 4rem; }
+      .cards-2 { grid-template-columns:1fr; }
+      .cards-4 { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:380px){ .cards-4 { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <span>📓</span> Lucilia's Notebook
+  </a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html#python" class="nav-link">Python</a>
+    <a href="historia-poo.html" class="nav-link">História da POO</a>
+    <a href="poo-conceitos.html" class="nav-link active">Classes e Objetos</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb fade">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <a href="index.html#python">Python</a>
+    <span>›</span>
+    <span>Orientação a Objetos</span>
+    <span>›</span>
+    <span>Classes e Objetos</span>
+  </nav>
+
+  <!-- HERO -->
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 02 · Python · POO</p>
+    <h1 class="article-title">Classes, Objetos, Atributos<br>e os 4 Pilares</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span>
+      <span class="tag gray">POO</span>
+      <span class="dot"></span>
+      <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr />
+
+  <!-- CONCEITO CENTRAL -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Conceito central — a analogia do Guanabara</p>
+    <div class="cards-2">
+      <div class="analogy">
+        <div class="analogy-icon">📋</div>
+        <div>
+          <h3>Classe — o molde</h3>
+          <p>É o projeto, a "forma de bolo". Define como todos os objetos daquele tipo vão ser. Não existe no mundo real — é só a especificação.</p>
+          <p style="margin-top:6px;font-size:12px;color:var(--ink4)">Ex: a classe <strong>Caneta</strong> descreve o que toda caneta tem.</p>
+        </div>
+      </div>
+      <div class="analogy">
+        <div class="analogy-icon">🖊️</div>
+        <div>
+          <h3>Objeto — a instância</h3>
+          <p>É o bolo já feito. Uma caneta de verdade, criada a partir da classe. Cada objeto é independente e pode ter valores diferentes nos atributos.</p>
+          <p style="margin-top:6px;font-size:12px;color:var(--ink4)">Ex: <code>c1 = Caneta()</code> cria um objeto real.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- O QUE COMPÕE UM OBJETO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que compõe um objeto</p>
+    <div class="cards-4">
+      <div class="card blue">
+        <span class="badge blue">Atributos</span>
+        <h3>Características</h3>
+        <p>São as variáveis internas do objeto. Descrevem o que ele <em>tem</em>.<br><br>Ex: cor, marca, tipo, ponta, carga, tampada.</p>
+      </div>
+      <div class="card purple">
+        <span class="badge purple">Métodos</span>
+        <h3>Comportamentos</h3>
+        <p>São as funções do objeto. Descrevem o que ele <em>faz</em> ou o que pode ser feito com ele.<br><br>Ex: tampar(), destampar(), escrever(), recarregar().</p>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">Estado</span>
+        <h3>Situação atual</h3>
+        <p>É a combinação dos valores dos atributos <em>naquele momento</em>.<br><br>Ex: caneta azul, destampada, carga 80%.</p>
+      </div>
+      <div class="card amber">
+        <span class="badge amber">Instância</span>
+        <h3>Objeto criado</h3>
+        <p>Cada objeto gerado a partir de uma classe é uma instância diferente, com seus próprios valores.<br><br>Ex: c1 e c2 são instâncias de Caneta.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- VISIBILIDADE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Visibilidade dos atributos e métodos</p>
+    <div class="cards-4">
+      <div class="card green">
+        <span class="badge green">public</span>
+        <h3>Qualquer um acessa</h3>
+        <p>Visível de qualquer lugar do programa.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">private</span>
+        <h3>Só a própria classe</h3>
+        <p>Acesso restrito à classe que o definiu. Protege os dados internos.</p>
+      </div>
+      <div class="card amber">
+        <span class="badge amber">protected</span>
+        <h3>Classe + filhas</h3>
+        <p>Visível para a classe e para suas subclasses (herança).</p>
+      </div>
+      <div class="card blue">
+        <span class="badge blue">Getters/Setters</span>
+        <h3>Controlam o acesso</h3>
+        <p>Métodos que leem (get) e alteram (set) atributos privados de forma segura.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- 4 PILARES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Os 4 pilares da POO</p>
+    <div class="cards-2">
+      <div class="pillar">
+        <div class="num">Pilar 1</div>
+        <h3>🧩 Abstração</h3>
+        <p>Focar no que é essencial e ignorar os detalhes desnecessários. Ao criar uma classe Caneta, você não precisa modelar a física do plástico — só o que importa para o programa.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">Pilar 2</div>
+        <h3>🔒 Encapsulamento</h3>
+        <p>Esconder os dados internos do objeto. Os atributos ficam privados e só são acessados por métodos controlados (getters/setters). Protege a integridade do objeto.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">Pilar 3</div>
+        <h3>🧬 Herança</h3>
+        <p>Uma classe pode herdar atributos e métodos de outra. A classe Caneta Especial herda de Caneta tudo que já foi definido, evitando repetição de código.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">Pilar 4</div>
+        <h3>🎭 Polimorfismo</h3>
+        <p>O mesmo método pode se comportar de formas diferentes dependendo do objeto. Caneta e Lápis podem ter o método escrever(), mas cada um age à sua maneira.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- CÓDIGO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Exemplo prático — classe Caneta (Python)</p>
+    <div class="code-wrap">
+      <pre><span class="kw">class</span> <span class="vr">Caneta</span>:
+    <span class="cm"># Construtor — define os atributos ao criar o objeto</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">cor</span>, <span class="vr">marca</span>):
+        <span class="slf">self</span>.__cor     = <span class="vr">cor</span>    <span class="cm"># privado</span>
+        <span class="slf">self</span>.__marca   = <span class="vr">marca</span>
+        <span class="slf">self</span>.__tampada = <span class="kw">True</span>
+
+    <span class="cm"># Getter</span>
+    <span class="kw">def</span> <span class="fn">get_cor</span>(<span class="slf">self</span>): <span class="kw">return</span> <span class="slf">self</span>.__cor
+
+    <span class="cm"># Métodos</span>
+    <span class="kw">def</span> <span class="fn">tampar</span>(<span class="slf">self</span>):    <span class="slf">self</span>.__tampada = <span class="kw">True</span>
+    <span class="kw">def</span> <span class="fn">destampar</span>(<span class="slf">self</span>): <span class="slf">self</span>.__tampada = <span class="kw">False</span>
+    <span class="kw">def</span> <span class="fn">escrever</span>(<span class="slf">self</span>):
+        <span class="kw">if</span> <span class="slf">self</span>.__tampada:
+            <span class="fn">print</span>(<span class="str">"Destampe a caneta primeiro!"</span>)
+        <span class="kw">else</span>:
+            <span class="fn">print</span>(<span class="str">f"Escrevendo com {</span><span class="slf">self</span>.__cor<span class="str">}"</span>)
+
+<span class="cm"># Criando objetos (instâncias)</span>
+<span class="vr">c1</span> = <span class="fn">Caneta</span>(<span class="str">"azul"</span>,     <span class="str">"BIC"</span>)
+<span class="vr">c2</span> = <span class="fn">Caneta</span>(<span class="str">"vermelha"</span>, <span class="str">"Pilot"</span>)
+<span class="vr">c1</span>.<span class="fn">destampar</span>()
+<span class="vr">c1</span>.<span class="fn">escrever</span>()  <span class="cm"># → Escrevendo com azul</span></pre>
+    </div>
+  </section>
+
+  <!-- NAV PAGES -->
+  <div class="nav-pages fade">
+    <a href="historia-poo.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">História da POO</span>
+    </a>
+    <a href="../index.html#python" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">voltar para →</span>
+      <span class="np-title">Python — Orientação a Objetos</span>
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>
