@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Verbos — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#d97706;--accent-light:#fef3c7;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-eng{background:var(--accent-light);color:#92400e;}.tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;color:var(--accent);}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .tip{background:var(--accent-light);border:1.5px solid rgba(217,119,6,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip p{font-size:13px;color:#78350f;line-height:1.7;}
+    /* verb table */
+    .verb-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .verb-table th{background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+    .verb-table td{font-size:13px;padding:9px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;}
+    .verb-table tr:last-child td{border-bottom:none;}
+    .verb-table tr:nth-child(even) td{background:var(--paper2);}
+    .vb{font-family:var(--font-mono);font-weight:700;color:var(--accent);}
+    .vb-ir{color:#c84b31;}
+    .v-pt{font-size:11px;color:var(--ink4);display:block;}
+    /* irregular patterns */
+    .pattern-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.5rem;}
+    .pattern-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+    .pat-name{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--ink4);letter-spacing:.04em;margin-bottom:8px;}
+    .pat-example{font-family:var(--font-mono);font-size:13px;color:var(--accent);font-weight:700;margin-bottom:4px;}
+    .pat-desc{font-size:12px;color:var(--ink3);line-height:1.5;}
+    /* ed rules */
+    .ed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem;}
+    .ed-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);text-align:center;}
+    .ed-rule{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .ed-desc{font-size:12px;color:var(--ink3);line-height:1.5;}
+    .ed-ex{font-size:11px;font-style:italic;color:var(--accent);margin-top:6px;font-weight:700;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.pattern-grid,.ed-grid,.g2{grid-template-columns:1fr;}.verb-table{font-size:11px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html" class="nav-link">Grammar</a>
+    <a href="verbos.html" class="nav-link active" data-i18n="nav_current">Verbos</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html">Grammar</a><span>›</span>
+    <span data-i18n="breadcrumb">Verbos</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// lição 05 · English Grammar · Regular & Irregular Verbs</p>
+    <h1 class="article-title" data-i18n="title">Verbos Regulares<br>e Irregulares<br><span style="font-size:.55em;color:var(--ink3);font-style:italic">Regular & Irregular Verbs</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-eng">English Grammar</span>
+      <span class="tag tag-gray" data-i18n="level">Básico–Intermediário</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">⚡ base · past simple · past participle</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- INTRO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_intro">A diferença fundamental</p>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid #1a7a50;margin-bottom:0;">
+        <h3 data-i18n="reg_h">✅ Verbos Regulares</h3>
+        <p data-i18n="reg_p">Formam o passado e o particípio adicionando <code>-ed</code> ao verbo base. Simples e previsível.</p>
+        <ul>
+          <li>play → played → played</li>
+          <li>work → worked → worked</li>
+          <li>love → loved → loved</li>
+          <li>stop → stopped → stopped</li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid #c84b31;margin-bottom:0;">
+        <h3 data-i18n="irr_h">⚠️ Verbos Irregulares</h3>
+        <p data-i18n="irr_p">Mudam de forma no passado de maneira imprevisível. Precisam ser <strong>memorizados</strong> — não há regra universal.</p>
+        <ul>
+          <li>go → went → gone</li>
+          <li>be → was/were → been</li>
+          <li>have → had → had</li>
+          <li>do → did → done</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- REGRAS DO -ED -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_ed">Regras para adicionar -ED</p>
+    <div class="ed-grid">
+      <div class="ed-card">
+        <div class="ed-rule" data-i18n="ed1_rule">Verbo normal</div>
+        <div class="ed-desc" data-i18n="ed1_desc">Adicione -ed diretamente</div>
+        <div class="ed-ex">play → play<strong>ed</strong><br>walk → walk<strong>ed</strong></div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-rule" data-i18n="ed2_rule">Termina em -e</div>
+        <div class="ed-desc" data-i18n="ed2_desc">Adicione apenas -d</div>
+        <div class="ed-ex">love → love<strong>d</strong><br>dance → dance<strong>d</strong></div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-rule" data-i18n="ed3_rule">Termina em consoante + y</div>
+        <div class="ed-desc" data-i18n="ed3_desc">Troque o -y por -ied</div>
+        <div class="ed-ex">study → stud<strong>ied</strong><br>cry → cr<strong>ied</strong></div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-rule" data-i18n="ed4_rule">CVC curto (1 sílaba)</div>
+        <div class="ed-desc" data-i18n="ed4_desc">Dobre a consoante final + ed</div>
+        <div class="ed-ex">stop → stop<strong>ped</strong><br>plan → plan<strong>ned</strong></div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-rule" data-i18n="ed5_rule">Termina em -ic</div>
+        <div class="ed-desc" data-i18n="ed5_desc">Adicione -ked</div>
+        <div class="ed-ex">panic → panic<strong>ked</strong><br>mimic → mimic<strong>ked</strong></div>
+      </div>
+      <div class="ed-card">
+        <div class="ed-rule" data-i18n="ed6_rule">Vogal + y no final</div>
+        <div class="ed-desc" data-i18n="ed6_desc">Apenas adicione -ed</div>
+        <div class="ed-ex">play → play<strong>ed</strong><br>enjoy → enjoy<strong>ed</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- PADRÕES DOS IRREGULARES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_patterns">Padrões dos verbos irregulares</p>
+    <div class="tip">
+      <p data-i18n="pat_tip">💡 Embora não haja uma regra única, existem <strong>padrões de mudança</strong> que ajudam na memorização. Agrupe os verbos por padrão para aprender mais rápido!</p>
+    </div>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pat-name" data-i18n="pat1_name">PADRÃO A-A-A (sem mudança)</div>
+        <div class="pat-example">cut – cut – cut</div>
+        <div class="pat-desc" data-i18n="pat1_desc">Mesma forma nas três colunas: put, cut, hit, let, set, shut, cost, hurt, read*</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pat-name" data-i18n="pat2_name">PADRÃO A-B-A (base = particípio)</div>
+        <div class="pat-example">run – ran – run</div>
+        <div class="pat-desc" data-i18n="pat2_desc">Base e particípio iguais, passado diferente: come, become, run</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pat-name" data-i18n="pat3_name">PADRÃO A-B-B (passado = particípio)</div>
+        <div class="pat-example">buy – bought – bought</div>
+        <div class="pat-desc" data-i18n="pat3_desc">Past e particípio iguais: bring, buy, catch, feel, find, keep, make, say, sell, teach, think</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pat-name" data-i18n="pat4_name">PADRÃO A-B-C (todos diferentes)</div>
+        <div class="pat-example">begin – began – begun</div>
+        <div class="pat-desc" data-i18n="pat4_desc">Três formas distintas: be, do, go, eat, give, know, see, speak, take, write, swim</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- LISTA DOS MAIS USADOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_list">Os 30 verbos irregulares mais usados</p>
+    <table class="verb-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_base">Base Form</th>
+          <th data-i18n="col_past">Past Simple</th>
+          <th data-i18n="col_pp">Past Participle</th>
+          <th data-i18n="col_pt">Português</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="vb vb-ir">be</span></td><td><span class="vb vb-ir">was / were</span></td><td><span class="vb vb-ir">been</span></td><td>ser / estar<span class="v-pt"></span></td></tr>
+        <tr><td><span class="vb vb-ir">have</span></td><td><span class="vb vb-ir">had</span></td><td><span class="vb vb-ir">had</span></td><td>ter</td></tr>
+        <tr><td><span class="vb vb-ir">do</span></td><td><span class="vb vb-ir">did</span></td><td><span class="vb vb-ir">done</span></td><td>fazer</td></tr>
+        <tr><td><span class="vb vb-ir">go</span></td><td><span class="vb vb-ir">went</span></td><td><span class="vb vb-ir">gone</span></td><td>ir</td></tr>
+        <tr><td><span class="vb vb-ir">say</span></td><td><span class="vb vb-ir">said</span></td><td><span class="vb vb-ir">said</span></td><td>dizer</td></tr>
+        <tr><td><span class="vb vb-ir">get</span></td><td><span class="vb vb-ir">got</span></td><td><span class="vb vb-ir">gotten / got</span></td><td>obter, ficar</td></tr>
+        <tr><td><span class="vb vb-ir">make</span></td><td><span class="vb vb-ir">made</span></td><td><span class="vb vb-ir">made</span></td><td>fazer, criar</td></tr>
+        <tr><td><span class="vb vb-ir">know</span></td><td><span class="vb vb-ir">knew</span></td><td><span class="vb vb-ir">known</span></td><td>saber, conhecer</td></tr>
+        <tr><td><span class="vb vb-ir">think</span></td><td><span class="vb vb-ir">thought</span></td><td><span class="vb vb-ir">thought</span></td><td>pensar</td></tr>
+        <tr><td><span class="vb vb-ir">take</span></td><td><span class="vb vb-ir">took</span></td><td><span class="vb vb-ir">taken</span></td><td>pegar, levar</td></tr>
+        <tr><td><span class="vb vb-ir">see</span></td><td><span class="vb vb-ir">saw</span></td><td><span class="vb vb-ir">seen</span></td><td>ver</td></tr>
+        <tr><td><span class="vb vb-ir">come</span></td><td><span class="vb vb-ir">came</span></td><td><span class="vb vb-ir">come</span></td><td>vir</td></tr>
+        <tr><td><span class="vb vb-ir">give</span></td><td><span class="vb vb-ir">gave</span></td><td><span class="vb vb-ir">given</span></td><td>dar</td></tr>
+        <tr><td><span class="vb vb-ir">find</span></td><td><span class="vb vb-ir">found</span></td><td><span class="vb vb-ir">found</span></td><td>encontrar</td></tr>
+        <tr><td><span class="vb vb-ir">tell</span></td><td><span class="vb vb-ir">told</span></td><td><span class="vb vb-ir">told</span></td><td>contar, dizer</td></tr>
+        <tr><td><span class="vb vb-ir">become</span></td><td><span class="vb vb-ir">became</span></td><td><span class="vb vb-ir">become</span></td><td>tornar-se</td></tr>
+        <tr><td><span class="vb vb-ir">show</span></td><td><span class="vb vb-ir">showed</span></td><td><span class="vb vb-ir">shown / showed</span></td><td>mostrar</td></tr>
+        <tr><td><span class="vb vb-ir">leave</span></td><td><span class="vb vb-ir">left</span></td><td><span class="vb vb-ir">left</span></td><td>sair, deixar</td></tr>
+        <tr><td><span class="vb vb-ir">feel</span></td><td><span class="vb vb-ir">felt</span></td><td><span class="vb vb-ir">felt</span></td><td>sentir</td></tr>
+        <tr><td><span class="vb vb-ir">put</span></td><td><span class="vb vb-ir">put</span></td><td><span class="vb vb-ir">put</span></td><td>colocar</td></tr>
+        <tr><td><span class="vb vb-ir">bring</span></td><td><span class="vb vb-ir">brought</span></td><td><span class="vb vb-ir">brought</span></td><td>trazer</td></tr>
+        <tr><td><span class="vb vb-ir">begin</span></td><td><span class="vb vb-ir">began</span></td><td><span class="vb vb-ir">begun</span></td><td>começar</td></tr>
+        <tr><td><span class="vb vb-ir">keep</span></td><td><span class="vb vb-ir">kept</span></td><td><span class="vb vb-ir">kept</span></td><td>guardar, manter</td></tr>
+        <tr><td><span class="vb vb-ir">write</span></td><td><span class="vb vb-ir">wrote</span></td><td><span class="vb vb-ir">written</span></td><td>escrever</td></tr>
+        <tr><td><span class="vb vb-ir">speak</span></td><td><span class="vb vb-ir">spoke</span></td><td><span class="vb vb-ir">spoken</span></td><td>falar</td></tr>
+        <tr><td><span class="vb vb-ir">run</span></td><td><span class="vb vb-ir">ran</span></td><td><span class="vb vb-ir">run</span></td><td>correr</td></tr>
+        <tr><td><span class="vb vb-ir">read</span></td><td><span class="vb vb-ir">read</span></td><td><span class="vb vb-ir">read</span></td><td>ler</td></tr>
+        <tr><td><span class="vb vb-ir">buy</span></td><td><span class="vb vb-ir">bought</span></td><td><span class="vb vb-ir">bought</span></td><td>comprar</td></tr>
+        <tr><td><span class="vb vb-ir">eat</span></td><td><span class="vb vb-ir">ate</span></td><td><span class="vb vb-ir">eaten</span></td><td>comer</td></tr>
+        <tr><td><span class="vb vb-ir">sleep</span></td><td><span class="vb vb-ir">slept</span></td><td><span class="vb vb-ir">slept</span></td><td>dormir</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="pronomes.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_label">← lição anterior</span>
+      <span class="np-title" data-i18n="nav_prev_title">Pronomes</span>
+    </a>
+    <a href="../../index.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">← voltar ao índice</span>
+      <span class="np-title" data-i18n="nav_next_title">English Grammar</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{nav_current:"Verbos",breadcrumb:"Verbos",eyebrow:"// lição 05 · English Grammar · Regular & Irregular Verbs",title:"Verbos Regulares\ne Irregulares",level:"Básico–Intermediário",sec_intro:"A diferença fundamental",reg_h:"✅ Verbos Regulares",reg_p:"Formam o passado e o particípio adicionando <code>-ed</code> ao verbo base. Simples e previsível.",irr_h:"⚠️ Verbos Irregulares",irr_p:"Mudam de forma no passado de maneira imprevisível. Precisam ser <strong>memorizados</strong> — não há regra universal.",sec_ed:"Regras para adicionar -ED",ed1_rule:"Verbo normal",ed1_desc:"Adicione -ed diretamente",ed2_rule:"Termina em -e",ed2_desc:"Adicione apenas -d",ed3_rule:"Termina em consoante + y",ed3_desc:"Troque o -y por -ied",ed4_rule:"CVC curto (1 sílaba)",ed4_desc:"Dobre a consoante final + ed",ed5_rule:"Termina em -ic",ed5_desc:"Adicione -ked",ed6_rule:"Vogal + y no final",ed6_desc:"Apenas adicione -ed",sec_patterns:"Padrões dos verbos irregulares",pat_tip:"💡 Embora não haja uma regra única, existem <strong>padrões de mudança</strong> que ajudam na memorização. Agrupe os verbos por padrão para aprender mais rápido!",pat1_name:"PADRÃO A-A-A (sem mudança)",pat1_desc:"Mesma forma nas três colunas: put, cut, hit, let, set, shut, cost, hurt, read*",pat2_name:"PADRÃO A-B-A (base = particípio)",pat2_desc:"Base e particípio iguais, passado diferente: come, become, run",pat3_name:"PADRÃO A-B-B (passado = particípio)",pat3_desc:"Past e particípio iguais: bring, buy, catch, feel, find, keep, make, say, sell, teach, think",pat4_name:"PADRÃO A-B-C (todos diferentes)",pat4_desc:"Três formas distintas: be, do, go, eat, give, know, see, speak, take, write, swim",sec_list:"Os 30 verbos irregulares mais usados",col_base:"Base Form",col_past:"Past Simple",col_pp:"Past Participle",col_pt:"Português",nav_prev_label:"← lição anterior",nav_prev_title:"Pronomes",nav_next_label:"← voltar ao índice",nav_next_title:"English Grammar"},
+  en:{nav_current:"Verbs",breadcrumb:"Verbs",eyebrow:"// lesson 05 · English Grammar · Regular & Irregular Verbs",title:"Regular & Irregular Verbs",level:"Basic–Intermediate",sec_intro:"The fundamental difference",reg_h:"✅ Regular Verbs",reg_p:"Form the past tense and participle by adding <code>-ed</code> to the base verb. Simple and predictable.",irr_h:"⚠️ Irregular Verbs",irr_p:"Change form in the past in unpredictable ways. They need to be <strong>memorized</strong> — there is no universal rule.",sec_ed:"Rules for adding -ED",ed1_rule:"Normal verb",ed1_desc:"Just add -ed",ed2_rule:"Ends in -e",ed2_desc:"Just add -d",ed3_rule:"Ends in consonant + y",ed3_desc:"Change -y to -ied",ed4_rule:"Short CVC (1 syllable)",ed4_desc:"Double the final consonant + ed",ed5_rule:"Ends in -ic",ed5_desc:"Add -ked",ed6_rule:"Vowel + y at the end",ed6_desc:"Just add -ed",sec_patterns:"Irregular verb patterns",pat_tip:"💡 Although there is no single rule, there are <strong>change patterns</strong> that help with memorization. Group verbs by pattern to learn faster!",pat1_name:"PATTERN A-A-A (no change)",pat1_desc:"Same form in all three columns: put, cut, hit, let, set, shut, cost, hurt, read*",pat2_name:"PATTERN A-B-A (base = participle)",pat2_desc:"Base and participle the same, past different: come, become, run",pat3_name:"PATTERN A-B-B (past = participle)",pat3_desc:"Past and participle the same: bring, buy, catch, feel, find, keep, make, say, sell, teach, think",pat4_name:"PATTERN A-B-C (all different)",pat4_desc:"Three distinct forms: be, do, go, eat, give, know, see, speak, take, write, swim",sec_list:"The 30 most used irregular verbs",col_base:"Base Form",col_past:"Past Simple",col_pp:"Past Participle",col_pt:"Portuguese",nav_prev_label:"← previous lesson",nav_prev_title:"Pronouns",nav_next_label:"← back to index",nav_next_title:"English Grammar"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

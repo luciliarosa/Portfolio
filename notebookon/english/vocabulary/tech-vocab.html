@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Tech Vocabulary — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#2563a8;--accent-light:#dbeafe;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:820px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;flex-wrap:wrap;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-tech{background:var(--accent-light);color:#1e3a5f;}
+    .tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;color:var(--accent);}
+    .tip{background:var(--accent-light);border:1.5px solid rgba(37,99,168,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1.5rem;}
+    .tip p{font-size:13px;color:#1e3a5f;line-height:1.7;}
+    /* vocab table */
+    .vocab-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .vocab-table th{background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+    .vocab-table td{font-size:13px;padding:9px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;}
+    .vocab-table tr:last-child td{border-bottom:none;}
+    .vocab-table tr:nth-child(even) td{background:var(--paper2);}
+    .vw{font-family:var(--font-mono);font-weight:700;color:var(--accent);}
+    .vw-pt{font-size:11px;color:var(--ink4);}
+    .ex{font-size:11px;font-style:italic;color:var(--ink3);}
+    /* category cards */
+    .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:1.5rem;}
+    .cat-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .cat-card .cat-icon{font-size:24px;margin-bottom:8px;}
+    .cat-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .cat-card ul{list-style:none;display:flex;flex-direction:column;gap:4px;}
+    .cat-card li{font-size:12.5px;color:var(--ink2);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
+    .cat-card li::before{content:'›';color:var(--accent);font-weight:700;flex-shrink:0;}
+    .cat-card li strong{font-family:var(--font-mono);font-size:11.5px;color:var(--accent);}
+    /* phrase cards */
+    .phrase-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:10px;}
+    .phrase-card .phrase-en{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+    .phrase-card .phrase-pt{font-size:12px;color:var(--ink3);margin-bottom:6px;}
+    .phrase-card .phrase-ex{font-size:12px;font-style:italic;color:var(--ink4);border-left:3px solid var(--accent-light);padding-left:10px;}
+    /* summary */
+    .summary{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-top:2rem;}
+    .summary h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+    .summary ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .summary li{font-size:13px;color:var(--ink2);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+    .summary li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.cat-grid{grid-template-columns:1fr;}.vocab-table{font-size:11px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html#english" class="nav-link">English</a>
+    <a href="tech-vocab.html" class="nav-link active" data-i18n="nav_current">Tech Vocabulary</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#english">English</a><span>›</span>
+    <a href="../../index.html#english" data-i18n="bc_vocab">Vocabulary</a><span>›</span>
+    <span data-i18n="bc_this">Tech &amp; Programming</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// vocabulary · English · Technology &amp; Programming</p>
+    <h1 class="article-title" data-i18n="article_title">Tech &amp; Programming<br><span style="font-size:.6em;color:var(--ink3);font-style:italic;">Vocabulário do Mundo da Tecnologia</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-tech">💻 Tech Vocabulary</span>
+      <span class="tag tag-gray" data-i18n="level">Básico–Avançado</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">🔑 termos essenciais para devs</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- CATEGORIAS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_cats">Vocabulário por categoria</p>
+    <div class="tip">
+      <p data-i18n="tip_main">💡 Como dev, você já usa esses termos em inglês no dia a dia — mas saber explicá-los <strong>em inglês</strong> faz toda diferença em entrevistas, reuniões e documentação internacional.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">🏗️</div>
+        <h3 data-i18n="cat1_h">Development Process</h3>
+        <ul>
+          <li><strong>deploy</strong> — <span data-i18n="cat1_w1">publicar/enviar para produção</span></li>
+          <li><strong>build</strong> — <span data-i18n="cat1_w2">compilar/construir o projeto</span></li>
+          <li><strong>refactor</strong> — <span data-i18n="cat1_w3">reorganizar código sem mudar comportamento</span></li>
+          <li><strong>debug</strong> — <span data-i18n="cat1_w4">identificar e corrigir erros</span></li>
+          <li><strong>release</strong> — <span data-i18n="cat1_w5">lançar uma versão</span></li>
+          <li><strong>rollback</strong> — <span data-i18n="cat1_w6">reverter para versão anterior</span></li>
+          <li><strong>ship</strong> — <span data-i18n="cat1_w7">entregar/publicar (gíria de devs)</span></li>
+          <li><strong>iterate</strong> — <span data-i18n="cat1_w8">repetir ciclo de melhoria</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🗄️</div>
+        <h3 data-i18n="cat2_h">Data &amp; Backend</h3>
+        <ul>
+          <li><strong>query</strong> — <span data-i18n="cat2_w1">consulta ao banco de dados</span></li>
+          <li><strong>fetch</strong> — <span data-i18n="cat2_w2">buscar dados de uma fonte</span></li>
+          <li><strong>payload</strong> — <span data-i18n="cat2_w3">dados enviados numa requisição</span></li>
+          <li><strong>endpoint</strong> — <span data-i18n="cat2_w4">URL de acesso a um serviço</span></li>
+          <li><strong>schema</strong> — <span data-i18n="cat2_w5">estrutura/modelo de dados</span></li>
+          <li><strong>migrate</strong> — <span data-i18n="cat2_w6">mover/atualizar estrutura do banco</span></li>
+          <li><strong>seed</strong> — <span data-i18n="cat2_w7">popular banco com dados iniciais</span></li>
+          <li><strong>throughput</strong> — <span data-i18n="cat2_w8">volume de dados processados</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🎨</div>
+        <h3 data-i18n="cat3_h">Frontend &amp; UI</h3>
+        <ul>
+          <li><strong>render</strong> — <span data-i18n="cat3_w1">gerar/exibir na tela</span></li>
+          <li><strong>layout</strong> — <span data-i18n="cat3_w2">estrutura visual da página</span></li>
+          <li><strong>responsive</strong> — <span data-i18n="cat3_w3">adaptável a diferentes telas</span></li>
+          <li><strong>breakpoint</strong> — <span data-i18n="cat3_w4">ponto de mudança de layout</span></li>
+          <li><strong>component</strong> — <span data-i18n="cat3_w5">bloco reutilizável de UI</span></li>
+          <li><strong>prop</strong> — <span data-i18n="cat3_w6">propriedade passada a componente</span></li>
+          <li><strong>state</strong> — <span data-i18n="cat3_w7">estado atual de um componente</span></li>
+          <li><strong>hook</strong> — <span data-i18n="cat3_w8">função especial do React</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🔧</div>
+        <h3 data-i18n="cat4_h">DevOps &amp; Infrastructure</h3>
+        <ul>
+          <li><strong>pipeline</strong> — <span data-i18n="cat4_w1">sequência automatizada de tarefas</span></li>
+          <li><strong>container</strong> — <span data-i18n="cat4_w2">ambiente isolado de execução</span></li>
+          <li><strong>cluster</strong> — <span data-i18n="cat4_w3">grupo de servidores conectados</span></li>
+          <li><strong>instance</strong> — <span data-i18n="cat4_w4">servidor/máquina virtual</span></li>
+          <li><strong>uptime</strong> — <span data-i18n="cat4_w5">tempo em que o sistema está online</span></li>
+          <li><strong>latency</strong> — <span data-i18n="cat4_w6">atraso na resposta</span></li>
+          <li><strong>scale</strong> — <span data-i18n="cat4_w7">aumentar capacidade do sistema</span></li>
+          <li><strong>firewall</strong> — <span data-i18n="cat4_w8">barreira de segurança de rede</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🤝</div>
+        <h3 data-i18n="cat5_h">Team &amp; Agile</h3>
+        <ul>
+          <li><strong>sprint</strong> — <span data-i18n="cat5_w1">ciclo curto de desenvolvimento</span></li>
+          <li><strong>backlog</strong> — <span data-i18n="cat5_w2">lista de tarefas pendentes</span></li>
+          <li><strong>standup</strong> — <span data-i18n="cat5_w3">reunião diária rápida</span></li>
+          <li><strong>stakeholder</strong> — <span data-i18n="cat5_w4">parte interessada no projeto</span></li>
+          <li><strong>milestone</strong> — <span data-i18n="cat5_w5">marco/entrega importante</span></li>
+          <li><strong>scope</strong> — <span data-i18n="cat5_w6">escopo/limite do projeto</span></li>
+          <li><strong>blocker</strong> — <span data-i18n="cat5_w7">impedimento que trava o trabalho</span></li>
+          <li><strong>handoff</strong> — <span data-i18n="cat5_w8">entrega entre equipes</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🐛</div>
+        <h3 data-i18n="cat6_h">Bugs &amp; Quality</h3>
+        <ul>
+          <li><strong>bug</strong> — <span data-i18n="cat6_w1">erro no código</span></li>
+          <li><strong>patch</strong> — <span data-i18n="cat6_w2">correção pontual</span></li>
+          <li><strong>hotfix</strong> — <span data-i18n="cat6_w3">correção urgente em produção</span></li>
+          <li><strong>edge case</strong> — <span data-i18n="cat6_w4">situação extrema/incomum</span></li>
+          <li><strong>regression</strong> — <span data-i18n="cat6_w5">bug que reapareceu após fix</span></li>
+          <li><strong>test coverage</strong> — <span data-i18n="cat6_w6">quanto do código tem teste</span></li>
+          <li><strong>mock</strong> — <span data-i18n="cat6_w7">dado/objeto falso para testes</span></li>
+          <li><strong>assertion</strong> — <span data-i18n="cat6_w8">verificação esperada num teste</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TABELA COMPLETA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_table">Glossário completo — 50 termos essenciais</p>
+    <table class="vocab-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_term">Term</th>
+          <th data-i18n="col_pt">Português</th>
+          <th data-i18n="col_ex">Example sentence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="vw">bug</span></td><td><span class="vw-pt" data-i18n="t1">erro no código</span></td><td><span class="ex">"I found a bug in the login function."</span></td></tr>
+        <tr><td><span class="vw">feature</span></td><td><span class="vw-pt" data-i18n="t2">funcionalidade nova</span></td><td><span class="ex">"We shipped a new feature today."</span></td></tr>
+        <tr><td><span class="vw">repository</span></td><td><span class="vw-pt" data-i18n="t3">repositório de código</span></td><td><span class="ex">"Clone the repository and run npm install."</span></td></tr>
+        <tr><td><span class="vw">branch</span></td><td><span class="vw-pt" data-i18n="t4">ramificação do código</span></td><td><span class="ex">"Create a new branch for this feature."</span></td></tr>
+        <tr><td><span class="vw">merge</span></td><td><span class="vw-pt" data-i18n="t5">unir ramificações</span></td><td><span class="ex">"Merge the PR after code review."</span></td></tr>
+        <tr><td><span class="vw">pull request</span></td><td><span class="vw-pt" data-i18n="t6">proposta de mudança no código</span></td><td><span class="ex">"Open a pull request when you're done."</span></td></tr>
+        <tr><td><span class="vw">commit</span></td><td><span class="vw-pt" data-i18n="t7">salvar mudança no Git</span></td><td><span class="ex">"Commit your changes with a clear message."</span></td></tr>
+        <tr><td><span class="vw">deploy</span></td><td><span class="vw-pt" data-i18n="t8">publicar em produção</span></td><td><span class="ex">"We'll deploy on Friday afternoon."</span></td></tr>
+        <tr><td><span class="vw">environment</span></td><td><span class="vw-pt" data-i18n="t9">ambiente (dev/staging/prod)</span></td><td><span class="ex">"It works on my local environment."</span></td></tr>
+        <tr><td><span class="vw">dependency</span></td><td><span class="vw-pt" data-i18n="t10">biblioteca/pacote necessário</span></td><td><span class="ex">"Add the dependency to package.json."</span></td></tr>
+        <tr><td><span class="vw">framework</span></td><td><span class="vw-pt" data-i18n="t11">estrutura de desenvolvimento</span></td><td><span class="ex">"React is a JavaScript framework."</span></td></tr>
+        <tr><td><span class="vw">library</span></td><td><span class="vw-pt" data-i18n="t12">biblioteca de código</span></td><td><span class="ex">"We use pandas as a data library."</span></td></tr>
+        <tr><td><span class="vw">API</span></td><td><span class="vw-pt" data-i18n="t13">interface de comunicação</span></td><td><span class="ex">"The API returns data in JSON format."</span></td></tr>
+        <tr><td><span class="vw">request</span></td><td><span class="vw-pt" data-i18n="t14">requisição/pedido de dados</span></td><td><span class="ex">"Send a GET request to the endpoint."</span></td></tr>
+        <tr><td><span class="vw">response</span></td><td><span class="vw-pt" data-i18n="t15">resposta do servidor</span></td><td><span class="ex">"The response status was 200 OK."</span></td></tr>
+        <tr><td><span class="vw">authentication</span></td><td><span class="vw-pt" data-i18n="t16">verificação de identidade</span></td><td><span class="ex">"Use JWT for authentication."</span></td></tr>
+        <tr><td><span class="vw">authorization</span></td><td><span class="vw-pt" data-i18n="t17">permissão de acesso</span></td><td><span class="ex">"Only admins have authorization for this."</span></td></tr>
+        <tr><td><span class="vw">encryption</span></td><td><span class="vw-pt" data-i18n="t18">criptografia de dados</span></td><td><span class="ex">"All passwords use encryption."</span></td></tr>
+        <tr><td><span class="vw">cache</span></td><td><span class="vw-pt" data-i18n="t19">armazenamento temporário rápido</span></td><td><span class="ex">"Clear the cache if you see old data."</span></td></tr>
+        <tr><td><span class="vw">log</span></td><td><span class="vw-pt" data-i18n="t20">registro de eventos do sistema</span></td><td><span class="ex">"Check the logs for error details."</span></td></tr>
+        <tr><td><span class="vw">stack</span></td><td><span class="vw-pt" data-i18n="t21">conjunto de tecnologias usadas</span></td><td><span class="ex">"Our stack is Python, React and Postgres."</span></td></tr>
+        <tr><td><span class="vw">runtime</span></td><td><span class="vw-pt" data-i18n="t22">tempo/ambiente de execução</span></td><td><span class="ex">"A runtime error occurred on line 42."</span></td></tr>
+        <tr><td><span class="vw">syntax</span></td><td><span class="vw-pt" data-i18n="t23">regras de escrita da linguagem</span></td><td><span class="ex">"Check your syntax — missing a colon."</span></td></tr>
+        <tr><td><span class="vw">variable</span></td><td><span class="vw-pt" data-i18n="t24">variável</span></td><td><span class="ex">"Store the result in a variable."</span></td></tr>
+        <tr><td><span class="vw">function</span></td><td><span class="vw-pt" data-i18n="t25">função</span></td><td><span class="ex">"Write a function to handle this logic."</span></td></tr>
+        <tr><td><span class="vw">loop</span></td><td><span class="vw-pt" data-i18n="t26">laço de repetição</span></td><td><span class="ex">"Use a loop to iterate over the list."</span></td></tr>
+        <tr><td><span class="vw">array</span></td><td><span class="vw-pt" data-i18n="t27">lista/vetor de dados</span></td><td><span class="ex">"Map over the array to transform items."</span></td></tr>
+        <tr><td><span class="vw">object</span></td><td><span class="vw-pt" data-i18n="t28">objeto (estrutura de dados)</span></td><td><span class="ex">"The user object has name and email."</span></td></tr>
+        <tr><td><span class="vw">class</span></td><td><span class="vw-pt" data-i18n="t29">classe (POO)</span></td><td><span class="ex">"Create a class called UserManager."</span></td></tr>
+        <tr><td><span class="vw">instance</span></td><td><span class="vw-pt" data-i18n="t30">instância de uma classe</span></td><td><span class="ex">"Create an instance of the class."</span></td></tr>
+        <tr><td><span class="vw">inheritance</span></td><td><span class="vw-pt" data-i18n="t31">herança (POO)</span></td><td><span class="ex">"Use inheritance to extend the base class."</span></td></tr>
+        <tr><td><span class="vw">callback</span></td><td><span class="vw-pt" data-i18n="t32">função passada como argumento</span></td><td><span class="ex">"Pass a callback to handle the response."</span></td></tr>
+        <tr><td><span class="vw">async / await</span></td><td><span class="vw-pt" data-i18n="t33">código assíncrono</span></td><td><span class="ex">"Use async/await for API calls."</span></td></tr>
+        <tr><td><span class="vw">error handling</span></td><td><span class="vw-pt" data-i18n="t34">tratamento de erros</span></td><td><span class="ex">"Add error handling with try/except."</span></td></tr>
+        <tr><td><span class="vw">refactor</span></td><td><span class="vw-pt" data-i18n="t35">reorganizar código</span></td><td><span class="ex">"Let's refactor this before shipping."</span></td></tr>
+        <tr><td><span class="vw">scalability</span></td><td><span class="vw-pt" data-i18n="t36">capacidade de crescer</span></td><td><span class="ex">"We need to think about scalability."</span></td></tr>
+        <tr><td><span class="vw">bottleneck</span></td><td><span class="vw-pt" data-i18n="t37">gargalo de performance</span></td><td><span class="ex">"The database query is the bottleneck."</span></td></tr>
+        <tr><td><span class="vw">workaround</span></td><td><span class="vw-pt" data-i18n="t38">solução alternativa/gambiarra</span></td><td><span class="ex">"This is a workaround, not a real fix."</span></td></tr>
+        <tr><td><span class="vw">hardcode</span></td><td><span class="vw-pt" data-i18n="t39">valor fixo no código</span></td><td><span class="ex">"Don't hardcode the API key in the file."</span></td></tr>
+        <tr><td><span class="vw">legacy</span></td><td><span class="vw-pt" data-i18n="t40">código antigo/legado</span></td><td><span class="ex">"This is legacy code from 2015."</span></td></tr>
+        <tr><td><span class="vw">documentation</span></td><td><span class="vw-pt" data-i18n="t41">documentação do sistema</span></td><td><span class="ex">"Check the documentation for details."</span></td></tr>
+        <tr><td><span class="vw">version control</span></td><td><span class="vw-pt" data-i18n="t42">controle de versão (Git)</span></td><td><span class="ex">"Always use version control."</span></td></tr>
+        <tr><td><span class="vw">open source</span></td><td><span class="vw-pt" data-i18n="t43">código aberto/público</span></td><td><span class="ex">"Python is open source."</span></td></tr>
+        <tr><td><span class="vw">snippet</span></td><td><span class="vw-pt" data-i18n="t44">trecho/pedaço de código</span></td><td><span class="ex">"Share the code snippet with the team."</span></td></tr>
+        <tr><td><span class="vw">bandwidth</span></td><td><span class="vw-pt" data-i18n="t45">largura de banda/capacidade</span></td><td><span class="ex">"I don't have the bandwidth for this now."</span></td></tr>
+        <tr><td><span class="vw">roadmap</span></td><td><span class="vw-pt" data-i18n="t46">plano/mapa de entregas futuras</span></td><td><span class="ex">"Check the product roadmap for Q3."</span></td></tr>
+        <tr><td><span class="vw">proof of concept</span></td><td><span class="vw-pt" data-i18n="t47">protótipo para validar ideia</span></td><td><span class="ex">"Build a PoC before full development."</span></td></tr>
+        <tr><td><span class="vw">best practice</span></td><td><span class="vw-pt" data-i18n="t48">boa prática de desenvolvimento</span></td><td><span class="ex">"It's best practice to write unit tests."</span></td></tr>
+        <tr><td><span class="vw">technical debt</span></td><td><span class="vw-pt" data-i18n="t49">débito técnico acumulado</span></td><td><span class="ex">"We need to address our technical debt."</span></td></tr>
+        <tr><td><span class="vw">boilerplate</span></td><td><span class="vw-pt" data-i18n="t50">código padrão repetitivo</span></td><td><span class="ex">"Use a template to avoid boilerplate."</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr/>
+
+  <!-- FRASES DO DIA A DIA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_phrases">Frases do dia a dia de um dev</p>
+    <div class="tip">
+      <p data-i18n="tip_phrases">💬 Expressões que você vai ouvir e usar em reuniões, code reviews e Slack!</p>
+    </div>
+
+    <div class="phrase-card">
+      <div class="phrase-en">"Can you take a look at my PR?"</div>
+      <div class="phrase-pt" data-i18n="ph1_pt">Você pode revisar meu Pull Request?</div>
+      <div class="phrase-ex">"Hey, can you take a look at my PR when you have a minute? I need a review before merging."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"I'm blocked on this."</div>
+      <div class="phrase-pt" data-i18n="ph2_pt">Estou travado nisso / tenho um impedimento.</div>
+      <div class="phrase-ex">"I'm blocked on this — I need access to the staging environment."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"Let's ship it."</div>
+      <div class="phrase-pt" data-i18n="ph3_pt">Vamos publicar / entregar isso.</div>
+      <div class="phrase-ex">"The tests are passing — let's ship it!"</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"This is out of scope."</div>
+      <div class="phrase-pt" data-i18n="ph4_pt">Isso está fora do escopo.</div>
+      <div class="phrase-ex">"Adding dark mode is out of scope for this sprint."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"It works on my machine."</div>
+      <div class="phrase-pt" data-i18n="ph5_pt">Na minha máquina funciona. (clássico dos devs!)</div>
+      <div class="phrase-ex">"It works on my machine — maybe it's an environment issue."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"We need to pay off our technical debt."</div>
+      <div class="phrase-pt" data-i18n="ph6_pt">Precisamos resolver nosso débito técnico.</div>
+      <div class="phrase-ex">"Before adding features, we need to pay off our technical debt."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"Let me walk you through the code."</div>
+      <div class="phrase-pt" data-i18n="ph7_pt">Deixa eu te explicar o código passo a passo.</div>
+      <div class="phrase-ex">"Let me walk you through the code so you understand the logic."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"We need to align on this."</div>
+      <div class="phrase-pt" data-i18n="ph8_pt">Precisamos entrar em acordo sobre isso.</div>
+      <div class="phrase-ex">"Before we start, we need to align on the requirements."</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RESUMO -->
+  <div class="summary fade">
+    <h3 data-i18n="summary_h">📌 O que você aprendeu</h3>
+    <ul>
+      <li data-i18n="sum1">Vocabulário de <strong>Development Process</strong> — deploy, build, refactor, ship...</li>
+      <li data-i18n="sum2">Termos de <strong>Data &amp; Backend</strong> — query, fetch, payload, endpoint...</li>
+      <li data-i18n="sum3">Palavras de <strong>Frontend &amp; UI</strong> — render, component, state, hook...</li>
+      <li data-i18n="sum4">Jargões de <strong>DevOps</strong> — pipeline, container, uptime, latency...</li>
+      <li data-i18n="sum5">Vocabulário <strong>Agile</strong> — sprint, backlog, standup, blocker...</li>
+      <li data-i18n="sum6"><strong>50 termos essenciais</strong> com exemplos de uso em inglês.</li>
+      <li data-i18n="sum7"><strong>8 frases do dia a dia</strong> que você vai usar em reuniões e code reviews.</li>
+    </ul>
+  </div>
+
+  <div class="nav-pages fade">
+    <a href="../../index.html#english" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_back_label">← voltar</span>
+      <span class="np-title" data-i18n="nav_back_title">English — Vocabulary</span>
+    </a>
+    <a href="travel-vocab.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">próxima aula →</span>
+      <span class="np-title" data-i18n="nav_next_title">Travel &amp; Transport</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{
+    nav_current:"Tech Vocabulary",bc_vocab:"Vocabulary",bc_this:"Tech &amp; Programming",
+    eyebrow:"// vocabulary · English · Technology &amp; Programming",
+    article_title:"Tech &amp; Programming<br><span style='font-size:.6em;color:var(--ink3);font-style:italic;'>Vocabulário do Mundo da Tecnologia</span>",
+    level:"Básico–Avançado",sec_cats:"Vocabulário por categoria",
+    tip_main:"💡 Como dev, você já usa esses termos em inglês no dia a dia — mas saber explicá-los <strong>em inglês</strong> faz toda diferença em entrevistas, reuniões e documentação internacional.",
+    cat1_h:"Development Process",cat1_w1:"publicar/enviar para produção",cat1_w2:"compilar/construir o projeto",cat1_w3:"reorganizar código sem mudar comportamento",cat1_w4:"identificar e corrigir erros",cat1_w5:"lançar uma versão",cat1_w6:"reverter para versão anterior",cat1_w7:"entregar/publicar (gíria de devs)",cat1_w8:"repetir ciclo de melhoria",
+    cat2_h:"Data &amp; Backend",cat2_w1:"consulta ao banco de dados",cat2_w2:"buscar dados de uma fonte",cat2_w3:"dados enviados numa requisição",cat2_w4:"URL de acesso a um serviço",cat2_w5:"estrutura/modelo de dados",cat2_w6:"mover/atualizar estrutura do banco",cat2_w7:"popular banco com dados iniciais",cat2_w8:"volume de dados processados",
+    cat3_h:"Frontend &amp; UI",cat3_w1:"gerar/exibir na tela",cat3_w2:"estrutura visual da página",cat3_w3:"adaptável a diferentes telas",cat3_w4:"ponto de mudança de layout",cat3_w5:"bloco reutilizável de UI",cat3_w6:"propriedade passada a componente",cat3_w7:"estado atual de um componente",cat3_w8:"função especial do React",
+    cat4_h:"DevOps &amp; Infrastructure",cat4_w1:"sequência automatizada de tarefas",cat4_w2:"ambiente isolado de execução",cat4_w3:"grupo de servidores conectados",cat4_w4:"servidor/máquina virtual",cat4_w5:"tempo em que o sistema está online",cat4_w6:"atraso na resposta",cat4_w7:"aumentar capacidade do sistema",cat4_w8:"barreira de segurança de rede",
+    cat5_h:"Team &amp; Agile",cat5_w1:"ciclo curto de desenvolvimento",cat5_w2:"lista de tarefas pendentes",cat5_w3:"reunião diária rápida",cat5_w4:"parte interessada no projeto",cat5_w5:"marco/entrega importante",cat5_w6:"escopo/limite do projeto",cat5_w7:"impedimento que trava o trabalho",cat5_w8:"entrega entre equipes",
+    cat6_h:"Bugs &amp; Quality",cat6_w1:"erro no código",cat6_w2:"correção pontual",cat6_w3:"correção urgente em produção",cat6_w4:"situação extrema/incomum",cat6_w5:"bug que reapareceu após fix",cat6_w6:"quanto do código tem teste",cat6_w7:"dado/objeto falso para testes",cat6_w8:"verificação esperada num teste",
+    sec_table:"Glossário completo — 50 termos essenciais",col_term:"Termo",col_pt:"Português",col_ex:"Exemplo em inglês",
+    t1:"erro no código",t2:"funcionalidade nova",t3:"repositório de código",t4:"ramificação do código",t5:"unir ramificações",t6:"proposta de mudança no código",t7:"salvar mudança no Git",t8:"publicar em produção",t9:"ambiente (dev/staging/prod)",t10:"biblioteca/pacote necessário",t11:"estrutura de desenvolvimento",t12:"biblioteca de código",t13:"interface de comunicação",t14:"requisição/pedido de dados",t15:"resposta do servidor",t16:"verificação de identidade",t17:"permissão de acesso",t18:"criptografia de dados",t19:"armazenamento temporário rápido",t20:"registro de eventos do sistema",t21:"conjunto de tecnologias usadas",t22:"tempo/ambiente de execução",t23:"regras de escrita da linguagem",t24:"variável",t25:"função",t26:"laço de repetição",t27:"lista/vetor de dados",t28:"objeto (estrutura de dados)",t29:"classe (POO)",t30:"instância de uma classe",t31:"herança (POO)",t32:"função passada como argumento",t33:"código assíncrono",t34:"tratamento de erros",t35:"reorganizar código",t36:"capacidade de crescer",t37:"gargalo de performance",t38:"solução alternativa/gambiarra",t39:"valor fixo no código",t40:"código antigo/legado",t41:"documentação do sistema",t42:"controle de versão (Git)",t43:"código aberto/público",t44:"trecho/pedaço de código",t45:"largura de banda/capacidade",t46:"plano/mapa de entregas futuras",t47:"protótipo para validar ideia",t48:"boa prática de desenvolvimento",t49:"débito técnico acumulado",t50:"código padrão repetitivo",
+    sec_phrases:"Frases do dia a dia de um dev",tip_phrases:"💬 Expressões que você vai ouvir e usar em reuniões, code reviews e Slack!",
+    ph1_pt:"Você pode revisar meu Pull Request?",ph2_pt:"Estou travado nisso / tenho um impedimento.",ph3_pt:"Vamos publicar / entregar isso.",ph4_pt:"Isso está fora do escopo.",ph5_pt:"Na minha máquina funciona. (clássico dos devs!)",ph6_pt:"Precisamos resolver nosso débito técnico.",ph7_pt:"Deixa eu te explicar o código passo a passo.",ph8_pt:"Precisamos entrar em acordo sobre isso.",
+    summary_h:"📌 O que você aprendeu",sum1:"Vocabulário de <strong>Development Process</strong> — deploy, build, refactor, ship...",sum2:"Termos de <strong>Data &amp; Backend</strong> — query, fetch, payload, endpoint...",sum3:"Palavras de <strong>Frontend &amp; UI</strong> — render, component, state, hook...",sum4:"Jargões de <strong>DevOps</strong> — pipeline, container, uptime, latency...",sum5:"Vocabulário <strong>Agile</strong> — sprint, backlog, standup, blocker...",sum6:"<strong>50 termos essenciais</strong> com exemplos de uso em inglês.",sum7:"<strong>8 frases do dia a dia</strong> que você vai usar em reuniões e code reviews.",
+    nav_back_label:"← voltar",nav_back_title:"English — Vocabulary",nav_next_label:"próxima aula →",nav_next_title:"Travel &amp; Transport"
+  },
+  en:{
+    nav_current:"Tech Vocabulary",bc_vocab:"Vocabulary",bc_this:"Tech &amp; Programming",
+    eyebrow:"// vocabulary · English · Technology &amp; Programming",
+    article_title:"Tech &amp; Programming<br><span style='font-size:.6em;color:var(--ink3);font-style:italic;'>Essential Technology Vocabulary</span>",
+    level:"Basic–Advanced",sec_cats:"Vocabulary by category",
+    tip_main:"💡 As a dev, you already use these terms daily — but knowing how to explain them <strong>fluently in English</strong> makes all the difference in interviews, meetings and international documentation.",
+    cat1_h:"Development Process",cat1_w1:"publish/send to production",cat1_w2:"compile/build the project",cat1_w3:"reorganize code without changing behavior",cat1_w4:"identify and fix errors",cat1_w5:"launch a version",cat1_w6:"revert to previous version",cat1_w7:"deliver/publish (dev slang)",cat1_w8:"repeat improvement cycle",
+    cat2_h:"Data &amp; Backend",cat2_w1:"database query",cat2_w2:"retrieve data from a source",cat2_w3:"data sent in a request",cat2_w4:"URL to access a service",cat2_w5:"data structure/model",cat2_w6:"move/update database structure",cat2_w7:"populate database with initial data",cat2_w8:"volume of data processed",
+    cat3_h:"Frontend &amp; UI",cat3_w1:"generate/display on screen",cat3_w2:"visual structure of the page",cat3_w3:"adaptable to different screens",cat3_w4:"layout change point",cat3_w5:"reusable UI block",cat3_w6:"property passed to a component",cat3_w7:"current state of a component",cat3_w8:"special React function",
+    cat4_h:"DevOps &amp; Infrastructure",cat4_w1:"automated task sequence",cat4_w2:"isolated execution environment",cat4_w3:"group of connected servers",cat4_w4:"server/virtual machine",cat4_w5:"time the system is online",cat4_w6:"response delay",cat4_w7:"increase system capacity",cat4_w8:"network security barrier",
+    cat5_h:"Team &amp; Agile",cat5_w1:"short development cycle",cat5_w2:"list of pending tasks",cat5_w3:"quick daily meeting",cat5_w4:"party with interest in the project",cat5_w5:"important milestone/delivery",cat5_w6:"project scope/limit",cat5_w7:"impediment that blocks work",cat5_w8:"delivery between teams",
+    cat6_h:"Bugs &amp; Quality",cat6_w1:"error in the code",cat6_w2:"targeted fix",cat6_w3:"urgent fix in production",cat6_w4:"extreme/unusual situation",cat6_w5:"bug that reappeared after a fix",cat6_w6:"how much of the code has tests",cat6_w7:"fake data/object for testing",cat6_w8:"expected check in a test",
+    sec_table:"Complete glossary — 50 essential terms",col_term:"Term",col_pt:"Portuguese",col_ex:"Example sentence",
+    t1:"error in the code",t2:"new functionality",t3:"code repository",t4:"code branch",t5:"merge branches",t6:"code change proposal",t7:"save change in Git",t8:"publish to production",t9:"environment (dev/staging/prod)",t10:"required library/package",t11:"development structure",t12:"code library",t13:"communication interface",t14:"data request",t15:"server response",t16:"identity verification",t17:"access permission",t18:"data encryption",t19:"fast temporary storage",t20:"system event log",t21:"set of technologies used",t22:"execution time/environment",t23:"language writing rules",t24:"variable",t25:"function",t26:"repetition loop",t27:"list/array of data",t28:"object (data structure)",t29:"class (OOP)",t30:"instance of a class",t31:"inheritance (OOP)",t32:"function passed as argument",t33:"asynchronous code",t34:"error handling",t35:"reorganize code",t36:"ability to grow",t37:"performance bottleneck",t38:"alternative solution/workaround",t39:"fixed value in code",t40:"old/legacy code",t41:"system documentation",t42:"version control (Git)",t43:"open/public code",t44:"code snippet/fragment",t45:"bandwidth/capacity",t46:"future delivery plan/map",t47:"prototype to validate idea",t48:"development best practice",t49:"accumulated technical debt",t50:"repetitive standard code",
+    sec_phrases:"Everyday dev phrases",tip_phrases:"💬 Expressions you'll hear and use in meetings, code reviews and Slack!",
+    ph1_pt:"Can you review my Pull Request?",ph2_pt:"I have an impediment on this.",ph3_pt:"Let's publish/deliver this.",ph4_pt:"This is outside the project scope.",ph5_pt:"It works on my machine. (classic dev phrase!)",ph6_pt:"We need to fix our accumulated technical debt.",ph7_pt:"Let me explain the code step by step.",ph8_pt:"We need to reach agreement on this.",
+    summary_h:"📌 What you learned",sum1:"<strong>Development Process</strong> vocabulary — deploy, build, refactor, ship...",sum2:"<strong>Data &amp; Backend</strong> terms — query, fetch, payload, endpoint...",sum3:"<strong>Frontend &amp; UI</strong> words — render, component, state, hook...",sum4:"<strong>DevOps</strong> jargon — pipeline, container, uptime, latency...",sum5:"<strong>Agile</strong> vocabulary — sprint, backlog, standup, blocker...",sum6:"<strong>50 essential terms</strong> with usage examples in English.",sum7:"<strong>8 everyday phrases</strong> you'll use in meetings and code reviews.",
+    nav_back_label:"← back",nav_back_title:"English — Vocabulary",nav_next_label:"next lesson →",nav_next_title:"Travel &amp; Transport"
+  }
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.title=l==='pt'?'Tech Vocabulary — Lucilia\'s Notebook':'Tech Vocabulary — Lucilia\'s Notebook';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>História do HTML — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    --html:#e34c26;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-html{background:#fdecea;color:#b71c1c;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    /* timeline */
+    .timeline{position:relative;padding-left:32px;}
+    .timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--rule);}
+    .tl-item{position:relative;margin-bottom:2rem;}
+    .tl-dot{position:absolute;left:-26px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:2.5px solid var(--ink4);}
+    .tl-dot.d-orange{background:#e34c26;border-color:#e34c26;}
+    .tl-dot.d-blue{background:#2563a8;border-color:#2563a8;}
+    .tl-dot.d-green{background:#1a7a50;border-color:#1a7a50;}
+    .tl-dot.d-purple{background:#7F77DD;border-color:#7F77DD;}
+    .tl-dot.d-teal{background:#1D9E75;border-color:#1D9E75;}
+    .tl-year{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--ink4);margin-bottom:5px;}
+    .tl-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+    .tl-card h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .tl-card p{font-size:13px;color:var(--ink2);line-height:1.75;}
+    .tl-card p+p{margin-top:8px;}
+    .ver-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin:3px 3px 0 0;}
+    .vc-html{background:#fdecea;color:#b71c1c;}
+    .vc-gray{background:var(--paper3);color:var(--ink3);}
+    /* person tag */
+    .person{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink3);background:var(--paper2);padding:4px 11px;border-radius:20px;margin-top:10px;margin-right:6px;}
+    /* quote */
+    .quote{border-left:4px solid var(--html);padding:14px 20px;background:#fdecea22;border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0;}
+    .quote p{font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--ink2);line-height:1.75;}
+    .quote cite{display:block;font-size:12px;font-style:normal;color:var(--ink4);margin-top:6px;font-weight:700;}
+    /* summary */
+    .summary{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-top:2rem;}
+    .summary h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+    .summary ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .summary li{font-size:13px;color:var(--ink2);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+    .summary li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;margin-top:1px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}
+    .lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="html-historia.html" class="nav-link active">História HTML</a>
+    <a href="html-conceitos.html" class="nav-link">Conceitos HTML</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#html&css">HTML & CSS</a><span>›</span>
+    <span data-i18n="breadcrumb">História do HTML</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 01 · HTML · História</p>
+    <h1 class="article-title" data-i18n="title">A História do HTML —<br>A linguagem que criou a web</h1>
+    <div class="article-meta">
+      <span class="tag tag-html">HTML</span>
+      <span class="tag gray" data-i18n="tag_hist">História</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">📖 Baseado em MDN Web Docs e W3C</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- ORIGEM -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_origin">A origem — um cientista do CERN</p>
+    <div class="info">
+      <h3 data-i18n="origin_h">🧪 1989 — Uma ideia em Genebra</h3>
+      <p data-i18n="origin_p1">Tudo começa em 1989 no <strong>CERN</strong> — o maior laboratório de física de partículas do mundo, na Suíça. Um cientista britânico chamado <strong>Tim Berners-Lee</strong> estava frustrado com um problema clássico: os pesquisadores do mundo inteiro precisavam compartilhar documentos entre si, mas cada computador usava sistemas diferentes e incompatíveis.</p>
+      <p data-i18n="origin_p2">Sua proposta chamada <em>"Information Management: A Proposal"</em> descrevia um sistema baseado em hipertexto — documentos que pudessem se referenciar entre si através de links, independente do sistema operacional. Seu chefe na época escreveu na proposta: <em>"Vague, but exciting"</em> (Vago, mas empolgante). E aprovou.</p>
+    </div>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid #e34c26;margin-bottom:0;">
+        <h3 data-i18n="berners_h">👤 Tim Berners-Lee</h3>
+        <ul>
+          <li data-i18n="bl1">Nascido em Londres, 8 de junho de 1955</li>
+          <li data-i18n="bl2">Estudou física na Universidade de Oxford</li>
+          <li data-i18n="bl3">Trabalhava no CERN como consultor de software</li>
+          <li data-i18n="bl4">Inventou HTML, HTTP e a URL — o trio que criou a web</li>
+          <li data-i18n="bl5">Fundou o W3C em 1994 para padronizar a web</li>
+          <li data-i18n="bl6">Recebeu o título de Sir em 2004</li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
+        <h3 data-i18n="sgml_h">📄 A inspiração: SGML</h3>
+        <p data-i18n="sgml_p">O HTML foi inspirado no <strong>SGML</strong> (Standard Generalized Markup Language), uma linguagem de marcação usada pela indústria editorial desde os anos 1960. Berners-Lee pegou os conceitos de marcação de documentos e adicionou o conceito de <strong>hiperlinks</strong> — a grande inovação que diferenciou o HTML de tudo que existia antes.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- LINHA DO TEMPO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_timeline">A linha do tempo do HTML</p>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot d-orange"></div>
+        <p class="tl-year">1991 — CERN, Suíça</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl1_h">🌐 HTML 1.0 — A primeira página do mundo</h3>
+          <p data-i18n="tl1_p1">Em agosto de 1991, <strong>Tim Berners-Lee publicou a primeira página web da história</strong> em info.cern.ch — ela ainda existe e pode ser visitada até hoje. O HTML original tinha apenas <strong>18 tags</strong>, focadas em estrutura básica de documentos: títulos, parágrafos, listas e links.</p>
+          <p data-i18n="tl1_p2">Não havia imagens, não havia cores, não havia formatação visual. Era texto puro com estrutura — mas era o suficiente para revolucionar como a humanidade compartilhava informação.</p>
+          <div style="margin-top:10px;"><span class="ver-chip vc-html">HTML 1.0</span><span class="ver-chip vc-gray">18 tags</span></div>
+          <span class="person">👤 Tim Berners-Lee</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot d-blue"></div>
+        <p class="tl-year">1995 — IETF</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl2_h">📊 HTML 2.0 — Tabelas e formulários</h3>
+          <p data-i18n="tl2_p">A primeira versão com especificação formal, publicada pelo <strong>IETF</strong> (Internet Engineering Task Force). Introduziu suporte a <strong>imagens, tabelas e formulários</strong> — o que permitiu páginas mais ricas e a interação do usuário com a web. Foi a base sobre a qual a web comercial foi construída.</p>
+          <div style="margin-top:10px;"><span class="ver-chip vc-html">HTML 2.0</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot d-blue"></div>
+        <p class="tl-year">1997 → 1999 — W3C</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl3_h">⚔️ HTML 3.2 e 4.01 — A guerra dos browsers</h3>
+          <p data-i18n="tl3_p1">Os anos 90 foram marcados pela <strong>"Guerra dos Browsers"</strong> entre Netscape e Internet Explorer. Cada empresa adicionava tags proprietárias ao HTML para diferenciar seu browser, criando um caos de incompatibilidade.</p>
+          <p data-i18n="tl3_p2">O W3C tentou padronizar com o HTML 3.2 (1997) e HTML 4.01 (1999), introduzindo <strong>CSS como separação entre estrutura e estilo</strong> — uma ideia fundamental que ainda usamos hoje.</p>
+          <div style="margin-top:10px;"><span class="ver-chip vc-html">HTML 3.2</span><span class="ver-chip vc-html">HTML 4.01</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot d-purple"></div>
+        <p class="tl-year">2000 — W3C</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl4_h">😤 XHTML — A tentativa rígida</h3>
+          <p data-i18n="tl4_p">O W3C decidiu reescrever o HTML seguindo as regras rígidas do <strong>XML</strong>, criando o XHTML. A ideia era forçar os desenvolvedores a escrever código limpo e correto. O problema: qualquer erro quebrava a página inteira. A comunidade odiou e começou a buscar alternativas.</p>
+          <div style="margin-top:10px;"><span class="ver-chip vc-gray">XHTML 1.0</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot d-green"></div>
+        <p class="tl-year">2004 — Rebelião da comunidade</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl5_h">🔥 WHATWG — Os rebeldes que salvaram o HTML</h3>
+          <p data-i18n="tl5_p">Frustrados com o rumo do W3C, desenvolvedores da Apple, Mozilla e Opera fundaram o <strong>WHATWG</strong> (Web Hypertext Application Technology Working Group). Seu objetivo: criar um HTML prático, compatível com o passado e orientado para aplicações web reais. Esse trabalho se tornaria o HTML5.</p>
+          <span class="person">🍎 Apple</span><span class="person">🦊 Mozilla</span><span class="person">⚡ Opera</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot d-orange"></div>
+        <p class="tl-year">2014 — W3C + WHATWG</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl6_h">🚀 HTML5 — A revolução moderna</h3>
+          <p data-i18n="tl6_p1">Finalizado em 2014, o HTML5 revolucionou a web. Introduziu <strong>elementos semânticos</strong> (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>), suporte nativo a <strong>vídeo e áudio</strong> sem plugins, o elemento <code>&lt;canvas&gt;</code> para gráficos, APIs de geolocalização, armazenamento local e muito mais.</p>
+          <p data-i18n="tl6_p2">O Flash, que dominava multimídia na web por anos, ficou obsoleto. O HTML5 tornou a web uma plataforma de aplicações real — capaz de competir com apps nativos.</p>
+          <div style="margin-top:10px;"><span class="ver-chip vc-html">HTML5</span><span class="ver-chip vc-gray">Living Standard</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--ink);border-color:var(--ink);"></div>
+        <p class="tl-year" data-i18n="tl7_year">Hoje — Padrão vivo</p>
+        <div class="tl-card">
+          <h3 data-i18n="tl7_h">🌍 HTML Living Standard</h3>
+          <p data-i18n="tl7_p">Desde 2019, o WHATWG é o responsável único pelo padrão HTML. Diferente das versões antigas, não há mais "HTML 6" — o HTML é um <strong>padrão vivo</strong> que evolui continuamente. Novas funcionalidades são adicionadas de forma incremental, garantindo compatibilidade com tudo que já existe na web.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- CURIOSIDADES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_facts">Curiosidades</p>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
+        <h3 data-i18n="fact1_h">🖥️ O primeiro website ainda existe</h3>
+        <p data-i18n="fact1_p">A primeira página web publicada em 1991 no endereço <strong>info.cern.ch</strong> ainda está online e pode ser visitada. Era um documento de texto explicando o que era a World Wide Web.</p>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
+        <h3 data-i18n="fact2_h">🆓 De graça para sempre</h3>
+        <p data-i18n="fact2_p">Tim Berners-Lee <strong>nunca patenteou o HTML</strong>. Ele convenceu o CERN a liberar a tecnologia da web para o domínio público em 1993. Essa decisão é considerada uma das mais importantes da história da tecnologia.</p>
+      </div>
+      <div class="info" style="border-left:4px solid #e34c26;margin-bottom:0;">
+        <h3 data-i18n="fact3_h">📏 De 18 para 140+ tags</h3>
+        <p data-i18n="fact3_p">O HTML original tinha apenas 18 elementos. O HTML5 atual tem mais de <strong>140 tags</strong> — embora nem todas sejam suportadas por todos os browsers modernos.</p>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent);margin-bottom:0;">
+        <h3 data-i18n="fact4_h">🔗 HyperText — o nome explica tudo</h3>
+        <p data-i18n="fact4_p"><strong>HTML</strong> significa HyperText Markup Language. "HyperText" é o texto com links — o conceito central que diferencia a web de qualquer mídia anterior. "Markup" (marcação) é a ideia de anotações no texto que definem sua estrutura.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESUMO -->
+  <div class="summary fade">
+    <h3 data-i18n="summary_h">📌 Resumo da aula</h3>
+    <ul>
+      <li data-i18n="sum1">O HTML foi criado por <strong>Tim Berners-Lee</strong> em 1991 no CERN, inspirado no SGML.</li>
+      <li data-i18n="sum2">A primeira página web ainda existe em <strong>info.cern.ch</strong>.</li>
+      <li data-i18n="sum3">A linguagem evoluiu de 18 tags (1991) para mais de 140 tags (hoje).</li>
+      <li data-i18n="sum4">A "guerra dos browsers" dos anos 90 criou caos de incompatibilidade entre Netscape e IE.</li>
+      <li data-i18n="sum5">O <strong>WHATWG</strong> foi fundado em 2004 por Apple, Mozilla e Opera para criar o que se tornou o HTML5.</li>
+      <li data-i18n="sum6">O HTML5 (2014) trouxe semântica, multimídia nativa e APIs modernas, tornando a web uma plataforma de aplicações.</li>
+      <li data-i18n="sum7">Hoje o HTML é um <strong>padrão vivo</strong> — não existirá HTML6, só atualizações contínuas.</li>
+    </ul>
+  </div>
+
+  <div class="nav-pages fade">
+    <a href="../index.html#html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_back_label">← voltar</span>
+      <span class="np-title" data-i18n="nav_back_title">HTML</span>
+    </a>
+    <a href="html-conceitos.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">próxima aula →</span>
+      <span class="np-title" data-i18n="nav_next_title">Conceitos de HTML</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T = {
+  pt:{
+    breadcrumb:"História do HTML",eyebrow:"// aula 01 · HTML · História",
+    title:"A História do HTML —\nA linguagem que criou a web",
+    tag_hist:"História",source:"📖 Baseado em MDN Web Docs e W3C",
+    sec_origin:"A origem — um cientista do CERN",
+    origin_h:"🧪 1989 — Uma ideia em Genebra",
+    origin_p1:"Tudo começa em 1989 no <strong>CERN</strong> — o maior laboratório de física de partículas do mundo, na Suíça. Um cientista britânico chamado <strong>Tim Berners-Lee</strong> estava frustrado com um problema clássico: os pesquisadores do mundo inteiro precisavam compartilhar documentos entre si, mas cada computador usava sistemas diferentes e incompatíveis.",
+    origin_p2:"Sua proposta chamada <em>\"Information Management: A Proposal\"</em> descrevia um sistema baseado em hipertexto — documentos que pudessem se referenciar entre si através de links, independente do sistema operacional. Seu chefe na época escreveu na proposta: <em>\"Vague, but exciting\"</em> (Vago, mas empolgante). E aprovou.",
+    berners_h:"👤 Tim Berners-Lee",
+    bl1:"Nascido em Londres, 8 de junho de 1955",bl2:"Estudou física na Universidade de Oxford",
+    bl3:"Trabalhava no CERN como consultor de software",bl4:"Inventou HTML, HTTP e a URL — o trio que criou a web",
+    bl5:"Fundou o W3C em 1994 para padronizar a web",bl6:"Recebeu o título de Sir em 2004",
+    sgml_h:"📄 A inspiração: SGML",
+    sgml_p:"O HTML foi inspirado no <strong>SGML</strong> (Standard Generalized Markup Language), uma linguagem de marcação usada pela indústria editorial desde os anos 1960. Berners-Lee pegou os conceitos de marcação de documentos e adicionou o conceito de <strong>hiperlinks</strong> — a grande inovação que diferenciou o HTML de tudo que existia antes.",
+    sec_timeline:"A linha do tempo do HTML",
+    tl1_h:"🌐 HTML 1.0 — A primeira página do mundo",
+    tl1_p1:"Em agosto de 1991, <strong>Tim Berners-Lee publicou a primeira página web da história</strong> em info.cern.ch — ela ainda existe e pode ser visitada até hoje. O HTML original tinha apenas <strong>18 tags</strong>, focadas em estrutura básica de documentos: títulos, parágrafos, listas e links.",
+    tl1_p2:"Não havia imagens, não havia cores, não havia formatação visual. Era texto puro com estrutura — mas era o suficiente para revolucionar como a humanidade compartilhava informação.",
+    tl2_h:"📊 HTML 2.0 — Tabelas e formulários",
+    tl2_p:"A primeira versão com especificação formal, publicada pelo <strong>IETF</strong> (Internet Engineering Task Force). Introduziu suporte a <strong>imagens, tabelas e formulários</strong> — o que permitiu páginas mais ricas e a interação do usuário com a web. Foi a base sobre a qual a web comercial foi construída.",
+    tl3_h:"⚔️ HTML 3.2 e 4.01 — A guerra dos browsers",
+    tl3_p1:"Os anos 90 foram marcados pela <strong>\"Guerra dos Browsers\"</strong> entre Netscape e Internet Explorer. Cada empresa adicionava tags proprietárias ao HTML para diferenciar seu browser, criando um caos de incompatibilidade.",
+    tl3_p2:"O W3C tentou padronizar com o HTML 3.2 (1997) e HTML 4.01 (1999), introduzindo <strong>CSS como separação entre estrutura e estilo</strong> — uma ideia fundamental que ainda usamos hoje.",
+    tl4_h:"😤 XHTML — A tentativa rígida",
+    tl4_p:"O W3C decidiu reescrever o HTML seguindo as regras rígidas do <strong>XML</strong>, criando o XHTML. A ideia era forçar os desenvolvedores a escrever código limpo e correto. O problema: qualquer erro quebrava a página inteira. A comunidade odiou e começou a buscar alternativas.",
+    tl5_h:"🔥 WHATWG — Os rebeldes que salvaram o HTML",
+    tl5_p:"Frustrados com o rumo do W3C, desenvolvedores da Apple, Mozilla e Opera fundaram o <strong>WHATWG</strong> (Web Hypertext Application Technology Working Group). Seu objetivo: criar um HTML prático, compatível com o passado e orientado para aplicações web reais. Esse trabalho se tornaria o HTML5.",
+    tl6_h:"🚀 HTML5 — A revolução moderna",
+    tl6_p1:"Finalizado em 2014, o HTML5 revolucionou a web. Introduziu <strong>elementos semânticos</strong> (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>), suporte nativo a <strong>vídeo e áudio</strong> sem plugins, o elemento <code>&lt;canvas&gt;</code> para gráficos, APIs de geolocalização, armazenamento local e muito mais.",
+    tl6_p2:"O Flash, que dominava multimídia na web por anos, ficou obsoleto. O HTML5 tornou a web uma plataforma de aplicações real — capaz de competir com apps nativos.",
+    tl7_year:"Hoje — Padrão vivo",tl7_h:"🌍 HTML Living Standard",
+    tl7_p:"Desde 2019, o WHATWG é o responsável único pelo padrão HTML. Diferente das versões antigas, não há mais \"HTML 6\" — o HTML é um <strong>padrão vivo</strong> que evolui continuamente. Novas funcionalidades são adicionadas de forma incremental, garantindo compatibilidade com tudo que já existe na web.",
+    sec_facts:"Curiosidades",
+    fact1_h:"🖥️ O primeiro website ainda existe",fact1_p:"A primeira página web publicada em 1991 no endereço <strong>info.cern.ch</strong> ainda está online e pode ser visitada. Era um documento de texto explicando o que era a World Wide Web.",
+    fact2_h:"🆓 De graça para sempre",fact2_p:"Tim Berners-Lee <strong>nunca patenteou o HTML</strong>. Ele convenceu o CERN a liberar a tecnologia da web para o domínio público em 1993. Essa decisão é considerada uma das mais importantes da história da tecnologia.",
+    fact3_h:"📏 De 18 para 140+ tags",fact3_p:"O HTML original tinha apenas 18 elementos. O HTML5 atual tem mais de <strong>140 tags</strong> — embora nem todas sejam suportadas por todos os browsers modernos.",
+    fact4_h:"🔗 HyperText — o nome explica tudo",fact4_p:"<strong>HTML</strong> significa HyperText Markup Language. \"HyperText\" é o texto com links — o conceito central que diferencia a web de qualquer mídia anterior. \"Markup\" (marcação) é a ideia de anotações no texto que definem sua estrutura.",
+    summary_h:"📌 Resumo da aula",
+    sum1:"O HTML foi criado por <strong>Tim Berners-Lee</strong> em 1991 no CERN, inspirado no SGML.",
+    sum2:"A primeira página web ainda existe em <strong>info.cern.ch</strong>.",
+    sum3:"A linguagem evoluiu de 18 tags (1991) para mais de 140 tags (hoje).",
+    sum4:"A \"guerra dos browsers\" dos anos 90 criou caos de incompatibilidade entre Netscape e IE.",
+    sum5:"O <strong>WHATWG</strong> foi fundado em 2004 por Apple, Mozilla e Opera para criar o que se tornou o HTML5.",
+    sum6:"O HTML5 (2014) trouxe semântica, multimídia nativa e APIs modernas, tornando a web uma plataforma de aplicações.",
+    sum7:"Hoje o HTML é um <strong>padrão vivo</strong> — não existirá HTML6, só atualizações contínuas.",
+    nav_back_label:"← voltar",nav_back_title:"Web — JavaScript",nav_next_label:"próxima aula →",nav_next_title:"Conceitos de HTML"
+  },
+  en:{
+    breadcrumb:"History of HTML",eyebrow:"// lesson 01 · HTML · History",
+    title:"The History of HTML —\nThe language that created the web",
+    tag_hist:"History",source:"📖 Based on MDN Web Docs and W3C",
+    sec_origin:"The origin — a scientist at CERN",
+    origin_h:"🧪 1989 — An idea in Geneva",
+    origin_p1:"It all starts in 1989 at <strong>CERN</strong> — the world's largest particle physics laboratory in Switzerland. A British scientist named <strong>Tim Berners-Lee</strong> was frustrated with a classic problem: researchers worldwide needed to share documents, but every computer used different, incompatible systems.",
+    origin_p2:"His proposal called <em>\"Information Management: A Proposal\"</em> described a hypertext-based system — documents that could reference each other through links, regardless of the operating system. His boss wrote on the proposal: <em>\"Vague, but exciting.\"</em> And approved it.",
+    berners_h:"👤 Tim Berners-Lee",
+    bl1:"Born in London, June 8, 1955",bl2:"Studied physics at the University of Oxford",
+    bl3:"Worked at CERN as a software consultant",bl4:"Invented HTML, HTTP and URLs — the trio that created the web",
+    bl5:"Founded the W3C in 1994 to standardize the web",bl6:"Was knighted Sir in 2004",
+    sgml_h:"📄 The inspiration: SGML",
+    sgml_p:"HTML was inspired by <strong>SGML</strong> (Standard Generalized Markup Language), a markup language used by the publishing industry since the 1960s. Berners-Lee took the document markup concepts and added the concept of <strong>hyperlinks</strong> — the key innovation that set HTML apart from everything that existed before.",
+    sec_timeline:"The HTML timeline",
+    tl1_h:"🌐 HTML 1.0 — The world's first webpage",
+    tl1_p1:"In August 1991, <strong>Tim Berners-Lee published the very first webpage</strong> at info.cern.ch — it still exists and can be visited today. The original HTML had only <strong>18 tags</strong>, focused on basic document structure: headings, paragraphs, lists, and links.",
+    tl1_p2:"There were no images, no colors, no visual formatting. Just structured plain text — but it was enough to revolutionize how humanity shared information.",
+    tl2_h:"📊 HTML 2.0 — Tables and forms",
+    tl2_p:"The first version with a formal specification, published by the <strong>IETF</strong> (Internet Engineering Task Force). It introduced support for <strong>images, tables, and forms</strong> — enabling richer pages and user interaction. It was the foundation on which the commercial web was built.",
+    tl3_h:"⚔️ HTML 3.2 and 4.01 — The Browser Wars",
+    tl3_p1:"The 1990s were marked by the <strong>\"Browser Wars\"</strong> between Netscape and Internet Explorer. Each company added proprietary tags to HTML to differentiate their browser, creating a chaos of incompatibility.",
+    tl3_p2:"The W3C tried to standardize with HTML 3.2 (1997) and HTML 4.01 (1999), introducing <strong>CSS as a separation of structure and style</strong> — a fundamental idea still used today.",
+    tl4_h:"😤 XHTML — The strict attempt",
+    tl4_p:"The W3C decided to rewrite HTML following the strict rules of <strong>XML</strong>, creating XHTML. The idea was to force developers to write clean, correct code. The problem: any error broke the entire page. The community hated it and started looking for alternatives.",
+    tl5_h:"🔥 WHATWG — The rebels who saved HTML",
+    tl5_p:"Frustrated with the W3C's direction, developers from Apple, Mozilla, and Opera founded the <strong>WHATWG</strong> (Web Hypertext Application Technology Working Group). Their goal: create a practical, backward-compatible HTML focused on real web applications. This work would become HTML5.",
+    tl6_h:"🚀 HTML5 — The modern revolution",
+    tl6_p1:"Finalized in 2014, HTML5 revolutionized the web. It introduced <strong>semantic elements</strong> (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>), native <strong>video and audio</strong> support without plugins, the <code>&lt;canvas&gt;</code> element for graphics, geolocation APIs, local storage, and much more.",
+    tl6_p2:"Flash, which had dominated web multimedia for years, became obsolete. HTML5 turned the web into a real application platform — capable of competing with native apps.",
+    tl7_year:"Today — Living Standard",tl7_h:"🌍 HTML Living Standard",
+    tl7_p:"Since 2019, the WHATWG is the sole maintainer of the HTML standard. Unlike older versions, there's no \"HTML 6\" — HTML is a <strong>living standard</strong> that evolves continuously. New features are added incrementally, ensuring compatibility with everything already on the web.",
+    sec_facts:"Fun facts",
+    fact1_h:"🖥️ The first website still exists",fact1_p:"The first web page published in 1991 at <strong>info.cern.ch</strong> is still online and can be visited. It was a text document explaining what the World Wide Web was.",
+    fact2_h:"🆓 Free forever",fact2_p:"Tim Berners-Lee <strong>never patented HTML</strong>. He convinced CERN to release web technology to the public domain in 1993. This decision is considered one of the most important in the history of technology.",
+    fact3_h:"📏 From 18 to 140+ tags",fact3_p:"The original HTML had only 18 elements. Current HTML5 has over <strong>140 tags</strong> — though not all are supported by modern browsers.",
+    fact4_h:"🔗 HyperText — the name says it all",fact4_p:"<strong>HTML</strong> stands for HyperText Markup Language. \"HyperText\" is text with links — the core concept that differentiates the web from any previous medium. \"Markup\" refers to annotations in the text that define its structure.",
+    summary_h:"📌 Lesson summary",
+    sum1:"HTML was created by <strong>Tim Berners-Lee</strong> in 1991 at CERN, inspired by SGML.",
+    sum2:"The first web page still exists at <strong>info.cern.ch</strong>.",
+    sum3:"The language evolved from 18 tags (1991) to over 140 tags (today).",
+    sum4:"The \"Browser Wars\" of the 90s created incompatibility chaos between Netscape and IE.",
+    sum5:"The <strong>WHATWG</strong> was founded in 2004 by Apple, Mozilla, and Opera to create what became HTML5.",
+    sum6:"HTML5 (2014) brought semantics, native multimedia, and modern APIs, turning the web into an application platform.",
+    sum7:"Today HTML is a <strong>living standard</strong> — there will be no HTML6, only continuous updates.",
+    nav_back_label:"← back",nav_back_title:"Web — JavaScript",nav_next_label:"next lesson →",nav_next_title:"HTML Concepts"
+  }
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){
+  lang=l;localStorage.setItem('nb_lang',l);
+  document.body.classList.add('lang-switching');
+  setTimeout(()=>{
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const v=T[l][el.getAttribute('data-i18n')];
+      if(v!==undefined)el.innerHTML=v;
+    });
+    document.documentElement.lang=l==='pt'?'pt-BR':'en';
+    document.title=l==='pt'?'História do HTML — Lucilia\'s Notebook':'History of HTML — Lucilia\'s Notebook';
+    document.getElementById('btn-pt').classList.toggle('active',l==='pt');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.body.classList.remove('lang-switching');
+  },180);
+}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

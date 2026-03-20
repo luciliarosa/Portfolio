@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SQL JOINs — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--sql:#f29111;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-sql{background:#fff3e0;color:#e65100;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;}.st{color:#a6e3a1;}.cm{color:#6c7086;}.nm{color:#f9e2af;}
+    /* sql table small */
+    .sql-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .sql-table thead tr{background:#fff3e0;}
+    .sql-table th{padding:8px 14px;font-size:11.5px;font-weight:700;color:#e65100;text-align:left;font-family:var(--font-mono);}
+    .sql-table td{padding:8px 14px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--rule2);font-family:var(--font-mono);}
+    /* join card */
+    .join-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .join-card .jc-badge{font-family:var(--font-mono);font-size:13px;font-weight:700;padding:4px 12px;border-radius:4px;display:inline-block;margin-bottom:10px;}
+    .badge-inner{background:#dbeafe;color:#1e40af;}
+    .badge-left{background:#EAF3DE;color:#27500A;}
+    .badge-right{background:#FAEEDA;color:#854F0B;}
+    .badge-full{background:#EEEDFE;color:#3C3489;}
+    .badge-cross{background:var(--paper3);color:var(--ink3);}
+    .join-card h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .join-card p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    /* venn diagram */
+    .venn{display:flex;align-items:center;gap:10px;margin:10px 0;}
+    .venn-svg{flex-shrink:0;}
+    .venn-label{font-size:12px;color:var(--ink3);}
+    /* nav */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="sql-select.html" class="nav-link">SELECT</a>
+    <a href="sql-insert-update-delete.html" class="nav-link">INSERT/UPDATE/DELETE</a>
+    <a href="sql-joins.html" class="nav-link active">JOINs</a>
+    <a href="sql-modelagem.html" class="nav-link">Modelagem</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#banco">SQL</a><span>›</span>
+    <span>JOINs</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 03 · SQL · JOINs</p>
+    <h1 class="article-title" data-i18n="title">JOINs — Unindo tabelas<br>em uma consulta</h1>
+    <div class="article-meta">
+      <span class="tag tag-sql">SQL</span>
+      <span class="tag gray">JOINs</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">SQL Server · MySQL</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- TABELAS EXEMPLO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_tables">Tabelas de exemplo</p>
+    <div class="g2">
+      <div>
+        <p style="font-size:12px;color:var(--ink3);margin-bottom:6px;font-family:var(--font-mono)">clientes</p>
+        <table class="sql-table">
+          <thead><tr><th>id</th><th>nome</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>'Ana'</td></tr>
+            <tr><td>2</td><td>'Carlos'</td></tr>
+            <tr><td>3</td><td>'Maria'</td></tr>
+            <tr><td>4</td><td>'João'</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <p style="font-size:12px;color:var(--ink3);margin-bottom:6px;font-family:var(--font-mono)">pedidos</p>
+        <table class="sql-table">
+          <thead><tr><th>id</th><th>cliente_id</th><th>valor</th></tr></thead>
+          <tbody>
+            <tr><td>101</td><td>1</td><td>250.00</td></tr>
+            <tr><td>102</td><td>1</td><td>80.00</td></tr>
+            <tr><td>103</td><td>2</td><td>430.00</td></tr>
+            <tr><td>104</td><td>5</td><td>120.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="info">
+      <h3 data-i18n="fk_h">🔑 A chave que une as tabelas</h3>
+      <p data-i18n="fk_p">A coluna <code>cliente_id</code> na tabela <code>pedidos</code> é uma <strong>chave estrangeira (FK)</strong> que referencia o <code>id</code> da tabela <code>clientes</code>. É essa relação que o JOIN usa para cruzar os dados.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- INNER JOIN -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_inner">INNER JOIN — a intersecção</p>
+    <div class="join-card">
+      <span class="jc-badge badge-inner">INNER JOIN</span>
+      <h3 data-i18n="inner_h">Só o que existe nos dois lados</h3>
+      <p data-i18n="inner_p">Retorna apenas as linhas que têm correspondência nas <strong>duas</strong> tabelas. No exemplo: Ana e Carlos têm pedidos, João não tem → João não aparece. O pedido 104 tem cliente_id=5 (não existe) → também não aparece.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="kw">SELECT</span>
+  c.nome,
+  p.id    <span class="kw">AS</span> pedido,
+  p.valor
+<span class="kw">FROM</span> clientes c
+<span class="kw">INNER JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id;
+
+<span class="cm">-- Resultado:</span>
+<span class="cm">-- Ana    | 101 | 250.00</span>
+<span class="cm">-- Ana    | 102 | 80.00</span>
+<span class="cm">-- Carlos | 103 | 430.00</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- LEFT JOIN -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_left">LEFT JOIN — todos da esquerda</p>
+    <div class="join-card">
+      <span class="jc-badge badge-left">LEFT JOIN</span>
+      <h3 data-i18n="left_h">Todos da tabela da esquerda, com ou sem correspondência</h3>
+      <p data-i18n="left_p">Retorna <strong>todos</strong> os registros da tabela esquerda (FROM) e os correspondentes da direita. Onde não há correspondência, preenche com <code>NULL</code>. Perfeito para encontrar registros sem par — ex: clientes sem pedidos.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="kw">SELECT</span>
+  c.nome,
+  p.id    <span class="kw">AS</span> pedido,
+  p.valor
+<span class="kw">FROM</span> clientes c
+<span class="kw">LEFT JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id;
+
+<span class="cm">-- Resultado:</span>
+<span class="cm">-- Ana    | 101  | 250.00</span>
+<span class="cm">-- Ana    | 102  | 80.00</span>
+<span class="cm">-- Carlos | 103  | 430.00</span>
+<span class="cm">-- Maria  | NULL | NULL   ← sem pedidos</span>
+<span class="cm">-- João   | NULL | NULL   ← sem pedidos</span>
+
+<span class="cm">-- Clientes SEM nenhum pedido:</span>
+<span class="kw">SELECT</span> c.nome <span class="kw">FROM</span> clientes c
+<span class="kw">LEFT JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id
+<span class="kw">WHERE</span> p.id <span class="kw">IS NULL</span>;</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RIGHT JOIN -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_right">RIGHT JOIN — todos da direita</p>
+    <div class="join-card">
+      <span class="jc-badge badge-right">RIGHT JOIN</span>
+      <h3 data-i18n="right_h">Todos da tabela da direita, com ou sem correspondência</h3>
+      <p data-i18n="right_p">O espelho do LEFT JOIN — retorna todos da tabela direita (JOIN) e os correspondentes da esquerda. Na prática, pode sempre ser reescrito como um LEFT JOIN trocando a ordem das tabelas. É menos usado.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="kw">SELECT</span> c.nome, p.id, p.valor
+<span class="kw">FROM</span> clientes c
+<span class="kw">RIGHT JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id;
+
+<span class="cm">-- Resultado: todos os pedidos, com ou sem cliente</span>
+<span class="cm">-- Ana    | 101 | 250.00</span>
+<span class="cm">-- Ana    | 102 | 80.00</span>
+<span class="cm">-- Carlos | 103 | 430.00</span>
+<span class="cm">-- NULL   | 104 | 120.00  ← cliente_id=5 não existe</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- FULL OUTER JOIN -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_full">FULL OUTER JOIN — tudo de ambos os lados</p>
+    <div class="join-card">
+      <span class="jc-badge badge-full">FULL OUTER JOIN</span>
+      <h3 data-i18n="full_h">União completa — todos os registros dos dois lados</h3>
+      <p data-i18n="full_p">Retorna <strong>todos</strong> os registros das duas tabelas. Onde não há correspondência, preenche com NULL. No MySQL não existe diretamente — é simulado com LEFT JOIN + UNION + RIGHT JOIN.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- SQL Server / PostgreSQL</span>
+<span class="kw">SELECT</span> c.nome, p.id, p.valor
+<span class="kw">FROM</span> clientes c
+<span class="kw">FULL OUTER JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id;
+
+<span class="cm">-- MySQL (simulado com UNION)</span>
+<span class="kw">SELECT</span> c.nome, p.id, p.valor
+<span class="kw">FROM</span> clientes c <span class="kw">LEFT JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id
+<span class="kw">UNION</span>
+<span class="kw">SELECT</span> c.nome, p.id, p.valor
+<span class="kw">FROM</span> clientes c <span class="kw">RIGHT JOIN</span> pedidos p <span class="kw">ON</span> c.id = p.cliente_id;</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- JOINS MÚLTIPLOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_multi">Múltiplos JOINs na mesma query</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="multi_h">🔗 Encadeando tabelas</h3>
+      <p data-i18n="multi_p">É possível unir quantas tabelas precisar em uma única query. Cada JOIN adiciona uma nova tabela. O banco vai cruzando as relações em cadeia.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- clientes → pedidos → produtos → categorias</span>
+<span class="kw">SELECT</span>
+  c.nome      <span class="kw">AS</span> cliente,
+  p.valor     <span class="kw">AS</span> pedido,
+  pr.nome     <span class="kw">AS</span> produto,
+  cat.nome    <span class="kw">AS</span> categoria
+<span class="kw">FROM</span> clientes c
+<span class="kw">INNER JOIN</span> pedidos p        <span class="kw">ON</span> c.id       = p.cliente_id
+<span class="kw">INNER JOIN</span> itens_pedido ip  <span class="kw">ON</span> p.id       = ip.pedido_id
+<span class="kw">INNER JOIN</span> produtos pr      <span class="kw">ON</span> ip.prod_id = pr.id
+<span class="kw">INNER JOIN</span> categorias cat   <span class="kw">ON</span> pr.cat_id  = cat.id
+<span class="kw">WHERE</span> c.id = <span class="nm">1</span>
+<span class="kw">ORDER BY</span> p.valor <span class="kw">DESC</span>;</pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="sql-insert-update-delete.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_l">← aula anterior</span>
+      <span class="np-title">INSERT, UPDATE e DELETE</span>
+    </a>
+    <a href="sql-modelagem.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_l">próxima aula →</span>
+      <span class="np-title" data-i18n="nav_next_t">Modelagem de Dados</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{eyebrow:"// aula 03 · SQL · JOINs",title:"JOINs — Unindo tabelas\nem uma consulta",sec_tables:"Tabelas de exemplo",fk_h:"🔑 A chave que une as tabelas",fk_p:"A coluna <code>cliente_id</code> na tabela <code>pedidos</code> é uma <strong>chave estrangeira (FK)</strong> que referencia o <code>id</code> da tabela <code>clientes</code>. É essa relação que o JOIN usa para cruzar os dados.",sec_inner:"INNER JOIN — a intersecção",inner_h:"Só o que existe nos dois lados",inner_p:"Retorna apenas as linhas que têm correspondência nas <strong>duas</strong> tabelas. No exemplo: Ana e Carlos têm pedidos, João não tem → João não aparece. O pedido 104 tem cliente_id=5 (não existe) → também não aparece.",sec_left:"LEFT JOIN — todos da esquerda",left_h:"Todos da tabela da esquerda, com ou sem correspondência",left_p:"Retorna <strong>todos</strong> os registros da tabela esquerda (FROM) e os correspondentes da direita. Onde não há correspondência, preenche com <code>NULL</code>. Perfeito para encontrar registros sem par — ex: clientes sem pedidos.",sec_right:"RIGHT JOIN — todos da direita",right_h:"Todos da tabela da direita, com ou sem correspondência",right_p:"O espelho do LEFT JOIN — retorna todos da tabela direita (JOIN) e os correspondentes da esquerda. Na prática, pode sempre ser reescrito como um LEFT JOIN trocando a ordem das tabelas. É menos usado.",sec_full:"FULL OUTER JOIN — tudo de ambos os lados",full_h:"União completa — todos os registros dos dois lados",full_p:"Retorna <strong>todos</strong> os registros das duas tabelas. Onde não há correspondência, preenche com NULL. No MySQL não existe diretamente — é simulado com LEFT JOIN + UNION + RIGHT JOIN.",sec_multi:"Múltiplos JOINs na mesma query",multi_h:"🔗 Encadeando tabelas",multi_p:"É possível unir quantas tabelas precisar em uma única query. Cada JOIN adiciona uma nova tabela. O banco vai cruzando as relações em cadeia.",nav_prev_l:"← aula anterior",nav_next_l:"próxima aula →",nav_next_t:"Modelagem de Dados"},
+  en:{eyebrow:"// lesson 03 · SQL · JOINs",title:"JOINs — Combining tables\nin a single query",sec_tables:"Sample tables",fk_h:"🔑 The key that connects the tables",fk_p:"The <code>customer_id</code> column in the <code>orders</code> table is a <strong>foreign key (FK)</strong> that references the <code>id</code> in the <code>customers</code> table. This is the relationship the JOIN uses to cross-reference data.",sec_inner:"INNER JOIN — the intersection",inner_h:"Only what exists on both sides",inner_p:"Returns only rows that have a match in <strong>both</strong> tables. In the example: Ana and Carlos have orders, João doesn't → João won't appear. Order 104 has customer_id=5 (doesn't exist) → also won't appear.",sec_left:"LEFT JOIN — all from the left",left_h:"All rows from the left table, with or without a match",left_p:"Returns <strong>all</strong> records from the left table (FROM) and the matching ones from the right. Where there's no match, fills with <code>NULL</code>. Perfect for finding records without a pair — e.g. customers without orders.",sec_right:"RIGHT JOIN — all from the right",right_h:"All rows from the right table, with or without a match",right_p:"The mirror of LEFT JOIN — returns all from the right table (JOIN) and matching ones from the left. In practice, it can always be rewritten as a LEFT JOIN by swapping the table order. It's less commonly used.",sec_full:"FULL OUTER JOIN — everything from both sides",full_h:"Full union — all records from both sides",full_p:"Returns <strong>all</strong> records from both tables. Where there's no match, fills with NULL. MySQL doesn't support it directly — it's simulated with LEFT JOIN + UNION + RIGHT JOIN.",sec_multi:"Multiple JOINs in the same query",multi_h:"🔗 Chaining tables",multi_p:"You can join as many tables as needed in a single query. Each JOIN adds a new table. The database cross-references the relationships in a chain.",nav_prev_l:"← previous lesson",nav_next_l:"next lesson →",nav_next_t:"Data Modeling"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Modelagem SQL — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--sql:#f29111;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-sql{background:#fff3e0;color:#e65100;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;}.fn{color:#cba6f7;}.st{color:#a6e3a1;}.cm{color:#6c7086;}.nm{color:#f9e2af;}.tp{color:#f38ba8;}
+    /* relacionamento card */
+    .rel-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .rel-card .rel-badge{font-family:var(--font-mono);font-size:11px;font-weight:700;padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:8px;}
+    .rb-11{background:#E1F5EE;color:#085041;}
+    .rb-1n{background:#E6F1FB;color:#0C447C;}
+    .rb-nn{background:#FAEEDA;color:#854F0B;}
+    .rel-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .rel-card p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    /* erd visual */
+    .erd{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .erd-table{border-bottom:1.5px solid var(--rule2);}
+    .erd-table:last-child{border-bottom:none;}
+    .erd-header{background:var(--paper2);padding:8px 16px;font-family:var(--font-mono);font-size:12px;font-weight:700;color:#e65100;}
+    .erd-row{display:flex;align-items:center;padding:7px 16px;border-top:1px solid var(--rule2);font-family:var(--font-mono);font-size:12px;}
+    .erd-row:first-child{border-top:none;}
+    .erd-key{width:28px;color:#e65100;font-weight:700;flex-shrink:0;}
+    .erd-col{flex:1;color:var(--ink2);}
+    .erd-type{color:var(--ink4);}
+    /* normal form card */
+    .nf-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .nf-card .nf-num{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--paper3);float:right;margin-top:-4px;}
+    .nf-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .nf-card p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    /* nav */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="sql-select.html" class="nav-link">SELECT</a>
+    <a href="sql-insert-update-delete.html" class="nav-link">INSERT/UPDATE/DELETE</a>
+    <a href="sql-joins.html" class="nav-link">JOINs</a>
+    <a href="sql-modelagem.html" class="nav-link active">Modelagem</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#banco">SQL</a><span>›</span>
+    <span data-i18n="bc">Modelagem de Dados</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 04 · SQL · Modelagem</p>
+    <h1 class="article-title" data-i18n="title">Modelagem de Dados —<br>Projetando o banco</h1>
+    <div class="article-meta">
+      <span class="tag tag-sql">SQL</span>
+      <span class="tag gray" data-i18n="tag_sub">Modelagem</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">SQL Server · MySQL</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- O QUE É -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_what">O que é modelagem de dados?</p>
+    <div class="info">
+      <h3 data-i18n="what_h">🏗️ Projetar antes de construir</h3>
+      <p data-i18n="what_p">Modelagem de dados é o processo de <strong>definir a estrutura do banco</strong> antes de criar as tabelas — quais entidades existem, quais atributos cada uma tem e como elas se relacionam. Um banco bem modelado é mais rápido, mais fácil de manter e evita inconsistências.</p>
+    </div>
+    <div class="g3">
+      <div class="info" style="border-left:4px solid #e34c26;margin-bottom:0;">
+        <h3 data-i18n="level1_h">📐 Modelo Conceitual</h3>
+        <p data-i18n="level1_p">Alto nível. Entidades e relacionamentos sem se preocupar com tecnologia. Ferramenta: diagrama ER.</p>
+      </div>
+      <div class="info" style="border-left:4px solid #264de4;margin-bottom:0;">
+        <h3 data-i18n="level2_h">📋 Modelo Lógico</h3>
+        <p data-i18n="level2_p">Define tabelas, colunas, tipos de dados e chaves. Independente do banco de dados escolhido.</p>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
+        <h3 data-i18n="level3_h">🔧 Modelo Físico</h3>
+        <p data-i18n="level3_p">O SQL real. CREATE TABLE, índices, constraints. Específico para SQL Server, MySQL, etc.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- CHAVES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_keys">Chaves — PK e FK</p>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid #e65100;margin-bottom:0;">
+        <h3 data-i18n="pk_h">🗝️ PRIMARY KEY (PK)</h3>
+        <ul>
+          <li data-i18n="pk1">Identifica cada registro de forma única</li>
+          <li data-i18n="pk2">Não pode ser NULL</li>
+          <li data-i18n="pk3">Não pode se repetir</li>
+          <li data-i18n="pk4">Geralmente é um número AUTO_INCREMENT</li>
+          <li data-i18n="pk5">Toda tabela deve ter uma PK</li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
+        <h3 data-i18n="fk_h">🔗 FOREIGN KEY (FK)</h3>
+        <ul>
+          <li data-i18n="fk1">Referencia a PK de outra tabela</li>
+          <li data-i18n="fk2">Garante integridade referencial</li>
+          <li data-i18n="fk3">Impede registros "órfãos"</li>
+          <li data-i18n="fk4">Permite definir ação ao deletar/atualizar</li>
+          <li data-i18n="fk5">Pode ser NULL (relacionamento opcional)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Criando tabelas com PK e FK</span>
+<span class="kw">CREATE TABLE</span> clientes (
+  id     <span class="tp">INT</span>          <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,
+  nome   <span class="tp">VARCHAR</span>(<span class="nm">100</span>) <span class="kw">NOT NULL</span>,
+  email  <span class="tp">VARCHAR</span>(<span class="nm">150</span>) <span class="kw">UNIQUE</span>,
+  ativo  <span class="tp">BOOLEAN</span>      <span class="kw">DEFAULT</span> <span class="kw">TRUE</span>
+);
+
+<span class="kw">CREATE TABLE</span> pedidos (
+  id          <span class="tp">INT</span>          <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,
+  cliente_id  <span class="tp">INT</span>          <span class="kw">NOT NULL</span>,
+  valor       <span class="tp">DECIMAL</span>(<span class="nm">10</span>,<span class="nm">2</span>) <span class="kw">NOT NULL</span>,
+  criado_em   <span class="tp">DATETIME</span>     <span class="kw">DEFAULT</span> <span class="fn">NOW</span>(),
+  <span class="kw">FOREIGN KEY</span> (cliente_id) <span class="kw">REFERENCES</span> clientes(id)
+    <span class="kw">ON DELETE CASCADE</span>     <span class="cm">-- apaga pedidos se cliente for deletado</span>
+    <span class="kw">ON UPDATE CASCADE</span>     <span class="cm">-- atualiza se o id do cliente mudar</span>
+);</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RELACIONAMENTOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_rel">Tipos de relacionamento</p>
+    <div class="g3" style="margin-bottom:1.5rem;">
+      <div class="rel-card">
+        <span class="rel-badge rb-11">1 : 1</span>
+        <h3 data-i18n="rel11_h">Um para Um</h3>
+        <p data-i18n="rel11_p">Cada registro A tem no máximo um B. Ex: pessoa ↔ CPF, usuário ↔ perfil detalhado. Raro — geralmente pode ser uma tabela só.</p>
+      </div>
+      <div class="rel-card">
+        <span class="rel-badge rb-1n">1 : N</span>
+        <h3 data-i18n="rel1n_h">Um para Muitos</h3>
+        <p data-i18n="rel1n_p">O mais comum. Um A tem vários B, mas cada B pertence a um A. Ex: cliente → pedidos, categoria → produtos. FK fica na tabela N.</p>
+      </div>
+      <div class="rel-card">
+        <span class="rel-badge rb-nn">N : N</span>
+        <h3 data-i18n="relnn_h">Muitos para Muitos</h3>
+        <p data-i18n="relnn_p">Vários A para vários B. Ex: aluno ↔ curso, produto ↔ pedido. Resolve com uma <strong>tabela associativa</strong> no meio.</p>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Relacionamento N:N — aluno ↔ curso</span>
+<span class="cm">-- Tabela associativa: matriculas</span>
+
+<span class="kw">CREATE TABLE</span> alunos (
+  id    <span class="tp">INT</span> <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,
+  nome  <span class="tp">VARCHAR</span>(<span class="nm">100</span>)
+);
+
+<span class="kw">CREATE TABLE</span> cursos (
+  id    <span class="tp">INT</span> <span class="kw">PRIMARY KEY AUTO_INCREMENT</span>,
+  nome  <span class="tp">VARCHAR</span>(<span class="nm">100</span>)
+);
+
+<span class="kw">CREATE TABLE</span> matriculas (  <span class="cm">-- tabela associativa</span>
+  aluno_id    <span class="tp">INT</span>,
+  curso_id    <span class="tp">INT</span>,
+  data_inicio <span class="tp">DATE</span>,
+  <span class="kw">PRIMARY KEY</span> (aluno_id, curso_id),  <span class="cm">-- PK composta</span>
+  <span class="kw">FOREIGN KEY</span> (aluno_id) <span class="kw">REFERENCES</span> alunos(id),
+  <span class="kw">FOREIGN KEY</span> (curso_id) <span class="kw">REFERENCES</span> cursos(id)
+);</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ERD VISUAL -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_erd">Exemplo de diagrama ER — loja virtual</p>
+    <div class="erd">
+      <div class="erd-table">
+        <div class="erd-header">clientes</div>
+        <div class="erd-row"><span class="erd-key">PK</span><span class="erd-col">id</span><span class="erd-type">INT</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">nome</span><span class="erd-type">VARCHAR(100)</span></div>
+        <div class="erd-row"><span class="erd-key">UQ</span><span class="erd-col">email</span><span class="erd-type">VARCHAR(150)</span></div>
+      </div>
+      <div class="erd-table">
+        <div class="erd-header">pedidos</div>
+        <div class="erd-row"><span class="erd-key">PK</span><span class="erd-col">id</span><span class="erd-type">INT</span></div>
+        <div class="erd-row"><span class="erd-key">FK</span><span class="erd-col">cliente_id</span><span class="erd-type">INT → clientes.id</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">valor_total</span><span class="erd-type">DECIMAL(10,2)</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">criado_em</span><span class="erd-type">DATETIME</span></div>
+      </div>
+      <div class="erd-table">
+        <div class="erd-header">itens_pedido</div>
+        <div class="erd-row"><span class="erd-key">PK</span><span class="erd-col">id</span><span class="erd-type">INT</span></div>
+        <div class="erd-row"><span class="erd-key">FK</span><span class="erd-col">pedido_id</span><span class="erd-type">INT → pedidos.id</span></div>
+        <div class="erd-row"><span class="erd-key">FK</span><span class="erd-col">produto_id</span><span class="erd-type">INT → produtos.id</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">quantidade</span><span class="erd-type">INT</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">preco_unit</span><span class="erd-type">DECIMAL(10,2)</span></div>
+      </div>
+      <div class="erd-table">
+        <div class="erd-header">produtos</div>
+        <div class="erd-row"><span class="erd-key">PK</span><span class="erd-col">id</span><span class="erd-type">INT</span></div>
+        <div class="erd-row"><span class="erd-key">FK</span><span class="erd-col">categoria_id</span><span class="erd-type">INT → categorias.id</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">nome</span><span class="erd-type">VARCHAR(150)</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">preco</span><span class="erd-type">DECIMAL(10,2)</span></div>
+        <div class="erd-row"><span class="erd-key"></span><span class="erd-col">estoque</span><span class="erd-type">INT DEFAULT 0</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- NORMALIZAÇÃO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_norm">Normalização — as formas normais</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="norm_h">📐 Organizando para evitar redundância</h3>
+      <p data-i18n="norm_p">Normalização é o processo de organizar as tabelas para <strong>eliminar redundâncias e dependências problemáticas</strong>. Seguir as formas normais garante um banco mais limpo, consistente e fácil de manter.</p>
+    </div>
+    <div class="g3">
+      <div class="nf-card">
+        <span class="nf-num">1FN</span>
+        <h3 data-i18n="nf1_h">1ª Forma Normal</h3>
+        <p data-i18n="nf1_p">Cada coluna tem um único valor atômico. Sem grupos repetitivos. Cada linha é única.</p>
+      </div>
+      <div class="nf-card">
+        <span class="nf-num">2FN</span>
+        <h3 data-i18n="nf2_h">2ª Forma Normal</h3>
+        <p data-i18n="nf2_p">Está na 1FN + todo atributo não-chave depende da chave primária inteira (sem dependências parciais).</p>
+      </div>
+      <div class="nf-card">
+        <span class="nf-num">3FN</span>
+        <h3 data-i18n="nf3_h">3ª Forma Normal</h3>
+        <p data-i18n="nf3_p">Está na 2FN + sem dependências transitivas (atributo não-chave depende de outro não-chave).</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="sql-joins.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_l">← aula anterior</span>
+      <span class="np-title">JOINs</span>
+    </a>
+    <a href="../../index.html#banco" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_done_l">módulo concluído ✅</span>
+      <span class="np-title" data-i18n="nav_done_t">Banco de Dados</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{bc:"Modelagem de Dados",eyebrow:"// aula 04 · SQL · Modelagem",title:"Modelagem de Dados —\nProjetando o banco",tag_sub:"Modelagem",sec_what:"O que é modelagem de dados?",what_h:"🏗️ Projetar antes de construir",what_p:"Modelagem de dados é o processo de <strong>definir a estrutura do banco</strong> antes de criar as tabelas — quais entidades existem, quais atributos cada uma tem e como elas se relacionam. Um banco bem modelado é mais rápido, mais fácil de manter e evita inconsistências.",level1_h:"📐 Modelo Conceitual",level1_p:"Alto nível. Entidades e relacionamentos sem se preocupar com tecnologia. Ferramenta: diagrama ER.",level2_h:"📋 Modelo Lógico",level2_p:"Define tabelas, colunas, tipos de dados e chaves. Independente do banco de dados escolhido.",level3_h:"🔧 Modelo Físico",level3_p:"O SQL real. CREATE TABLE, índices, constraints. Específico para SQL Server, MySQL, etc.",sec_keys:"Chaves — PK e FK",pk_h:"🗝️ PRIMARY KEY (PK)",pk1:"Identifica cada registro de forma única",pk2:"Não pode ser NULL",pk3:"Não pode se repetir",pk4:"Geralmente é um número AUTO_INCREMENT",pk5:"Toda tabela deve ter uma PK",fk_h:"🔗 FOREIGN KEY (FK)",fk1:"Referencia a PK de outra tabela",fk2:"Garante integridade referencial",fk3:"Impede registros \"órfãos\"",fk4:"Permite definir ação ao deletar/atualizar",fk5:"Pode ser NULL (relacionamento opcional)",sec_rel:"Tipos de relacionamento",rel11_h:"Um para Um",rel11_p:"Cada registro A tem no máximo um B. Ex: pessoa ↔ CPF, usuário ↔ perfil detalhado. Raro — geralmente pode ser uma tabela só.",rel1n_h:"Um para Muitos",rel1n_p:"O mais comum. Um A tem vários B, mas cada B pertence a um A. Ex: cliente → pedidos, categoria → produtos. FK fica na tabela N.",relnn_h:"Muitos para Muitos",relnn_p:"Vários A para vários B. Ex: aluno ↔ curso, produto ↔ pedido. Resolve com uma <strong>tabela associativa</strong> no meio.",sec_erd:"Exemplo de diagrama ER — loja virtual",sec_norm:"Normalização — as formas normais",norm_h:"📐 Organizando para evitar redundância",norm_p:"Normalização é o processo de organizar as tabelas para <strong>eliminar redundâncias e dependências problemáticas</strong>. Seguir as formas normais garante um banco mais limpo, consistente e fácil de manter.",nf1_h:"1ª Forma Normal",nf1_p:"Cada coluna tem um único valor atômico. Sem grupos repetitivos. Cada linha é única.",nf2_h:"2ª Forma Normal",nf2_p:"Está na 1FN + todo atributo não-chave depende da chave primária inteira (sem dependências parciais).",nf3_h:"3ª Forma Normal",nf3_p:"Está na 2FN + sem dependências transitivas (atributo não-chave depende de outro não-chave).",nav_prev_l:"← aula anterior",nav_done_l:"módulo concluído ✅",nav_done_t:"Banco de Dados"},
+  en:{bc:"Data Modeling",eyebrow:"// lesson 04 · SQL · Modeling",title:"Data Modeling —\nDesigning the database",tag_sub:"Modeling",sec_what:"What is data modeling?",what_h:"🏗️ Design before you build",what_p:"Data modeling is the process of <strong>defining the database structure</strong> before creating tables — which entities exist, what attributes each one has, and how they relate. A well-modeled database is faster, easier to maintain, and avoids inconsistencies.",level1_h:"📐 Conceptual Model",level1_p:"High level. Entities and relationships without worrying about technology. Tool: ER diagram.",level2_h:"📋 Logical Model",level2_p:"Defines tables, columns, data types, and keys. Independent of the chosen database.",level3_h:"🔧 Physical Model",level3_p:"The actual SQL. CREATE TABLE, indexes, constraints. Specific to SQL Server, MySQL, etc.",sec_keys:"Keys — PK and FK",pk_h:"🗝️ PRIMARY KEY (PK)",pk1:"Uniquely identifies each record",pk2:"Cannot be NULL",pk3:"Cannot repeat",pk4:"Usually an AUTO_INCREMENT number",pk5:"Every table should have a PK",fk_h:"🔗 FOREIGN KEY (FK)",fk1:"References the PK of another table",fk2:"Guarantees referential integrity",fk3:"Prevents orphaned records",fk4:"Allows defining action on delete/update",fk5:"Can be NULL (optional relationship)",sec_rel:"Types of relationships",rel11_h:"One to One",rel11_p:"Each A record has at most one B. Ex: person ↔ SSN, user ↔ detailed profile. Rare — usually can be one table.",rel1n_h:"One to Many",rel1n_p:"The most common. One A has many B, but each B belongs to one A. Ex: customer → orders, category → products. FK goes in the N table.",relnn_h:"Many to Many",relnn_p:"Many A to many B. Ex: student ↔ course, product ↔ order. Solved with a <strong>junction table</strong> in between.",sec_erd:"ER diagram example — online store",sec_norm:"Normalization — normal forms",norm_h:"📐 Organizing to avoid redundancy",norm_p:"Normalization is the process of organizing tables to <strong>eliminate redundancies and problematic dependencies</strong>. Following normal forms ensures a cleaner, more consistent and maintainable database.",nf1_h:"1st Normal Form",nf1_p:"Each column has a single atomic value. No repeating groups. Each row is unique.",nf2_h:"2nd Normal Form",nf2_p:"Is in 1NF + every non-key attribute depends on the entire primary key (no partial dependencies).",nf3_h:"3rd Normal Form",nf3_p:"Is in 2NF + no transitive dependencies (non-key attribute depends on another non-key).",nav_prev_l:"← previous lesson",nav_done_l:"module completed ✅",nav_done_t:"Databases"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

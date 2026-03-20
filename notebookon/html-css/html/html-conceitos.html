@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Conceitos de HTML — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--html:#e34c26;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-html{background:#fdecea;color:#b71c1c;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .ht{color:#f38ba8;}.ha{color:#fab387;}.hv{color:#a6e3a1;}.cm{color:#6c7086;}.tx{color:#cdd6f4;}
+    /* tag card */
+    .tag-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+    .tag-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+    .tag-card .tc-tag{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--html);background:#fdecea;padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:7px;}
+    .tag-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .tag-card p{font-size:12px;color:var(--ink3);line-height:1.6;}
+    /* anatomy */
+    .anatomy{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .anatomy-code{font-family:var(--font-mono);font-size:15px;color:var(--ink2);margin-bottom:16px;line-height:2;}
+    .anatomy-labels{display:flex;flex-wrap:wrap;gap:10px;}
+    .al{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2);}
+    .al .dot-label{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+    /* sem table */
+    .sem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+    .sem-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);text-align:center;}
+    .sem-card .sc-tag{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--html);background:#fdecea;padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:8px;}
+    .sem-card p{font-size:12px;color:var(--ink3);line-height:1.5;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2,.g3,.tag-grid,.sem-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="html-historia.html" class="nav-link">História HTML</a>
+    <a href="html-conceitos.html" class="nav-link active">Conceitos HTML</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../index.html">Home</a><span>›</span>
+    <a href="../index.html#javascript">Web</a><span>›</span>
+    <a href="html-historia.html">HTML</a><span>›</span>
+    <span data-i18n="breadcrumb">Conceitos de HTML</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 02 · HTML · Conceitos</p>
+    <h1 class="article-title" data-i18n="title">Conceitos Básicos<br>de HTML</h1>
+    <div class="article-meta">
+      <span class="tag tag-html">HTML</span>
+      <span class="tag gray" data-i18n="tag_basic">Básico</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">📖 Baseado em MDN Web Docs</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- O QUE É HTML -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_what">O que é HTML?</p>
+    <div class="info">
+      <h3 data-i18n="what_h">🏗️ A estrutura de toda página web</h3>
+      <p data-i18n="what_p">HTML não é uma linguagem de programação — é uma <strong>linguagem de marcação</strong>. Ela define a <strong>estrutura e o significado</strong> do conteúdo de uma página web. Pense nela como o esqueleto de uma página: o CSS é a roupa e o JavaScript é o movimento.</p>
+    </div>
+    <div class="g3">
+      <div class="info" style="border-left:4px solid var(--html);margin-bottom:0;">
+        <h3>🦴 HTML</h3>
+        <p data-i18n="trio_html">Estrutura e conteúdo. Define o que cada coisa é — título, parágrafo, imagem, link.</p>
+      </div>
+      <div class="info" style="border-left:4px solid #264de4;margin-bottom:0;">
+        <h3>👗 CSS</h3>
+        <p data-i18n="trio_css">Aparência e estilo. Define como cada coisa parece — cores, tamanhos, fontes, layout.</p>
+      </div>
+      <div class="info" style="border-left:4px solid #f7df1e;margin-bottom:0;">
+        <h3>⚡ JavaScript</h3>
+        <p data-i18n="trio_js">Comportamento e interação. Define o que acontece quando o usuário age — cliques, animações, dados.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ANATOMIA DE UM ELEMENTO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_anatomy">Anatomia de um elemento HTML</p>
+    <div class="anatomy">
+      <div class="anatomy-code">
+        <span style="color:#f38ba8">&lt;p</span> <span style="color:#fab387">class</span><span style="color:#cdd6f4">=</span><span style="color:#a6e3a1">"destaque"</span><span style="color:#f38ba8">&gt;</span><span style="color:#cdd6f4">Olá, mundo!</span><span style="color:#f38ba8">&lt;/p&gt;</span>
+      </div>
+      <div class="anatomy-labels">
+        <div class="al"><div class="dot-label" style="background:#f38ba8;"></div><span data-i18n="anat1"><strong>Tag de abertura:</strong> &lt;p&gt;</span></div>
+        <div class="al"><div class="dot-label" style="background:#fab387;"></div><span data-i18n="anat2"><strong>Atributo:</strong> class="destaque"</span></div>
+        <div class="al"><div class="dot-label" style="background:#cdd6f4;"></div><span data-i18n="anat3"><strong>Conteúdo:</strong> Olá, mundo!</span></div>
+        <div class="al"><div class="dot-label" style="background:#f38ba8;border:2px dashed #f38ba8;background:transparent;"></div><span data-i18n="anat4"><strong>Tag de fechamento:</strong> &lt;/p&gt;</span></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
+        <h3 data-i18n="void_h">🚫 Elementos void (sem fechamento)</h3>
+        <p data-i18n="void_p">Alguns elementos não têm tag de fechamento porque não envolvem conteúdo. São chamados de <strong>void elements</strong>.</p>
+        <ul>
+          <li><code>&lt;img&gt;</code> — imagem</li>
+          <li><code>&lt;br&gt;</code> — quebra de linha</li>
+          <li><code>&lt;input&gt;</code> — campo de entrada</li>
+          <li><code>&lt;hr&gt;</code> — linha horizontal</li>
+          <li><code>&lt;meta&gt;</code> — metadado</li>
+          <li><code>&lt;link&gt;</code> — link externo</li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
+        <h3 data-i18n="attr_h">🏷️ Atributos</h3>
+        <p data-i18n="attr_p">Atributos fornecem informação adicional aos elementos. Sempre ficam na tag de abertura no formato <code>nome="valor"</code>.</p>
+        <ul>
+          <li><code>class</code> — <span data-i18n="attr1">categoria para CSS/JS</span></li>
+          <li><code>id</code> — <span data-i18n="attr2">identificador único</span></li>
+          <li><code>href</code> — <span data-i18n="attr3">destino de um link</span></li>
+          <li><code>src</code> — <span data-i18n="attr4">caminho de imagem</span></li>
+          <li><code>alt</code> — <span data-i18n="attr5">texto alternativo</span></li>
+          <li><code>style</code> — <span data-i18n="attr6">CSS inline</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ESTRUTURA BÁSICA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_structure">Estrutura básica de uma página HTML</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="struct_h">📄 O esqueleto obrigatório</h3>
+      <p data-i18n="struct_p">Todo documento HTML válido precisa dessa estrutura base. Cada parte tem uma função específica que o browser usa para processar a página corretamente.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">&lt;!-- Declaração do tipo de documento --&gt;</span>
+<span class="ht">&lt;!DOCTYPE</span> <span class="ha">html</span><span class="ht">&gt;</span>
+
+<span class="cm">&lt;!-- Elemento raiz, define o idioma --&gt;</span>
+<span class="ht">&lt;html</span> <span class="ha">lang</span>=<span class="hv">"pt-BR"</span><span class="ht">&gt;</span>
+
+  <span class="cm">&lt;!-- Cabeçalho: informações para o browser --&gt;</span>
+  <span class="ht">&lt;head&gt;</span>
+    <span class="ht">&lt;meta</span> <span class="ha">charset</span>=<span class="hv">"UTF-8"</span><span class="ht">/&gt;</span>
+    <span class="ht">&lt;meta</span> <span class="ha">name</span>=<span class="hv">"viewport"</span> <span class="ha">content</span>=<span class="hv">"width=device-width, initial-scale=1.0"</span><span class="ht">/&gt;</span>
+    <span class="ht">&lt;title&gt;</span><span class="tx">Título da Página</span><span class="ht">&lt;/title&gt;</span>
+    <span class="ht">&lt;link</span> <span class="ha">rel</span>=<span class="hv">"stylesheet"</span> <span class="ha">href</span>=<span class="hv">"style.css"</span><span class="ht">/&gt;</span>
+  <span class="ht">&lt;/head&gt;</span>
+
+  <span class="cm">&lt;!-- Corpo: o que o usuário vê --&gt;</span>
+  <span class="ht">&lt;body&gt;</span>
+    <span class="ht">&lt;h1&gt;</span><span class="tx">Olá, mundo!</span><span class="ht">&lt;/h1&gt;</span>
+    <span class="ht">&lt;p&gt;</span><span class="tx">Minha primeira página web.</span><span class="ht">&lt;/p&gt;</span>
+  <span class="ht">&lt;/body&gt;</span>
+
+<span class="ht">&lt;/html&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TAGS ESSENCIAIS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_tags">Tags essenciais — as mais usadas</p>
+    <div class="tag-grid" style="margin-bottom:1.5rem;">
+      <div class="tag-card">
+        <span class="tc-tag">&lt;h1&gt; ... &lt;h6&gt;</span>
+        <h3 data-i18n="tag_h_name">Títulos</h3>
+        <p data-i18n="tag_h_desc">Hierarquia de títulos. H1 é o mais importante (um por página), H6 o menor. Importantíssimos para SEO e acessibilidade.</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;p&gt;</span>
+        <h3 data-i18n="tag_p_name">Parágrafo</h3>
+        <p data-i18n="tag_p_desc">Define um bloco de texto. O browser adiciona espaço automaticamente entre parágrafos.</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;a&gt;</span>
+        <h3 data-i18n="tag_a_name">Link (âncora)</h3>
+        <p data-i18n="tag_a_desc">Cria um hiperlink. O atributo <code>href</code> define o destino. Pode abrir em nova aba com <code>target="_blank"</code>.</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;img&gt;</span>
+        <h3 data-i18n="tag_img_name">Imagem</h3>
+        <p data-i18n="tag_img_desc">Insere uma imagem. Sempre use o atributo <code>alt</code> para acessibilidade.</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;ul&gt; &lt;ol&gt; &lt;li&gt;</span>
+        <h3 data-i18n="tag_ul_name">Listas</h3>
+        <p data-i18n="tag_ul_desc"><code>&lt;ul&gt;</code> = lista não ordenada (bolinhas). <code>&lt;ol&gt;</code> = numerada. <code>&lt;li&gt;</code> = cada item.</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;div&gt; &lt;span&gt;</span>
+        <h3 data-i18n="tag_div_name">Contêineres genéricos</h3>
+        <p data-i18n="tag_div_desc"><code>&lt;div&gt;</code> agrupa blocos. <code>&lt;span&gt;</code> agrupa inline. Sem significado semântico — usados com CSS.</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;input&gt; &lt;form&gt;</span>
+        <h3 data-i18n="tag_form_name">Formulários</h3>
+        <p data-i18n="tag_form_desc">Coletam dados do usuário. <code>&lt;input type="text"&gt;</code>, <code>email</code>, <code>password</code>, <code>checkbox</code>, <code>radio</code>...</p>
+      </div>
+      <div class="tag-card">
+        <span class="tc-tag">&lt;strong&gt; &lt;em&gt;</span>
+        <h3 data-i18n="tag_strong_name">Ênfase</h3>
+        <p data-i18n="tag_strong_desc"><code>&lt;strong&gt;</code> = negrito com significado (importante). <code>&lt;em&gt;</code> = itálico com significado (ênfase).</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SEMÂNTICA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_semantic">HTML semântico — o HTML do HTML5</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="sem_h">💡 Por que usar tags semânticas?</h3>
+      <p data-i18n="sem_p">Tags semânticas dizem ao browser (e aos motores de busca e leitores de tela) <strong>o que aquele conteúdo significa</strong>, não só como ele parece. Usar <code>&lt;nav&gt;</code> em vez de <code>&lt;div id="nav"&gt;</code> ajuda no SEO, na acessibilidade e na legibilidade do código.</p>
+    </div>
+    <div class="sem-grid">
+      <div class="sem-card"><span class="sc-tag">&lt;header&gt;</span><p data-i18n="sem_header">Cabeçalho da página ou seção</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;nav&gt;</span><p data-i18n="sem_nav">Menu de navegação</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;main&gt;</span><p data-i18n="sem_main">Conteúdo principal da página</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;section&gt;</span><p data-i18n="sem_section">Seção temática do conteúdo</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;article&gt;</span><p data-i18n="sem_article">Conteúdo independente (post, notícia)</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;aside&gt;</span><p data-i18n="sem_aside">Conteúdo lateral relacionado</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;footer&gt;</span><p data-i18n="sem_footer">Rodapé da página ou seção</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;figure&gt;</span><p data-i18n="sem_figure">Imagem com legenda</p></div>
+      <div class="sem-card"><span class="sc-tag">&lt;time&gt;</span><p data-i18n="sem_time">Data ou hora</p></div>
+    </div>
+    <div class="code-wrap" style="margin-top:1rem;">
+      <pre><span class="cm">&lt;!-- ❌ Sem semântica --&gt;</span>
+<span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"cabecalho"</span><span class="ht">&gt;</span>
+  <span class="ht">&lt;div</span> <span class="ha">class</span>=<span class="hv">"menu"</span><span class="ht">&gt;</span><span class="tx">...</span><span class="ht">&lt;/div&gt;</span>
+<span class="ht">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- ✅ Com semântica --&gt;</span>
+<span class="ht">&lt;header&gt;</span>
+  <span class="ht">&lt;nav&gt;</span><span class="tx">...</span><span class="ht">&lt;/nav&gt;</span>
+<span class="ht">&lt;/header&gt;</span></pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="html-historia.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_label">← aula anterior</span>
+      <span class="np-title" data-i18n="nav_prev_title">História do HTML</span>
+    </a>
+    <a href="css-historia.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">próxima aula →</span>
+      <span class="np-title" data-i18n="nav_next_title">História do CSS</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{
+    breadcrumb:"Conceitos de HTML",eyebrow:"// aula 02 · HTML · Conceitos",title:"Conceitos Básicos\nde HTML",
+    tag_basic:"Básico",source:"📖 Baseado em MDN Web Docs",
+    sec_what:"O que é HTML?",what_h:"🏗️ A estrutura de toda página web",
+    what_p:"HTML não é uma linguagem de programação — é uma <strong>linguagem de marcação</strong>. Ela define a <strong>estrutura e o significado</strong> do conteúdo de uma página web. Pense nela como o esqueleto de uma página: o CSS é a roupa e o JavaScript é o movimento.",
+    trio_html:"Estrutura e conteúdo. Define o que cada coisa é — título, parágrafo, imagem, link.",
+    trio_css:"Aparência e estilo. Define como cada coisa parece — cores, tamanhos, fontes, layout.",
+    trio_js:"Comportamento e interação. Define o que acontece quando o usuário age — cliques, animações, dados.",
+    sec_anatomy:"Anatomia de um elemento HTML",
+    anat1:"<strong>Tag de abertura:</strong> &lt;p&gt;",anat2:"<strong>Atributo:</strong> class=\"destaque\"",
+    anat3:"<strong>Conteúdo:</strong> Olá, mundo!",anat4:"<strong>Tag de fechamento:</strong> &lt;/p&gt;",
+    void_h:"🚫 Elementos void (sem fechamento)",void_p:"Alguns elementos não têm tag de fechamento porque não envolvem conteúdo. São chamados de <strong>void elements</strong>.",
+    attr_h:"🏷️ Atributos",attr_p:"Atributos fornecem informação adicional aos elementos. Sempre ficam na tag de abertura no formato <code>nome=\"valor\"</code>.",
+    attr1:"categoria para CSS/JS",attr2:"identificador único",attr3:"destino de um link",attr4:"caminho de imagem",attr5:"texto alternativo",attr6:"CSS inline",
+    sec_structure:"Estrutura básica de uma página HTML",struct_h:"📄 O esqueleto obrigatório",
+    struct_p:"Todo documento HTML válido precisa dessa estrutura base. Cada parte tem uma função específica que o browser usa para processar a página corretamente.",
+    sec_tags:"Tags essenciais — as mais usadas",
+    tag_h_name:"Títulos",tag_h_desc:"Hierarquia de títulos. H1 é o mais importante (um por página), H6 o menor. Importantíssimos para SEO e acessibilidade.",
+    tag_p_name:"Parágrafo",tag_p_desc:"Define um bloco de texto. O browser adiciona espaço automaticamente entre parágrafos.",
+    tag_a_name:"Link (âncora)",tag_a_desc:"Cria um hiperlink. O atributo <code>href</code> define o destino. Pode abrir em nova aba com <code>target=\"_blank\"</code>.",
+    tag_img_name:"Imagem",tag_img_desc:"Insere uma imagem. Sempre use o atributo <code>alt</code> para acessibilidade.",
+    tag_ul_name:"Listas",tag_ul_desc:"<code>&lt;ul&gt;</code> = lista não ordenada (bolinhas). <code>&lt;ol&gt;</code> = numerada. <code>&lt;li&gt;</code> = cada item.",
+    tag_div_name:"Contêineres genéricos",tag_div_desc:"<code>&lt;div&gt;</code> agrupa blocos. <code>&lt;span&gt;</code> agrupa inline. Sem significado semântico — usados com CSS.",
+    tag_form_name:"Formulários",tag_form_desc:"Coletam dados do usuário. <code>&lt;input type=\"text\"&gt;</code>, <code>email</code>, <code>password</code>, <code>checkbox</code>, <code>radio</code>...",
+    tag_strong_name:"Ênfase",tag_strong_desc:"<code>&lt;strong&gt;</code> = negrito com significado (importante). <code>&lt;em&gt;</code> = itálico com significado (ênfase).",
+    sec_semantic:"HTML semântico — o HTML do HTML5",sem_h:"💡 Por que usar tags semânticas?",
+    sem_p:"Tags semânticas dizem ao browser (e aos motores de busca e leitores de tela) <strong>o que aquele conteúdo significa</strong>, não só como ele parece. Usar <code>&lt;nav&gt;</code> em vez de <code>&lt;div id=\"nav\"&gt;</code> ajuda no SEO, na acessibilidade e na legibilidade do código.",
+    sem_header:"Cabeçalho da página ou seção",sem_nav:"Menu de navegação",sem_main:"Conteúdo principal da página",
+    sem_section:"Seção temática do conteúdo",sem_article:"Conteúdo independente (post, notícia)",sem_aside:"Conteúdo lateral relacionado",
+    sem_footer:"Rodapé da página ou seção",sem_figure:"Imagem com legenda",sem_time:"Data ou hora",
+    nav_prev_label:"← aula anterior",nav_prev_title:"História do HTML",nav_next_label:"próxima aula →",nav_next_title:"História do CSS"
+  },
+  en:{
+    breadcrumb:"HTML Concepts",eyebrow:"// lesson 02 · HTML · Concepts",title:"Basic HTML\nConcepts",
+    tag_basic:"Basics",source:"📖 Based on MDN Web Docs",
+    sec_what:"What is HTML?",what_h:"🏗️ The structure of every web page",
+    what_p:"HTML is not a programming language — it's a <strong>markup language</strong>. It defines the <strong>structure and meaning</strong> of a web page's content. Think of it as the skeleton of a page: CSS is the clothing and JavaScript is the movement.",
+    trio_html:"Structure and content. Defines what each thing is — heading, paragraph, image, link.",
+    trio_css:"Appearance and style. Defines how each thing looks — colors, sizes, fonts, layout.",
+    trio_js:"Behavior and interaction. Defines what happens when the user acts — clicks, animations, data.",
+    sec_anatomy:"Anatomy of an HTML element",
+    anat1:"<strong>Opening tag:</strong> &lt;p&gt;",anat2:"<strong>Attribute:</strong> class=\"highlight\"",
+    anat3:"<strong>Content:</strong> Hello, world!",anat4:"<strong>Closing tag:</strong> &lt;/p&gt;",
+    void_h:"🚫 Void elements (no closing tag)",void_p:"Some elements have no closing tag because they don't wrap content. These are called <strong>void elements</strong>.",
+    attr_h:"🏷️ Attributes",attr_p:"Attributes provide additional information to elements. They always go in the opening tag in <code>name=\"value\"</code> format.",
+    attr1:"category for CSS/JS",attr2:"unique identifier",attr3:"link destination",attr4:"image path",attr5:"alternative text",attr6:"inline CSS",
+    sec_structure:"Basic structure of an HTML page",struct_h:"📄 The required skeleton",
+    struct_p:"Every valid HTML document needs this base structure. Each part has a specific function that the browser uses to process the page correctly.",
+    sec_tags:"Essential tags — the most used",
+    tag_h_name:"Headings",tag_h_desc:"Heading hierarchy. H1 is the most important (one per page), H6 the smallest. Critically important for SEO and accessibility.",
+    tag_p_name:"Paragraph",tag_p_desc:"Defines a block of text. The browser automatically adds space between paragraphs.",
+    tag_a_name:"Link (anchor)",tag_a_desc:"Creates a hyperlink. The <code>href</code> attribute defines the destination. Can open in a new tab with <code>target=\"_blank\"</code>.",
+    tag_img_name:"Image",tag_img_desc:"Inserts an image. Always use the <code>alt</code> attribute for accessibility.",
+    tag_ul_name:"Lists",tag_ul_desc:"<code>&lt;ul&gt;</code> = unordered list (bullets). <code>&lt;ol&gt;</code> = numbered. <code>&lt;li&gt;</code> = each item.",
+    tag_div_name:"Generic containers",tag_div_desc:"<code>&lt;div&gt;</code> groups blocks. <code>&lt;span&gt;</code> groups inline content. No semantic meaning — used with CSS.",
+    tag_form_name:"Forms",tag_form_desc:"Collect user data. <code>&lt;input type=\"text\"&gt;</code>, <code>email</code>, <code>password</code>, <code>checkbox</code>, <code>radio</code>...",
+    tag_strong_name:"Emphasis",tag_strong_desc:"<code>&lt;strong&gt;</code> = bold with meaning (important). <code>&lt;em&gt;</code> = italic with meaning (emphasis).",
+    sec_semantic:"Semantic HTML — the HTML of HTML5",sem_h:"💡 Why use semantic tags?",
+    sem_p:"Semantic tags tell the browser (and search engines and screen readers) <strong>what the content means</strong>, not just how it looks. Using <code>&lt;nav&gt;</code> instead of <code>&lt;div id=\"nav\"&gt;</code> helps with SEO, accessibility, and code readability.",
+    sem_header:"Page or section header",sem_nav:"Navigation menu",sem_main:"Main page content",
+    sem_section:"Themed content section",sem_article:"Independent content (post, news)",sem_aside:"Related sidebar content",
+    sem_footer:"Page or section footer",sem_figure:"Image with caption",sem_time:"Date or time",
+    nav_prev_label:"← previous lesson",nav_prev_title:"History of HTML",nav_next_label:"next lesson →",nav_next_title:"History of CSS"
+  }
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){
+  lang=l;localStorage.setItem('nb_lang',l);
+  document.body.classList.add('lang-switching');
+  setTimeout(()=>{
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});
+    document.documentElement.lang=l==='pt'?'pt-BR':'en';
+    document.title=l==='pt'?'Conceitos de HTML — Lucilia\'s Notebook':'HTML Concepts — Lucilia\'s Notebook';
+    document.getElementById('btn-pt').classList.toggle('active',l==='pt');
+    document.getElementById('btn-en').classList.toggle('active',l==='en');
+    document.body.classList.remove('lang-switching');
+  },180);
+}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

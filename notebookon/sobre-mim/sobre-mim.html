@@ -126,13 +126,63 @@
     .lb-arrow:hover{opacity:1;background:rgba(255,255,255,.22);}
     .lb-prev{left:1rem;}.lb-next{right:1rem;}
     @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 5rem;}.hero{gap:1.5rem;}.photo-frame{width:110px;height:110px;}.family-grid{grid-template-columns:1fr;}.skills-grid{grid-template-columns:1fr;}.gallery-grid{grid-template-columns:repeat(2,1fr);}}
+  
+    /* ── DROPDOWN NAV ── */
+    .nav{overflow:visible !important;}
+    .nav-links{overflow:visible !important;}
+    .nav-dropdown{position:relative;}
+    .nav-dropdown-btn{background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink3);padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-dropdown-btn:hover{background:var(--paper3);color:var(--ink);}
+    .nav-dropdown-btn.open{background:var(--ink);color:var(--paper);}
+    .nav-dropdown-panel{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow-lg);min-width:260px;z-index:999;overflow:hidden;}
+    .nav-dropdown-panel.open{display:block;}
+    .nav-dropdown-item{display:flex;align-items:center;gap:12px;padding:11px 16px;font-size:13px;font-weight:600;color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--rule2);transition:background .15s,color .15s;}
+    .nav-dropdown-item:last-child{border-bottom:none;}
+    .nav-dropdown-item:hover{background:var(--paper2);color:var(--accent2);}
+    .ndi-icon{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
+    .ndi-text{display:flex;flex-direction:column;gap:1px;}
+    .ndi-name{font-size:13px;font-weight:700;color:var(--ink);}
+    .ndi-desc{font-size:11px;color:var(--ink4);font-weight:400;}
   </style>
 </head>
 <body>
 
 <nav class="nav">
   <a href="../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
-  <div class="lang-toggle">
+  <div class="nav-links">
+
+    <!-- DROPDOWN: Perfil & Projetos -->
+    <div class="nav-dropdown" id="navDropdown">
+      <button class="nav-dropdown-btn" id="navDropdownBtn" onclick="toggleNavDropdown()">
+        <span data-i18n="nav_profile">Perfil &amp; Projetos ▾</span>
+      </button>
+      <div class="nav-dropdown-panel" id="navDropdownPanel">
+        <a href="sobre-mim.html" class="nav-dropdown-item">
+          <div class="ndi-icon" style="background:linear-gradient(135deg,#fce7f3,#dbeafe);border:2px solid #f9a8d4;">L</div>
+          <div class="ndi-text">
+            <span class="ndi-name" data-i18n="nav_dd_about">Sobre mim</span>
+            <span class="ndi-desc" data-i18n="nav_dd_about_desc">Trajetória, habilidades e história</span>
+          </div>
+        </a>
+        <a href="projetos.html" class="nav-dropdown-item">
+          <div class="ndi-icon" style="background:linear-gradient(135deg,#dcfce7,#fef9c3);border:2px solid #86efac;font-size:16px;">🚀</div>
+          <div class="ndi-text">
+            <span class="ndi-name" data-i18n="nav_dd_projects">Projetos</span>
+            <span class="ndi-desc" data-i18n="nav_dd_projects_desc">HTML, Python, JavaScript e React</span>
+          </div>
+        </a>
+        <a href="dev-areas.html" class="nav-dropdown-item">
+          <div class="ndi-icon" style="background:linear-gradient(135deg,#dbeafe,#ede9fe);border:2px solid #93c5fd;font-size:16px;">🖥️</div>
+          <div class="ndi-text">
+            <span class="ndi-name" data-i18n="nav_dd_areas">Frontend, Backend &amp; Fullstack</span>
+            <span class="ndi-desc" data-i18n="nav_dd_areas_desc">O que é cada área e como se conectam</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <span class="nav-sep"></span>
+  </div>
+  
     <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
     <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
@@ -161,7 +211,7 @@
       <div class="hero-links">
         <a href="https://github.com/luciliarosa" target="_blank" class="hero-link">🐙 GitHub</a>
         <a href="https://www.linkedin.com/in/lucilia-rosa" target="_blank" class="hero-link">💼 LinkedIn</a>
-        <a href="mailto:lucilia.passos.rosa@outlook.com" class="hero-link">✉️ E-mail</a>
+        <a href="/cdn-cgi/l/email-protection#6d01180e0401040c431d0c1e1e021e431f021e0c2d02181901020206430e0200" class="hero-link">✉️ E-mail</a>
         <a href="https://instagram.com/lucilliarosa" target="_blank" class="hero-link">📸 Instagram</a>
         <a href="https://discord.gg/8N5mRF3P" target="_blank" class="hero-link">🎧 Discord</a>
       </div>
@@ -388,9 +438,29 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+/* ── DROPDOWN NAV ── */
+function toggleNavDropdown(){
+  const btn=document.getElementById('navDropdownBtn');
+  const panel=document.getElementById('navDropdownPanel');
+  const open=panel.classList.contains('open');
+  btn.classList.toggle('open',!open);
+  panel.classList.toggle('open',!open);
+}
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('navDropdown');
+  if(dd&&!dd.contains(e.target)){
+    document.getElementById('navDropdownBtn')?.classList.remove('open');
+    document.getElementById('navDropdownPanel')?.classList.remove('open');
+  }
+});
+</script><script>
 const T = {
   pt: {
+    nav_profile:"Perfil &amp; Projetos ▾",
+    nav_dd_about:"Sobre mim",nav_dd_about_desc:"Trajetória, habilidades e história",
+    nav_dd_projects:"Projetos",nav_dd_projects_desc:"HTML, Python, JavaScript e React",
+    nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"O que é cada área e como se conectam",
     nav_back:"← Voltar",photo_hint:"sua foto\naqui",eyebrow:"// sobre mim",
     hero_role:"Fullstack & Automation Developer · São Paulo, Brasil",
     tag_exp:"+5 anos de experiência",tag_wit:"Mulher na Tech",tag_canada:"Open to Canada",
@@ -435,6 +505,10 @@ const T = {
     back_btn:"📓 Voltar para o Notebook"
   },
   en: {
+    nav_profile:"Profile &amp; Projects ▾",
+    nav_dd_about:"About me",nav_dd_about_desc:"Background, skills and story",
+    nav_dd_projects:"Projects",nav_dd_projects_desc:"HTML, Python, JavaScript and React",
+    nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"What each area is and how they connect",
     nav_back:"← Back",photo_hint:"your photo\nhere",eyebrow:"// about me",
     hero_role:"Fullstack & Automation Developer · São Paulo, Brazil",
     tag_exp:"+5 years of experience",tag_wit:"Woman in Tech",tag_canada:"Open to Canada",
@@ -510,9 +584,4 @@ document.getElementById('photoInput').addEventListener('change', function() {
 function triggerFamPhoto(n) { document.getElementById('famInput'+n).click(); }
 function loadFamPhoto(n, i) {
   if (!i.files[0]) return;
-  document.getElementById('famPhoto'+n).innerHTML =
-    `<img src="${URL.createObjectURL(i.files[0])}" alt="foto" class="fam-photo-img"/>`;
-}
-</script>
-</body>
-</html>
+  docu

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Travel Vocabulary — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#1a7a50;--accent-light:#dcfce7;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:820px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;flex-wrap:wrap;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-travel{background:var(--accent-light);color:#14532d;}
+    .tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .tip{background:var(--accent-light);border:1.5px solid rgba(26,122,80,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1.5rem;}
+    .tip p{font-size:13px;color:#14532d;line-height:1.7;}
+    /* category cards */
+    .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:1.5rem;}
+    .cat-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .cat-card .cat-icon{font-size:24px;margin-bottom:8px;}
+    .cat-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .cat-card ul{list-style:none;display:flex;flex-direction:column;gap:4px;}
+    .cat-card li{font-size:12.5px;color:var(--ink2);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
+    .cat-card li::before{content:'›';color:var(--accent);font-weight:700;flex-shrink:0;}
+    .cat-card li strong{font-family:var(--font-mono);font-size:11.5px;color:var(--accent);}
+    /* vocab table */
+    .vocab-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .vocab-table th{background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+    .vocab-table td{font-size:13px;padding:9px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;}
+    .vocab-table tr:last-child td{border-bottom:none;}
+    .vocab-table tr:nth-child(even) td{background:var(--paper2);}
+    .vw{font-family:var(--font-mono);font-weight:700;color:var(--accent);}
+    .vw-pt{font-size:11px;color:var(--ink4);}
+    .ex{font-size:11px;font-style:italic;color:var(--ink3);}
+    /* dialogue cards */
+    .dialogue{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:14px;}
+    .dialogue .dlg-situation{font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--ink4);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--rule2);}
+    .dlg-line{display:flex;gap:10px;margin-bottom:6px;align-items:flex-start;}
+    .dlg-line:last-child{margin-bottom:0;}
+    .dlg-speaker{font-size:10px;font-weight:700;color:var(--accent);min-width:38px;flex-shrink:0;padding-top:2px;text-transform:uppercase;}
+    .dlg-text{font-size:13px;color:var(--ink2);line-height:1.55;}
+    .dlg-tr{font-size:11px;color:var(--ink4);font-style:italic;display:block;margin-top:1px;}
+    /* summary */
+    .summary{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-top:2rem;}
+    .summary h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+    .summary ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .summary li{font-size:13px;color:var(--ink2);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+    .summary li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.cat-grid{grid-template-columns:1fr;}.vocab-table{font-size:11px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html#english" class="nav-link">English</a>
+    <a href="travel-vocab.html" class="nav-link active" data-i18n="nav_current">Travel Vocabulary</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#english">English</a><span>›</span>
+    <a href="../../index.html#english" data-i18n="bc_vocab">Vocabulary</a><span>›</span>
+    <span data-i18n="bc_this">Travel &amp; Transport</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// vocabulary · English · Travel &amp; Transport</p>
+    <h1 class="article-title" data-i18n="article_title">Travel &amp; Transport<br><span style="font-size:.6em;color:var(--ink3);font-style:italic;">Vocabulário de Viagem e Transporte</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-travel">✈️ Travel Vocabulary</span>
+      <span class="tag tag-gray" data-i18n="level">Básico–Intermediário</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="meta_sub">🌍 essencial para quem quer viajar</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- CATEGORIAS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_cats">Vocabulário por situação</p>
+    <div class="tip">
+      <p data-i18n="tip_main">💡 Esse vocabulário foi especialmente pensado para quem quer viajar para o Canadá ou qualquer país de língua inglesa. <strong>Cada palavra aqui você pode precisar usar de verdade!</strong></p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">✈️</div>
+        <h3 data-i18n="cat1_h">At the Airport</h3>
+        <ul>
+          <li><strong>check-in</strong> — <span data-i18n="cat1_w1">fazer o check-in</span></li>
+          <li><strong>boarding pass</strong> — <span data-i18n="cat1_w2">cartão de embarque</span></li>
+          <li><strong>departure gate</strong> — <span data-i18n="cat1_w3">portão de embarque</span></li>
+          <li><strong>carry-on</strong> — <span data-i18n="cat1_w4">bagagem de mão</span></li>
+          <li><strong>checked baggage</strong> — <span data-i18n="cat1_w5">bagagem despachada</span></li>
+          <li><strong>customs</strong> — <span data-i18n="cat1_w6">alfândega</span></li>
+          <li><strong>immigration</strong> — <span data-i18n="cat1_w7">imigração/controle de passaportes</span></li>
+          <li><strong>layover</strong> — <span data-i18n="cat1_w8">escala/conexão</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🏨</div>
+        <h3 data-i18n="cat2_h">At the Hotel</h3>
+        <ul>
+          <li><strong>check-in / check-out</strong> — <span data-i18n="cat2_w1">entrada/saída do hotel</span></li>
+          <li><strong>reservation</strong> — <span data-i18n="cat2_w2">reserva</span></li>
+          <li><strong>front desk</strong> — <span data-i18n="cat2_w3">recepção</span></li>
+          <li><strong>room service</strong> — <span data-i18n="cat2_w4">serviço no quarto</span></li>
+          <li><strong>amenities</strong> — <span data-i18n="cat2_w5">comodidades oferecidas</span></li>
+          <li><strong>vacancy</strong> — <span data-i18n="cat2_w6">quarto disponível</span></li>
+          <li><strong>suite</strong> — <span data-i18n="cat2_w7">suíte</span></li>
+          <li><strong>housekeeping</strong> — <span data-i18n="cat2_w8">serviço de limpeza</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🚇</div>
+        <h3 data-i18n="cat3_h">Public Transport</h3>
+        <ul>
+          <li><strong>fare</strong> — <span data-i18n="cat3_w1">tarifa/preço da passagem</span></li>
+          <li><strong>transit card</strong> — <span data-i18n="cat3_w2">cartão de transporte</span></li>
+          <li><strong>transfer</strong> — <span data-i18n="cat3_w3">baldeação/conexão</span></li>
+          <li><strong>platform</strong> — <span data-i18n="cat3_w4">plataforma do trem/metrô</span></li>
+          <li><strong>schedule</strong> — <span data-i18n="cat3_w5">horário/tabela de viagens</span></li>
+          <li><strong>one-way / round trip</strong> — <span data-i18n="cat3_w6">só ida / ida e volta</span></li>
+          <li><strong>route</strong> — <span data-i18n="cat3_w7">rota/trajeto</span></li>
+          <li><strong>delay</strong> — <span data-i18n="cat3_w8">atraso</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🍽️</div>
+        <h3 data-i18n="cat4_h">Eating Out</h3>
+        <ul>
+          <li><strong>menu</strong> — <span data-i18n="cat4_w1">cardápio</span></li>
+          <li><strong>bill / check</strong> — <span data-i18n="cat4_w2">conta do restaurante</span></li>
+          <li><strong>tip</strong> — <span data-i18n="cat4_w3">gorjeta</span></li>
+          <li><strong>to go / takeout</strong> — <span data-i18n="cat4_w4">para viagem/levar</span></li>
+          <li><strong>refill</strong> — <span data-i18n="cat4_w5">reabastecimento do copo</span></li>
+          <li><strong>appetizer</strong> — <span data-i18n="cat4_w6">entrada do prato</span></li>
+          <li><strong>entrée</strong> — <span data-i18n="cat4_w7">prato principal</span></li>
+          <li><strong>split the bill</strong> — <span data-i18n="cat4_w8">dividir a conta</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🗺️</div>
+        <h3 data-i18n="cat5_h">Asking for Directions</h3>
+        <ul>
+          <li><strong>turn left / right</strong> — <span data-i18n="cat5_w1">vire à esquerda/direita</span></li>
+          <li><strong>straight ahead</strong> — <span data-i18n="cat5_w2">em frente/reto</span></li>
+          <li><strong>block</strong> — <span data-i18n="cat5_w3">quarteirão</span></li>
+          <li><strong>intersection</strong> — <span data-i18n="cat5_w4">cruzamento/esquina</span></li>
+          <li><strong>landmark</strong> — <span data-i18n="cat5_w5">ponto de referência</span></li>
+          <li><strong>across from</strong> — <span data-i18n="cat5_w6">do lado oposto de</span></li>
+          <li><strong>around the corner</strong> — <span data-i18n="cat5_w7">logo na esquina</span></li>
+          <li><strong>within walking distance</strong> — <span data-i18n="cat5_w8">a pé daqui</span></li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🛍️</div>
+        <h3 data-i18n="cat6_h">Shopping</h3>
+        <ul>
+          <li><strong>receipt</strong> — <span data-i18n="cat6_w1">recibo/nota fiscal</span></li>
+          <li><strong>refund</strong> — <span data-i18n="cat6_w2">reembolso/devolução</span></li>
+          <li><strong>exchange</strong> — <span data-i18n="cat6_w3">trocar produto</span></li>
+          <li><strong>sale / discount</strong> — <span data-i18n="cat6_w4">promoção/desconto</span></li>
+          <li><strong>fitting room</strong> — <span data-i18n="cat6_w5">provador</span></li>
+          <li><strong>sold out</strong> — <span data-i18n="cat6_w6">esgotado</span></li>
+          <li><strong>cashier</strong> — <span data-i18n="cat6_w7">caixa/atendente</span></li>
+          <li><strong>tax included</strong> — <span data-i18n="cat6_w8">imposto incluso</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TABELA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_table">Glossário completo — 40 termos de viagem</p>
+    <table class="vocab-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_word">Word / Phrase</th>
+          <th data-i18n="col_pt">Português</th>
+          <th data-i18n="col_ex">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="vw">passport</span></td><td><span class="vw-pt" data-i18n="t1">passaporte</span></td><td><span class="ex">"May I see your passport, please?"</span></td></tr>
+        <tr><td><span class="vw">visa</span></td><td><span class="vw-pt" data-i18n="t2">visto de entrada</span></td><td><span class="ex">"You need a visa to enter Canada."</span></td></tr>
+        <tr><td><span class="vw">itinerary</span></td><td><span class="vw-pt" data-i18n="t3">roteiro/programação de viagem</span></td><td><span class="ex">"Our itinerary includes 3 cities."</span></td></tr>
+        <tr><td><span class="vw">accommodation</span></td><td><span class="vw-pt" data-i18n="t4">acomodação/hospedagem</span></td><td><span class="ex">"Book your accommodation in advance."</span></td></tr>
+        <tr><td><span class="vw">hostel</span></td><td><span class="vw-pt" data-i18n="t5">albergue/hostel</span></td><td><span class="ex">"I stayed in a hostel downtown."</span></td></tr>
+        <tr><td><span class="vw">sightseeing</span></td><td><span class="vw-pt" data-i18n="t6">passeio turístico</span></td><td><span class="ex">"We spent the day sightseeing in Vancouver."</span></td></tr>
+        <tr><td><span class="vw">souvenir</span></td><td><span class="vw-pt" data-i18n="t7">lembrança/souvenir</span></td><td><span class="ex">"I bought a souvenir for my family."</span></td></tr>
+        <tr><td><span class="vw">exchange rate</span></td><td><span class="vw-pt" data-i18n="t8">taxa de câmbio</span></td><td><span class="ex">"Check the exchange rate before you go."</span></td></tr>
+        <tr><td><span class="vw">currency</span></td><td><span class="vw-pt" data-i18n="t9">moeda do país</span></td><td><span class="ex">"The currency in Canada is the Canadian dollar."</span></td></tr>
+        <tr><td><span class="vw">jet lag</span></td><td><span class="vw-pt" data-i18n="t10">cansaço por fuso horário</span></td><td><span class="ex">"I had terrible jet lag for two days."</span></td></tr>
+        <tr><td><span class="vw">time zone</span></td><td><span class="vw-pt" data-i18n="t11">fuso horário</span></td><td><span class="ex">"Vancouver is in the Pacific time zone."</span></td></tr>
+        <tr><td><span class="vw">local time</span></td><td><span class="vw-pt" data-i18n="t12">hora local</span></td><td><span class="ex">"The flight lands at 3 PM local time."</span></td></tr>
+        <tr><td><span class="vw">nonstop flight</span></td><td><span class="vw-pt" data-i18n="t13">voo direto sem escalas</span></td><td><span class="ex">"I booked a nonstop flight to save time."</span></td></tr>
+        <tr><td><span class="vw">connecting flight</span></td><td><span class="vw-pt" data-i18n="t14">voo com conexão</span></td><td><span class="ex">"My connecting flight is in Toronto."</span></td></tr>
+        <tr><td><span class="vw">aisle / window seat</span></td><td><span class="vw-pt" data-i18n="t15">assento corredor/janela</span></td><td><span class="ex">"I prefer a window seat."</span></td></tr>
+        <tr><td><span class="vw">overhead bin</span></td><td><span class="vw-pt" data-i18n="t16">compartimento superior do avião</span></td><td><span class="ex">"Put your bag in the overhead bin."</span></td></tr>
+        <tr><td><span class="vw">turbulence</span></td><td><span class="vw-pt" data-i18n="t17">turbulência</span></td><td><span class="ex">"Fasten your seatbelt during turbulence."</span></td></tr>
+        <tr><td><span class="vw">travel insurance</span></td><td><span class="vw-pt" data-i18n="t18">seguro de viagem</span></td><td><span class="ex">"Always buy travel insurance."</span></td></tr>
+        <tr><td><span class="vw">lost luggage</span></td><td><span class="vw-pt" data-i18n="t19">bagagem extraviada</span></td><td><span class="ex">"Report lost luggage at the desk."</span></td></tr>
+        <tr><td><span class="vw">shuttle</span></td><td><span class="vw-pt" data-i18n="t20">ônibus/van de traslado</span></td><td><span class="ex">"Take the airport shuttle to downtown."</span></td></tr>
+        <tr><td><span class="vw">cab / taxi</span></td><td><span class="vw-pt" data-i18n="t21">táxi</span></td><td><span class="ex">"Hail a cab outside the terminal."</span></td></tr>
+        <tr><td><span class="vw">ride-share</span></td><td><span class="vw-pt" data-i18n="t22">app de transporte (Uber/Lyft)</span></td><td><span class="ex">"I used a ride-share to get to the hotel."</span></td></tr>
+        <tr><td><span class="vw">toll</span></td><td><span class="vw-pt" data-i18n="t23">pedágio</span></td><td><span class="ex">"There's a toll on this highway."</span></td></tr>
+        <tr><td><span class="vw">gas station</span></td><td><span class="vw-pt" data-i18n="t24">posto de gasolina</span></td><td><span class="ex">"Fill up at the next gas station."</span></td></tr>
+        <tr><td><span class="vw">rental car</span></td><td><span class="vw-pt" data-i18n="t25">carro alugado</span></td><td><span class="ex">"We picked up our rental car at the airport."</span></td></tr>
+        <tr><td><span class="vw">tour guide</span></td><td><span class="vw-pt" data-i18n="t26">guia turístico</span></td><td><span class="ex">"The tour guide spoke English and French."</span></td></tr>
+        <tr><td><span class="vw">guided tour</span></td><td><span class="vw-pt" data-i18n="t27">passeio guiado</span></td><td><span class="ex">"Join a guided tour of Stanley Park."</span></td></tr>
+        <tr><td><span class="vw">off the beaten path</span></td><td><span class="vw-pt" data-i18n="t28">fora dos roteiros turísticos</span></td><td><span class="ex">"We found a great café off the beaten path."</span></td></tr>
+        <tr><td><span class="vw">peak season</span></td><td><span class="vw-pt" data-i18n="t29">alta temporada</span></td><td><span class="ex">"Prices are higher in peak season."</span></td></tr>
+        <tr><td><span class="vw">off season</span></td><td><span class="vw-pt" data-i18n="t30">baixa temporada</span></td><td><span class="ex">"Travel off season to save money."</span></td></tr>
+        <tr><td><span class="vw">local cuisine</span></td><td><span class="vw-pt" data-i18n="t31">culinária local/típica</span></td><td><span class="ex">"Try the local cuisine — don't eat at chains!"</span></td></tr>
+        <tr><td><span class="vw">ATM</span></td><td><span class="vw-pt" data-i18n="t32">caixa eletrônico</span></td><td><span class="ex">"Is there an ATM nearby?"</span></td></tr>
+        <tr><td><span class="vw">plug adapter</span></td><td><span class="vw-pt" data-i18n="t33">adaptador de tomada</span></td><td><span class="ex">"Bring a plug adapter for Canada."</span></td></tr>
+        <tr><td><span class="vw">roaming</span></td><td><span class="vw-pt" data-i18n="t34">uso de celular no exterior</span></td><td><span class="ex">"Check roaming charges before you travel."</span></td></tr>
+        <tr><td><span class="vw">SIM card</span></td><td><span class="vw-pt" data-i18n="t35">chip de celular local</span></td><td><span class="ex">"Buy a local SIM card at the airport."</span></td></tr>
+        <tr><td><span class="vw">weather forecast</span></td><td><span class="vw-pt" data-i18n="t36">previsão do tempo</span></td><td><span class="ex">"Check the weather forecast before packing."</span></td></tr>
+        <tr><td><span class="vw">packing list</span></td><td><span class="vw-pt" data-i18n="t37">lista do que levar na mala</span></td><td><span class="ex">"Make a packing list to avoid forgetting things."</span></td></tr>
+        <tr><td><span class="vw">culture shock</span></td><td><span class="vw-pt" data-i18n="t38">choque cultural</span></td><td><span class="ex">"Moving abroad can cause culture shock."</span></td></tr>
+        <tr><td><span class="vw">homestay</span></td><td><span class="vw-pt" data-i18n="t39">estadia com família anfitriã</span></td><td><span class="ex">"My homestay family was incredibly welcoming."</span></td></tr>
+        <tr><td><span class="vw">host family</span></td><td><span class="vw-pt" data-i18n="t40">família anfitriã</span></td><td><span class="ex">"My host family celebrated my birthday."</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr/>
+
+  <!-- DIÁLOGOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_dialogues">Diálogos reais — situações de viagem</p>
+    <div class="tip">
+      <p data-i18n="tip_dialogues">💬 Pratique esses diálogos! São situações que você vai encontrar de verdade ao viajar para um país de língua inglesa.</p>
+    </div>
+
+    <div class="dialogue">
+      <div class="dlg-situation" data-i18n="dlg1_sit">✈️ At the airport — check-in counter</div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Agent</span>
+        <div><span class="dlg-text">"Good morning! Can I see your passport and booking confirmation, please?"</span><span class="dlg-tr" data-i18n="dlg1_1">Bom dia! Posso ver seu passaporte e confirmação de reserva, por favor?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Sure, here you go. I'd like a window seat if possible."</span><span class="dlg-tr" data-i18n="dlg1_2">Claro, aqui está. Gostaria de um assento na janela se possível.</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Agent</span>
+        <div><span class="dlg-text">"Of course. Do you have any checked baggage?"</span><span class="dlg-tr" data-i18n="dlg1_3">Claro. Você tem bagagem para despachar?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Yes, just one bag."</span><span class="dlg-tr" data-i18n="dlg1_4">Sim, apenas uma mala.</span></div>
+      </div>
+    </div>
+
+    <div class="dialogue">
+      <div class="dlg-situation" data-i18n="dlg2_sit">🏨 At the hotel — front desk</div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Hi, I have a reservation under the name Lucilia Rosa."</span><span class="dlg-tr" data-i18n="dlg2_1">Oi, tenho uma reserva no nome Lucilia Rosa.</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Staff</span>
+        <div><span class="dlg-text">"Let me check that for you. Yes, a double room for 3 nights. Can I see your ID?"</span><span class="dlg-tr" data-i18n="dlg2_2">Deixa eu verificar. Sim, quarto duplo por 3 noites. Posso ver seu documento?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Here's my passport. What time is check-out?"</span><span class="dlg-tr" data-i18n="dlg2_3">Aqui está meu passaporte. A que horas é o check-out?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Staff</span>
+        <div><span class="dlg-text">"Check-out is at noon. Enjoy your stay!"</span><span class="dlg-tr" data-i18n="dlg2_4">O check-out é ao meio-dia. Aproveite sua estadia!</span></div>
+      </div>
+    </div>
+
+    <div class="dialogue">
+      <div class="dlg-situation" data-i18n="dlg3_sit">🗺️ Asking for directions</div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Excuse me, could you tell me how to get to Stanley Park?"</span><span class="dlg-tr" data-i18n="dlg3_1">Com licença, você poderia me dizer como chegar ao Stanley Park?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Local</span>
+        <div><span class="dlg-text">"Sure! Go straight ahead for two blocks, then turn left on Georgia Street. It's within walking distance."</span><span class="dlg-tr" data-i18n="dlg3_2">Claro! Siga em frente dois quarteirões, depois vire à esquerda na Georgia Street. É a pé daqui.</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Thank you so much! How long does it take to walk?"</span><span class="dlg-tr" data-i18n="dlg3_3">Muito obrigada! Quanto tempo leva a pé?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Local</span>
+        <div><span class="dlg-text">"About 10 minutes. Have a great visit!"</span><span class="dlg-tr" data-i18n="dlg3_4">Uns 10 minutos. Aproveite a visita!</span></div>
+      </div>
+    </div>
+
+    <div class="dialogue">
+      <div class="dlg-situation" data-i18n="dlg4_sit">🍽️ At the restaurant</div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Waiter</span>
+        <div><span class="dlg-text">"Are you ready to order?"</span><span class="dlg-tr" data-i18n="dlg4_1">Vocês já estão prontos para pedir?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Yes! I'll have the salmon, please. And could I get a refill of water?"</span><span class="dlg-tr" data-i18n="dlg4_2">Sim! Vou querer o salmão, por favor. E poderia me trazer mais água?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">Waiter</span>
+        <div><span class="dlg-text">"Of course! Would you like anything else?"</span><span class="dlg-tr" data-i18n="dlg4_3">Claro! Gostaria de mais alguma coisa?</span></div>
+      </div>
+      <div class="dlg-line">
+        <span class="dlg-speaker">You</span>
+        <div><span class="dlg-text">"Could we have the bill, please? And do you split the bill?"</span><span class="dlg-tr" data-i18n="dlg4_4">Pode trazer a conta? E vocês dividem a conta?</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RESUMO -->
+  <div class="summary fade">
+    <h3 data-i18n="summary_h">📌 O que você aprendeu</h3>
+    <ul>
+      <li data-i18n="sum1">Vocabulário do <strong>aeroporto</strong> — check-in, boarding pass, customs, layover...</li>
+      <li data-i18n="sum2">Termos de <strong>hotel</strong> — reservation, front desk, amenities, housekeeping...</li>
+      <li data-i18n="sum3">Palavras de <strong>transporte público</strong> — fare, platform, transfer, delay...</li>
+      <li data-i18n="sum4">Vocabulário de <strong>restaurantes</strong> — bill, tip, refill, appetizer...</li>
+      <li data-i18n="sum5">Como <strong>pedir direções</strong> — straight ahead, block, intersection, landmark...</li>
+      <li data-i18n="sum6"><strong>40 termos essenciais</strong> de viagem com exemplos reais.</li>
+      <li data-i18n="sum7"><strong>4 diálogos completos</strong> prontos para usar na sua próxima viagem!</li>
+    </ul>
+  </div>
+
+  <div class="nav-pages fade">
+    <a href="tech-vocab.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_label">← aula anterior</span>
+      <span class="np-title" data-i18n="nav_prev_title">Tech &amp; Programming</span>
+    </a>
+    <a href="../../index.html#english" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_back_label">← voltar</span>
+      <span class="np-title" data-i18n="nav_back_title">English — Vocabulary</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{
+    nav_current:"Travel Vocabulary",bc_vocab:"Vocabulary",bc_this:"Travel &amp; Transport",
+    eyebrow:"// vocabulary · English · Travel &amp; Transport",
+    article_title:"Travel &amp; Transport<br><span style='font-size:.6em;color:var(--ink3);font-style:italic;'>Vocabulário de Viagem e Transporte</span>",
+    level:"Básico–Intermediário",meta_sub:"🌍 essencial para quem quer viajar",
+    sec_cats:"Vocabulário por situação",
+    tip_main:"💡 Esse vocabulário foi especialmente pensado para quem quer viajar para o Canadá ou qualquer país de língua inglesa. <strong>Cada palavra aqui você pode precisar usar de verdade!</strong>",
+    cat1_h:"At the Airport",cat1_w1:"fazer o check-in",cat1_w2:"cartão de embarque",cat1_w3:"portão de embarque",cat1_w4:"bagagem de mão",cat1_w5:"bagagem despachada",cat1_w6:"alfândega",cat1_w7:"imigração/controle de passaportes",cat1_w8:"escala/conexão",
+    cat2_h:"At the Hotel",cat2_w1:"entrada/saída do hotel",cat2_w2:"reserva",cat2_w3:"recepção",cat2_w4:"serviço no quarto",cat2_w5:"comodidades oferecidas",cat2_w6:"quarto disponível",cat2_w7:"suíte",cat2_w8:"serviço de limpeza",
+    cat3_h:"Public Transport",cat3_w1:"tarifa/preço da passagem",cat3_w2:"cartão de transporte",cat3_w3:"baldeação/conexão",cat3_w4:"plataforma do trem/metrô",cat3_w5:"horário/tabela de viagens",cat3_w6:"só ida / ida e volta",cat3_w7:"rota/trajeto",cat3_w8:"atraso",
+    cat4_h:"Eating Out",cat4_w1:"cardápio",cat4_w2:"conta do restaurante",cat4_w3:"gorjeta",cat4_w4:"para viagem/levar",cat4_w5:"reabastecimento do copo",cat4_w6:"entrada do prato",cat4_w7:"prato principal",cat4_w8:"dividir a conta",
+    cat5_h:"Asking for Directions",cat5_w1:"vire à esquerda/direita",cat5_w2:"em frente/reto",cat5_w3:"quarteirão",cat5_w4:"cruzamento/esquina",cat5_w5:"ponto de referência",cat5_w6:"do lado oposto de",cat5_w7:"logo na esquina",cat5_w8:"a pé daqui",
+    cat6_h:"Shopping",cat6_w1:"recibo/nota fiscal",cat6_w2:"reembolso/devolução",cat6_w3:"trocar produto",cat6_w4:"promoção/desconto",cat6_w5:"provador",cat6_w6:"esgotado",cat6_w7:"caixa/atendente",cat6_w8:"imposto incluso",
+    sec_table:"Glossário completo — 40 termos de viagem",col_word:"Palavra/Expressão",col_pt:"Português",col_ex:"Exemplo",
+    t1:"passaporte",t2:"visto de entrada",t3:"roteiro/programação de viagem",t4:"acomodação/hospedagem",t5:"albergue/hostel",t6:"passeio turístico",t7:"lembrança/souvenir",t8:"taxa de câmbio",t9:"moeda do país",t10:"cansaço por fuso horário",t11:"fuso horário",t12:"hora local",t13:"voo direto sem escalas",t14:"voo com conexão",t15:"assento corredor/janela",t16:"compartimento superior do avião",t17:"turbulência",t18:"seguro de viagem",t19:"bagagem extraviada",t20:"ônibus/van de traslado",t21:"táxi",t22:"app de transporte (Uber/Lyft)",t23:"pedágio",t24:"posto de gasolina",t25:"carro alugado",t26:"guia turístico",t27:"passeio guiado",t28:"fora dos roteiros turísticos",t29:"alta temporada",t30:"baixa temporada",t31:"culinária local/típica",t32:"caixa eletrônico",t33:"adaptador de tomada",t34:"uso de celular no exterior",t35:"chip de celular local",t36:"previsão do tempo",t37:"lista do que levar na mala",t38:"choque cultural",t39:"estadia com família anfitriã",t40:"família anfitriã",
+    sec_dialogues:"Diálogos reais — situações de viagem",
+    tip_dialogues:"💬 Pratique esses diálogos! São situações que você vai encontrar de verdade ao viajar para um país de língua inglesa.",
+    dlg1_sit:"✈️ No aeroporto — balcão de check-in",
+    dlg1_1:"Bom dia! Posso ver seu passaporte e confirmação de reserva, por favor?",dlg1_2:"Claro, aqui está. Gostaria de um assento na janela se possível.",dlg1_3:"Claro. Você tem bagagem para despachar?",dlg1_4:"Sim, apenas uma mala.",
+    dlg2_sit:"🏨 No hotel — recepção",
+    dlg2_1:"Oi, tenho uma reserva no nome Lucilia Rosa.",dlg2_2:"Deixa eu verificar. Sim, quarto duplo por 3 noites. Posso ver seu documento?",dlg2_3:"Aqui está meu passaporte. A que horas é o check-out?",dlg2_4:"O check-out é ao meio-dia. Aproveite sua estadia!",
+    dlg3_sit:"🗺️ Pedindo direções",
+    dlg3_1:"Com licença, você poderia me dizer como chegar ao Stanley Park?",dlg3_2:"Claro! Siga em frente dois quarteirões, depois vire à esquerda na Georgia Street. É a pé daqui.",dlg3_3:"Muito obrigada! Quanto tempo leva a pé?",dlg3_4:"Uns 10 minutos. Aproveite a visita!",
+    dlg4_sit:"🍽️ No restaurante",
+    dlg4_1:"Vocês já estão prontos para pedir?",dlg4_2:"Sim! Vou querer o salmão, por favor. E poderia me trazer mais água?",dlg4_3:"Claro! Gostaria de mais alguma coisa?",dlg4_4:"Pode trazer a conta? E vocês dividem a conta?",
+    summary_h:"📌 O que você aprendeu",
+    sum1:"Vocabulário do <strong>aeroporto</strong> — check-in, boarding pass, customs, layover...",sum2:"Termos de <strong>hotel</strong> — reservation, front desk, amenities, housekeeping...",sum3:"Palavras de <strong>transporte público</strong> — fare, platform, transfer, delay...",sum4:"Vocabulário de <strong>restaurantes</strong> — bill, tip, refill, appetizer...",sum5:"Como <strong>pedir direções</strong> — straight ahead, block, intersection, landmark...",sum6:"<strong>40 termos essenciais</strong> de viagem com exemplos reais.",sum7:"<strong>4 diálogos completos</strong> prontos para usar na sua próxima viagem!",
+    nav_prev_label:"← aula anterior",nav_prev_title:"Tech &amp; Programming",nav_back_label:"← voltar",nav_back_title:"English — Vocabulary"
+  },
+  en:{
+    nav_current:"Travel Vocabulary",bc_vocab:"Vocabulary",bc_this:"Travel &amp; Transport",
+    eyebrow:"// vocabulary · English · Travel &amp; Transport",
+    article_title:"Travel &amp; Transport<br><span style='font-size:.6em;color:var(--ink3);font-style:italic;'>Essential Travel &amp; Transport Vocabulary</span>",
+    level:"Basic–Intermediate",meta_sub:"🌍 essential for anyone who wants to travel",
+    sec_cats:"Vocabulary by situation",
+    tip_main:"💡 This vocabulary was specially designed for those who want to travel to Canada or any English-speaking country. <strong>Every word here you might actually need to use!</strong>",
+    cat1_h:"At the Airport",cat1_w1:"to check in",cat1_w2:"boarding pass",cat1_w3:"departure gate",cat1_w4:"carry-on baggage",cat1_w5:"checked baggage",cat1_w6:"customs",cat1_w7:"immigration/passport control",cat1_w8:"stopover/connection",
+    cat2_h:"At the Hotel",cat2_w1:"hotel arrival/departure",cat2_w2:"reservation",cat2_w3:"reception/front desk",cat2_w4:"room service",cat2_w5:"offered amenities",cat2_w6:"available room",cat2_w7:"suite",cat2_w8:"cleaning service",
+    cat3_h:"Public Transport",cat3_w1:"ticket price/fare",cat3_w2:"transit card",cat3_w3:"transfer/connection",cat3_w4:"train/subway platform",cat3_w5:"travel timetable/schedule",cat3_w6:"one-way / round trip",cat3_w7:"route/path",cat3_w8:"delay",
+    cat4_h:"Eating Out",cat4_w1:"menu",cat4_w2:"restaurant bill",cat4_w3:"tip/gratuity",cat4_w4:"to go/takeout",cat4_w5:"glass refill",cat4_w6:"starter course",cat4_w7:"main course",cat4_w8:"split the bill",
+    cat5_h:"Asking for Directions",cat5_w1:"turn left/right",cat5_w2:"straight ahead",cat5_w3:"block",cat5_w4:"intersection/corner",cat5_w5:"reference point",cat5_w6:"across from/opposite",cat5_w7:"just around the corner",cat5_w8:"within walking distance",
+    cat6_h:"Shopping",cat6_w1:"receipt",cat6_w2:"refund/return",cat6_w3:"exchange item",cat6_w4:"sale/discount",cat6_w5:"fitting room",cat6_w6:"sold out",cat6_w7:"cashier",cat6_w8:"tax included",
+    sec_table:"Complete glossary — 40 travel terms",col_word:"Word / Phrase",col_pt:"Portuguese",col_ex:"Example",
+    t1:"passport",t2:"entry visa",t3:"travel itinerary",t4:"accommodation/lodging",t5:"hostel",t6:"sightseeing",t7:"souvenir",t8:"exchange rate",t9:"local currency",t10:"fatigue from time zone change",t11:"time zone",t12:"local time",t13:"direct nonstop flight",t14:"flight with connection",t15:"aisle/window seat",t16:"plane overhead compartment",t17:"turbulence",t18:"travel insurance",t19:"lost/misplaced luggage",t20:"airport shuttle/bus",t21:"taxi/cab",t22:"ride-share app (Uber/Lyft)",t23:"highway toll",t24:"gas station",t25:"rental car",t26:"tour guide",t27:"guided tour",t28:"away from tourist routes",t29:"high/peak season",t30:"low/off season",t31:"local/traditional cuisine",t32:"ATM machine",t33:"power/plug adapter",t34:"international cell phone use",t35:"local SIM card",t36:"weather forecast",t37:"packing list",t38:"culture shock",t39:"stay with a host family",t40:"host family",
+    sec_dialogues:"Real dialogues — travel situations",
+    tip_dialogues:"💬 Practice these dialogues! These are situations you'll actually encounter when traveling to an English-speaking country.",
+    dlg1_sit:"✈️ At the airport — check-in counter",
+    dlg1_1:"Good morning! Can I see your passport and booking confirmation?",dlg1_2:"Sure, here you go. I'd like a window seat if possible.",dlg1_3:"Of course. Do you have any checked baggage?",dlg1_4:"Yes, just one bag.",
+    dlg2_sit:"🏨 At the hotel — front desk",
+    dlg2_1:"Hi, I have a reservation under the name Lucilia Rosa.",dlg2_2:"Let me check that. Yes, a double room for 3 nights. Can I see your ID?",dlg2_3:"Here's my passport. What time is check-out?",dlg2_4:"Check-out is at noon. Enjoy your stay!",
+    dlg3_sit:"🗺️ Asking for directions",
+    dlg3_1:"Excuse me, could you tell me how to get to Stanley Park?",dlg3_2:"Sure! Go straight ahead for two blocks, then turn left on Georgia Street. It's within walking distance.",dlg3_3:"Thank you so much! How long does it take to walk?",dlg3_4:"About 10 minutes. Have a great visit!",
+    dlg4_sit:"🍽️ At the restaurant",
+    dlg4_1:"Are you ready to order?",dlg4_2:"Yes! I'll have the salmon, please. And could I get a refill of water?",dlg4_3:"Of course! Would you like anything else?",dlg4_4:"Could we have the bill, please? And do you split the bill?",
+    summary_h:"📌 What you learned",
+    sum1:"<strong>Airport</strong> vocabulary — check-in, boarding pass, customs, layover...",sum2:"<strong>Hotel</strong> terms — reservation, front desk, amenities, housekeeping...",sum3:"<strong>Public transport</strong> words — fare, platform, transfer, delay...",sum4:"<strong>Restaurant</strong> vocabulary — bill, tip, refill, appetizer...",sum5:"How to <strong>ask for directions</strong> — straight ahead, block, intersection, landmark...",sum6:"<strong>40 essential travel terms</strong> with real examples.",sum7:"<strong>4 complete dialogues</strong> ready to use on your next trip!",
+    nav_prev_label:"← previous lesson",nav_prev_title:"Tech &amp; Programming",nav_back_label:"← back",nav_back_title:"English — Vocabulary"
+  }
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.title=l==='pt'?'Travel Vocabulary — Lucilia\'s Notebook':'Travel Vocabulary — Lucilia\'s Notebook';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

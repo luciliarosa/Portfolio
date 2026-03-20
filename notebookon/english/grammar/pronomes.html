@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Pronomes — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#1a7a50;--accent-light:#d1fae5;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-eng{background:var(--accent-light);color:#065f46;}.tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .tip{background:var(--accent-light);border:1.5px solid rgba(26,122,80,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip p{font-size:13px;color:#064e3b;line-height:1.7;}
+    /* pronoun table */
+    .pro-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .pro-table th{background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+    .pro-table td{font-size:13px;padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:middle;}
+    .pro-table tr:last-child td{border-bottom:none;}
+    .pro-table tr:nth-child(even) td{background:var(--paper2);}
+    .pro-table .person{font-size:11px;color:var(--ink4);font-family:var(--font-mono);}
+    .pro-word{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--accent);}
+    .pro-pt{font-size:11px;color:var(--ink4);display:block;}
+    /* example box */
+    .example-box{background:#fff;border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:8px;box-shadow:var(--shadow);}
+    .example-box .en{font-family:var(--font-serif);font-size:15px;color:var(--ink);font-style:italic;margin-bottom:4px;}
+    .example-box .pt{font-size:12px;color:var(--ink4);}
+    .example-box code{font-family:var(--font-mono);font-size:13px;background:var(--accent-light);padding:1px 6px;border-radius:3px;color:var(--accent);font-style:normal;}
+    /* demostrative grid */
+    .dem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.5rem;}
+    .dem-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);text-align:center;}
+    .dem-word{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--accent);}
+    .dem-label{font-size:12px;color:var(--ink3);margin-top:4px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.dem-grid{grid-template-columns:1fr;}.pro-table{font-size:11px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html" class="nav-link">Grammar</a>
+    <a href="pronomes.html" class="nav-link active" data-i18n="nav_current">Pronomes</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html">Grammar</a><span>›</span>
+    <span data-i18n="breadcrumb">Pronomes</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// lição 04 · English Grammar · Pronouns</p>
+    <h1 class="article-title" data-i18n="title">Pronomes<br><span style="font-size:.6em;color:var(--ink3);font-style:italic">Pronouns</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-eng">English Grammar</span>
+      <span class="tag tag-gray" data-i18n="level">Básico</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">👤 subject · object · possessive · reflexive</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- TABELA PRINCIPAL -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_main">Tabela completa de pronomes pessoais</p>
+    <div class="info">
+      <h3 data-i18n="main_h">👤 Sujeito, objeto e possessivos</h3>
+      <p data-i18n="main_p">Pronomes substituem substantivos para evitar repetição. Em inglês, os pronomes pessoais mudam de forma dependendo da <strong>função</strong> que exercem na frase: sujeito (quem faz), objeto (quem recebe) e possessivo (de quem é).</p>
+    </div>
+    <table class="pro-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_person">Pessoa</th>
+          <th data-i18n="col_subject">Sujeito</th>
+          <th data-i18n="col_object">Objeto</th>
+          <th data-i18n="col_poss_adj">Possessivo (adj.)</th>
+          <th data-i18n="col_poss_pro">Possessivo (pron.)</th>
+          <th data-i18n="col_reflex">Reflexivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="person" data-i18n="p_1s">1ª sing.</td><td><span class="pro-word">I</span><span class="pro-pt">eu</span></td><td><span class="pro-word">me</span><span class="pro-pt">me/mim</span></td><td><span class="pro-word">my</span><span class="pro-pt">meu/minha</span></td><td><span class="pro-word">mine</span><span class="pro-pt">o meu/a minha</span></td><td><span class="pro-word">myself</span><span class="pro-pt">eu mesmo</span></td></tr>
+        <tr><td class="person" data-i18n="p_2s">2ª sing.</td><td><span class="pro-word">you</span><span class="pro-pt">você</span></td><td><span class="pro-word">you</span><span class="pro-pt">te/você</span></td><td><span class="pro-word">your</span><span class="pro-pt">seu/sua</span></td><td><span class="pro-word">yours</span><span class="pro-pt">o seu/a sua</span></td><td><span class="pro-word">yourself</span><span class="pro-pt">você mesmo</span></td></tr>
+        <tr><td class="person" data-i18n="p_3sm">3ª masc.</td><td><span class="pro-word">he</span><span class="pro-pt">ele</span></td><td><span class="pro-word">him</span><span class="pro-pt">o/lhe</span></td><td><span class="pro-word">his</span><span class="pro-pt">seu/dele</span></td><td><span class="pro-word">his</span><span class="pro-pt">o seu/dele</span></td><td><span class="pro-word">himself</span><span class="pro-pt">ele mesmo</span></td></tr>
+        <tr><td class="person" data-i18n="p_3sf">3ª fem.</td><td><span class="pro-word">she</span><span class="pro-pt">ela</span></td><td><span class="pro-word">her</span><span class="pro-pt">a/lhe</span></td><td><span class="pro-word">her</span><span class="pro-pt">seu/dela</span></td><td><span class="pro-word">hers</span><span class="pro-pt">o seu/dela</span></td><td><span class="pro-word">herself</span><span class="pro-pt">ela mesma</span></td></tr>
+        <tr><td class="person" data-i18n="p_3sn">3ª neut.</td><td><span class="pro-word">it</span><span class="pro-pt">ele/ela (neutro)</span></td><td><span class="pro-word">it</span><span class="pro-pt">o/a</span></td><td><span class="pro-word">its</span><span class="pro-pt">seu</span></td><td><span class="pro-word">its</span><span class="pro-pt">o seu</span></td><td><span class="pro-word">itself</span><span class="pro-pt">ele/ela mesmo</span></td></tr>
+        <tr><td class="person" data-i18n="p_1p">1ª pl.</td><td><span class="pro-word">we</span><span class="pro-pt">nós</span></td><td><span class="pro-word">us</span><span class="pro-pt">nos/nós</span></td><td><span class="pro-word">our</span><span class="pro-pt">nosso/nossa</span></td><td><span class="pro-word">ours</span><span class="pro-pt">o nosso</span></td><td><span class="pro-word">ourselves</span><span class="pro-pt">nós mesmos</span></td></tr>
+        <tr><td class="person" data-i18n="p_2p">2ª pl.</td><td><span class="pro-word">you</span><span class="pro-pt">vocês</span></td><td><span class="pro-word">you</span><span class="pro-pt">vocês</span></td><td><span class="pro-word">your</span><span class="pro-pt">de vocês</span></td><td><span class="pro-word">yours</span><span class="pro-pt">o de vocês</span></td><td><span class="pro-word">yourselves</span><span class="pro-pt">vocês mesmos</span></td></tr>
+        <tr><td class="person" data-i18n="p_3p">3ª pl.</td><td><span class="pro-word">they</span><span class="pro-pt">eles/elas</span></td><td><span class="pro-word">them</span><span class="pro-pt">os/as/lhes</span></td><td><span class="pro-word">their</span><span class="pro-pt">deles/delas</span></td><td><span class="pro-word">theirs</span><span class="pro-pt">o deles/delas</span></td><td><span class="pro-word">themselves</span><span class="pro-pt">eles mesmos</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr/>
+
+  <!-- EXEMPLOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_ex">Exemplos práticos</p>
+    <div class="example-box">
+      <div class="en"><code>She</code> loves <code>him</code>, but <code>he</code> doesn't love <code>her</code>.</div>
+      <div class="pt" data-i18n="ex1">Ela o ama, mas ele não a ama. (sujeito ≠ objeto)</div>
+    </div>
+    <div class="example-box">
+      <div class="en">Is this <code>your</code> bag? — No, it's not <code>mine</code>. It's <code>hers</code>.</div>
+      <div class="pt" data-i18n="ex2">Esta é a sua bolsa? — Não, não é minha. É dela. (adj. vs pronome possessivo)</div>
+    </div>
+    <div class="example-box">
+      <div class="en">He hurt <code>himself</code>. / She did it by <code>herself</code>.</div>
+      <div class="pt" data-i18n="ex3">Ele se machucou. / Ela fez sozinha. (pronomes reflexivos)</div>
+    </div>
+    <div class="example-box">
+      <div class="en"><code>Their</code> house is bigger than <code>ours</code>.</div>
+      <div class="pt" data-i18n="ex4">A casa deles é maior que a nossa. (possessivo adj. + pronome)</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- POSSESSIVO: MY vs MINE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_poss">My vs Mine — a diferença</p>
+    <div class="tip">
+      <p data-i18n="poss_tip">💡 <strong>MY, YOUR, HIS, HER, OUR, THEIR</strong> são adjetivos possessivos — sempre antes de um substantivo. <strong>MINE, YOURS, HIS, HERS, OURS, THEIRS</strong> são pronomes possessivos — substituem o substantivo (não precisam de um após).</p>
+    </div>
+    <div class="example-box">
+      <div class="en">This is <code>my</code> book. (my + substantivo)</div>
+      <div class="pt" data-i18n="poss_ex1">Este é o meu livro. (adjetivo — acompanha o substantivo)</div>
+    </div>
+    <div class="example-box">
+      <div class="en">This book is <code>mine</code>. (sem substantivo depois)</div>
+      <div class="pt" data-i18n="poss_ex2">Este livro é meu. (pronome — sozinho, sem substantivo)</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- DEMONSTRATIVOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_dem">Pronomes demonstrativos</p>
+    <div class="dem-grid">
+      <div class="dem-card">
+        <div class="dem-word">this / these</div>
+        <div class="dem-label" data-i18n="dem_this">Próximo — this (sing.) / these (pl.) — este/estes</div>
+      </div>
+      <div class="dem-card">
+        <div class="dem-word">that / those</div>
+        <div class="dem-label" data-i18n="dem_that">Distante — that (sing.) / those (pl.) — aquele/aqueles</div>
+      </div>
+    </div>
+    <div class="example-box">
+      <div class="en"><code>This</code> is my phone. <code>That</code> is yours. <code>These</code> are fresh. <code>Those</code> are old.</div>
+      <div class="pt" data-i18n="dem_ex">Este é o meu celular. Aquele é o seu. Estes são frescos. Aqueles são velhos.</div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="artigos.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_label">← lição anterior</span>
+      <span class="np-title" data-i18n="nav_prev_title">Artigos</span>
+    </a>
+    <a href="verbos.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">próxima lição →</span>
+      <span class="np-title" data-i18n="nav_next_title">Verbos Reg. e Irreg.</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{nav_current:"Pronomes",breadcrumb:"Pronomes",eyebrow:"// lição 04 · English Grammar · Pronouns",title:"Pronomes",level:"Básico",sec_main:"Tabela completa de pronomes pessoais",main_h:"👤 Sujeito, objeto e possessivos",main_p:"Pronomes substituem substantivos para evitar repetição. Em inglês, os pronomes pessoais mudam de forma dependendo da <strong>função</strong> que exercem na frase: sujeito (quem faz), objeto (quem recebe) e possessivo (de quem é).",col_person:"Pessoa",col_subject:"Sujeito",col_object:"Objeto",col_poss_adj:"Possessivo (adj.)",col_poss_pro:"Possessivo (pron.)",col_reflex:"Reflexivo",p_1s:"1ª sing.",p_2s:"2ª sing.",p_3sm:"3ª masc.",p_3sf:"3ª fem.",p_3sn:"3ª neut.",p_1p:"1ª pl.",p_2p:"2ª pl.",p_3p:"3ª pl.",sec_ex:"Exemplos práticos",ex1:"Ela o ama, mas ele não a ama. (sujeito ≠ objeto)",ex2:"Esta é a sua bolsa? — Não, não é minha. É dela. (adj. vs pronome possessivo)",ex3:"Ele se machucou. / Ela fez sozinha. (pronomes reflexivos)",ex4:"A casa deles é maior que a nossa. (possessivo adj. + pronome)",sec_poss:"My vs Mine — a diferença",poss_tip:"💡 <strong>MY, YOUR, HIS, HER, OUR, THEIR</strong> são adjetivos possessivos — sempre antes de um substantivo. <strong>MINE, YOURS, HIS, HERS, OURS, THEIRS</strong> são pronomes possessivos — substituem o substantivo (não precisam de um após).",poss_ex1:"Este é o meu livro. (adjetivo — acompanha o substantivo)",poss_ex2:"Este livro é meu. (pronome — sozinho, sem substantivo)",sec_dem:"Pronomes demonstrativos",dem_this:"Próximo — this (sing.) / these (pl.) — este/estes",dem_that:"Distante — that (sing.) / those (pl.) — aquele/aqueles",dem_ex:"Este é o meu celular. Aquele é o seu. Estes são frescos. Aqueles são velhos.",nav_prev_label:"← lição anterior",nav_prev_title:"Artigos",nav_next_label:"próxima lição →",nav_next_title:"Verbos Reg. e Irreg."},
+  en:{nav_current:"Pronouns",breadcrumb:"Pronouns",eyebrow:"// lesson 04 · English Grammar · Pronouns",title:"Pronouns",level:"Basic",sec_main:"Complete personal pronoun table",main_h:"👤 Subject, object and possessives",main_p:"Pronouns replace nouns to avoid repetition. In English, personal pronouns change form depending on the <strong>function</strong> they perform in the sentence: subject (who acts), object (who receives) and possessive (whose it is).",col_person:"Person",col_subject:"Subject",col_object:"Object",col_poss_adj:"Possessive (adj.)",col_poss_pro:"Possessive (pro.)",col_reflex:"Reflexive",p_1s:"1st sing.",p_2s:"2nd sing.",p_3sm:"3rd masc.",p_3sf:"3rd fem.",p_3sn:"3rd neut.",p_1p:"1st pl.",p_2p:"2nd pl.",p_3p:"3rd pl.",sec_ex:"Practical examples",ex1:"She loves him, but he doesn't love her. (subject ≠ object)",ex2:"Is this your bag? — No, it's not mine. It's hers. (adj. vs possessive pronoun)",ex3:"He hurt himself. / She did it by herself. (reflexive pronouns)",ex4:"Their house is bigger than ours. (possessive adj. + pronoun)",sec_poss:"My vs Mine — the difference",poss_tip:"💡 <strong>MY, YOUR, HIS, HER, OUR, THEIR</strong> are possessive adjectives — always before a noun. <strong>MINE, YOURS, HIS, HERS, OURS, THEIRS</strong> are possessive pronouns — they replace the noun (no noun needed after them).",poss_ex1:"This is my book. (adjective — accompanies the noun)",poss_ex2:"This book is mine. (pronoun — alone, no noun)",sec_dem:"Demonstrative pronouns",dem_this:"Near — this (sing.) / these (pl.)",dem_that:"Far — that (sing.) / those (pl.)",dem_ex:"This is my phone. That is yours. These are fresh. Those are old.",nav_prev_label:"← previous lesson",nav_prev_title:"Articles",nav_next_label:"next lesson →",nav_next_title:"Regular & Irregular Verbs"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

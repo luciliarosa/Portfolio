@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SQL SELECT — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--sql:#f29111;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-sql{background:#fff3e0;color:#e65100;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    /* code block */
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;}.fn{color:#cba6f7;}.st{color:#a6e3a1;}.cm{color:#6c7086;}.nm{color:#f9e2af;}.op{color:#f38ba8;}
+    /* table demo */
+    .sql-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .sql-table thead tr{background:#fff3e0;}
+    .sql-table th{padding:10px 16px;font-size:12px;font-weight:700;color:#e65100;text-align:left;font-family:var(--font-mono);}
+    .sql-table td{padding:9px 16px;font-size:13px;color:var(--ink2);border-top:1px solid var(--rule2);font-family:var(--font-mono);}
+    .sql-table tr:hover td{background:var(--paper2);}
+    /* clause card */
+    .clause{background:#fff;border:1.5px solid var(--rule);border-left:4px solid var(--sql);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:10px;}
+    .clause .cl-kw{font-family:var(--font-mono);font-size:13px;font-weight:600;color:#e65100;background:#fff3e0;padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:8px;}
+    .clause h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .clause p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .clause code{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:1px 5px;border-radius:3px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="sql-select.html" class="nav-link active">SELECT</a>
+    <a href="sql-insert-update-delete.html" class="nav-link">INSERT/UPDATE/DELETE</a>
+    <a href="sql-joins.html" class="nav-link">JOINs</a>
+    <a href="sql-modelagem.html" class="nav-link">Modelagem</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#banco">SQL</a><span>›</span>
+    <span data-i18n="bc">SELECT</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 01 · SQL · Consultas</p>
+    <h1 class="article-title" data-i18n="title">SELECT — Consultando<br>dados no banco</h1>
+    <div class="article-meta">
+      <span class="tag tag-sql">SQL</span>
+      <span class="tag gray" data-i18n="tag_sub">Consultas</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">SQL Server · MySQL</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- TABELA DE EXEMPLO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_table">Tabela de exemplo — usaremos ao longo da aula</p>
+    <p style="font-size:13px;color:var(--ink3);margin-bottom:10px;font-family:var(--font-mono)">tabela: clientes</p>
+    <table class="sql-table">
+      <thead><tr><th>id</th><th>nome</th><th>cidade</th><th>idade</th><th>ativo</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>'Ana Silva'</td><td>'São Paulo'</td><td>28</td><td>1</td></tr>
+        <tr><td>2</td><td>'Carlos Souza'</td><td>'Rio de Janeiro'</td><td>35</td><td>1</td></tr>
+        <tr><td>3</td><td>'Maria Lima'</td><td>'São Paulo'</td><td>22</td><td>0</td></tr>
+        <tr><td>4</td><td>'João Costa'</td><td>'Belo Horizonte'</td><td>41</td><td>1</td></tr>
+        <tr><td>5</td><td>'Paula Rocha'</td><td>'São Paulo'</td><td>30</td><td>1</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr/>
+
+  <!-- SELECT BÁSICO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_basic">SELECT básico</p>
+    <div class="clause"><span class="cl-kw">SELECT *</span><h3 data-i18n="cl1_h">Traz todas as colunas</h3><p data-i18n="cl1_p">O asterisco <code>*</code> seleciona todas as colunas. Use com cuidado em produção — traga só o que precisa.</p></div>
+    <div class="clause"><span class="cl-kw">SELECT col1, col2</span><h3 data-i18n="cl2_h">Colunas específicas</h3><p data-i18n="cl2_p">Liste os nomes das colunas separados por vírgula. Mais eficiente e legível que o <code>*</code>.</p></div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Todas as colunas</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes;
+
+<span class="cm">-- Colunas específicas</span>
+<span class="kw">SELECT</span> nome, cidade <span class="kw">FROM</span> clientes;
+
+<span class="cm">-- Com alias (apelido)</span>
+<span class="kw">SELECT</span> nome <span class="kw">AS</span> <span class="st">'Cliente'</span>, cidade <span class="kw">AS</span> <span class="st">'Localidade'</span>
+<span class="kw">FROM</span> clientes;</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- WHERE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_where">WHERE — filtrando resultados</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="where_h">🔍 A cláusula mais usada do SQL</h3>
+      <p data-i18n="where_p">O <code>WHERE</code> filtra as linhas que atendem a uma condição. Pode combinar condições com <code>AND</code>, <code>OR</code> e <code>NOT</code>.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Filtro simples</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> cidade = <span class="st">'São Paulo'</span>;
+
+<span class="cm">-- Múltiplas condições</span>
+<span class="kw">SELECT</span> nome, idade <span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> cidade = <span class="st">'São Paulo'</span> <span class="kw">AND</span> ativo = <span class="nm">1</span>;
+
+<span class="cm">-- Intervalo de valores</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> idade <span class="kw">BETWEEN</span> <span class="nm">25</span> <span class="kw">AND</span> <span class="nm">35</span>;
+
+<span class="cm">-- Lista de valores</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> cidade <span class="kw">IN</span> (<span class="st">'São Paulo'</span>, <span class="st">'Rio de Janeiro'</span>);
+
+<span class="cm">-- Busca parcial com LIKE</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">WHERE</span> nome <span class="kw">LIKE</span> <span class="st">'Ana%'</span>;   <span class="cm">-- começa com "Ana"</span>
+<span class="kw">WHERE</span> nome <span class="kw">LIKE</span> <span class="st">'%Silva'</span>; <span class="cm">-- termina com "Silva"</span>
+<span class="kw">WHERE</span> nome <span class="kw">LIKE</span> <span class="st">'%ar%'</span>;   <span class="cm">-- contém "ar"</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ORDER, LIMIT, DISTINCT -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_order">ORDER BY, LIMIT e DISTINCT</p>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Ordenar por coluna (padrão ASC = crescente)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">ORDER BY</span> nome <span class="kw">ASC</span>;
+
+<span class="cm">-- Ordem decrescente</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">ORDER BY</span> idade <span class="kw">DESC</span>;
+
+<span class="cm">-- Limitar número de resultados</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes
+<span class="kw">ORDER BY</span> idade <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="nm">3</span>;   <span class="cm">-- os 3 mais velhos</span>
+
+<span class="cm">-- Valores únicos (sem duplicatas)</span>
+<span class="kw">SELECT DISTINCT</span> cidade <span class="kw">FROM</span> clientes;
+<span class="cm">-- Resultado: São Paulo, Rio de Janeiro, Belo Horizonte</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- FUNÇÕES DE AGREGAÇÃO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_agg">Funções de agregação</p>
+    <div class="g3" style="margin-bottom:1.5rem;">
+      <div class="clause" style="margin-bottom:0"><span class="cl-kw">COUNT()</span><h3 data-i18n="agg1_h">Contar linhas</h3><p data-i18n="agg1_p">Conta o número de registros. <code>COUNT(*)</code> conta todas, <code>COUNT(col)</code> ignora NULLs.</p></div>
+      <div class="clause" style="margin-bottom:0"><span class="cl-kw">SUM() / AVG()</span><h3 data-i18n="agg2_h">Soma e média</h3><p data-i18n="agg2_p">Soma ou calcula a média de valores numéricos de uma coluna.</p></div>
+      <div class="clause" style="margin-bottom:0"><span class="cl-kw">MIN() / MAX()</span><h3 data-i18n="agg3_h">Mínimo e máximo</h3><p data-i18n="agg3_p">Retorna o menor ou maior valor de uma coluna.</p></div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Contar total de clientes</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total <span class="kw">FROM</span> clientes;
+
+<span class="cm">-- Média de idade dos clientes ativos</span>
+<span class="kw">SELECT</span> <span class="fn">AVG</span>(idade) <span class="kw">AS</span> media_idade
+<span class="kw">FROM</span> clientes <span class="kw">WHERE</span> ativo = <span class="nm">1</span>;
+
+<span class="cm">-- Agrupar por cidade</span>
+<span class="kw">SELECT</span> cidade, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total
+<span class="kw">FROM</span> clientes
+<span class="kw">GROUP BY</span> cidade
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span>;
+
+<span class="cm">-- GROUP BY com filtro de grupo (HAVING)</span>
+<span class="kw">SELECT</span> cidade, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total
+<span class="kw">FROM</span> clientes
+<span class="kw">GROUP BY</span> cidade
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="nm">1</span>;  <span class="cm">-- só cidades com mais de 1 cliente</span></pre>
+    </div>
+    <div class="info">
+      <h3 data-i18n="having_h">💡 WHERE vs HAVING</h3>
+      <p data-i18n="having_p"><code>WHERE</code> filtra <strong>linhas</strong> antes de agrupar. <code>HAVING</code> filtra <strong>grupos</strong> depois do <code>GROUP BY</code>. Não é possível usar funções de agregação dentro do <code>WHERE</code>.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ORDEM DAS CLÁUSULAS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_order_clauses">Ordem das cláusulas — memorize!</p>
+    <div class="code-wrap">
+      <pre><span class="kw">SELECT</span>   colunas          <span class="cm">-- 1. o que trazer</span>
+<span class="kw">FROM</span>     tabela           <span class="cm">-- 2. de onde</span>
+<span class="kw">WHERE</span>    condição         <span class="cm">-- 3. filtrar linhas</span>
+<span class="kw">GROUP BY</span> coluna          <span class="cm">-- 4. agrupar</span>
+<span class="kw">HAVING</span>   condição_grupo  <span class="cm">-- 5. filtrar grupos</span>
+<span class="kw">ORDER BY</span> coluna          <span class="cm">-- 6. ordenar</span>
+<span class="kw">LIMIT</span>    número;         <span class="cm">-- 7. limitar</span></pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="../../index.html#banco" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_back_l">← voltar</span>
+      <span class="np-title" data-i18n="nav_back_t">Banco de Dados</span>
+    </a>
+    <a href="sql-insert-update-delete.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_l">próxima aula →</span>
+      <span class="np-title">INSERT, UPDATE e DELETE</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{bc:"SELECT",eyebrow:"// aula 01 · SQL · Consultas",title:"SELECT — Consultando\ndados no banco",tag_sub:"Consultas",sec_table:"Tabela de exemplo — usaremos ao longo da aula",sec_basic:"SELECT básico",cl1_h:"Traz todas as colunas",cl1_p:"O asterisco <code>*</code> seleciona todas as colunas. Use com cuidado em produção — traga só o que precisa.",cl2_h:"Colunas específicas",cl2_p:"Liste os nomes das colunas separados por vírgula. Mais eficiente e legível que o <code>*</code>.",sec_where:"WHERE — filtrando resultados",where_h:"🔍 A cláusula mais usada do SQL",where_p:"O <code>WHERE</code> filtra as linhas que atendem a uma condição. Pode combinar condições com <code>AND</code>, <code>OR</code> e <code>NOT</code>.",sec_order:"ORDER BY, LIMIT e DISTINCT",sec_agg:"Funções de agregação",agg1_h:"Contar linhas",agg1_p:"Conta o número de registros. <code>COUNT(*)</code> conta todas, <code>COUNT(col)</code> ignora NULLs.",agg2_h:"Soma e média",agg2_p:"Soma ou calcula a média de valores numéricos de uma coluna.",agg3_h:"Mínimo e máximo",agg3_p:"Retorna o menor ou maior valor de uma coluna.",having_h:"💡 WHERE vs HAVING",having_p:"<code>WHERE</code> filtra <strong>linhas</strong> antes de agrupar. <code>HAVING</code> filtra <strong>grupos</strong> depois do <code>GROUP BY</code>. Não é possível usar funções de agregação dentro do <code>WHERE</code>.",sec_order_clauses:"Ordem das cláusulas — memorize!",nav_back_l:"← voltar",nav_back_t:"Banco de Dados",nav_next_l:"próxima aula →"},
+  en:{bc:"SELECT",eyebrow:"// lesson 01 · SQL · Queries",title:"SELECT — Querying\ndata from the database",tag_sub:"Queries",sec_table:"Sample table — we'll use it throughout this lesson",sec_basic:"Basic SELECT",cl1_h:"Brings all columns",cl1_p:"The asterisk <code>*</code> selects all columns. Use carefully in production — only bring what you need.",cl2_h:"Specific columns",cl2_p:"List column names separated by commas. More efficient and readable than <code>*</code>.",sec_where:"WHERE — filtering results",where_h:"🔍 The most used SQL clause",where_p:"The <code>WHERE</code> clause filters rows that meet a condition. You can combine conditions with <code>AND</code>, <code>OR</code>, and <code>NOT</code>.",sec_order:"ORDER BY, LIMIT and DISTINCT",sec_agg:"Aggregate functions",agg1_h:"Count rows",agg1_p:"Counts the number of records. <code>COUNT(*)</code> counts all, <code>COUNT(col)</code> ignores NULLs.",agg2_h:"Sum and average",agg2_p:"Sums or calculates the average of numeric values in a column.",agg3_h:"Min and max",agg3_p:"Returns the smallest or largest value in a column.",having_h:"💡 WHERE vs HAVING",having_p:"<code>WHERE</code> filters <strong>rows</strong> before grouping. <code>HAVING</code> filters <strong>groups</strong> after <code>GROUP BY</code>. Aggregate functions cannot be used inside <code>WHERE</code>.",sec_order_clauses:"Clause order — memorize this!",nav_back_l:"← back",nav_back_t:"Databases",nav_next_l:"next lesson →"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.title=l==='pt'?'SQL SELECT — Lucilia\'s Notebook':'SQL SELECT — Lucilia\'s Notebook';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

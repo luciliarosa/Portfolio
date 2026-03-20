@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>INSERT, UPDATE, DELETE — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--sql:#f29111;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-sql{background:#fff3e0;color:#e65100;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;}.fn{color:#cba6f7;}.st{color:#a6e3a1;}.cm{color:#6c7086;}.nm{color:#f9e2af;}.op{color:#f38ba8;}
+    /* DML card */
+    .dml-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .dml-card .dml-badge{font-family:var(--font-mono);font-size:13px;font-weight:700;padding:4px 12px;border-radius:4px;display:inline-block;margin-bottom:10px;}
+    .dml-card h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .dml-card p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .dml-card p+p{margin-top:6px;}
+    .dml-card strong{color:var(--ink);}
+    .badge-insert{background:#dcfce7;color:#166534;}
+    .badge-update{background:#fef9c3;color:#854d0e;}
+    .badge-delete{background:#FAECE7;color:#993C1D;}
+    /* warning */
+    .warn{background:#FAECE7;border:1.5px solid #D85A30;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;display:flex;gap:10px;}
+    .warn span{font-size:18px;flex-shrink:0;}
+    .warn p{font-size:13px;color:#993C1D;line-height:1.7;}
+    .warn strong{font-weight:700;}
+    /* nav */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="sql-select.html" class="nav-link">SELECT</a>
+    <a href="sql-insert-update-delete.html" class="nav-link active">INSERT/UPDATE/DELETE</a>
+    <a href="sql-joins.html" class="nav-link">JOINs</a>
+    <a href="sql-modelagem.html" class="nav-link">Modelagem</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#banco">SQL</a><span>›</span>
+    <span data-i18n="bc">INSERT, UPDATE e DELETE</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 02 · SQL · DML</p>
+    <h1 class="article-title" data-i18n="title">INSERT, UPDATE e DELETE —<br>Manipulando dados</h1>
+    <div class="article-meta">
+      <span class="tag tag-sql">SQL</span>
+      <span class="tag gray">DML</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">SQL Server · MySQL</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- DML intro -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_dml">O que é DML?</p>
+    <div class="info">
+      <h3 data-i18n="dml_h">📝 Data Manipulation Language</h3>
+      <p data-i18n="dml_p">DML é o subconjunto do SQL que <strong>manipula os dados</strong> dentro das tabelas — inserindo, alterando e removendo registros. Diferente do DDL (que cria e altera estruturas), o DML opera sobre o conteúdo. Os três comandos principais são <code>INSERT</code>, <code>UPDATE</code> e <code>DELETE</code>.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- INSERT -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_insert">INSERT — adicionando registros</p>
+    <div class="dml-card">
+      <span class="dml-badge badge-insert">INSERT INTO</span>
+      <h3 data-i18n="ins_h">Inserir um ou vários registros na tabela</h3>
+      <p data-i18n="ins_p1">Sempre especifique as colunas — não dependa da ordem da tabela. Se uma coluna tem valor padrão (<code>DEFAULT</code>) ou é <code>AUTO_INCREMENT</code>, pode omiti-la.</p>
+      <p data-i18n="ins_p2">Inserir múltiplos registros de uma vez é muito mais eficiente do que múltiplos INSERTs separados.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Inserir um registro</span>
+<span class="kw">INSERT INTO</span> clientes (nome, cidade, idade, ativo)
+<span class="kw">VALUES</span> (<span class="st">'Fernanda Lima'</span>, <span class="st">'Curitiba'</span>, <span class="nm">27</span>, <span class="nm">1</span>);
+
+<span class="cm">-- Inserir múltiplos registros de uma vez</span>
+<span class="kw">INSERT INTO</span> clientes (nome, cidade, idade, ativo)
+<span class="kw">VALUES</span>
+  (<span class="st">'Roberto Gomes'</span>, <span class="st">'Salvador'</span>, <span class="nm">33</span>, <span class="nm">1</span>),
+  (<span class="st">'Camila Torres'</span>, <span class="st">'Recife'</span>,  <span class="nm">25</span>, <span class="nm">0</span>),
+  (<span class="st">'Diego Alves'</span>,   <span class="st">'Fortaleza'</span>,<span class="nm">38</span>, <span class="nm">1</span>);
+
+<span class="cm">-- Inserir a partir de outra tabela (INSERT SELECT)</span>
+<span class="kw">INSERT INTO</span> clientes_inativos
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes <span class="kw">WHERE</span> ativo = <span class="nm">0</span>;</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- UPDATE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_update">UPDATE — alterando registros</p>
+    <div class="dml-card">
+      <span class="dml-badge badge-update">UPDATE</span>
+      <h3 data-i18n="upd_h">Alterar dados existentes na tabela</h3>
+      <p data-i18n="upd_p">O <code>SET</code> define os novos valores. O <code>WHERE</code> define quais linhas serão afetadas. <strong>Sem WHERE, todos os registros serão alterados!</strong></p>
+    </div>
+    <div class="warn">
+      <span>⚠️</span>
+      <p data-i18n="warn_upd"><strong>Regra de ouro:</strong> nunca faça um UPDATE sem WHERE (a não ser que realmente queira alterar todos os registros). Antes de executar, rode um SELECT com o mesmo WHERE para conferir quantas linhas serão afetadas.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Atualizar um campo</span>
+<span class="kw">UPDATE</span> clientes
+<span class="kw">SET</span> cidade = <span class="st">'Campinas'</span>
+<span class="kw">WHERE</span> id = <span class="nm">3</span>;
+
+<span class="cm">-- Atualizar múltiplos campos</span>
+<span class="kw">UPDATE</span> clientes
+<span class="kw">SET</span> cidade = <span class="st">'Porto Alegre'</span>, ativo = <span class="nm">1</span>
+<span class="kw">WHERE</span> id = <span class="nm">3</span>;
+
+<span class="cm">-- Atualizar com cálculo</span>
+<span class="kw">UPDATE</span> produtos
+<span class="kw">SET</span> preco = preco * <span class="nm">1.10</span>   <span class="cm">-- reajuste de 10%</span>
+<span class="kw">WHERE</span> categoria = <span class="st">'eletrônicos'</span>;
+
+<span class="cm">-- ✅ Boa prática: confira antes com SELECT</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> clientes <span class="kw">WHERE</span> id = <span class="nm">3</span>;
+<span class="cm">-- depois execute o UPDATE</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- DELETE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_delete">DELETE — removendo registros</p>
+    <div class="dml-card">
+      <span class="dml-badge badge-delete">DELETE</span>
+      <h3 data-i18n="del_h">Remover registros da tabela</h3>
+      <p data-i18n="del_p">Remove linhas que atendem à condição. Sem <code>WHERE</code>, apaga <strong>todos</strong> os registros da tabela (mas mantém a estrutura). Operação irreversível — não tem Ctrl+Z!</p>
+    </div>
+    <div class="warn">
+      <span>🚨</span>
+      <p data-i18n="warn_del"><strong>Cuidado redobrado:</strong> DELETE sem WHERE apaga tudo. Sempre verifique com SELECT antes. Em produção, considere fazer um backup ou usar transações (<code>BEGIN TRANSACTION</code>) para poder fazer rollback.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">-- Deletar um registro específico</span>
+<span class="kw">DELETE FROM</span> clientes
+<span class="kw">WHERE</span> id = <span class="nm">3</span>;
+
+<span class="cm">-- Deletar com condição</span>
+<span class="kw">DELETE FROM</span> clientes
+<span class="kw">WHERE</span> ativo = <span class="nm">0</span>;
+
+<span class="cm">-- ⚠️ PERIGO: apaga TUDO (sem WHERE)</span>
+<span class="cm">-- DELETE FROM clientes;</span>
+
+<span class="cm">-- Usando transação para segurança</span>
+<span class="kw">BEGIN TRANSACTION</span>;
+  <span class="kw">DELETE FROM</span> clientes <span class="kw">WHERE</span> id = <span class="nm">3</span>;
+  <span class="cm">-- se estiver certo:</span>
+<span class="kw">COMMIT</span>;
+  <span class="cm">-- se não estiver certo:</span>
+<span class="cm">-- ROLLBACK;</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TRUNCATE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_truncate">DELETE vs TRUNCATE vs DROP</p>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid var(--accent);margin-bottom:0;">
+        <h3>DELETE</h3>
+        <p data-i18n="del_vs1">Remove linhas com ou sem condição. Pode ser revertido com ROLLBACK. Mais lento em tabelas grandes pois registra cada linha no log.</p>
+      </div>
+      <div class="info" style="border-left:4px solid #d97706;margin-bottom:0;">
+        <h3>TRUNCATE</h3>
+        <p data-i18n="del_vs2">Remove <strong>todos</strong> os registros de uma vez. Mais rápido que DELETE pois não loga cada linha. Reseta contadores AUTO_INCREMENT. Não aceita WHERE.</p>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;grid-column:1/-1;">
+        <h3>DROP TABLE</h3>
+        <p data-i18n="del_vs3">Remove a tabela inteira — estrutura e dados. Não tem volta. Use quando quer eliminar a tabela do banco definitivamente.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="sql-select.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_l">← aula anterior</span>
+      <span class="np-title">SELECT</span>
+    </a>
+    <a href="sql-joins.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_l">próxima aula →</span>
+      <span class="np-title">JOINs</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{bc:"INSERT, UPDATE e DELETE",eyebrow:"// aula 02 · SQL · DML",title:"INSERT, UPDATE e DELETE —\nManipulando dados",sec_dml:"O que é DML?",dml_h:"📝 Data Manipulation Language",dml_p:"DML é o subconjunto do SQL que <strong>manipula os dados</strong> dentro das tabelas — inserindo, alterando e removendo registros. Diferente do DDL (que cria e altera estruturas), o DML opera sobre o conteúdo. Os três comandos principais são <code>INSERT</code>, <code>UPDATE</code> e <code>DELETE</code>.",sec_insert:"INSERT — adicionando registros",ins_h:"Inserir um ou vários registros na tabela",ins_p1:"Sempre especifique as colunas — não dependa da ordem da tabela. Se uma coluna tem valor padrão (<code>DEFAULT</code>) ou é <code>AUTO_INCREMENT</code>, pode omiti-la.",ins_p2:"Inserir múltiplos registros de uma vez é muito mais eficiente do que múltiplos INSERTs separados.",sec_update:"UPDATE — alterando registros",upd_h:"Alterar dados existentes na tabela",upd_p:"O <code>SET</code> define os novos valores. O <code>WHERE</code> define quais linhas serão afetadas. <strong>Sem WHERE, todos os registros serão alterados!</strong>",warn_upd:"<strong>Regra de ouro:</strong> nunca faça um UPDATE sem WHERE (a não ser que realmente queira alterar todos os registros). Antes de executar, rode um SELECT com o mesmo WHERE para conferir quantas linhas serão afetadas.",sec_delete:"DELETE — removendo registros",del_h:"Remover registros da tabela",del_p:"Remove linhas que atendem à condição. Sem <code>WHERE</code>, apaga <strong>todos</strong> os registros da tabela (mas mantém a estrutura). Operação irreversível — não tem Ctrl+Z!",warn_del:"<strong>Cuidado redobrado:</strong> DELETE sem WHERE apaga tudo. Sempre verifique com SELECT antes. Em produção, considere fazer um backup ou usar transações (<code>BEGIN TRANSACTION</code>) para poder fazer rollback.",sec_truncate:"DELETE vs TRUNCATE vs DROP",del_vs1:"Remove linhas com ou sem condição. Pode ser revertido com ROLLBACK. Mais lento em tabelas grandes pois registra cada linha no log.",del_vs2:"Remove <strong>todos</strong> os registros de uma vez. Mais rápido que DELETE pois não loga cada linha. Reseta contadores AUTO_INCREMENT. Não aceita WHERE.",del_vs3:"Remove a tabela inteira — estrutura e dados. Não tem volta. Use quando quer eliminar a tabela do banco definitivamente.",nav_prev_l:"← aula anterior",nav_next_l:"próxima aula →"},
+  en:{bc:"INSERT, UPDATE and DELETE",eyebrow:"// lesson 02 · SQL · DML",title:"INSERT, UPDATE and DELETE —\nManipulating data",sec_dml:"What is DML?",dml_h:"📝 Data Manipulation Language",dml_p:"DML is the SQL subset that <strong>manipulates data</strong> inside tables — inserting, updating, and removing records. Unlike DDL (which creates and alters structures), DML operates on content. The three main commands are <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code>.",sec_insert:"INSERT — adding records",ins_h:"Insert one or multiple records into the table",ins_p1:"Always specify the columns — don't rely on the table's column order. If a column has a default value (<code>DEFAULT</code>) or is <code>AUTO_INCREMENT</code>, you can omit it.",ins_p2:"Inserting multiple records at once is much more efficient than multiple separate INSERTs.",sec_update:"UPDATE — modifying records",upd_h:"Update existing data in the table",upd_p:"<code>SET</code> defines the new values. <code>WHERE</code> defines which rows will be affected. <strong>Without WHERE, all records will be updated!</strong>",warn_upd:"<strong>Golden rule:</strong> never run an UPDATE without WHERE (unless you really want to update all records). Before executing, run a SELECT with the same WHERE to check how many rows will be affected.",sec_delete:"DELETE — removing records",del_h:"Remove records from the table",del_p:"Removes rows that meet the condition. Without <code>WHERE</code>, it deletes <strong>all</strong> records in the table (but keeps the structure). Irreversible operation — there's no Ctrl+Z!",warn_del:"<strong>Extra caution:</strong> DELETE without WHERE deletes everything. Always check with SELECT first. In production, consider taking a backup or using transactions (<code>BEGIN TRANSACTION</code>) to be able to rollback.",sec_truncate:"DELETE vs TRUNCATE vs DROP",del_vs1:"Removes rows with or without a condition. Can be reversed with ROLLBACK. Slower on large tables since it logs each row.",del_vs2:"Removes <strong>all</strong> records at once. Faster than DELETE since it doesn't log each row. Resets AUTO_INCREMENT counters. Does not accept WHERE.",del_vs3:"Removes the entire table — structure and data. No going back. Use when you want to permanently eliminate the table from the database.",nav_prev_l:"← previous lesson",nav_next_l:"next lesson →"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Tempos Verbais — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#0891b2;--accent-light:#e0f2fe;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-eng{background:var(--accent-light);color:#0369a1;}.tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;color:var(--accent);}
+    .tip{background:var(--accent-light);border:1.5px solid rgba(8,145,178,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip p{font-size:13px;color:#0c4a6e;line-height:1.7;}
+    /* tense table */
+    .tense-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .tense-table th{background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+    .tense-table td{font-size:12px;padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;}
+    .tense-table tr:last-child td{border-bottom:none;}
+    .tense-table tr:nth-child(even) td{background:var(--paper2);}
+    .tense-name{font-weight:700;color:var(--accent);font-family:var(--font-mono);font-size:11px;}
+    .tense-form{font-family:var(--font-mono);font-size:11px;color:var(--ink3);}
+    .tense-use{color:var(--ink3);}
+    .tense-ex{font-style:italic;color:var(--ink4);font-size:11px;margin-top:3px;}
+    /* timeline */
+    .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem;}
+    .tl-block{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);text-align:center;}
+    .tl-label{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--ink4);margin-bottom:8px;}
+    .tl-word{font-size:20px;font-weight:700;color:var(--accent);}
+    .tl-sub{font-size:11px;color:var(--ink3);margin-top:4px;line-height:1.5;}
+    /* example box */
+    .example-box{background:#fff;border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:8px;box-shadow:var(--shadow);}
+    .example-box .en{font-family:var(--font-serif);font-size:15px;color:var(--ink);font-style:italic;margin-bottom:4px;}
+    .example-box .pt{font-size:12px;color:var(--ink4);}
+    .example-box .label{font-family:var(--font-mono);font-size:10px;color:var(--accent);font-weight:700;font-style:normal;margin-bottom:4px;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.timeline{grid-template-columns:1fr;}.tense-table{font-size:11px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../index.html" class="nav-link">Grammar</a>
+    <a href="tempos-verbais.html" class="nav-link active" data-i18n="nav_current">Tempos Verbais</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html">Grammar</a><span>›</span>
+    <span data-i18n="breadcrumb">Tempos Verbais</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// lição 02 · English Grammar · Verb Tenses</p>
+    <h1 class="article-title" data-i18n="title">Tempos Verbais<br><span style="font-size:.6em;color:var(--ink3);font-style:italic">Verb Tenses</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-eng">English Grammar</span>
+      <span class="tag tag-gray" data-i18n="level">Básico–Avançado</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">⏱️ 12 tenses · present · past · future</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- INTRO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_intro">Entendendo os tempos verbais</p>
+    <div class="info">
+      <h3 data-i18n="intro_h">🗓️ Três dimensões do tempo</h3>
+      <p data-i18n="intro_p">O inglês organiza o tempo em três eixos — <strong>Present, Past e Future</strong> — e cada um tem quatro formas: <strong>Simple</strong> (ação básica), <strong>Continuous</strong> (ação em progresso), <strong>Perfect</strong> (ação completada) e <strong>Perfect Continuous</strong> (duração até um ponto). São 12 tempos no total.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-block">
+        <div class="tl-label">PAST</div>
+        <div class="tl-word">Passado</div>
+        <div class="tl-sub" data-i18n="past_desc">O que já aconteceu. Simple, Continuous, Perfect.</div>
+      </div>
+      <div class="tl-block" style="border-color:var(--accent);">
+        <div class="tl-label" style="color:var(--accent)">PRESENT</div>
+        <div class="tl-word">Presente</div>
+        <div class="tl-sub" data-i18n="present_desc">O que acontece agora ou regularmente.</div>
+      </div>
+      <div class="tl-block">
+        <div class="tl-label">FUTURE</div>
+        <div class="tl-word">Futuro</div>
+        <div class="tl-sub" data-i18n="future_desc">O que vai acontecer. will, going to, Simple Present.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TABELA DOS 12 TEMPOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_table">Os 12 tempos verbais — tabela completa</p>
+    <div class="tip">
+      <p data-i18n="table_tip">💡 Fórmulas: <strong>Simple</strong> = verbo base / did. <strong>Continuous</strong> = be + verbo-ing. <strong>Perfect</strong> = have + particípio. <strong>Perfect Continuous</strong> = have been + verbo-ing.</p>
+    </div>
+    <table class="tense-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_tense">Tempo</th>
+          <th data-i18n="col_formula">Fórmula</th>
+          <th data-i18n="col_use">Uso</th>
+          <th data-i18n="col_example">Exemplo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tense-name">Present Simple</span></td><td class="tense-form">V / V+s</td><td class="tense-use" data-i18n="ps_use">Rotinas, fatos, verdades</td><td class="tense-ex">She <em>works</em> here.</td></tr>
+        <tr><td><span class="tense-name">Present Continuous</span></td><td class="tense-form">am/is/are + V-ing</td><td class="tense-use" data-i18n="pc_use">Ação em progresso agora</td><td class="tense-ex">She <em>is working</em> now.</td></tr>
+        <tr><td><span class="tense-name">Present Perfect</span></td><td class="tense-form">have/has + pp</td><td class="tense-use" data-i18n="pp_use">Ação passada com efeito no presente</td><td class="tense-ex">She <em>has worked</em> here.</td></tr>
+        <tr><td><span class="tense-name">Present Perfect Cont.</span></td><td class="tense-form">have/has been + V-ing</td><td class="tense-use" data-i18n="ppc_use">Ação que durou até agora</td><td class="tense-ex">She <em>has been working</em> all day.</td></tr>
+        <tr><td><span class="tense-name">Past Simple</span></td><td class="tense-form">V+ed / irregular</td><td class="tense-use" data-i18n="pasS_use">Ação concluída no passado</td><td class="tense-ex">She <em>worked</em> yesterday.</td></tr>
+        <tr><td><span class="tense-name">Past Continuous</span></td><td class="tense-form">was/were + V-ing</td><td class="tense-use" data-i18n="pasC_use">Ação em progresso no passado</td><td class="tense-ex">She <em>was working</em> at 3pm.</td></tr>
+        <tr><td><span class="tense-name">Past Perfect</span></td><td class="tense-form">had + pp</td><td class="tense-use" data-i18n="pasP_use">Ação anterior a outra no passado</td><td class="tense-ex">She <em>had worked</em> before leaving.</td></tr>
+        <tr><td><span class="tense-name">Past Perfect Cont.</span></td><td class="tense-form">had been + V-ing</td><td class="tense-use" data-i18n="pasPC_use">Duração antes de outro evento passado</td><td class="tense-ex">She <em>had been working</em> for hours.</td></tr>
+        <tr><td><span class="tense-name">Future Simple (will)</span></td><td class="tense-form">will + V</td><td class="tense-use" data-i18n="futS_use">Decisão imediata, previsão</td><td class="tense-ex">She <em>will work</em> tomorrow.</td></tr>
+        <tr><td><span class="tense-name">Future (going to)</span></td><td class="tense-form">am/is/are going to + V</td><td class="tense-use" data-i18n="futG_use">Plano já decidido, evidência</td><td class="tense-ex">She <em>is going to work</em> there.</td></tr>
+        <tr><td><span class="tense-name">Future Continuous</span></td><td class="tense-form">will be + V-ing</td><td class="tense-use" data-i18n="futC_use">Ação em progresso no futuro</td><td class="tense-ex">She <em>will be working</em> at 8am.</td></tr>
+        <tr><td><span class="tense-name">Future Perfect</span></td><td class="tense-form">will have + pp</td><td class="tense-use" data-i18n="futP_use">Ação completa antes de um ponto futuro</td><td class="tense-ex">She <em>will have worked</em> by then.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr/>
+
+  <!-- OS MAIS USADOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_common">Os 4 mais usados — em detalhe</p>
+    <div class="example-box">
+      <div class="label">PRESENT SIMPLE</div>
+      <div class="en">I <strong>study</strong> English every day. / Water <strong>boils</strong> at 100°C.</div>
+      <div class="pt" data-i18n="ex_ps">Eu estudo inglês todo dia. / A água ferve a 100°C.</div>
+    </div>
+    <div class="example-box">
+      <div class="label">PRESENT CONTINUOUS</div>
+      <div class="en">I <strong>am studying</strong> right now. / She <strong>is leaving</strong> next week.</div>
+      <div class="pt" data-i18n="ex_pc">Estou estudando agora. / Ela está saindo na semana que vem.</div>
+    </div>
+    <div class="example-box">
+      <div class="label">PAST SIMPLE</div>
+      <div class="en">I <strong>studied</strong> all night. / They <strong>went</strong> to the beach.</div>
+      <div class="pt" data-i18n="ex_pas">Estudei a noite toda. / Eles foram à praia.</div>
+    </div>
+    <div class="example-box">
+      <div class="label">PRESENT PERFECT</div>
+      <div class="en">I <strong>have studied</strong> English for 3 years. / She <strong>has just arrived</strong>.</div>
+      <div class="pt" data-i18n="ex_pp">Estudo inglês há 3 anos. / Ela acabou de chegar.</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- WILL vs GOING TO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_will">Will vs Going to</p>
+    <div class="info">
+      <h3 data-i18n="will_h">🔮 Qual usar para o futuro?</h3>
+      <p data-i18n="will_p">Esta é uma das dúvidas mais comuns! A regra: <strong>WILL</strong> para decisões tomadas na hora, promessas e previsões sem evidência. <strong>GOING TO</strong> para planos já decididos e situações com evidência clara no presente.</p>
+    </div>
+    <div class="example-box" style="border-color:#7c3aed">
+      <div class="label" style="color:#7c3aed">WILL — decisão no momento</div>
+      <div class="en">A: "We have no milk." B: "I <strong>will</strong> buy some." (decided now)</div>
+      <div class="pt" data-i18n="ex_will">A: "Não temos leite." B: "Vou comprar." (decidiu agora)</div>
+    </div>
+    <div class="example-box" style="border-color:#1a7a50">
+      <div class="label" style="color:#1a7a50">GOING TO — plano já feito</div>
+      <div class="en">I <strong>am going to</strong> visit Paris next summer. (already planned)</div>
+      <div class="pt" data-i18n="ex_going">Vou visitar Paris no próximo verão. (já estava planejado)</div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="preposicoes.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_label">← lição anterior</span>
+      <span class="np-title" data-i18n="nav_prev_title">Preposições</span>
+    </a>
+    <a href="artigos.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">próxima lição →</span>
+      <span class="np-title" data-i18n="nav_next_title">Artigos</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{nav_current:"Tempos Verbais",breadcrumb:"Tempos Verbais",eyebrow:"// lição 02 · English Grammar · Verb Tenses",title:"Tempos Verbais",level:"Básico–Avançado",sec_intro:"Entendendo os tempos verbais",intro_h:"🗓️ Três dimensões do tempo",intro_p:"O inglês organiza o tempo em três eixos — <strong>Present, Past e Future</strong> — e cada um tem quatro formas: <strong>Simple</strong> (ação básica), <strong>Continuous</strong> (ação em progresso), <strong>Perfect</strong> (ação completada) e <strong>Perfect Continuous</strong> (duração até um ponto). São 12 tempos no total.",past_desc:"O que já aconteceu. Simple, Continuous, Perfect.",present_desc:"O que acontece agora ou regularmente.",future_desc:"O que vai acontecer. will, going to, Simple Present.",sec_table:"Os 12 tempos verbais — tabela completa",table_tip:"💡 Fórmulas: <strong>Simple</strong> = verbo base / did. <strong>Continuous</strong> = be + verbo-ing. <strong>Perfect</strong> = have + particípio. <strong>Perfect Continuous</strong> = have been + verbo-ing.",col_tense:"Tempo",col_formula:"Fórmula",col_use:"Uso",col_example:"Exemplo",ps_use:"Rotinas, fatos, verdades",pc_use:"Ação em progresso agora",pp_use:"Ação passada com efeito no presente",ppc_use:"Ação que durou até agora",pasS_use:"Ação concluída no passado",pasC_use:"Ação em progresso no passado",pasP_use:"Ação anterior a outra no passado",pasPC_use:"Duração antes de outro evento passado",futS_use:"Decisão imediata, previsão",futG_use:"Plano já decidido, evidência",futC_use:"Ação em progresso no futuro",futP_use:"Ação completa antes de um ponto futuro",sec_common:"Os 4 mais usados — em detalhe",ex_ps:"Eu estudo inglês todo dia. / A água ferve a 100°C.",ex_pc:"Estou estudando agora. / Ela está saindo na semana que vem.",ex_pas:"Estudei a noite toda. / Eles foram à praia.",ex_pp:"Estudo inglês há 3 anos. / Ela acabou de chegar.",sec_will:"Will vs Going to",will_h:"🔮 Qual usar para o futuro?",will_p:"Esta é uma das dúvidas mais comuns! A regra: <strong>WILL</strong> para decisões tomadas na hora, promessas e previsões sem evidência. <strong>GOING TO</strong> para planos já decididos e situações com evidência clara no presente.",ex_will:"A: \"Não temos leite.\" B: \"Vou comprar.\" (decidiu agora)",ex_going:"Vou visitar Paris no próximo verão. (já estava planejado)",nav_prev_label:"← lição anterior",nav_prev_title:"Preposições",nav_next_label:"próxima lição →",nav_next_title:"Artigos"},
+  en:{nav_current:"Verb Tenses",breadcrumb:"Verb Tenses",eyebrow:"// lesson 02 · English Grammar · Verb Tenses",title:"Verb Tenses",level:"Basic–Advanced",sec_intro:"Understanding verb tenses",intro_h:"🗓️ Three dimensions of time",intro_p:"English organizes time into three axes — <strong>Present, Past and Future</strong> — and each has four forms: <strong>Simple</strong> (basic action), <strong>Continuous</strong> (action in progress), <strong>Perfect</strong> (completed action) and <strong>Perfect Continuous</strong> (duration up to a point). That's 12 tenses in total.",past_desc:"What already happened. Simple, Continuous, Perfect.",present_desc:"What happens now or regularly.",future_desc:"What will happen. will, going to, Simple Present.",sec_table:"All 12 verb tenses — complete table",table_tip:"💡 Formulas: <strong>Simple</strong> = base verb / did. <strong>Continuous</strong> = be + verb-ing. <strong>Perfect</strong> = have + past participle. <strong>Perfect Continuous</strong> = have been + verb-ing.",col_tense:"Tense",col_formula:"Formula",col_use:"Use",col_example:"Example",ps_use:"Routines, facts, truths",pc_use:"Action in progress right now",pp_use:"Past action with present effect",ppc_use:"Action that lasted until now",pasS_use:"Completed action in the past",pasC_use:"Action in progress in the past",pasP_use:"Action before another past event",pasPC_use:"Duration before another past event",futS_use:"Immediate decision, prediction",futG_use:"Already decided plan, evidence",futC_use:"Action in progress in the future",futP_use:"Action completed before a future point",sec_common:"The 4 most used — in detail",ex_ps:"I study English every day. / Water boils at 100°C.",ex_pc:"I am studying right now. / She is leaving next week.",ex_pas:"I studied all night. / They went to the beach.",ex_pp:"I have studied English for 3 years. / She has just arrived.",sec_will:"Will vs Going to",will_h:"🔮 Which one to use for the future?",will_p:"This is one of the most common questions! The rule: <strong>WILL</strong> for decisions made at the moment, promises, and predictions without evidence. <strong>GOING TO</strong> for plans already decided and situations with clear present evidence.",ex_will:"A: \"We have no milk.\" B: \"I will buy some.\" (decided now)",ex_going:"I am going to visit Paris next summer. (already planned)",nav_prev_label:"← previous lesson",nav_prev_title:"Prepositions",nav_next_label:"next lesson →",nav_next_title:"Articles"}
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

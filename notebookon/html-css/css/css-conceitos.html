@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Conceitos de CSS — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--css:#264de4;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-css{background:#e8eeff;color:#1a3ab8;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .cs{color:#89dceb;}.cv{color:#fab387;}.cm{color:#6c7086;}.cn{color:#f9e2af;}.cc{color:#a6e3a1;}.cp{color:#cba6f7;}
+    /* box model visual */
+    .box-model{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;}
+    .bm-wrap{display:inline-flex;flex-direction:column;align-items:center;gap:0;font-family:var(--font-mono);font-size:11px;}
+    .bm-margin{background:#f0e6d3;border:2px dashed #c9956a;border-radius:4px;padding:16px;text-align:center;color:#8b5e3c;font-weight:700;}
+    .bm-border{background:#b8c9e8;border:3px solid #264de4;border-radius:3px;padding:12px;text-align:center;color:#1a3ab8;font-weight:700;}
+    .bm-padding{background:#c3e4c3;border:2px solid #2d7a2d;border-radius:2px;padding:12px;text-align:center;color:#1a5c1a;font-weight:700;}
+    .bm-content{background:#fff;border:1.5px solid var(--rule);border-radius:2px;padding:12px 24px;text-align:center;color:var(--ink);font-weight:700;}
+    /* spec meter */
+    .spec-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);margin-bottom:8px;display:flex;align-items:center;gap:14px;}
+    .spec-label{font-size:13px;font-weight:700;color:var(--ink);min-width:120px;}
+    .spec-ex{font-family:var(--font-mono);font-size:11.5px;color:var(--ink3);flex:1;}
+    .spec-bar-wrap{width:140px;height:8px;background:var(--paper3);border-radius:4px;overflow:hidden;flex-shrink:0;}
+    .spec-bar{height:100%;border-radius:4px;}
+    /* prop cards */
+    .prop-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+    .prop-card .pc-prop{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--css);background:#e8eeff;padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:7px;}
+    .prop-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .prop-card p{font-size:12px;color:var(--ink3);line-height:1.6;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}.spec-card{flex-wrap:wrap;}.spec-bar-wrap{width:100%;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="css-historia.html" class="nav-link">História CSS</a>
+    <a href="css-conceitos.html" class="nav-link active">Conceitos CSS</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+    <a href="../../index.html">Home</a><span>›</span>
+    <a href="../../index.html#javascript">Web</a><span>›</span>
+    <a href="css-historia.html">CSS</a><span>›</span>
+    <span data-i18n="breadcrumb">Conceitos de CSS</span>
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 04 · CSS · Conceitos</p>
+    <h1 class="article-title" data-i18n="title">Conceitos Básicos<br>de CSS</h1>
+    <div class="article-meta">
+      <span class="tag tag-css">CSS</span>
+      <span class="tag gray" data-i18n="tag_basic">Básico</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">📖 Baseado em MDN Web Docs</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- SINTAXE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_syntax">Sintaxe do CSS</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="syntax_h">🎯 Seletor + Propriedade + Valor</h3>
+      <p data-i18n="syntax_p">Uma regra CSS é formada por um <strong>seletor</strong> (quem vai receber o estilo), uma <strong>propriedade</strong> (o que vai mudar) e um <strong>valor</strong> (para quanto vai mudar). Simples assim.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">/*  seletor  {  propriedade  :  valor  ;  }  */</span>
+
+<span class="cs">p</span> {
+  <span class="cv">color</span>: <span class="cc">#333</span>;
+  <span class="cv">font-size</span>: <span class="cn">16px</span>;
+  <span class="cv">line-height</span>: <span class="cn">1.6</span>;
+}
+
+<span class="cs">.destaque</span> {           <span class="cm">/* seletor de classe */</span>
+  <span class="cv">background-color</span>: <span class="cc">yellow</span>;
+  <span class="cv">font-weight</span>: <span class="cn">bold</span>;
+}
+
+<span class="cs">#titulo-principal</span> {   <span class="cm">/* seletor de ID */</span>
+  <span class="cv">font-size</span>: <span class="cn">2rem</span>;
+  <span class="cv">color</span>: <span class="cc">#1a1a1a</span>;
+}</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SELETORES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_selectors">Tipos de seletores</p>
+    <div class="g2" style="margin-bottom:1.5rem;">
+      <div class="info" style="border-left:4px solid var(--css);margin-bottom:0;">
+        <h3 data-i18n="sel_basic_h">Seletores básicos</h3>
+        <ul>
+          <li><code>p</code> — <span data-i18n="sel1">por tag (todos os &lt;p&gt;)</span></li>
+          <li><code>.classe</code> — <span data-i18n="sel2">por classe (começa com ponto)</span></li>
+          <li><code>#id</code> — <span data-i18n="sel3">por ID (começa com #)</span></li>
+          <li><code>*</code> — <span data-i18n="sel4">universal (tudo)</span></li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
+        <h3 data-i18n="sel_combo_h">Seletores combinados</h3>
+        <ul>
+          <li><code>div p</code> — <span data-i18n="sel5">descendente (p dentro de div)</span></li>
+          <li><code>div > p</code> — <span data-i18n="sel6">filho direto</span></li>
+          <li><code>h1, h2</code> — <span data-i18n="sel7">múltiplos (h1 e h2)</span></li>
+          <li><code>a:hover</code> — <span data-i18n="sel8">pseudo-classe (estado)</span></li>
+          <li><code>p::first-line</code> — <span data-i18n="sel9">pseudo-elemento</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">/* Exemplos de seletores */</span>
+<span class="cs">h1, h2, h3</span>   { <span class="cv">font-family</span>: <span class="cc">serif</span>; }   <span class="cm">/* múltiplos */</span>
+<span class="cs">nav a</span>        { <span class="cv">color</span>: <span class="cc">white</span>; }         <span class="cm">/* descendente */</span>
+<span class="cs">button:hover</span> { <span class="cv">background</span>: <span class="cc">#eee</span>; }     <span class="cm">/* estado hover */</span>
+<span class="cs">input:focus</span>  { <span class="cv">outline</span>: <span class="cn">2px</span> <span class="cc">solid blue</span>; } <span class="cm">/* foco */</span>
+<span class="cs">p::first-letter</span> { <span class="cv">font-size</span>: <span class="cn">2em</span>; }   <span class="cm">/* primeira letra */</span>
+<span class="cs">li:nth-child(2)</span> { <span class="cv">color</span>: <span class="cc">red</span>; }       <span class="cm">/* segundo item */</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- BOX MODEL -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_boxmodel">O Box Model — tudo é uma caixa</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="box_h">📦 O conceito mais importante do CSS</h3>
+      <p data-i18n="box_p">No CSS, <strong>todo elemento é uma caixa retangular</strong>. Essa caixa tem quatro camadas: o conteúdo, o padding (espaço interno), a borda e a margem (espaço externo). Entender o Box Model é fundamental para controlar espaçamento e layout.</p>
+    </div>
+    <div class="box-model">
+      <div class="bm-margin">
+        <span data-i18n="bm_margin">margin (espaço externo)</span>
+        <div class="bm-border" style="margin-top:10px;">
+          <span data-i18n="bm_border">border (borda)</span>
+          <div class="bm-padding" style="margin-top:8px;">
+            <span data-i18n="bm_padding">padding (espaço interno)</span>
+            <div class="bm-content" style="margin-top:8px;">
+              <span data-i18n="bm_content">conteúdo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cs">.card</span> {
+  <span class="cv">width</span>: <span class="cn">300px</span>;            <span class="cm">/* largura do conteúdo */</span>
+  <span class="cv">padding</span>: <span class="cn">20px</span>;           <span class="cm">/* espaço interno */</span>
+  <span class="cv">border</span>: <span class="cn">2px</span> <span class="cc">solid #333</span>;  <span class="cm">/* borda */</span>
+  <span class="cv">margin</span>: <span class="cn">16px</span>;            <span class="cm">/* espaço externo */</span>
+  <span class="cv">box-sizing</span>: <span class="cc">border-box</span>;  <span class="cm">/* padding dentro da largura */</span>
+}</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ESPECIFICIDADE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_spec">Especificidade — quem ganha o conflito?</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="spec_h">⚖️ A hierarquia do CSS</h3>
+      <p data-i18n="spec_p">Quando duas regras tentam estilizar o mesmo elemento, o CSS usa a <strong>especificidade</strong> para decidir qual prevalece. Quanto mais específico o seletor, maior seu peso. Em caso de empate, a regra que aparece <strong>por último no código</strong> vence.</p>
+    </div>
+    <div class="spec-card">
+      <span class="spec-label">!important</span>
+      <span class="spec-ex">color: red !important</span>
+      <div class="spec-bar-wrap"><div class="spec-bar" style="width:100%;background:#c84b31;"></div></div>
+    </div>
+    <div class="spec-card">
+      <span class="spec-label" data-i18n="spec_inline">Inline style</span>
+      <span class="spec-ex">style="color:red"</span>
+      <div class="spec-bar-wrap"><div class="spec-bar" style="width:85%;background:#d97706;"></div></div>
+    </div>
+    <div class="spec-card">
+      <span class="spec-label">ID</span>
+      <span class="spec-ex">#titulo { ... }</span>
+      <div class="spec-bar-wrap"><div class="spec-bar" style="width:65%;background:#264de4;"></div></div>
+    </div>
+    <div class="spec-card">
+      <span class="spec-label" data-i18n="spec_class">Classe / pseudo</span>
+      <span class="spec-ex">.btn:hover { ... }</span>
+      <div class="spec-bar-wrap"><div class="spec-bar" style="width:40%;background:#1a7a50;"></div></div>
+    </div>
+    <div class="spec-card">
+      <span class="spec-label" data-i18n="spec_tag">Tag</span>
+      <span class="spec-ex">p { ... }</span>
+      <div class="spec-bar-wrap"><div class="spec-bar" style="width:15%;background:#78716c;"></div></div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- PROPRIEDADES ESSENCIAIS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_props">Propriedades essenciais</p>
+    <div class="g2" style="margin-bottom:12px;">
+      <div class="prop-card">
+        <span class="pc-prop">color / background</span>
+        <h3 data-i18n="prop_color_h">Cores</h3>
+        <p data-i18n="prop_color_p">Aceita nome (<code>red</code>), hex (<code>#ff0000</code>), RGB (<code>rgb(255,0,0)</code>) ou HSL. <code>background</code> controla o fundo, <code>color</code> o texto.</p>
+      </div>
+      <div class="prop-card">
+        <span class="pc-prop">font-size / font-family</span>
+        <h3 data-i18n="prop_font_h">Tipografia</h3>
+        <p data-i18n="prop_font_p">Controla tamanho, família, peso (<code>font-weight</code>) e estilo (<code>font-style</code>) do texto. Use <code>rem</code> para tamanhos relativos à raiz.</p>
+      </div>
+      <div class="prop-card">
+        <span class="pc-prop">display</span>
+        <h3 data-i18n="prop_display_h">Display</h3>
+        <p data-i18n="prop_display_p"><code>block</code> ocupa linha inteira. <code>inline</code> flui com o texto. <code>flex</code> e <code>grid</code> ativam os sistemas de layout modernos.</p>
+      </div>
+      <div class="prop-card">
+        <span class="pc-prop">flexbox</span>
+        <h3 data-i18n="prop_flex_h">Flexbox</h3>
+        <p data-i18n="prop_flex_p">Ativa com <code>display: flex</code>. Controla alinhamento com <code>justify-content</code> (eixo principal) e <code>align-items</code> (eixo cruzado).</p>
+      </div>
+      <div class="prop-card">
+        <span class="pc-prop">grid</span>
+        <h3 data-i18n="prop_grid_h">CSS Grid</h3>
+        <p data-i18n="prop_grid_p">Ativa com <code>display: grid</code>. Cria layouts em duas dimensões. <code>grid-template-columns</code> define as colunas, <code>gap</code> o espaçamento.</p>
+      </div>
+      <div class="prop-card">
+        <span class="pc-prop">--variavel</span>
+        <h3 data-i18n="prop_var_h">Variáveis CSS</h3>
+        <p data-i18n="prop_var_p">Declare com <code>--nome: valor</code> no <code>:root</code>. Use com <code>var(--nome)</code>. Facilitam temas, modo escuro e manutenção.</p>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">/* Variáveis CSS + Flexbox + Grid */</span>
+<span class="cs">:root</span> {
+  <span class="cv">--cor-primaria</span>: <span class="cc">#2563a8</span>;
+  <span class="cv">--espacamento</span>: <span class="cn">1rem</span>;
+}
+
+<span class="cs">.container</span> {
+  <span class="cv">display</span>: <span class="cc">grid</span>;
+  <span class="cv">grid-template-columns</span>: <span class="cp">repeat</span>(<span class="cn">3</span>, <span class="cn">1fr</span>);
+  <span class="cv">gap</span>: <span class="cp">var</span>(<span class="cv">--espacamento</span>);
+}
+
+<span class="cs">.card</span> {
+  <span class="cv">display</span>: <span class="cc">flex</span>;
+  <span class="cv">align-items</span>: <span class="cc">center</span>;
+  <span class="cv">background</span>: <span class="cp">var</span>(<span class="cv">--cor-primaria</span>);
+  <span class="cv">border-radius</span>: <span class="cn">8px</span>;
+  <span class="cv">padding</span>: <span class="cp">var</span>(<span class="cv">--espacamento</span>);
+  <span class="cv">transition</span>: <span class="cv">transform</span> <span class="cn">.2s</span>;
+}
+
+<span class="cs">.card:hover</span> { <span class="cv">transform</span>: <span class="cp">translateY</span>(<span class="cn">-4px</span>); }</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RESPONSIVIDADE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_responsive">Media Queries — responsividade</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3 data-i18n="resp_h">📱 Adaptando para qualquer tela</h3>
+      <p data-i18n="resp_p">Media queries aplicam estilos condicionalmente — geralmente baseadas no tamanho da tela. A abordagem <strong>mobile-first</strong> é a recomendada: começa pelo mobile e vai adicionando estilos para telas maiores.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm">/* Mobile first — começa pelo menor */</span>
+<span class="cs">.grid</span> {
+  <span class="cv">grid-template-columns</span>: <span class="cn">1fr</span>;      <span class="cm">/* 1 coluna no mobile */</span>
+}
+
+<span class="cm">/* Tablet (768px+) */</span>
+<span class="cp">@media</span> (<span class="cv">min-width</span>: <span class="cn">768px</span>) {
+  <span class="cs">.grid</span> { <span class="cv">grid-template-columns</span>: <span class="cp">repeat</span>(<span class="cn">2</span>, <span class="cn">1fr</span>); }
+}
+
+<span class="cm">/* Desktop (1024px+) */</span>
+<span class="cp">@media</span> (<span class="cv">min-width</span>: <span class="cn">1024px</span>) {
+  <span class="cs">.grid</span> { <span class="cv">grid-template-columns</span>: <span class="cp">repeat</span>(<span class="cn">3</span>, <span class="cn">1fr</span>); }
+}
+
+<span class="cm">/* Preferência de modo escuro */</span>
+<span class="cp">@media</span> (<span class="cv">prefers-color-scheme</span>: dark) {
+  <span class="cs">body</span> { <span class="cv">background</span>: <span class="cc">#1a1a1a</span>; <span class="cv">color</span>: <span class="cc">#eee</span>; }
+}</pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="css-historia.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_prev_label">← aula anterior</span>
+      <span class="np-title" data-i18n="nav_prev_title">História do CSS</span>
+    </a>
+    <a href="../../index.html#javascript" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_label">próximo módulo →</span>
+      <span class="np-title" data-i18n="nav_next_title">JavaScript</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{
+    breadcrumb:"Conceitos de CSS",eyebrow:"// aula 04 · CSS · Conceitos",title:"Conceitos Básicos\nde CSS",
+    tag_basic:"Básico",source:"📖 Baseado em MDN Web Docs",
+    sec_syntax:"Sintaxe do CSS",syntax_h:"🎯 Seletor + Propriedade + Valor",
+    syntax_p:"Uma regra CSS é formada por um <strong>seletor</strong> (quem vai receber o estilo), uma <strong>propriedade</strong> (o que vai mudar) e um <strong>valor</strong> (para quanto vai mudar). Simples assim.",
+    sec_selectors:"Tipos de seletores",
+    sel_basic_h:"Seletores básicos",sel1:"por tag (todos os &lt;p&gt;)",sel2:"por classe (começa com ponto)",sel3:"por ID (começa com #)",sel4:"universal (tudo)",
+    sel_combo_h:"Seletores combinados",sel5:"descendente (p dentro de div)",sel6:"filho direto",sel7:"múltiplos (h1 e h2)",sel8:"pseudo-classe (estado)",sel9:"pseudo-elemento",
+    sec_boxmodel:"O Box Model — tudo é uma caixa",box_h:"📦 O conceito mais importante do CSS",
+    box_p:"No CSS, <strong>todo elemento é uma caixa retangular</strong>. Essa caixa tem quatro camadas: o conteúdo, o padding (espaço interno), a borda e a margem (espaço externo). Entender o Box Model é fundamental para controlar espaçamento e layout.",
+    bm_margin:"margin (espaço externo)",bm_border:"border (borda)",bm_padding:"padding (espaço interno)",bm_content:"conteúdo",
+    sec_spec:"Especificidade — quem ganha o conflito?",spec_h:"⚖️ A hierarquia do CSS",
+    spec_p:"Quando duas regras tentam estilizar o mesmo elemento, o CSS usa a <strong>especificidade</strong> para decidir qual prevalece. Quanto mais específico o seletor, maior seu peso. Em caso de empate, a regra que aparece <strong>por último no código</strong> vence.",
+    spec_inline:"Inline style",spec_class:"Classe / pseudo",spec_tag:"Tag",
+    sec_props:"Propriedades essenciais",
+    prop_color_h:"Cores",prop_color_p:"Aceita nome (<code>red</code>), hex (<code>#ff0000</code>), RGB (<code>rgb(255,0,0)</code>) ou HSL. <code>background</code> controla o fundo, <code>color</code> o texto.",
+    prop_font_h:"Tipografia",prop_font_p:"Controla tamanho, família, peso (<code>font-weight</code>) e estilo (<code>font-style</code>) do texto. Use <code>rem</code> para tamanhos relativos à raiz.",
+    prop_display_h:"Display",prop_display_p:"<code>block</code> ocupa linha inteira. <code>inline</code> flui com o texto. <code>flex</code> e <code>grid</code> ativam os sistemas de layout modernos.",
+    prop_flex_h:"Flexbox",prop_flex_p:"Ativa com <code>display: flex</code>. Controla alinhamento com <code>justify-content</code> (eixo principal) e <code>align-items</code> (eixo cruzado).",
+    prop_grid_h:"CSS Grid",prop_grid_p:"Ativa com <code>display: grid</code>. Cria layouts em duas dimensões. <code>grid-template-columns</code> define as colunas, <code>gap</code> o espaçamento.",
+    prop_var_h:"Variáveis CSS",prop_var_p:"Declare com <code>--nome: valor</code> no <code>:root</code>. Use com <code>var(--nome)</code>. Facilitam temas, modo escuro e manutenção.",
+    sec_responsive:"Media Queries — responsividade",resp_h:"📱 Adaptando para qualquer tela",
+    resp_p:"Media queries aplicam estilos condicionalmente — geralmente baseadas no tamanho da tela. A abordagem <strong>mobile-first</strong> é a recomendada: começa pelo mobile e vai adicionando estilos para telas maiores.",
+    nav_prev_label:"← aula anterior",nav_prev_title:"História do CSS",nav_next_label:"próximo módulo →",nav_next_title:"JavaScript"
+  },
+  en:{
+    breadcrumb:"CSS Concepts",eyebrow:"// lesson 04 · CSS · Concepts",title:"Basic CSS\nConcepts",
+    tag_basic:"Basics",source:"📖 Based on MDN Web Docs",
+    sec_syntax:"CSS syntax",syntax_h:"🎯 Selector + Property + Value",
+    syntax_p:"A CSS rule is formed by a <strong>selector</strong> (who receives the style), a <strong>property</strong> (what changes) and a <strong>value</strong> (what it changes to). Simple as that.",
+    sec_selectors:"Types of selectors",
+    sel_basic_h:"Basic selectors",sel1:"by tag (all &lt;p&gt;)",sel2:"by class (starts with dot)",sel3:"by ID (starts with #)",sel4:"universal (everything)",
+    sel_combo_h:"Combined selectors",sel5:"descendant (p inside div)",sel6:"direct child",sel7:"multiple (h1 and h2)",sel8:"pseudo-class (state)",sel9:"pseudo-element",
+    sec_boxmodel:"The Box Model — everything is a box",box_h:"📦 The most important concept in CSS",
+    box_p:"In CSS, <strong>every element is a rectangular box</strong>. This box has four layers: the content, padding (inner space), border, and margin (outer space). Understanding the Box Model is fundamental to controlling spacing and layout.",
+    bm_margin:"margin (outer space)",bm_border:"border",bm_padding:"padding (inner space)",bm_content:"content",
+    sec_spec:"Specificity — who wins the conflict?",spec_h:"⚖️ The CSS hierarchy",
+    spec_p:"When two rules try to style the same element, CSS uses <strong>specificity</strong> to decide which one wins. The more specific the selector, the higher its weight. In case of a tie, the rule that appears <strong>last in the code</strong> wins.",
+    spec_inline:"Inline style",spec_class:"Class / pseudo",spec_tag:"Tag",
+    sec_props:"Essential properties",
+    prop_color_h:"Colors",prop_color_p:"Accepts name (<code>red</code>), hex (<code>#ff0000</code>), RGB (<code>rgb(255,0,0)</code>), or HSL. <code>background</code> controls the background, <code>color</code> the text.",
+    prop_font_h:"Typography",prop_font_p:"Controls font size, family, weight (<code>font-weight</code>), and style (<code>font-style</code>). Use <code>rem</code> for sizes relative to the root.",
+    prop_display_h:"Display",prop_display_p:"<code>block</code> takes up a full line. <code>inline</code> flows with text. <code>flex</code> and <code>grid</code> activate modern layout systems.",
+    prop_flex_h:"Flexbox",prop_flex_p:"Activated with <code>display: flex</code>. Controls alignment with <code>justify-content</code> (main axis) and <code>align-items</code> (cross axis).",
+    prop_grid_h:"CSS Grid",prop_grid_p:"Activated with <code>display: grid</code>. Creates two-dimensional layouts. <code>grid-template-columns</code> defines columns, <code>gap</code> the spacing.",
+    prop_var_h:"CSS Variables",prop_var_p:"Declare with <code>--name: value</code> in <code>:root</code>. Use with <code>var(--name)</code>. Makes themes, dark mode, and maintenance easier.",
+    sec_responsive:"Media Queries — responsiveness",resp_h:"📱 Adapting to any screen",
+    resp_p:"Media queries apply styles conditionally — usually based on screen size. The <strong>mobile-first</strong> approach is recommended: start with mobile and add styles for larger screens.",
+    nav_prev_label:"← previous lesson",nav_prev_title:"History of CSS",nav_next_label:"next module →",nav_next_title:"JavaScript"
+  }
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.title=l==='pt'?'Conceitos de CSS — Lucilia\'s Notebook':'CSS Concepts — Lucilia\'s Notebook';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>
