@@ -9,14 +9,31 @@
     :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--rose:#be185d;--rose-light:#fce7f3;--rose-mid:#f9a8d4;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
     html{scroll-behavior:smooth;}
     body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
-    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
-    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:auto;white-space:nowrap;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;overflow:visible;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow:visible;}
     .nav-back{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 14px;border-radius:6px;border:1.5px solid var(--rule);transition:background .15s,color .15s;white-space:nowrap;}
     .nav-back:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
     .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
     .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);display:flex;align-items:center;gap:5px;}
     .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
     .lang-btn:hover:not(.active){color:var(--ink);}
+    .nav-dropdown{position:relative;}
+    .nav-dropdown-btn{background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink3);padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-dropdown-btn:hover{background:var(--paper3);color:var(--ink);}
+    .nav-dropdown-btn.open{background:var(--ink);color:var(--paper);}
+    .nav-dropdown-panel{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow-lg);min-width:260px;z-index:999;overflow:hidden;}
+    .nav-dropdown-panel.open{display:block;}
+    .nav-dropdown-item{display:flex;align-items:center;gap:12px;padding:11px 16px;font-size:13px;font-weight:600;color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--rule2);transition:background .15s,color .15s;}
+    .nav-dropdown-item:last-child{border-bottom:none;}
+    .nav-dropdown-item:hover{background:var(--paper2);color:var(--accent2);}
+    .ndi-icon{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
+    .ndi-text{display:flex;flex-direction:column;gap:1px;}
+    .ndi-name{font-size:13px;font-weight:700;color:var(--ink);}
+    .ndi-desc{font-size:11px;color:var(--ink4);font-weight:400;}
     .page{max-width:820px;margin:0 auto;padding:0 1.5rem 6rem;}
     .hero{padding:3rem 0 2rem;display:flex;gap:2.5rem;align-items:flex-start;flex-wrap:wrap;}
     .hero-photo{flex-shrink:0;}
@@ -100,8 +117,7 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     .fade{animation:fadeUp .5s ease both;}
     .fade-d1{animation-delay:.08s}.fade-d2{animation-delay:.16s}.fade-d3{animation-delay:.24s}.fade-d4{animation-delay:.32s}
-    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 5rem;}.hero{gap:1.5rem;}.photo-frame{width:110px;height:110px;}.family-grid{grid-template-columns:1fr;}.skills-grid{grid-template-columns:1fr;}}
-    /* ── INTERCÂMBIO ── */
+        /* ── INTERCÂMBIO ── */
     .exchange-card{background:linear-gradient(135deg,#dbeafe 0%,#dcfce7 100%);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-bottom:1.5rem;}
     .exchange-card h3{font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--ink);margin-bottom:10px;}
     .exchange-card p{font-size:13.5px;color:var(--ink2);line-height:1.85;}
@@ -126,32 +142,13 @@
     .lb-arrow:hover{opacity:1;background:rgba(255,255,255,.22);}
     .lb-prev{left:1rem;}.lb-next{right:1rem;}
     @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 5rem;}.hero{gap:1.5rem;}.photo-frame{width:110px;height:110px;}.family-grid{grid-template-columns:1fr;}.skills-grid{grid-template-columns:1fr;}.gallery-grid{grid-template-columns:repeat(2,1fr);}}
-  
-    /* ── DROPDOWN NAV ── */
-    .nav{overflow:visible !important;}
-    .nav-links{overflow:visible !important;}
-    .nav-dropdown{position:relative;}
-    .nav-dropdown-btn{background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink3);padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
-    .nav-dropdown-btn:hover{background:var(--paper3);color:var(--ink);}
-    .nav-dropdown-btn.open{background:var(--ink);color:var(--paper);}
-    .nav-dropdown-panel{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow-lg);min-width:260px;z-index:999;overflow:hidden;}
-    .nav-dropdown-panel.open{display:block;}
-    .nav-dropdown-item{display:flex;align-items:center;gap:12px;padding:11px 16px;font-size:13px;font-weight:600;color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--rule2);transition:background .15s,color .15s;}
-    .nav-dropdown-item:last-child{border-bottom:none;}
-    .nav-dropdown-item:hover{background:var(--paper2);color:var(--accent2);}
-    .ndi-icon{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
-    .ndi-text{display:flex;flex-direction:column;gap:1px;}
-    .ndi-name{font-size:13px;font-weight:700;color:var(--ink);}
-    .ndi-desc{font-size:11px;color:var(--ink4);font-weight:400;}
   </style>
 </head>
 <body>
 
 <nav class="nav">
-  <a href="../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-
-    <!-- DROPDOWN: Perfil & Projetos -->
     <div class="nav-dropdown" id="navDropdown">
       <button class="nav-dropdown-btn" id="navDropdownBtn" onclick="toggleNavDropdown()">
         <span data-i18n="nav_profile">Perfil &amp; Projetos ▾</span>
@@ -181,12 +178,15 @@
       </div>
     </div>
     <span class="nav-sep"></span>
+    <a href="../index.html" class="nav-link" data-i18n="nav_home">Home</a>
+    <span class="nav-sep"></span>
+    <a href="sobre-mim.html" class="nav-link active" data-i18n="nav_this">Sobre Mim</a>
   </div>
-  
+  <div class="lang-toggle">
     <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
     <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
-  <a href="../index.html" class="nav-back" data-i18n="nav_back">← Voltar</a>
+  <a href="index.html" class="nav-back" data-i18n="nav_back">← Voltar</a>
 </nav>
 
 <div class="page">
@@ -211,7 +211,7 @@
       <div class="hero-links">
         <a href="https://github.com/luciliarosa" target="_blank" class="hero-link">🐙 GitHub</a>
         <a href="https://www.linkedin.com/in/lucilia-rosa" target="_blank" class="hero-link">💼 LinkedIn</a>
-        <a href="/cdn-cgi/l/email-protection#6d01180e0401040c431d0c1e1e021e431f021e0c2d02181901020206430e0200" class="hero-link">✉️ E-mail</a>
+        <a href="mailto:lucilia.passos.rosa@outlook.com" class="hero-link">✉️ E-mail</a>
         <a href="https://instagram.com/lucilliarosa" target="_blank" class="hero-link">📸 Instagram</a>
         <a href="https://discord.gg/8N5mRF3P" target="_blank" class="hero-link">🎧 Discord</a>
       </div>
@@ -223,7 +223,7 @@
   <section style="margin-bottom:2rem" class="fade fade-d1">
     <p class="sec-title" data-i18n="sec_about">Quem sou eu</p>
     <div class="about-text">
-      <p data-i18n="about_p1">Sou <strong>Fullstack &amp; Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.</p>
+      <p data-i18n="about_p1">Sou <strong>Backend &amp; Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.</p>
       <p data-i18n="about_p2">Trabalho com <strong>Python, SQL e Microsoft Power Platform</strong> para construir automações, dashboards e soluções orientadas a dados. Tenho uma base sólida em frontend e uma visão full stack que me permite enxergar o projeto como um todo, do banco de dados à interface.</p>
       <p data-i18n="about_p3">Sou de <strong>São Paulo</strong>, tenho o sonho de morar no <strong>Canadá</strong> — onde já fiz intercâmbio — e acredito que tecnologia é muito mais do que código: é <em>autonomia, liberdade e possibilidade</em>.</p>
     </div>
@@ -263,9 +263,9 @@
     <p class="sec-title" data-i18n="sec_family">Meu porto seguro</p>
     <div class="family-grid">
       <div class="fam-card">
-      <div class="fam-photo" id="famPhoto1">
-        <img src="../img/vinicius.jpeg" alt="Vinicius" class="fam-photo-img"/>
-      </div>
+        <div class="fam-photo" id="famPhoto1">
+          <img src="../img/vinicius.jpeg" alt="Vinicius" class="fam-photo-img"/>
+        </div>
         <input type="file" id="famInput1" accept="image/*" style="display:none" onchange="loadFamPhoto(1,this)"/>
         <div class="fam-info">
           <p class="fam-name">Vinicius</p>
@@ -273,9 +273,9 @@
         </div>
       </div>
       <div class="fam-card">
-      <div class="fam-photo" id="famPhoto2">
-        <img src="../img/ragnar.jpeg" alt="Ragnar" class="fam-photo-img"/>
-      </div>
+        <div class="fam-photo" id="famPhoto2">
+          <img src="../img/ragnar.jpeg" alt="Ragnar" class="fam-photo-img"/>
+        </div>
         <input type="file" id="famInput2" accept="image/*" style="display:none" onchange="loadFamPhoto(2,this)"/>
         <div class="fam-info">
           <p class="fam-name">Ragnar</p>
@@ -283,9 +283,9 @@
         </div>
       </div>
       <div class="fam-card">
-      <div class="fam-photo" id="famPhoto3">
-        <img src="../img/luke.jpeg" alt="Luke" class="fam-photo-img"/>
-      </div>
+        <div class="fam-photo" id="famPhoto3">
+          <img src="../img/luke.jpeg" alt="Luke" class="fam-photo-img"/>
+        </div>
         <input type="file" id="famInput3" accept="image/*" style="display:none" onchange="loadFamPhoto(3,this)"/>
         <div class="fam-info">
           <p class="fam-name">Luke</p>
@@ -369,16 +369,16 @@
 
   <hr/>
 
-    <section style="margin-bottom:2rem" class="fade fade-d4">
+  <section style="margin-bottom:2rem" class="fade fade-d4">
     <p class="sec-title" data-i18n="sec_exchange">🇨🇦 Intercâmbio em Vancouver</p>
     <div class="exchange-card">
       <h3 data-i18n="exc_title">✈️ Um mês no Canadá — julho de 2019</h3>
       <p data-i18n="exc_p1">Em julho de 2019 realizei um dos maiores sonhos da minha vida: fiz um intercâmbio de um mês em <strong>Vancouver, Canadá</strong>. Estudei inglês em período integral na <strong>SGIC (St. George International College)</strong>, uma das escolas mais completas da cidade, e mergulhei de cabeça em uma nova cultura, um novo idioma e uma nova versão de mim mesma.</p>
       <p data-i18n="exc_p2">E o melhor: <strong>passei meu aniversário lá</strong>. No dia 4 de julho, a família anfitriã preparou uma festinha especial com bolo e uma mistura de comidas brasileiras e canadenses — um presente que nunca vou esquecer. 🎂🍁</p>
-      <p data-i18n="exc_p3">Durante esse mês, explorei lugares incríveis: <strong>Whistler</strong>, com suas montanhas de tirar o fôlego, o animado <strong>Lynn Canyon</strong>, o lindo <strong>Stanley Park</strong> à beira-mar, e o tranquilo <strong>Joffre Lakes</strong> com seus lagos de um azul impossível. Cada lugar ficou guardado na memória e no coração.</p>
+      <p data-i18n="exc_p3">Durante esse mês, explorei lugares incríveis: <strong>Whistler</strong>, com suas montanhas de tirar o fôlego, o animado <strong>Lonsdale Quay</strong>, o lindo <strong>Stanley Park</strong> à beira-mar, e o tranquilo <strong>Joffre Lakes</strong> com seus lagos de um azul impossível. Cada lugar ficou guardado na memória e no coração.</p>
       <div class="exchange-tags">
         <span class="ex-tag">🏔️ Whistler</span>
-        <span class="ex-tag">🌊 Lynn Canyon</span>
+        <span class="ex-tag">🌊 Lonsdale Quay</span>
         <span class="ex-tag">🌲 Stanley Park</span>
         <span class="ex-tag">💧 Joffre Lakes</span>
         <span class="ex-tag">🏫 SGIC Vancouver</span>
@@ -438,34 +438,14 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
-/* ── DROPDOWN NAV ── */
-function toggleNavDropdown(){
-  const btn=document.getElementById('navDropdownBtn');
-  const panel=document.getElementById('navDropdownPanel');
-  const open=panel.classList.contains('open');
-  btn.classList.toggle('open',!open);
-  panel.classList.toggle('open',!open);
-}
-document.addEventListener('click',e=>{
-  const dd=document.getElementById('navDropdown');
-  if(dd&&!dd.contains(e.target)){
-    document.getElementById('navDropdownBtn')?.classList.remove('open');
-    document.getElementById('navDropdownPanel')?.classList.remove('open');
-  }
-});
-</script><script>
+<script>
 const T = {
   pt: {
-    nav_profile:"Perfil &amp; Projetos ▾",
-    nav_dd_about:"Sobre mim",nav_dd_about_desc:"Trajetória, habilidades e história",
-    nav_dd_projects:"Projetos",nav_dd_projects_desc:"HTML, Python, JavaScript e React",
-    nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"O que é cada área e como se conectam",
-    nav_back:"← Voltar",photo_hint:"sua foto\naqui",eyebrow:"// sobre mim",
-    hero_role:"Fullstack & Automation Developer · São Paulo, Brasil",
+    nav_back:"← Voltar",nav_profile:"Perfil &amp; Projetos ▾",nav_home:"Home",nav_this:"Sobre Mim",nav_dd_about:"Sobre mim",nav_dd_about_desc:"Trajetória, habilidades e história",nav_dd_projects:"Projetos",nav_dd_projects_desc:"HTML, Python, JavaScript e React",nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"O que é cada área e como se conectam",photo_hint:"sua foto\naqui",eyebrow:"// sobre mim",
+    hero_role:"Backend & Automation Developer · São Paulo, Brasil",
     tag_exp:"+5 anos de experiência",tag_wit:"Mulher na Tech",tag_canada:"Open to Canada",
     sec_about:"Quem sou eu",
-    about_p1:"Sou <strong>Fullstack & Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.",
+    about_p1:"Sou <strong>Backend & Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.",
     about_p2:"Trabalho com <strong>Python, SQL e Microsoft Power Platform</strong> para construir automações, dashboards e soluções orientadas a dados. Tenho uma base sólida em frontend e uma visão full stack que me permite enxergar o projeto como um todo, do banco de dados à interface.",
     about_p3:"Sou de <strong>São Paulo</strong>, tenho o sonho de morar no <strong>Canadá</strong> — onde já fiz intercâmbio — e acredito que tecnologia é muito mais do que código: é <em>autonomia, liberdade e possibilidade</em>.",
     sec_wit:"Mulher na tecnologia",wit_title:"💜 Para as que ainda estão chegando",
@@ -499,21 +479,17 @@ const T = {
     exc_title:"✈️ Um mês no Canadá — julho de 2019",
     exc_p1:"Em julho de 2019 realizei um dos maiores sonhos da minha vida: fiz um intercâmbio de um mês em <strong>Vancouver, Canadá</strong>. Estudei inglês em período integral na <strong>SGIC (St. George International College)</strong>, uma das escolas mais completas da cidade, e mergulhei de cabeça em uma nova cultura, um novo idioma e uma nova versão de mim mesma.",
     exc_p2:"E o melhor: <strong>passei meu aniversário lá</strong>. No dia 4 de julho, a família anfitriã preparou uma festinha especial com bolo e uma mistura de comidas brasileiras e canadenses — um presente que nunca vou esquecer. 🎂🍁",
-    exc_p3:"Durante esse mês, explorei lugares incríveis: <strong>Whistler</strong>, com suas montanhas de tirar o fôlego, o animado <strong>Lynn Canyon</strong>, o lindo <strong>Stanley Park</strong> à beira-mar, e o tranquilo <strong>Joffre Lakes</strong> com seus lagos de um azul impossível. Cada lugar ficou guardado na memória e no coração.",
+    exc_p3:"Durante esse mês, explorei lugares incríveis: <strong>Whistler</strong>, com suas montanhas de tirar o fôlego, o animado <strong>Lonsdale Quay</strong>, o lindo <strong>Stanley Park</strong> à beira-mar, e o tranquilo <strong>Joffre Lakes</strong> com seus lagos de um azul impossível. Cada lugar ficou guardado na memória e no coração.",
     exc_gallery_title:"Memórias em fotos",
     gal_add:"adicionar foto",
     back_btn:"📓 Voltar para o Notebook"
   },
   en: {
-    nav_profile:"Profile &amp; Projects ▾",
-    nav_dd_about:"About me",nav_dd_about_desc:"Background, skills and story",
-    nav_dd_projects:"Projects",nav_dd_projects_desc:"HTML, Python, JavaScript and React",
-    nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"What each area is and how they connect",
-    nav_back:"← Back",photo_hint:"your photo\nhere",eyebrow:"// about me",
-    hero_role:"Fullstack & Automation Developer · São Paulo, Brazil",
+    nav_back:"← Back",nav_profile:"Profile &amp; Projects ▾",nav_home:"Home",nav_this:"About Me",nav_dd_about:"About me",nav_dd_about_desc:"Background, skills and story",nav_dd_projects:"Projects",nav_dd_projects_desc:"HTML, Python, JavaScript and React",nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"What each area is and how they connect",photo_hint:"your photo\nhere",eyebrow:"// about me",
+    hero_role:"Backend & Automation Developer · São Paulo, Brazil",
     tag_exp:"+5 years of experience",tag_wit:"Woman in Tech",tag_canada:"Open to Canada",
     sec_about:"Who I am",
-    about_p1:"I'm a <strong>Fullstack & Automation Developer</strong> with over 5 years of experience in systems development, automation, and technical support. My journey started in computer networks and naturally evolved into software development — always driven by curiosity and the desire to solve real-world problems with technology.",
+    about_p1:"I'm a <strong>Backend & Automation Developer</strong> with over 5 years of experience in systems development, automation, and technical support. My journey started in computer networks and naturally evolved into software development — always driven by curiosity and the desire to solve real-world problems with technology.",
     about_p2:"I work with <strong>Python, SQL and Microsoft Power Platform</strong> to build automations, dashboards and data-driven solutions. I have a solid frontend foundation and a full stack mindset that allows me to see the whole picture, from database to interface.",
     about_p3:"I'm from <strong>São Paulo</strong>, dream of living in <strong>Canada</strong> — where I've already done an exchange program — and I believe technology is much more than code: it's <em>autonomy, freedom and possibility</em>.",
     sec_wit:"Woman in technology",wit_title:"💜 For those still on their way",
@@ -547,10 +523,9 @@ const T = {
     exc_title:"✈️ One month in Canada — July 2019",
     exc_p1:"In July 2019, I fulfilled one of my biggest dreams: a one-month exchange program in <strong>Vancouver, Canada</strong>. I studied full-time English at <strong>SGIC (St. George International College)</strong>, one of the most complete schools in the city, and fully immersed myself in a new culture, a new language, and a new version of myself.",
     exc_p2:"And the best part: <strong>I celebrated my birthday there</strong>. On July 4th, my host family threw a special little party with cake and a mix of Brazilian and Canadian foods — a gift I'll never forget. 🎂🍁",
-    exc_p3:"During that month, I explored incredible places: <strong>Whistler</strong>, with its breathtaking mountains, the lively <strong>Lynn Canyon</strong>, the beautiful waterfront <strong>Stanley Park</strong>, and the serene <strong>Joffre Lakes</strong> with their impossibly blue waters. Each place is forever kept in memory and in my heart.",
+    exc_p3:"During that month, I explored incredible places: <strong>Whistler</strong>, with its breathtaking mountains, the lively <strong>Lonsdale Quay</strong>, the beautiful waterfront <strong>Stanley Park</strong>, and the serene <strong>Joffre Lakes</strong> with their impossibly blue waters. Each place is forever kept in memory and in my heart.",
     exc_gallery_title:"Memories in photos",
     gal_add:"add photo",
-
     back_btn:"📓 Back to the Notebook"
   }
 };
@@ -584,4 +559,77 @@ document.getElementById('photoInput').addEventListener('change', function() {
 function triggerFamPhoto(n) { document.getElementById('famInput'+n).click(); }
 function loadFamPhoto(n, i) {
   if (!i.files[0]) return;
-  docu
+  document.getElementById('famPhoto'+n).innerHTML =
+    `<img src="${URL.createObjectURL(i.files[0])}" alt="foto" class="fam-photo-img"/>`;
+}
+// ── GALERIA ──────────────────────────────────────────────────────
+const galUrls = Array(6).fill(null);
+let lbCurrent = 0;
+
+function galClick(n) {
+  const slot = document.querySelectorAll('.gal-slot')[n];
+  // se já tem imagem, abre lightbox; senão abre file picker
+  if (galUrls[n]) openLightbox(n);
+  else slot.querySelector('input').click();
+}
+
+function galLoad(n, input) {
+  if (!input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  galUrls[n] = url;
+  const slot = document.querySelectorAll('.gal-slot')[n];
+  // remove empty placeholder, add image
+  slot.querySelector('.gal-empty').style.display = 'none';
+  const existing = slot.querySelector('img');
+  if (existing) existing.remove();
+  const img = document.createElement('img');
+  img.src = url; img.alt = 'Foto intercâmbio';
+  slot.insertBefore(img, slot.querySelector('input'));
+}
+
+function openLightbox(n) {
+  lbCurrent = n;
+  document.getElementById('lb-img').src = galUrls[n];
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lb-close'))
+    document.getElementById('lightbox').classList.remove('open');
+}
+
+function lbNav(dir, e) {
+  e && e.stopPropagation();
+  let next = lbCurrent;
+  for (let i = 1; i <= 6; i++) {
+    const idx = ((lbCurrent + dir * i) + 6) % 6;
+    if (galUrls[idx]) { next = idx; break; }
+  }
+  if (next !== lbCurrent) openLightbox(next);
+}
+
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lbNav(1, null);
+  if (e.key === 'ArrowLeft')  lbNav(-1, null);
+  if (e.key === 'Escape')     document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── DROPDOWN NAV ──
+function toggleNavDropdown(){
+  const btn   = document.getElementById('navDropdownBtn');
+  const panel = document.getElementById('navDropdownPanel');
+  const open  = panel.classList.contains('open');
+  btn.classList.toggle('open', !open);
+  panel.classList.toggle('open', !open);
+}
+document.addEventListener('click', e => {
+  const dd = document.getElementById('navDropdown');
+  if (dd && !dd.contains(e.target)) {
+    document.getElementById('navDropdownBtn')?.classList.remove('open');
+    document.getElementById('navDropdownPanel')?.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
