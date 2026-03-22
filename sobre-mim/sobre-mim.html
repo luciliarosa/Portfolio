@@ -101,6 +101,25 @@
     .edu-degree{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:2px;}
     .edu-inst{font-size:12.5px;color:var(--accent2);font-weight:600;}
     .edu-period{font-family:var(--font-mono);font-size:11px;color:var(--ink4);margin-top:2px;}
+    /* ── DETALHES DA FORMAÇÃO ── */
+    .edu-details-btn{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;font-weight:700;color:var(--accent3);background:#dcfce7;border:1.5px solid #86efac;padding:4px 12px;border-radius:20px;cursor:pointer;transition:background .15s;font-family:var(--font-body);}
+    .edu-details-btn:hover{background:#bbf7d0;}
+    .edu-cert-btn{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12px;font-weight:700;color:#166534;background:#dcfce7;border:1.5px solid #86efac;padding:6px 14px;border-radius:6px;text-decoration:none;transition:background .15s;}
+    .edu-cert-btn:hover{background:#bbf7d0;}
+    .edu-cert-btn svg{width:14px;height:14px;flex-shrink:0;}
+    .edu-details-panel{display:none;margin-top:12px;padding:14px 16px;background:var(--paper2);border-radius:var(--radius);border:1.5px solid var(--rule);}
+    .edu-details-panel.open{display:block;}
+    .edu-details-panel .edp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;}
+    .edu-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+    .edu-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:#fff;color:var(--ink2);border:1px solid var(--rule);}
+    .edu-details-panel p{font-size:12.5px;color:var(--ink3);line-height:1.7;}
+    .edu-highlight{background:#fff;border-left:3px solid var(--accent3);padding:10px 14px;border-radius:0 6px 6px 0;margin-top:8px;font-size:12px;color:var(--ink2);line-height:1.65;}
+    .edu-highlight strong{color:var(--ink);}
+    .edu-download-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;font-weight:700;color:#166534;background:#dcfce7;border:1.5px solid #86efac;padding:5px 14px;border-radius:20px;cursor:pointer;transition:background .15s;text-decoration:none;}
+    .edu-download-btn:hover{background:#bbf7d0;}
+    .edu-cert-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;font-weight:700;color:#7c3aed;background:#ede9fe;border:1.5px solid #c4b5fd;padding:5px 14px;border-radius:20px;text-decoration:none;transition:background .15s;}
+    .edu-cert-btn:hover{background:#ddd6fe;}
+    .edu-cert-btn svg{width:13px;height:13px;flex-shrink:0;}
     .lang-grid{display:flex;gap:12px;flex-wrap:wrap;}
     .lang-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);flex:1;min-width:160px;}
     .lang-flag{font-size:24px;margin-bottom:6px;}
@@ -112,14 +131,12 @@
     .back-section{text-align:center;margin-top:3rem;}
     .back-btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;padding:12px 24px;border-radius:8px;border:1.5px solid var(--rule);background:#fff;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;}
     .back-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
-
     [data-i18n]{transition:opacity .18s ease;}
     .lang-switching [data-i18n]{opacity:0;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     .fade{animation:fadeUp .5s ease both;}
     .fade-d1{animation-delay:.08s}.fade-d2{animation-delay:.16s}.fade-d3{animation-delay:.24s}.fade-d4{animation-delay:.32s}
-
-x        /* ── INTERCÂMBIO ── */
+        /* ── INTERCÂMBIO ── */
     .exchange-card{background:linear-gradient(135deg,#dbeafe 0%,#dcfce7 100%);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-bottom:1.5rem;}
     .exchange-card h3{font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--ink);margin-bottom:10px;}
     .exchange-card p{font-size:13.5px;color:var(--ink2);line-height:1.85;}
@@ -143,7 +160,19 @@ x        /* ── INTERCÂMBIO ── */
     .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:26px;color:#fff;cursor:pointer;background:rgba(255,255,255,.12);border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;opacity:.8;}
     .lb-arrow:hover{opacity:1;background:rgba(255,255,255,.22);}
     .lb-prev{left:1rem;}.lb-next{right:1rem;}
-    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 5rem;}.hero{gap:1.5rem;}.photo-frame{width:110px;height:110px;}.family-grid{grid-template-columns:1fr;}.skills-grid{grid-template-columns:1fr;}.gallery-grid{grid-template-columns:repeat(2,1fr);}}
+    /* ── PROJETOS DA EXPERIÊNCIA ── */
+    .exp-projects-btn{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12px;font-weight:700;color:var(--accent2);background:#dbeafe;border:1.5px solid #93c5fd;padding:5px 14px;border-radius:20px;cursor:pointer;transition:background .15s;font-family:var(--font-body);}
+    .exp-projects-btn:hover{background:#bfdbfe;}
+    .exp-projects-panel{display:none;margin-top:14px;border-top:1.5px dashed var(--rule2);padding-top:14px;}
+    .exp-projects-panel.open{display:block;}
+    .exp-proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+    .exp-proj-card{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;}
+    .exp-proj-card .epc-icon{font-size:20px;margin-bottom:6px;}
+    .exp-proj-card h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .exp-proj-card p{font-size:12px;color:var(--ink3);line-height:1.65;}
+    .exp-proj-card .epc-techs{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+    .exp-proj-card .epc-chip{font-family:var(--font-mono);font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;background:#fff;color:var(--ink3);border:1px solid var(--rule);}
+    @media(max-width:600px){.exp-proj-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -180,7 +209,7 @@ x        /* ── INTERCÂMBIO ── */
       </div>
     </div>
     <span class="nav-sep"></span>
-    <a href="../index.html" class="nav-link" data-i18n="nav_home">Home</a>
+    <a href="index.html" class="nav-link" data-i18n="nav_home">Home</a>
     <span class="nav-sep"></span>
     <a href="sobre-mim.html" class="nav-link active" data-i18n="nav_this">Sobre Mim</a>
   </div>
@@ -225,7 +254,7 @@ x        /* ── INTERCÂMBIO ── */
   <section style="margin-bottom:2rem" class="fade fade-d1">
     <p class="sec-title" data-i18n="sec_about">Quem sou eu</p>
     <div class="about-text">
-      <p data-i18n="about_p1">Sou <strong>Fullstack &amp; Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.</p>
+      <p data-i18n="about_p1">Sou <strong>Backend &amp; Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.</p>
       <p data-i18n="about_p2">Trabalho com <strong>Python, SQL e Microsoft Power Platform</strong> para construir automações, dashboards e soluções orientadas a dados. Tenho uma base sólida em frontend e uma visão full stack que me permite enxergar o projeto como um todo, do banco de dados à interface.</p>
       <p data-i18n="about_p3">Sou de <strong>São Paulo</strong>, tenho o sonho de morar no <strong>Canadá</strong> — onde já fiz intercâmbio — e acredito que tecnologia é muito mais do que código: é <em>autonomia, liberdade e possibilidade</em>.</p>
     </div>
@@ -301,6 +330,8 @@ x        /* ── INTERCÂMBIO ── */
 
   <section style="margin-bottom:2rem" class="fade fade-d3">
     <p class="sec-title" data-i18n="sec_exp">Experiência profissional</p>
+
+    <!-- SENAI -->
     <div class="exp-item">
       <div class="exp-header">
         <div><p class="exp-role">Systems Developer</p><p class="exp-company">SENAI Brás — Full-time</p></div>
@@ -314,7 +345,28 @@ x        /* ── INTERCÂMBIO ── */
         <li data-i18n="exp1_li5">Contribuição para iniciativas de cultura de dados</li>
       </ul>
       <div class="exp-techs"><span class="tech-chip">Python</span><span class="tech-chip">SQL</span><span class="tech-chip">Power BI</span><span class="tech-chip">Power Automate</span><span class="tech-chip">Power Apps</span></div>
+      <button class="exp-projects-btn" onclick="toggleExpProjects('senai-proj', this)">
+        <span data-i18n="btn_proj">🚀 Ver projetos desenvolvidos</span> <span>▾</span>
+      </button>
+      <div class="exp-projects-panel" id="senai-proj">
+        <div class="exp-proj-grid">
+          <div class="exp-proj-card">
+            <div class="epc-icon">🤖</div>
+            <h4 data-i18n="senai_p1_title">Automação de análise com IA</h4>
+            <p data-i18n="senai_p1_desc">Script Python que lê uma planilha Excel com dados, organiza as informações, envia para uma IA analisar e encaminha o resultado por e-mail aos responsáveis. O que levava 1 dia de trabalho passou a ser feito em menos de 1 hora.</p>
+            <div class="epc-techs"><span class="epc-chip">Python</span><span class="epc-chip">OpenAI API</span><span class="epc-chip">openpyxl</span><span class="epc-chip">smtplib</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <div class="epc-icon">🌐</div>
+            <h4 data-i18n="senai_p2_title">Automação com Playwright</h4>
+            <p data-i18n="senai_p2_desc">Automação web com Playwright que acessa um portal de pesquisas de satisfação de alunos, faz o download automático dos relatórios e os encaminha para o Power BI — eliminando o processo manual diário.</p>
+            <div class="epc-techs"><span class="epc-chip">Python</span><span class="epc-chip">Playwright</span><span class="epc-chip">Power BI</span></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- VERTEM -->
     <div class="exp-item">
       <div class="exp-header">
         <div><p class="exp-role">Application Support Analyst</p><p class="exp-company">Vertem — Full-time</p></div>
@@ -325,10 +377,37 @@ x        /* ── INTERCÂMBIO ── */
         <li data-i18n="exp2_li2">Ajustes de frontend com HTML, CSS e JavaScript</li>
         <li data-i18n="exp2_li3">Análise de banco de dados e manipulação com SQL</li>
         <li data-i18n="exp2_li4">Produção e manutenção de documentação técnica</li>
-        <li data-i18n="exp2_li5">Treinamento de equipes internas</li>
+        <li data-i18n="exp2_li5">Treinamento de equipes internas e novos colaboradores</li>
       </ul>
-      <div class="exp-techs"><span class="tech-chip">SQL</span><span class="tech-chip">HTML</span><span class="tech-chip">CSS</span><span class="tech-chip">JavaScript</span></div>
+      <div class="exp-techs"><span class="tech-chip">SQL</span><span class="tech-chip">HTML</span><span class="tech-chip">CSS</span><span class="tech-chip">JavaScript</span><span class="tech-chip">Python</span></div>
+      <button class="exp-projects-btn" onclick="toggleExpProjects('vertem-proj', this)">
+        <span data-i18n="btn_proj">🚀 Ver projetos desenvolvidos</span> <span>▾</span>
+      </button>
+      <div class="exp-projects-panel" id="vertem-proj">
+        <div class="exp-proj-grid">
+          <div class="exp-proj-card">
+            <div class="epc-icon">📚</div>
+            <h4 data-i18n="vertem_p1_title">Documentação técnica e treinamentos</h4>
+            <p data-i18n="vertem_p1_desc">Criação de documentação técnica completa de ferramentas e procedimentos internos. Condução de treinamentos para novos colaboradores e para equipes de outros setores — garantindo autonomia e padronização de processos.</p>
+            <div class="epc-techs"><span class="epc-chip">Confluence</span><span class="epc-chip">SharePoint</span><span class="epc-chip">Notion</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <div class="epc-icon">🐍</div>
+            <h4 data-i18n="vertem_p2_title">Automação de relatórios</h4>
+            <p data-i18n="vertem_p2_desc">Scripts Python para automatizar a geração de relatórios diários e semanais que antes eram feitos manualmente — reduzindo erros e liberando tempo da equipe para atividades mais estratégicas.</p>
+            <div class="epc-techs"><span class="epc-chip">Python</span><span class="epc-chip">pandas</span><span class="epc-chip">Excel</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <div class="epc-icon">🚨</div>
+            <h4 data-i18n="vertem_p3_title">Gestão de crises</h4>
+            <p data-i18n="vertem_p3_desc">Participação ativa em salas de crise — situações onde todas as equipes se unem para resolver incidentes críticos em produção. Experiência com diagnóstico rápido, comunicação sob pressão e resolução colaborativa de problemas.</p>
+            <div class="epc-techs"><span class="epc-chip">SQL</span><span class="epc-chip">Troubleshooting</span><span class="epc-chip">Jira</span></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- TELIUM -->
     <div class="exp-item">
       <div class="exp-header">
         <div><p class="exp-role">Computer Network Technician</p><p class="exp-company">Telium Networks — Full-time</p></div>
@@ -336,12 +415,32 @@ x        /* ── INTERCÂMBIO ── */
       </div>
       <ul class="exp-list">
         <li data-i18n="exp3_li1">Diagnóstico e resolução de problemas de infraestrutura de rede</li>
-        <li data-i18n="exp3_li2">Monitoramento e gerenciamento de redes e serviços</li>
-        <li data-i18n="exp3_li3">Suporte técnico para clientes e operadores</li>
-        <li data-i18n="exp3_li4">Gerenciamento de acesso em ambientes de data center</li>
+        <li data-i18n="exp3_li2">Monitoramento de ativos: rádios wireless, backbones e equipamentos de telefonia</li>
+        <li data-i18n="exp3_li3">Suporte técnico a clientes de internet dedicada e operadores em campo</li>
+        <li data-i18n="exp3_li4">Gerenciamento de acesso e infraestrutura em data center</li>
       </ul>
-      <div class="exp-techs"><span class="tech-chip">TCP/IP</span><span class="tech-chip">Cisco</span><span class="tech-chip">MikroTik</span><span class="tech-chip">Data Center</span></div>
+      <div class="exp-techs"><span class="tech-chip">TCP/IP</span><span class="tech-chip">Cisco</span><span class="tech-chip">MikroTik</span><span class="tech-chip">Fibra Óptica</span><span class="tech-chip">NOC</span></div>
+      <button class="exp-projects-btn" onclick="toggleExpProjects('telium-proj', this)">
+        <span data-i18n="btn_proj">🚀 Ver projetos desenvolvidos</span> <span>▾</span>
+      </button>
+      <div class="exp-projects-panel" id="telium-proj">
+        <div class="exp-proj-grid">
+          <div class="exp-proj-card">
+            <div class="epc-icon">🗺️</div>
+            <h4 data-i18n="telium_p1_title">Mapeamento de infraestrutura</h4>
+            <p data-i18n="telium_p1_desc">Projeto em conjunto com o time de infraestrutura para mapear todos os ativos de rede da empresa — identificando equipamentos que precisavam de manutenção ou substituição. Trabalho iniciado a partir de uma exigência de padronização da ENEL.</p>
+            <div class="epc-techs"><span class="epc-chip">Inventário de rede</span><span class="epc-chip">Documentação</span><span class="epc-chip">Field survey</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <div class="epc-icon">🔭</div>
+            <h4 data-i18n="telium_p2_title">Operação NOC</h4>
+            <p data-i18n="telium_p2_desc">Atuação no setor NOC (Network Operations Center) com monitoramento contínuo de todos os ativos da empresa — rádios wireless, backbones, equipamentos de telefonia — e suporte remoto a técnicos em campo para identificação de rompimentos de fibra ótica.</p>
+            <div class="epc-techs"><span class="epc-chip">Zabbix</span><span class="epc-chip">OTDR</span><span class="epc-chip">Wireless</span><span class="epc-chip">VoIP</span></div>
+          </div>
+        </div>
+      </div>
     </div>
+
   </section>
 
   <hr/>
@@ -362,10 +461,115 @@ x        /* ── INTERCÂMBIO ── */
   <section style="margin-bottom:2rem" class="fade fade-d4">
     <p class="sec-title" data-i18n="sec_edu">Formação acadêmica</p>
     <div style="background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:6px 20px;box-shadow:var(--shadow);">
-      <div class="edu-item"><span class="edu-icon">🎓</span><div><p class="edu-degree" data-i18n="edu1_deg">Pós-Graduação — Desenvolvimento Full Stack</p><p class="edu-inst">Descomplica</p><p class="edu-period" data-i18n="edu1_per">Mai 2023 – Out 2024</p></div></div>
-      <div class="edu-item"><span class="edu-icon">🎓</span><div><p class="edu-degree" data-i18n="edu2_deg">Bacharelado em Análise e Desenvolvimento de Sistemas</p><p class="edu-inst">FATEC Carapicuíba</p><p class="edu-period">Fev 2022 – Dez 2024</p></div></div>
-      <div class="edu-item"><span class="edu-icon">🎓</span><div><p class="edu-degree" data-i18n="edu3_deg">Bacharelado em Gestão da Tecnologia da Informação</p><p class="edu-inst">FATEC Barueri</p><p class="edu-period">Fev 2015 – Dez 2017</p></div></div>
-      <div class="edu-item"><span class="edu-icon">📡</span><div><p class="edu-degree" data-i18n="edu4_deg">Técnico em Redes de Computadores</p><p class="edu-inst">SENAI Jandira</p><p class="edu-period">Jul 2012 – Jul 2014</p></div></div>
+
+      <!-- Pós Full Stack -->
+      <div class="edu-item">
+        <span class="edu-icon">🎓</span>
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu1_deg">Pós-Graduação — Desenvolvimento Full Stack</p>
+          <p class="edu-inst">Descomplica</p>
+          <p class="edu-period" data-i18n="edu1_per">Mai 2023 – Out 2024</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu1-panel', this)">
+            <span data-i18n="btn_edu">📖 Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu1-panel">
+            <p class="edp-title" data-i18n="edu1_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Frontend</span><span class="edu-tag">Backend</span>
+              <span class="edu-tag">React</span><span class="edu-tag">Node.js</span>
+              <span class="edu-tag">AWS Cloud</span><span class="edu-tag">Banco de Dados</span>
+              <span class="edu-tag">UX/UI</span><span class="edu-tag">Java</span>
+            </div>
+            <p data-i18n="edu1_desc">Especialização focada em formação prática full stack — do frontend com HTML, CSS, JavaScript e React até o backend com Node.js, estratégias de banco de dados e serviços de cloud na AWS. O curso foi dividido em 3 módulos progressivos, do básico ao avançado, com microcertificados a cada etapa concluída.</p>
+            <div class="edu-highlight" data-i18n="edu1_highlight"><strong>Destaque:</strong> curso 100% online com metodologia orientada ao mercado, microcertificados por módulo e acesso a ferramentas reais como AWS, GitHub e bancos de dados relacionais.</div>
+            <a href="../doc/cert-descomplica.pdf" download class="edu-cert-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span data-i18n="btn_cert">Baixar certificado</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADS FATEC Carapicuíba -->
+      <div class="edu-item">
+        <span class="edu-icon">🎓</span>
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu2_deg">Bacharelado em Análise e Desenvolvimento de Sistemas</p>
+          <p class="edu-inst">FATEC Carapicuíba</p>
+          <p class="edu-period">Fev 2022 – Dez 2024</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu2-panel', this)">
+            <span data-i18n="btn_edu">📖 Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu2-panel">
+            <p class="edp-title" data-i18n="edu2_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Algoritmos e Lógica</span><span class="edu-tag">POO</span>
+              <span class="edu-tag">Engenharia de Software</span><span class="edu-tag">Banco de Dados</span>
+              <span class="edu-tag">Estrutura de Dados</span><span class="edu-tag">Sistemas Operacionais</span>
+              <span class="edu-tag">Segurança da Informação</span><span class="edu-tag">Gestão de Projetos</span>
+            </div>
+            <p data-i18n="edu2_desc">Tecnologia em Análise e Desenvolvimento de Sistemas com foco em desenvolvimento de software completo — da lógica de programação e estruturas de dados até engenharia de software, banco de dados, redes e segurança. Curso ofertado pela FATEC, instituição pública do Centro Paula Souza com ingresso via vestibular seletivo.</p>
+            <div class="edu-highlight" data-i18n="edu2_highlight"><strong>Destaque:</strong> instituição pública gratuita com ingresso via vestibular do Centro Paula Souza (CPS). Formação tecnológica reconhecida pelo MEC com forte ênfase prática e mercado de trabalho.</div>
+            <a href="../doc/cert-fatec-carapicuiba.pdf" download class="edu-cert-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span data-i18n="btn_cert">Baixar certificado</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- GTI FATEC Barueri -->
+      <div class="edu-item">
+        <span class="edu-icon">🎓</span>
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu3_deg">Bacharelado em Gestão da Tecnologia da Informação</p>
+          <p class="edu-inst">FATEC Barueri</p>
+          <p class="edu-period">Fev 2015 – Dez 2017</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu3-panel', this)">
+            <span data-i18n="btn_edu">📖 Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu3-panel">
+            <p class="edp-title" data-i18n="edu3_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Gestão de TI</span><span class="edu-tag">Governança</span>
+              <span class="edu-tag">Infraestrutura</span><span class="edu-tag">Sistemas de Informação</span>
+              <span class="edu-tag">Programação</span><span class="edu-tag">Banco de Dados</span>
+              <span class="edu-tag">Planejamento Estratégico</span><span class="edu-tag">COBIT / ITIL</span>
+            </div>
+            <p data-i18n="edu3_desc">Curso com visão híbrida entre gestão e tecnologia — abrangendo tanto a parte técnica (programação, banco de dados, redes, segurança) quanto a gestão empresarial (planejamento estratégico, governança de TI, gestão de equipes, projetos e finanças). Ideal para quem quer entender TI no contexto de negócio.</p>
+            <div class="edu-highlight" data-i18n="edu3_highlight"><strong>Destaque:</strong> também ofertado pela FATEC com ingresso via vestibular do CPS. Este curso foi o ponto de partida da jornada na área de tecnologia — combinando visão técnica e gerencial.</div>
+            <a href="../doc/cert-fatec-barueri.pdf" download class="edu-cert-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span data-i18n="btn_cert">Baixar certificado</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SENAI Jandira -->
+      <div class="edu-item">
+        <span class="edu-icon">📡</span>
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu4_deg">Técnico em Redes de Computadores</p>
+          <p class="edu-inst">SENAI Jandira</p>
+          <p class="edu-period">Jul 2012 – Jul 2014</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu4-panel', this)">
+            <span data-i18n="btn_edu">📖 Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu4-panel">
+            <p class="edp-title" data-i18n="edu4_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Cabeamento Estruturado</span><span class="edu-tag">TCP/IP</span>
+              <span class="edu-tag">Roteadores e Switches</span><span class="edu-tag">Fibra Óptica</span>
+              <span class="edu-tag">Segurança de Redes</span><span class="edu-tag">Sistemas Operacionais</span>
+              <span class="edu-tag">Montagem e Manutenção</span><span class="edu-tag">Wireless</span>
+            </div>
+            <p data-i18n="edu4_desc">Formação técnica focada em implantação, manutenção e administração de redes de computadores — desde montagem de hardware e cabeamento estruturado até configuração de roteadores, switches, firewalls e redes wireless. Curso com carga prática intensa em laboratório.</p>
+            <div class="edu-highlight" data-i18n="edu4_highlight"><strong>Destaque:</strong> o SENAI também tem ingresso seletivo e é referência nacional em educação profissional industrial. Este foi o início de tudo — onde o interesse por tecnologia virou carreira.</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -390,29 +594,23 @@ x        /* ── INTERCÂMBIO ── */
 
     <p class="sec-title" style="margin-top:1.5rem" data-i18n="exc_gallery_title">Memórias em fotos</p>
     <div class="gallery-grid" id="galleryGrid">
-      <div class="gal-slot" onclick="galClick(0)">
-        <div class="gal-empty"><span>📷</span><p data-i18n="gal_add">adicionar foto</p></div>
-        <input type="file" accept="image/*" onchange="galLoad(0,this)"/>
+      <div class="gal-slot" onclick="openLightbox(0)">
+        <img src="../img/inter1.jpg" alt="Vancouver"/>
       </div>
-      <div class="gal-slot" onclick="galClick(1)">
-        <div class="gal-empty"><span>📷</span><p data-i18n="gal_add">adicionar foto</p></div>
-        <input type="file" accept="image/*" onchange="galLoad(1,this)"/>
+      <div class="gal-slot" onclick="openLightbox(1)">
+        <img src="../img/inter2.jpg" alt="Vancouver"/>
       </div>
-      <div class="gal-slot" onclick="galClick(2)">
-        <div class="gal-empty"><span>📷</span><p data-i18n="gal_add">adicionar foto</p></div>
-        <input type="file" accept="image/*" onchange="galLoad(2,this)"/>
+      <div class="gal-slot" onclick="openLightbox(2)">
+        <img src="../img/inter3.jpg" alt="Vancouver"/>
       </div>
-      <div class="gal-slot" onclick="galClick(3)">
-        <div class="gal-empty"><span>📷</span><p data-i18n="gal_add">adicionar foto</p></div>
-        <input type="file" accept="image/*" onchange="galLoad(3,this)"/>
+      <div class="gal-slot" onclick="openLightbox(3)">
+        <img src="../img/inter4.jpg" alt="Vancouver"/>
       </div>
-      <div class="gal-slot" onclick="galClick(4)">
-        <div class="gal-empty"><span>📷</span><p data-i18n="gal_add">adicionar foto</p></div>
-        <input type="file" accept="image/*" onchange="galLoad(4,this)"/>
+      <div class="gal-slot" onclick="openLightbox(4)">
+        <img src="../img/inter5.jpg" alt="Vancouver"/>
       </div>
-      <div class="gal-slot" onclick="galClick(5)">
-        <div class="gal-empty"><span>📷</span><p data-i18n="gal_add">adicionar foto</p></div>
-        <input type="file" accept="image/*" onchange="galLoad(5,this)"/>
+      <div class="gal-slot" onclick="openLightbox(5)">
+        <img src="../img/inter6.jpg" alt="Vancouver"/>
       </div>
     </div>
   </section>
@@ -447,7 +645,7 @@ const T = {
     hero_role:"Backend & Automation Developer · São Paulo, Brasil",
     tag_exp:"+5 anos de experiência",tag_wit:"Mulher na Tech",tag_canada:"Open to Canada",
     sec_about:"Quem sou eu",
-    about_p1:"Sou <strong>Fullstack & Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.",
+    about_p1:"Sou <strong>Backend & Automation Developer</strong> com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Tenho uma trajetória que começou nas redes de computadores e foi evoluindo naturalmente para o desenvolvimento de software — sempre movida pela curiosidade e pela vontade de resolver problemas reais com tecnologia.",
     about_p2:"Trabalho com <strong>Python, SQL e Microsoft Power Platform</strong> para construir automações, dashboards e soluções orientadas a dados. Tenho uma base sólida em frontend e uma visão full stack que me permite enxergar o projeto como um todo, do banco de dados à interface.",
     about_p3:"Sou de <strong>São Paulo</strong>, tenho o sonho de morar no <strong>Canadá</strong> — onde já fiz intercâmbio — e acredito que tecnologia é muito mais do que código: é <em>autonomia, liberdade e possibilidade</em>.",
     sec_wit:"Mulher na tecnologia",wit_title:"💜 Para as que ainda estão chegando",
@@ -469,12 +667,25 @@ const T = {
     exp1_li3:"Modelagem e manipulação de dados com SQL",exp1_li4:"Criação de workflows com Power Automate",exp1_li5:"Contribuição para iniciativas de cultura de dados",
     exp2_li1:"Análise e resolução de problemas em plataformas e sistemas",exp2_li2:"Ajustes de frontend com HTML, CSS e JavaScript",
     exp2_li3:"Análise de banco de dados e manipulação com SQL",exp2_li4:"Produção e manutenção de documentação técnica",exp2_li5:"Treinamento de equipes internas",
-    exp3_li1:"Diagnóstico e resolução de problemas de infraestrutura de rede",exp3_li2:"Monitoramento e gerenciamento de redes e serviços",
-    exp3_li3:"Suporte técnico para clientes e operadores",exp3_li4:"Gerenciamento de acesso em ambientes de data center",
+    exp3_li1:"Diagnóstico e resolução de problemas de infraestrutura de rede",exp3_li2:"Monitoramento de ativos: rádios wireless, backbones e equipamentos de telefonia",
+    exp3_li3:"Suporte técnico a clientes de internet dedicada e operadores em campo",exp3_li4:"Gerenciamento de acesso e infraestrutura em data center",
+    btn_proj:"🚀 Ver projetos desenvolvidos",
+    senai_p1_title:"Automação de análise com IA",senai_p1_desc:"Script Python que lê uma planilha Excel com dados, organiza as informações, envia para uma IA analisar e encaminha o resultado por e-mail aos responsáveis. O que levava 1 dia de trabalho passou a ser feito em menos de 1 hora.",
+    senai_p2_title:"Automação com Playwright",senai_p2_desc:"Automação web com Playwright que acessa um portal de pesquisas de satisfação de alunos, faz o download automático dos relatórios e os encaminha para o Power BI — eliminando o processo manual diário.",
+    vertem_p1_title:"Documentação técnica e treinamentos",vertem_p1_desc:"Criação de documentação técnica completa de ferramentas e procedimentos internos. Condução de treinamentos para novos colaboradores e para equipes de outros setores — garantindo autonomia e padronização de processos.",
+    vertem_p2_title:"Automação de relatórios",vertem_p2_desc:"Scripts Python para automatizar a geração de relatórios diários e semanais que antes eram feitos manualmente — reduzindo erros e liberando tempo da equipe para atividades mais estratégicas.",
+    vertem_p3_title:"Gestão de crises",vertem_p3_desc:"Participação ativa em salas de crise — situações onde todas as equipes se unem para resolver incidentes críticos em produção. Experiência com diagnóstico rápido, comunicação sob pressão e resolução colaborativa de problemas.",
+    telium_p1_title:"Mapeamento de infraestrutura",telium_p1_desc:"Projeto em conjunto com o time de infraestrutura para mapear todos os ativos de rede da empresa — identificando equipamentos que precisavam de manutenção ou substituição. Trabalho iniciado a partir de uma exigência de padronização da ENEL.",
+    telium_p2_title:"Operação NOC",telium_p2_desc:"Atuação no setor NOC (Network Operations Center) com monitoramento contínuo de todos os ativos da empresa — rádios wireless, backbones, equipamentos de telefonia — e suporte remoto a técnicos em campo para identificação de rompimentos de fibra ótica.",
     sec_skills:"Habilidades técnicas",sk_lang:"Linguagens & Frameworks",sk_auto:"Automação & Plataformas",sk_db:"Banco de Dados",sk_tools:"Ferramentas",sk_web:"Web & Sistemas",
     sk_erp:"ERP Systems",sk_int:"System Integration",sk_doc:"Documentation",sk_web_maint:"Web Maintenance",
     sec_edu:"Formação acadêmica",edu1_deg:"Pós-Graduação — Desenvolvimento Full Stack",edu1_per:"Mai 2023 – Out 2024",
     edu2_deg:"Bacharelado em Análise e Desenvolvimento de Sistemas",edu3_deg:"Bacharelado em Gestão da Tecnologia da Informação",edu4_deg:"Técnico em Redes de Computadores",
+    btn_edu:"📖 Ver grade e ênfases",btn_cert:"Baixar certificado",
+    edu1_focus_title:"Ênfase do curso",edu1_desc:"Especialização focada em formação prática full stack — do frontend com HTML, CSS, JavaScript e React até o backend com Node.js, estratégias de banco de dados e serviços de cloud na AWS. O curso foi dividido em 3 módulos progressivos, do básico ao avançado, com microcertificados a cada etapa concluída.",edu1_highlight:"<strong>Destaque:</strong> curso 100% online com metodologia orientada ao mercado, microcertificados por módulo e acesso a ferramentas reais como AWS, GitHub e bancos de dados relacionais.",
+    edu2_focus_title:"Ênfase do curso",edu2_desc:"Tecnologia em Análise e Desenvolvimento de Sistemas com foco em desenvolvimento de software completo — da lógica de programação e estruturas de dados até engenharia de software, banco de dados, redes e segurança. Curso ofertado pela FATEC, instituição pública do Centro Paula Souza com ingresso via vestibular seletivo.",edu2_highlight:"<strong>Destaque:</strong> instituição pública gratuita com ingresso via vestibular do Centro Paula Souza (CPS). Formação tecnológica reconhecida pelo MEC com forte ênfase prática e mercado de trabalho.",
+    edu3_focus_title:"Ênfase do curso",edu3_desc:"Curso com visão híbrida entre gestão e tecnologia — abrangendo tanto a parte técnica (programação, banco de dados, redes, segurança) quanto a gestão empresarial (planejamento estratégico, governança de TI, gestão de equipes, projetos e finanças). Ideal para quem quer entender TI no contexto de negócio.",edu3_highlight:"<strong>Destaque:</strong> também ofertado pela FATEC com ingresso via vestibular do CPS. Este curso foi o ponto de partida da jornada na área de tecnologia — combinando visão técnica e gerencial.",
+    edu4_focus_title:"Ênfase do curso",edu4_desc:"Formação técnica focada em implantação, manutenção e administração de redes de computadores — desde montagem de hardware e cabeamento estruturado até configuração de roteadores, switches, firewalls e redes wireless. Curso com carga prática intensa em laboratório.",edu4_highlight:"<strong>Destaque:</strong> o SENAI também tem ingresso seletivo e é referência nacional em educação profissional industrial. Este foi o início de tudo — onde o interesse por tecnologia virou carreira.",
     sec_lang:"Idiomas",lang_pt_name:"Português",lang_pt_level:"Nativo",lang_en_name:"Inglês",lang_en_level:"Intermediário — B2",
     lang_en_note:"Intercâmbio no St. George International College, Vancouver, Canadá",
     sec_exchange:"🇨🇦 Intercâmbio em Vancouver",
@@ -484,15 +695,14 @@ const T = {
     exc_p3:"Durante esse mês, explorei lugares incríveis: <strong>Whistler</strong>, com suas montanhas de tirar o fôlego, o animado <strong>Lonsdale Quay</strong>, o lindo <strong>Stanley Park</strong> à beira-mar, e o tranquilo <strong>Joffre Lakes</strong> com seus lagos de um azul impossível. Cada lugar ficou guardado na memória e no coração.",
     exc_gallery_title:"Memórias em fotos",
     gal_add:"adicionar foto",
-    back_btn:"📓 Voltar para o Notebook",
-
+    back_btn:"📓 Voltar para o Notebook"
   },
   en: {
     nav_back:"← Back",nav_profile:"Profile &amp; Projects ▾",nav_home:"Home",nav_this:"About Me",nav_dd_about:"About me",nav_dd_about_desc:"Background, skills and story",nav_dd_projects:"Projects",nav_dd_projects_desc:"HTML, Python, JavaScript and React",nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"What each area is and how they connect",photo_hint:"your photo\nhere",eyebrow:"// about me",
     hero_role:"Backend & Automation Developer · São Paulo, Brazil",
     tag_exp:"+5 years of experience",tag_wit:"Woman in Tech",tag_canada:"Open to Canada",
     sec_about:"Who I am",
-    about_p1:"I'm a <strong>Fullstack & Automation Developer</strong> with over 5 years of experience in systems development, automation, and technical support. My journey started in computer networks and naturally evolved into software development — always driven by curiosity and the desire to solve real-world problems with technology.",
+    about_p1:"I'm a <strong>Backend & Automation Developer</strong> with over 5 years of experience in systems development, automation, and technical support. My journey started in computer networks and naturally evolved into software development — always driven by curiosity and the desire to solve real-world problems with technology.",
     about_p2:"I work with <strong>Python, SQL and Microsoft Power Platform</strong> to build automations, dashboards and data-driven solutions. I have a solid frontend foundation and a full stack mindset that allows me to see the whole picture, from database to interface.",
     about_p3:"I'm from <strong>São Paulo</strong>, dream of living in <strong>Canada</strong> — where I've already done an exchange program — and I believe technology is much more than code: it's <em>autonomy, freedom and possibility</em>.",
     sec_wit:"Woman in technology",wit_title:"💜 For those still on their way",
@@ -514,12 +724,25 @@ const T = {
     exp1_li3:"Modeled and manipulated data using SQL",exp1_li4:"Created workflows and automations with Power Automate",exp1_li5:"Contributed to process optimization and data culture initiatives",
     exp2_li1:"Analyzed and resolved platform-related issues",exp2_li2:"Performed frontend adjustments using HTML, CSS, and JavaScript",
     exp2_li3:"Executed database analysis and data manipulation using SQL",exp2_li4:"Produced and maintained technical documentation",exp2_li5:"Trained internal teams on system functionalities",
-    exp3_li1:"Diagnosed and resolved network infrastructure issues",exp3_li2:"Monitored and managed networks and services",
-    exp3_li3:"Provided technical support for clients and operators",exp3_li4:"Managed access control in data center environments",
+    exp3_li1:"Diagnosed and resolved network infrastructure issues",exp3_li2:"Monitored assets: wireless radios, backbones and telephony equipment",
+    exp3_li3:"Provided technical support to dedicated internet clients and field operators",exp3_li4:"Managed access control and infrastructure in data center environments",
+    btn_proj:"🚀 View projects",
+    senai_p1_title:"AI-powered analysis automation",senai_p1_desc:"Python script that reads an Excel spreadsheet, organizes the data, sends it to an AI for analysis, and automatically emails the results to the responsible team. What used to take a full day of work is now done in under 1 hour.",
+    senai_p2_title:"Playwright web automation",senai_p2_desc:"Web automation using Playwright that accesses a student satisfaction survey portal, automatically downloads the reports, and sends them to Power BI — eliminating the daily manual process.",
+    vertem_p1_title:"Technical documentation and training",vertem_p1_desc:"Created comprehensive technical documentation for internal tools and procedures. Led training sessions for new employees and teams from other departments — ensuring autonomy and process standardization.",
+    vertem_p2_title:"Report automation",vertem_p2_desc:"Python scripts to automate the generation of daily and weekly reports that were previously done manually — reducing errors and freeing the team's time for more strategic activities.",
+    vertem_p3_title:"Crisis management",vertem_p3_desc:"Active participation in war rooms — situations where all teams come together to resolve critical production incidents. Experience with rapid diagnosis, communication under pressure, and collaborative problem solving.",
+    telium_p1_title:"Infrastructure mapping",telium_p1_desc:"Joint project with the infrastructure team to map all of the company's network assets — identifying equipment that needed maintenance or replacement. Work initiated from a standardization requirement from ENEL.",
+    telium_p2_title:"NOC operations",telium_p2_desc:"Working in the NOC (Network Operations Center) with continuous monitoring of all company assets — wireless radios, backbones, telephony equipment — and remote support to field technicians for fiber optic break identification.",
     sec_skills:"Technical skills",sk_lang:"Languages & Frameworks",sk_auto:"Automation & Platforms",sk_db:"Databases",sk_tools:"Tools",sk_web:"Web & Systems",
     sk_erp:"ERP Systems",sk_int:"System Integration",sk_doc:"Documentation",sk_web_maint:"Web Maintenance",
     sec_edu:"Education",edu1_deg:"Postgraduate Degree — Full Stack Development",edu1_per:"May 2023 – Oct 2024",
     edu2_deg:"Bachelor's Degree in Systems Analysis and Development",edu3_deg:"Bachelor's Degree in Information Technology Management",edu4_deg:"Technical Degree in Computer Networks",
+    btn_edu:"📖 View curriculum & highlights",btn_cert:"Download certificate",
+    edu1_focus_title:"Course focus",edu1_desc:"Specialization focused on practical full stack training — from frontend with HTML, CSS, JavaScript and React to backend with Node.js, database strategies and AWS cloud services. The course was divided into 3 progressive modules, from beginner to advanced, with microcertificates at each completed stage.",edu1_highlight:"<strong>Highlight:</strong> 100% online course with market-oriented methodology, module microcertificates and access to real tools like AWS, GitHub and relational databases.",
+    edu2_focus_title:"Course focus",edu2_desc:"Technology in Systems Analysis and Development focused on complete software development — from programming logic and data structures to software engineering, databases, networks and security. Offered by FATEC, a public institution from Centro Paula Souza with entry via selective entrance exam.",edu2_highlight:"<strong>Highlight:</strong> free public institution with entry via the Centro Paula Souza (CPS) entrance exam. MEC-recognized technology degree with strong practical emphasis and market focus.",
+    edu3_focus_title:"Course focus",edu3_desc:"Course with a hybrid vision between management and technology — covering both the technical side (programming, databases, networks, security) and business management (strategic planning, IT governance, team management, projects and finance). Ideal for understanding IT in a business context.",edu3_highlight:"<strong>Highlight:</strong> also offered by FATEC with entry via the CPS entrance exam. This course was the starting point of the technology journey — combining technical and managerial vision.",
+    edu4_focus_title:"Course focus",edu4_desc:"Technical training focused on implementing, maintaining and administering computer networks — from hardware assembly and structured cabling to configuring routers, switches, firewalls and wireless networks. Course with intensive hands-on lab work.",edu4_highlight:"<strong>Highlight:</strong> SENAI also has a selective admissions process and is a national reference in industrial professional education. This was where it all began — where interest in technology became a career.",
     sec_lang:"Languages",lang_pt_name:"Portuguese",lang_pt_level:"Native",lang_en_name:"English",lang_en_level:"Intermediate — B2",
     lang_en_note:"Exchange program at St. George International College, Vancouver, Canada",
     sec_exchange:"🇨🇦 Exchange Program in Vancouver",
@@ -529,7 +752,7 @@ const T = {
     exc_p3:"During that month, I explored incredible places: <strong>Whistler</strong>, with its breathtaking mountains, the lively <strong>Lonsdale Quay</strong>, the beautiful waterfront <strong>Stanley Park</strong>, and the serene <strong>Joffre Lakes</strong> with their impossibly blue waters. Each place is forever kept in memory and in my heart.",
     exc_gallery_title:"Memories in photos",
     gal_add:"add photo",
-    back_btn:"📓 Back to the Notebook",
+    back_btn:"📓 Back to the Notebook"
   }
 };
 
@@ -565,34 +788,22 @@ function loadFamPhoto(n, i) {
   document.getElementById('famPhoto'+n).innerHTML =
     `<img src="${URL.createObjectURL(i.files[0])}" alt="foto" class="fam-photo-img"/>`;
 }
-// ── GALERIA ──────────────────────────────────────────────────────
-const galUrls = Array(6).fill(null);
+// ── GALERIA FIXA ──────────────────────────────────────────────────────
+const galUrls = [
+  '../img/vancouver1.jpeg',
+  '../img/vancouver2.jpeg',
+  '../img/vancouver3.jpeg',
+  '../img/vancouver4.jpeg',
+  '../img/vancouver5.jpeg',
+  '../img/vancouver6.jpeg',
+];
 let lbCurrent = 0;
-
-function galClick(n) {
-  const slot = document.querySelectorAll('.gal-slot')[n];
-  // se já tem imagem, abre lightbox; senão abre file picker
-  if (galUrls[n]) openLightbox(n);
-  else slot.querySelector('input').click();
-}
-
-function galLoad(n, input) {
-  if (!input.files[0]) return;
-  const url = URL.createObjectURL(input.files[0]);
-  galUrls[n] = url;
-  const slot = document.querySelectorAll('.gal-slot')[n];
-  // remove empty placeholder, add image
-  slot.querySelector('.gal-empty').style.display = 'none';
-  const existing = slot.querySelector('img');
-  if (existing) existing.remove();
-  const img = document.createElement('img');
-  img.src = url; img.alt = 'Foto intercâmbio';
-  slot.insertBefore(img, slot.querySelector('input'));
-}
 
 function openLightbox(n) {
   lbCurrent = n;
-  document.getElementById('lb-img').src = galUrls[n];
+  const slot = document.querySelectorAll('.gal-slot')[n];
+  const img = slot.querySelector('img');
+  document.getElementById('lb-img').src = img ? img.src : galUrls[n];
   document.getElementById('lightbox').classList.add('open');
 }
 
@@ -603,12 +814,9 @@ function closeLightbox(e) {
 
 function lbNav(dir, e) {
   e && e.stopPropagation();
-  let next = lbCurrent;
-  for (let i = 1; i <= 6; i++) {
-    const idx = ((lbCurrent + dir * i) + 6) % 6;
-    if (galUrls[idx]) { next = idx; break; }
-  }
-  if (next !== lbCurrent) openLightbox(next);
+  const total = document.querySelectorAll('.gal-slot').length;
+  lbCurrent = ((lbCurrent + dir) + total) % total;
+  openLightbox(lbCurrent);
 }
 
 document.addEventListener('keydown', e => {
@@ -617,6 +825,24 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')  lbNav(-1, null);
   if (e.key === 'Escape')     document.getElementById('lightbox').classList.remove('open');
 });
+
+// ── PROJETOS DA EXPERIÊNCIA ──
+function toggleExpProjects(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  const arrow = btn.querySelector('span:last-child');
+  if (arrow) arrow.textContent = isOpen ? '▾' : '▴';
+}
+
+// ── DETALHES DA FORMAÇÃO ──
+function toggleEduDetails(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  const arrow = btn.querySelector('span:last-child');
+  if (arrow) arrow.textContent = isOpen ? '▾' : '▴';
+}
 
 // ── DROPDOWN NAV ──
 function toggleNavDropdown(){
