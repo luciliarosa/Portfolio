@@ -1,8 +1,10 @@
 # 📓 Lucilia's Notebook — Developer
 
+🇧🇷 Português | [🇨🇦 English](README.en.md)
+
 > Caderno de estudos de desenvolvimento web — anotações organizadas por assunto, do jeito que entendi.
 
-**[🌐 Ver o site ao vivo](https://www.lucilliarosa.com.br)** · **[👩‍💻 Sobre mim](https://www.lucilliarosa.com.br/sobre-mim/sobre-mim.html)**
+**[🌐 Ver o site ao vivo](https://notebookon.vercel.app)** · **[👩‍💻 Sobre mim](https://notebookon.vercel.app/sobre-mim/sobre-mim.html)**
 
 ---
 
@@ -132,4 +134,4 @@ Este projeto é de uso pessoal. O conteúdo das aulas é baseado em cursos públ
 
 ---
 
-<p align="center">feito com 🍫 e muita anotação</p>
+<p align="center">Feito com 🍫 e muita anotação</p>
