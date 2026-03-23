@@ -71,7 +71,7 @@
     .wit-card p{font-size:13.5px;color:var(--ink2);line-height:1.85;}
     .wit-card p+p{margin-top:10px;}
     .wit-card strong{color:var(--rose);font-weight:700;}
-    .family-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:1rem;}
+    .family-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:1rem;}
     .fam-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);text-align:center;}
     .fam-photo{height:160px;background:var(--paper2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;border-bottom:1.5px solid var(--rule2);cursor:pointer;}
     .fam-photo-img{width:100%;height:100%;object-fit:cover;}
@@ -384,6 +384,16 @@
         <div class="fam-info">
           <p class="fam-name">Luke</p>
           <p class="fam-desc" data-i18n="fam_luke">O mais carinhoso. May the force be with you — e com o Luke, a força da fofura é imbatível. 🐶</p>
+        </div>
+      </div>
+      <div class="fam-card">
+        <div class="fam-photo" id="famPhoto4">
+          <img src="../img/maeirma.jpeg" alt="Luke" class="fam-photo-img"/>
+        </div>
+        <input type="file" id="famInput3" accept="image/*" style="display:none" onchange="loadFamPhoto(3,this)"/>
+        <div class="fam-info">
+          <p class="fam-name">Luzinete e Letícia</p>
+          <p class="fam-desc" data-i18n="fam_mae">Minha mãe, exemplo de cuidado e coragem. Minha irmã, minha melhor amiga de vida. Parceira de risadas e segredos ❤️</p>
         </div>
       </div>
     </div>
@@ -776,6 +786,7 @@ const T = {
     fam_vini:"Meu noivo e companheiro de vida. O primeiro a comemorar cada conquista e a segurar a mão nos dias difíceis. ❤️",
     fam_ragnar:"O corajoso. Tem o nome de um viking e atitudes de um rei. Presença constante nos dias de home office. 🐶",
     fam_luke:"O mais carinhoso. May the force be with you — e com o Luke, a força da fofura é imbatível. 🐶",
+    fam_mae:"Minha mãe, exemplo de cuidado e coragem. Minha irmã, minha melhor amiga de vida. Parceira de risadas e segredos ❤️",
     sec_exp:"Experiência profissional",exp1_period:"Jul 2025 – Presente",
     exp1_li1:"Desenvolvimento e manutenção de dashboards com Power BI",exp1_li2:"Scripts de automação em Python para processamento de dados",
     exp1_li3:"Modelagem e manipulação de dados com SQL",exp1_li4:"Criação de workflows com Power Automate",exp1_li5:"Contribuição para iniciativas de cultura de dados",
@@ -840,6 +851,7 @@ const T = {
     fam_vini:"My fiancé and life partner. The first to celebrate every achievement and to hold my hand on the hard days. ❤️",
     fam_ragnar:"The brave one. Named after a viking, acts like a king. A constant presence during home office days. 🐶",
     fam_luke:"The most affectionate. May the force be with you — and with Luke, the force of cuteness is unbeatable. 🐶",
+    fam_mae:"My mother, an example of care and courage. My sister, my best friend for life. Partner in laughter and secrets ❤️",
     sec_exp:"Professional experience",exp1_period:"Jul 2025 – Present",
     exp1_li1:"Developed and maintained dashboards using Power BI",exp1_li2:"Built Python automation scripts for data processing and operational tasks",
     exp1_li3:"Modeled and manipulated data using SQL",exp1_li4:"Created workflows and automations with Power Automate",exp1_li5:"Contributed to process optimization and data culture initiatives",
