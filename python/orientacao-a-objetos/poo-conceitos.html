@@ -1,453 +1,877 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Classes e Objetos — Lucilia's Notebook</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap"
+    rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    :root {
-      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
-      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
-      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
-      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
-      --shadow:0 2px 12px rgba(28,25,23,.08);
-      --shadow-lg:0 8px 32px rgba(28,25,23,.13);
-      --radius:10px;
-      --font-body:'Nunito',sans-serif;
-      --font-serif:'Lora',serif;
-      --font-mono:'JetBrains Mono',monospace;
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    html { scroll-behavior:smooth; }
+
+    :root {
+      --paper: #faf7f2;
+      --paper2: #f3efe8;
+      --paper3: #ede8df;
+      --ink: #1c1917;
+      --ink2: #44403c;
+      --ink3: #78716c;
+      --ink4: #a8a29e;
+      --rule: rgba(28, 25, 23, .10);
+      --rule2: rgba(28, 25, 23, .06);
+      --accent: #c84b31;
+      --accent2: #2563a8;
+      --accent3: #1a7a50;
+      --shadow: 0 2px 12px rgba(28, 25, 23, .08);
+      --shadow-lg: 0 8px 32px rgba(28, 25, 23, .13);
+      --radius: 10px;
+      --font-body: 'Nunito', sans-serif;
+      --font-serif: 'Lora', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family:var(--font-body);
-      background:var(--paper); color:var(--ink);
-      min-height:100vh;
-      background-image:repeating-linear-gradient(
-        transparent,transparent 31px,
-        rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px
-      );
-      background-attachment:fixed;
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image: repeating-linear-gradient(transparent, transparent 31px,
+          rgba(28, 25, 23, .045) 31px, rgba(28, 25, 23, .045) 32px);
+      background-attachment: fixed;
     }
 
     /* NAV */
     .nav {
-      position:sticky; top:0; z-index:100;
-      background:rgba(250,247,242,.92);
-      backdrop-filter:blur(8px);
-      border-bottom:1.5px solid var(--rule);
-      padding:0 2rem;
-      display:flex; align-items:center;
-      height:56px; gap:0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 247, 242, .92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1.5px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      height: 56px;
+      gap: 0;
     }
+
     .nav-brand {
-      font-family:var(--font-serif); font-size:16px; font-weight:600;
-      color:var(--ink); text-decoration:none;
-      display:flex; align-items:center; gap:8px;
-      margin-right:2rem; white-space:nowrap;
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 2rem;
+      white-space: nowrap;
     }
-    .nav-links { display:flex; align-items:center; gap:4px; flex:1; overflow-x:auto; }
-    .nav-links::-webkit-scrollbar { display:none; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
     .nav-link {
-      font-size:13px; font-weight:600; color:var(--ink3);
-      text-decoration:none; padding:6px 12px; border-radius:6px;
-      transition:background .15s,color .15s; white-space:nowrap;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink3);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background .15s, color .15s;
+      white-space: nowrap;
     }
-    .nav-link:hover { background:var(--paper3); color:var(--ink); }
-    .nav-link.active { background:var(--ink); color:var(--paper); }
-    .nav-sep { width:1px; height:18px; background:var(--rule); margin:0 4px; flex-shrink:0; }
+
+    .nav-link:hover {
+      background: var(--paper3);
+      color: var(--ink);
+    }
+
+    .nav-link.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .nav-sep {
+      width: 1px;
+      height: 18px;
+      background: var(--rule);
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
 
     /* PAGE */
-    .page { max-width:800px; margin:0 auto; padding:0 1.5rem 5rem; }
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
 
     /* BREADCRUMB */
     .breadcrumb {
-      display:flex; align-items:center; gap:6px;
-      font-size:12px; color:var(--ink4); padding:16px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink4);
+      padding: 16px 0 0;
     }
-    .breadcrumb a { color:var(--ink3); text-decoration:none; }
-    .breadcrumb a:hover { color:var(--accent2); }
+
+    .breadcrumb a {
+      color: var(--ink3);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--accent2);
+    }
 
     /* ── PINNED ── */
-    .pinned { background:#fffbeb; border:1.5px solid rgba(180,140,20,.25); border-radius:var(--radius); padding:16px 20px; display:flex; gap:12px; align-items:flex-start; margin-bottom:2rem; }
-    .pinned-icon { font-size:20px; flex-shrink:0; }
-    .pinned h4 { font-size:13px; font-weight:700; color:#92400e; margin-bottom:3px; }
-    .pinned p { font-size:12px; color:#a16207; line-height:1.6; }
+    .pinned {
+      background: #fffbeb;
+      border: 1.5px solid rgba(180, 140, 20, .25);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .pinned-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .pinned h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 3px;
+    }
+
+    .pinned p {
+      font-size: 12px;
+      color: #a16207;
+      line-height: 1.6;
+    }
 
     /* HERO */
-    .article-hero { padding:2rem 0 2.5rem; }
-    .article-eyebrow {
-      font-family:var(--font-mono); font-size:11px; color:var(--ink4);
-      letter-spacing:.06em; margin-bottom:10px;
+    .article-hero {
+      padding: 2rem 0 2.5rem;
     }
-    .article-title {
-      font-family:var(--font-serif); font-size:clamp(26px,5vw,40px);
-      font-weight:600; line-height:1.2; color:var(--ink); margin-bottom:12px;
-    }
-    .article-meta {
-      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-    }
-    .article-meta .dot { width:3px; height:3px; border-radius:50%; background:var(--ink4); }
-    .tag {
-      display:inline-block; font-size:11px; font-weight:700;
-      padding:3px 10px; border-radius:20px;
-    }
-    .tag.py { background:#dbeafe; color:#1e40af; }
-    .tag.gray { background:var(--paper3); color:var(--ink3); }
 
-    hr { border:none; border-top:1.5px solid var(--rule2); margin:2rem 0; }
+    .article-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink4);
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+
+    .article-title {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .article-meta .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--ink4);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .tag.py {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .tag.gray {
+      background: var(--paper3);
+      color: var(--ink3);
+    }
+
+    hr {
+      border: none;
+      border-top: 1.5px solid var(--rule2);
+      margin: 2rem 0;
+    }
 
     /* SEC TITLE */
     .sec-title {
-      font-size:11px; font-weight:700; letter-spacing:.08em;
-      text-transform:uppercase; color:var(--ink4); margin-bottom:14px;
-      display:flex; align-items:center; gap:8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .sec-title::after { content:''; flex:1; height:1px; background:var(--rule2); }
+
+    .sec-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule2);
+    }
 
     /* CARDS */
-    .cards-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-    .cards-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .cards-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
 
     .card {
-      background:var(--paper);
-      border:1.5px solid var(--rule);
-      border-radius:var(--radius);
-      padding:16px 18px;
+      background: var(--paper);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 16px 18px;
     }
-    .card.blue   { border-left:4px solid #378ADD; }
-    .card.purple { border-left:4px solid #7F77DD; }
-    .card.teal   { border-left:4px solid #1D9E75; }
-    .card.amber  { border-left:4px solid #BA7517; }
-    .card.coral  { border-left:4px solid #D85A30; }
-    .card.green  { border-left:4px solid #639922; }
-    .card h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px; }
-    .card p  { font-size:12px; color:var(--ink2); line-height:1.65; }
+
+    .card.blue {
+      border-left: 4px solid #378ADD;
+    }
+
+    .card.purple {
+      border-left: 4px solid #7F77DD;
+    }
+
+    .card.teal {
+      border-left: 4px solid #1D9E75;
+    }
+
+    .card.amber {
+      border-left: 4px solid #BA7517;
+    }
+
+    .card.coral {
+      border-left: 4px solid #D85A30;
+    }
+
+    .card.green {
+      border-left: 4px solid #639922;
+    }
+
+    .card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 12px;
+      color: var(--ink2);
+      line-height: 1.65;
+    }
 
     /* BADGE */
     .badge {
-      display:inline-block; font-size:11px; font-weight:700;
-      padding:3px 10px; border-radius:20px; margin-bottom:8px;
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
     }
-    .badge.blue   { background:#E6F1FB; color:#0C447C; }
-    .badge.purple { background:#EEEDFE; color:#3C3489; }
-    .badge.teal   { background:#E1F5EE; color:#085041; }
-    .badge.amber  { background:#FAEEDA; color:#854F0B; }
-    .badge.coral  { background:#FAECE7; color:#993C1D; }
-    .badge.green  { background:#EAF3DE; color:#27500A; }
+
+    .badge.blue {
+      background: #E6F1FB;
+      color: #0C447C;
+    }
+
+    .badge.purple {
+      background: #EEEDFE;
+      color: #3C3489;
+    }
+
+    .badge.teal {
+      background: #E1F5EE;
+      color: #085041;
+    }
+
+    .badge.amber {
+      background: #FAEEDA;
+      color: #854F0B;
+    }
+
+    .badge.coral {
+      background: #FAECE7;
+      color: #993C1D;
+    }
+
+    .badge.green {
+      background: #EAF3DE;
+      color: #27500A;
+    }
 
     /* ANALOGY */
     .analogy {
-      background:#fff; border:1.5px solid var(--rule);
-      border-radius:var(--radius); padding:18px 20px;
-      display:flex; gap:16px; align-items:flex-start;
-      box-shadow:var(--shadow);
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      box-shadow: var(--shadow);
     }
-    .analogy-icon { font-size:28px; flex-shrink:0; padding-top:1px; }
-    .analogy h3 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:6px; }
-    .analogy p  { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+
+    .analogy-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+
+    .analogy h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .analogy p {
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.65;
+    }
+
     .analogy code {
-      font-family:var(--font-mono); font-size:11px;
-      background:var(--paper2); padding:1px 6px; border-radius:4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--paper2);
+      padding: 1px 6px;
+      border-radius: 4px;
     }
 
     /* PILLAR */
     .pillar {
-      background:#fff; border:1.5px solid var(--rule);
-      border-radius:var(--radius); padding:18px 20px;
-      box-shadow:var(--shadow);
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
     }
-    .pillar .num { font-size:11px; font-weight:700; color:var(--ink4); margin-bottom:5px; }
-    .pillar h3   { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:7px; }
-    .pillar p    { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+
+    .pillar .num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink4);
+      margin-bottom: 5px;
+    }
+
+    .pillar h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 7px;
+    }
+
+    .pillar p {
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.65;
+    }
 
     /* CODE */
     .code-wrap {
-      background:#1e1c1a; border-radius:var(--radius);
-      padding:20px 22px; overflow-x:auto;
-      box-shadow:var(--shadow-lg);
+      background: #1e1c1a;
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-lg);
     }
+
     .code-wrap pre {
-      font-family:var(--font-mono); font-size:13px;
-      line-height:1.85; color:#e8e0d5; white-space:pre;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.85;
+      color: #e8e0d5;
+      white-space: pre;
     }
-    .kw  { color:#89b4fa; }
-    .cm  { color:#6c7086; }
-    .str { color:#a6e3a1; }
-    .fn  { color:#cba6f7; }
-    .slf { color:#f38ba8; }
-    .vr  { color:#fab387; }
+
+    .kw {
+      color: #89b4fa;
+    }
+
+    .cm {
+      color: #6c7086;
+    }
+
+    .str {
+      color: #a6e3a1;
+    }
+
+    .fn {
+      color: #cba6f7;
+    }
+
+    .slf {
+      color: #f38ba8;
+    }
+
+    .vr {
+      color: #fab387;
+    }
 
     /* BISCOITO DIAGRAM */
     .biscoito-demo {
-      background:#fff; border:1.5px solid var(--rule);
-      border-radius:var(--radius); padding:24px;
-      box-shadow:var(--shadow);
-      display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap;
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
     }
+
     .biscoito-visual {
-      display:flex; flex-direction:column; align-items:center; gap:8px;
-      flex-shrink:0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
+
     .biscoito-icon {
-      font-size:48px; line-height:1;
+      font-size: 48px;
+      line-height: 1;
     }
+
     .biscoito-arrow {
-      font-size:20px; color:var(--ink4);
+      font-size: 20px;
+      color: var(--ink4);
     }
+
     .biscoito-class-box {
-      border:2px solid var(--ink);
-      border-radius:8px;
-      overflow:hidden;
-      min-width:210px;
-      font-family:var(--font-mono);
-      font-size:12px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      overflow: hidden;
+      min-width: 210px;
+      font-family: var(--font-mono);
+      font-size: 12px;
     }
+
     .biscoito-class-header {
-      background:#1e1c1a; color:#fab387;
-      font-weight:700; font-size:13px;
-      padding:8px 14px; text-align:center;
-      letter-spacing:.02em;
+      background: #1e1c1a;
+      color: #fab387;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 14px;
+      text-align: center;
+      letter-spacing: .02em;
     }
+
     .biscoito-section {
-      padding:10px 14px;
-      border-top:1.5px solid var(--rule);
+      padding: 10px 14px;
+      border-top: 1.5px solid var(--rule);
     }
-    .biscoito-section:first-of-type { border-top:none; }
+
+    .biscoito-section:first-of-type {
+      border-top: none;
+    }
+
     .biscoito-section-label {
-      font-size:10px; font-weight:700; letter-spacing:.08em;
-      text-transform:uppercase; color:var(--ink4);
-      margin-bottom:6px;
-      writing-mode:horizontal-tb;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 6px;
+      writing-mode: horizontal-tb;
     }
+
     .biscoito-item {
-      display:flex; align-items:baseline; gap:6px;
-      font-size:12px; color:var(--ink2);
-      padding:2px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink2);
+      padding: 2px 0;
     }
+
     .biscoito-item .plus {
-      color:#1D9E75; font-weight:700; font-size:13px; flex-shrink:0;
+      color: #1D9E75;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
     }
-    .biscoito-item.method .plus { color:#7F77DD; }
+
+    .biscoito-item.method .plus {
+      color: #7F77DD;
+    }
+
     .biscoito-sidebar {
-      display:flex; flex-direction:column; justify-content:space-between;
-      gap:0; position:relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0;
+      position: relative;
     }
+
     .biscoito-side-label {
-      writing-mode:vertical-rl;
-      text-orientation:mixed;
-      transform:rotate(180deg);
-      font-size:10px; font-weight:700; letter-spacing:.12em;
-      text-transform:uppercase; color:#fff;
-      padding:10px 5px;
-      border-radius:0 6px 6px 0;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 10px 5px;
+      border-radius: 0 6px 6px 0;
     }
-    .biscoito-side-attr { background:#378ADD; }
-    .biscoito-side-met  { background:#7F77DD; }
+
+    .biscoito-side-attr {
+      background: #378ADD;
+    }
+
+    .biscoito-side-met {
+      background: #7F77DD;
+    }
 
     .biscoito-desc {
-      flex:1; min-width:200px;
+      flex: 1;
+      min-width: 200px;
     }
+
     .biscoito-desc h3 {
-      font-size:14px; font-weight:700; color:var(--ink); margin-bottom:8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
     }
+
     .biscoito-desc p {
-      font-size:12.5px; color:var(--ink2); line-height:1.7; margin-bottom:10px;
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.7;
+      margin-bottom: 10px;
     }
+
     .biscoito-desc ul {
-      list-style:none; padding:0;
+      list-style: none;
+      padding: 0;
     }
+
     .biscoito-desc ul li {
-      font-size:12px; color:var(--ink2); line-height:1.6;
-      padding:2px 0 2px 16px; position:relative;
+      font-size: 12px;
+      color: var(--ink2);
+      line-height: 1.6;
+      padding: 2px 0 2px 16px;
+      position: relative;
     }
+
     .biscoito-desc ul li::before {
-      content:'→'; position:absolute; left:0;
-      color:var(--accent2); font-size:11px;
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent2);
+      font-size: 11px;
     }
 
     /* NAV PAGES */
-    .nav-pages { display:flex; gap:12px; margin-top:2.5rem; flex-wrap:wrap; }
-    .nav-page {
-      flex:1; min-width:200px;
-      background:#fff; border:1.5px solid var(--rule);
-      border-radius:var(--radius); padding:14px 18px;
-      text-decoration:none; color:var(--ink);
-      display:flex; flex-direction:column; gap:4px;
-      transition:transform .15s,box-shadow .15s;
-      box-shadow:var(--shadow);
+    .nav-pages {
+      display: flex;
+      gap: 12px;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
     }
-    .nav-page:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
-    .nav-page .np-label { font-size:11px; color:var(--ink4); font-weight:700; }
-    .nav-page .np-title { font-size:14px; font-weight:700; color:var(--accent2); }
+
+    .nav-page {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-page:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .nav-page .np-label {
+      font-size: 11px;
+      color: var(--ink4);
+      font-weight: 700;
+    }
+
+    .nav-page .np-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent2);
+    }
 
     /* FADE */
-    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-    .fade { animation:fadeUp .45s ease both; }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
 
-    @media(max-width:600px){
-      .nav { padding:0 1rem; }
-      .page { padding:0 1rem 4rem; }
-      .cards-2 { grid-template-columns:1fr; }
-      .cards-4 { grid-template-columns:repeat(2,1fr); }
-      .biscoito-demo { flex-direction:column; }
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
-    @media(max-width:380px){ .cards-4 { grid-template-columns:1fr; } }
+
+    .fade {
+      animation: fadeUp .45s ease both;
+    }
+
+    @media(max-width:600px) {
+      .nav {
+        padding: 0 1rem;
+      }
+
+      .page {
+        padding: 0 1rem 4rem;
+      }
+
+      .cards-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .cards-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .biscoito-demo {
+        flex-direction: column;
+      }
+    }
+
+    @media(max-width:380px) {
+      .cards-4 {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav class="nav">
-  <a href="index.html" class="nav-brand">
-    <span>📓</span> Lucilia's Notebook
-  </a>
-  <div class="nav-links">
-    <a href="../../index.html" class="nav-link">Home</a>
-    <span class="nav-sep"></span>
-    <a href="../../index.html#python" class="nav-link">Python</a>
-    <a href="historia-poo.html" class="nav-link">História da POO</a>
-    <a href="poo-conceitos.html" class="nav-link active">Classes e Objetos</a>
-  </div>
-</nav>
-
-<div class="page">
-
-
-
-  <!-- HERO -->
-  <header class="article-hero fade">
-    <p class="article-eyebrow">// aula 02 · Python · POO</p>
-    <h1 class="article-title">Classes, Objetos, Atributos<br>e os 4 Pilares</h1>
-    <div class="article-meta">
-      <span class="tag py">Python</span>
-      <span class="tag gray">POO</span>
-      <span class="dot"></span>
-      <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">
+      <span>📓</span> Lucilia's Notebook
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html" class="nav-link">Home</a>
+      <span class="nav-sep"></span>
+      <a href="../../index.html#python" class="nav-link">Python</a>
+      <a href="historia-poo.html" class="nav-link">História da POO</a>
+      <a href="poo-conceitos.html" class="nav-link active">Classes e Objetos</a>
     </div>
-  </header>
+  </nav>
 
-  <hr />
+  <div class="page">
 
-  <!-- CONCEITO CENTRAL -->
-  <section style="margin-bottom:2rem" class="fade">
-    <p class="sec-title">Conceito central — a analogia do Guanabara</p>
-    <div class="cards-2">
-      <div class="analogy">
-        <div class="analogy-icon">📋</div>
-        <div>
-          <h3>Classe — o molde</h3>
-          <p>É o projeto, a "forma de bolo". Define como todos os objetos daquele tipo vão ser. Não existe no mundo real — é só a especificação.</p>
-          <p style="margin-top:6px;font-size:12px;color:var(--ink4)">Ex: a classe <strong>Caneta</strong> descreve o que toda caneta tem.</p>
+    <!-- HERO -->
+    <header class="article-hero fade">
+      <p class="article-eyebrow">// aula 02 · Python · POO</p>
+      <h1 class="article-title">Classes, Objetos, Atributos<br>e os 4 Pilares</h1>
+      <div class="article-meta">
+        <span class="tag py">Python</span>
+        <span class="tag gray">POO</span>
+        <span class="dot"></span>
+        <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+      </div>
+    </header>
+
+    <hr />
+
+    <!-- CONCEITO CENTRAL -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Conceito central — a analogia do Guanabara</p>
+      <div class="cards-2">
+        <div class="analogy">
+          <div class="analogy-icon">📋</div>
+          <div>
+            <h3>Classe — o molde</h3>
+            <p>É o projeto, a "forma de bolo". Define como todos os objetos daquele tipo vão ser. Não existe no mundo
+              real — é só a especificação.</p>
+            <p style="margin-top:6px;font-size:12px;color:var(--ink4)">Ex: a classe <strong>Caneta</strong> descreve o
+              que toda caneta tem.</p>
+          </div>
+        </div>
+        <div class="analogy">
+          <div class="analogy-icon">🖊️</div>
+          <div>
+            <h3>Objeto — a instância</h3>
+            <p>É o bolo já feito. Uma caneta de verdade, criada a partir da classe. Cada objeto é independente e pode
+              ter valores diferentes nos atributos.</p>
+            <p style="margin-top:6px;font-size:12px;color:var(--ink4)">Ex: <code>c1 = Caneta()</code> cria um objeto
+              real.</p>
+          </div>
         </div>
       </div>
-      <div class="analogy">
-        <div class="analogy-icon">🖊️</div>
-        <div>
-          <h3>Objeto — a instância</h3>
-          <p>É o bolo já feito. Uma caneta de verdade, criada a partir da classe. Cada objeto é independente e pode ter valores diferentes nos atributos.</p>
-          <p style="margin-top:6px;font-size:12px;color:var(--ink4)">Ex: <code>c1 = Caneta()</code> cria um objeto real.</p>
+    </section>
+
+    <hr />
+
+    <!-- O QUE COMPÕE UM OBJETO -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">O que compõe um objeto</p>
+      <div class="cards-4">
+        <div class="card blue">
+          <span class="badge blue">Atributos</span>
+          <h3>Características</h3>
+          <p>São as variáveis internas do objeto. Descrevem o que ele <em>tem</em>.<br><br>Ex: cor, marca, tipo, ponta,
+            carga, tampada.</p>
+        </div>
+        <div class="card purple">
+          <span class="badge purple">Métodos</span>
+          <h3>Comportamentos</h3>
+          <p>São as funções do objeto. Descrevem o que ele <em>faz</em> ou o que pode ser feito com ele.<br><br>Ex:
+            tampar(), destampar(), escrever(), recarregar().</p>
+        </div>
+        <div class="card teal">
+          <span class="badge teal">Estado</span>
+          <h3>Situação atual</h3>
+          <p>É a combinação dos valores dos atributos <em>naquele momento</em>.<br><br>Ex: caneta azul, destampada,
+            carga 80%.</p>
+        </div>
+        <div class="card amber">
+          <span class="badge amber">Instância</span>
+          <h3>Objeto criado</h3>
+          <p>Cada objeto gerado a partir de uma classe é uma instância diferente, com seus próprios valores.<br><br>Ex:
+            c1 e c2 são instâncias de Caneta.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <hr />
+    <hr />
 
-  <!-- O QUE COMPÕE UM OBJETO -->
-  <section style="margin-bottom:2rem" class="fade">
-    <p class="sec-title">O que compõe um objeto</p>
-    <div class="cards-4">
-      <div class="card blue">
-        <span class="badge blue">Atributos</span>
-        <h3>Características</h3>
-        <p>São as variáveis internas do objeto. Descrevem o que ele <em>tem</em>.<br><br>Ex: cor, marca, tipo, ponta, carga, tampada.</p>
+    <!-- VISIBILIDADE -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Visibilidade dos atributos e métodos</p>
+      <div class="cards-4">
+        <div class="card green">
+          <span class="badge green">public</span>
+          <h3>Qualquer um acessa</h3>
+          <p>Visível de qualquer lugar do programa.</p>
+        </div>
+        <div class="card coral">
+          <span class="badge coral">private</span>
+          <h3>Só a própria classe</h3>
+          <p>Acesso restrito à classe que o definiu. Protege os dados internos.</p>
+        </div>
+        <div class="card amber">
+          <span class="badge amber">protected</span>
+          <h3>Classe + filhas</h3>
+          <p>Visível para a classe e para suas subclasses (herança).</p>
+        </div>
+        <div class="card blue">
+          <span class="badge blue">Getters/Setters</span>
+          <h3>Controlam o acesso</h3>
+          <p>Métodos que leem (get) e alteram (set) atributos privados de forma segura.</p>
+        </div>
       </div>
-      <div class="card purple">
-        <span class="badge purple">Métodos</span>
-        <h3>Comportamentos</h3>
-        <p>São as funções do objeto. Descrevem o que ele <em>faz</em> ou o que pode ser feito com ele.<br><br>Ex: tampar(), destampar(), escrever(), recarregar().</p>
-      </div>
-      <div class="card teal">
-        <span class="badge teal">Estado</span>
-        <h3>Situação atual</h3>
-        <p>É a combinação dos valores dos atributos <em>naquele momento</em>.<br><br>Ex: caneta azul, destampada, carga 80%.</p>
-      </div>
-      <div class="card amber">
-        <span class="badge amber">Instância</span>
-        <h3>Objeto criado</h3>
-        <p>Cada objeto gerado a partir de uma classe é uma instância diferente, com seus próprios valores.<br><br>Ex: c1 e c2 são instâncias de Caneta.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <hr />
+    <hr />
 
-  <!-- VISIBILIDADE -->
-  <section style="margin-bottom:2rem" class="fade">
-    <p class="sec-title">Visibilidade dos atributos e métodos</p>
-    <div class="cards-4">
-      <div class="card green">
-        <span class="badge green">public</span>
-        <h3>Qualquer um acessa</h3>
-        <p>Visível de qualquer lugar do programa.</p>
+    <!-- 4 PILARES -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Os 4 pilares da POO</p>
+      <div class="cards-2">
+        <div class="pillar">
+          <div class="num">Pilar 1</div>
+          <h3>🧩 Abstração</h3>
+          <p>Focar no que é essencial e ignorar os detalhes desnecessários. Ao criar uma classe Caneta, você não precisa
+            modelar a física do plástico — só o que importa para o programa.</p>
+        </div>
+        <div class="pillar">
+          <div class="num">Pilar 2</div>
+          <h3>🔒 Encapsulamento</h3>
+          <p>Esconder os dados internos do objeto. Os atributos ficam privados e só são acessados por métodos
+            controlados (getters/setters). Protege a integridade do objeto.</p>
+        </div>
+        <div class="pillar">
+          <div class="num">Pilar 3</div>
+          <h3>🧬 Herança</h3>
+          <p>Uma classe pode herdar atributos e métodos de outra. A classe Caneta Especial herda de Caneta tudo que já
+            foi definido, evitando repetição de código.</p>
+        </div>
+        <div class="pillar">
+          <div class="num">Pilar 4</div>
+          <h3>🎭 Polimorfismo</h3>
+          <p>O mesmo método pode se comportar de formas diferentes dependendo do objeto. Caneta e Lápis podem ter o
+            método escrever(), mas cada um age à sua maneira.</p>
+        </div>
       </div>
-      <div class="card coral">
-        <span class="badge coral">private</span>
-        <h3>Só a própria classe</h3>
-        <p>Acesso restrito à classe que o definiu. Protege os dados internos.</p>
-      </div>
-      <div class="card amber">
-        <span class="badge amber">protected</span>
-        <h3>Classe + filhas</h3>
-        <p>Visível para a classe e para suas subclasses (herança).</p>
-      </div>
-      <div class="card blue">
-        <span class="badge blue">Getters/Setters</span>
-        <h3>Controlam o acesso</h3>
-        <p>Métodos que leem (get) e alteram (set) atributos privados de forma segura.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <hr />
+    <hr />
 
-  <!-- 4 PILARES -->
-  <section style="margin-bottom:2rem" class="fade">
-    <p class="sec-title">Os 4 pilares da POO</p>
-    <div class="cards-2">
-      <div class="pillar">
-        <div class="num">Pilar 1</div>
-        <h3>🧩 Abstração</h3>
-        <p>Focar no que é essencial e ignorar os detalhes desnecessários. Ao criar uma classe Caneta, você não precisa modelar a física do plástico — só o que importa para o programa.</p>
-      </div>
-      <div class="pillar">
-        <div class="num">Pilar 2</div>
-        <h3>🔒 Encapsulamento</h3>
-        <p>Esconder os dados internos do objeto. Os atributos ficam privados e só são acessados por métodos controlados (getters/setters). Protege a integridade do objeto.</p>
-      </div>
-      <div class="pillar">
-        <div class="num">Pilar 3</div>
-        <h3>🧬 Herança</h3>
-        <p>Uma classe pode herdar atributos e métodos de outra. A classe Caneta Especial herda de Caneta tudo que já foi definido, evitando repetição de código.</p>
-      </div>
-      <div class="pillar">
-        <div class="num">Pilar 4</div>
-        <h3>🎭 Polimorfismo</h3>
-        <p>O mesmo método pode se comportar de formas diferentes dependendo do objeto. Caneta e Lápis podem ter o método escrever(), mas cada um age à sua maneira.</p>
-      </div>
-    </div>
-  </section>
-
-  <hr />
-
-  <!-- CÓDIGO -->
-  <section style="margin-bottom:2rem" class="fade">
-    <p class="sec-title">Exemplo prático — classe Caneta (Python)</p>
-    <div class="code-wrap">
-      <pre><span class="kw">class</span> <span class="vr">Caneta</span>:
+    <!-- CÓDIGO -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Exemplo prático — classe Caneta (Python)</p>
+      <div class="code-wrap">
+        <pre><span class="kw">class</span> <span class="vr">Caneta</span>:
     <span class="cm"># Construtor — define os atributos ao criar o objeto</span>
     <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">cor</span>, <span class="vr">marca</span>):
         <span class="slf">self</span>.__cor     = <span class="vr">cor</span>    <span class="cm"># privado</span>
@@ -471,79 +895,82 @@
 <span class="vr">c2</span> = <span class="fn">Caneta</span>(<span class="str">"vermelha"</span>, <span class="str">"Pilot"</span>)
 <span class="vr">c1</span>.<span class="fn">destampar</span>()
 <span class="vr">c1</span>.<span class="fn">escrever</span>()  <span class="cm"># → Escrevendo com azul</span></pre>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <hr />
+    <hr />
 
-  <!-- BISCOITO CORAÇÃO -->
-  <section style="margin-bottom:2rem" class="fade">
-    <p class="sec-title">Outro exemplo — classe BiscoitoCoracao</p>
-    <div class="biscoito-demo">
+    <!-- BISCOITO CORAÇÃO -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Outro exemplo — classe BiscoitoCoracao</p>
+      <div class="biscoito-demo">
 
-      <!-- Diagrama visual -->
-      <div class="biscoito-visual">
-        <div class="biscoito-icon">🍪</div>
-        <div class="biscoito-arrow">↓</div>
-        <div style="display:flex; align-items:stretch;">
-          <div class="biscoito-class-box">
-            <div class="biscoito-class-header">BiscoitoCoracao</div>
+        <!-- Diagrama visual -->
+        <div class="biscoito-visual">
+          <div class="biscoito-icon">🍪</div>
+          <div class="biscoito-arrow">↓</div>
+          <div style="display:flex; align-items:stretch;">
+            <div class="biscoito-class-box">
+              <div class="biscoito-class-header">BiscoitoCoracao</div>
 
-            <!-- Atributos -->
-            <div class="biscoito-section">
-              <div class="biscoito-item"><span class="plus">+</span> tamanho</div>
-              <div class="biscoito-item"><span class="plus">+</span> massa</div>
-              <div class="biscoito-item"><span class="plus">+</span> peso</div>
-              <div class="biscoito-item"><span class="plus">+</span> cobertura</div>
-              <div class="biscoito-item"><span class="plus">+</span> cozido</div>
-              <div class="biscoito-item"><span class="plus">+</span> temperatura</div>
+              <!-- Atributos -->
+              <div class="biscoito-section">
+                <div class="biscoito-item"><span class="plus">+</span> tamanho</div>
+                <div class="biscoito-item"><span class="plus">+</span> massa</div>
+                <div class="biscoito-item"><span class="plus">+</span> peso</div>
+                <div class="biscoito-item"><span class="plus">+</span> cobertura</div>
+                <div class="biscoito-item"><span class="plus">+</span> cozido</div>
+                <div class="biscoito-item"><span class="plus">+</span> temperatura</div>
+              </div>
+
+              <!-- Métodos -->
+              <div class="biscoito-section" style="border-top:1.5px solid var(--rule); background:var(--paper2);">
+                <div class="biscoito-item method"><span class="plus">+</span> cozinhar()</div>
+                <div class="biscoito-item method"><span class="plus">+</span> congelar()</div>
+              </div>
             </div>
 
-            <!-- Métodos -->
-            <div class="biscoito-section" style="border-top:1.5px solid var(--rule); background:var(--paper2);">
-              <div class="biscoito-item method"><span class="plus">+</span> cozinhar()</div>
-              <div class="biscoito-item method"><span class="plus">+</span> congelar()</div>
+            <!-- Labels laterais -->
+            <div style="display:flex; flex-direction:column; margin-left:4px; gap:4px;">
+              <div class="biscoito-side-label biscoito-side-attr" style="flex:3">atributos</div>
+              <div class="biscoito-side-label biscoito-side-met" style="flex:1">métodos</div>
             </div>
-          </div>
-
-          <!-- Labels laterais -->
-          <div style="display:flex; flex-direction:column; margin-left:4px; gap:4px;">
-            <div class="biscoito-side-label biscoito-side-attr" style="flex:3">atributos</div>
-            <div class="biscoito-side-label biscoito-side-met" style="flex:1">métodos</div>
           </div>
         </div>
-      </div>
 
-      <!-- Descrição -->
-      <div class="biscoito-desc">
-        <h3>Como funciona esse exemplo?</h3>
-        <p>A classe <strong>BiscoitoCoracao</strong> modela um biscoito em formato de coração. Ela reúne tudo que um biscoito <em>tem</em> (atributos) e tudo que pode ser <em>feito</em> com ele (métodos).</p>
-        <ul>
-          <li><strong>tamanho, massa, peso</strong> — características físicas do biscoito</li>
-          <li><strong>cobertura</strong> — tipo de cobertura (chocolate, glacê…)</li>
-          <li><strong>cozido</strong> — estado atual: está assado ou não?</li>
-          <li><strong>temperatura</strong> — temperatura atual do biscoito</li>
-          <li><strong>cozinhar()</strong> — método que muda <em>cozido</em> para True e ajusta a temperatura</li>
-          <li><strong>congelar()</strong> — método que reduz a temperatura do biscoito</li>
-        </ul>
-        <p style="margin-top:10px; font-size:12px; color:var(--ink4)">
-          💡 O símbolo <strong style="color:#1D9E75">+</strong> indica que o atributo ou método é <em>público</em> — qualquer parte do programa pode acessá-lo.
-        </p>
+        <!-- Descrição -->
+        <div class="biscoito-desc">
+          <h3>Como funciona esse exemplo?</h3>
+          <p>A classe <strong>BiscoitoCoracao</strong> modela um biscoito em formato de coração. Ela reúne tudo que um
+            biscoito <em>tem</em> (atributos) e tudo que pode ser <em>feito</em> com ele (métodos).</p>
+          <ul>
+            <li><strong>tamanho, massa, peso</strong> — características físicas do biscoito</li>
+            <li><strong>cobertura</strong> — tipo de cobertura (chocolate, glacê…)</li>
+            <li><strong>cozido</strong> — estado atual: está assado ou não?</li>
+            <li><strong>temperatura</strong> — temperatura atual do biscoito</li>
+            <li><strong>cozinhar()</strong> — método que muda <em>cozido</em> para True e ajusta a temperatura</li>
+            <li><strong>congelar()</strong> — método que reduz a temperatura do biscoito</li>
+          </ul>
+          <p style="margin-top:10px; font-size:12px; color:var(--ink4)">
+            💡 O símbolo <strong style="color:#1D9E75">+</strong> indica que o atributo ou método é <em>público</em> —
+            qualquer parte do programa pode acessá-lo.
+          </p>
+        </div>
       </div>
-    </div>
-  <br>
-  <!-- ── PINNED ── -->
-  <div class="pinned fade-up">
-    <span class="pinned-icon">📌</span>
-    <div>
-      <h4 data-i18n="pinned_title">Lembrete</h4>
-      <p data-i18n="pinned_text">Objetos instanciados a partir de uma mesma classe compartilham as mesmas características (atributos) e métodos.</p>
-    </div>
-  </div>
-    <!-- Código -->
-    <div style="margin-top:16px;">
-      <div class="code-wrap">
-        <pre><span class="kw">class</span> <span class="vr">BiscoitoCoracao</span>:
+      <br>
+      <!-- ── PINNED ── -->
+      <div class="pinned fade-up">
+        <span class="pinned-icon">📌</span>
+        <div>
+          <h4 data-i18n="pinned_title">Lembrete</h4>
+          <p data-i18n="pinned_text">Objetos instanciados a partir de uma mesma classe compartilham as mesmas
+            características (atributos) e métodos.</p>
+        </div>
+      </div>
+      <!-- Código -->
+      <div style="margin-top:16px;">
+        <div class="code-wrap">
+          <pre><span class="kw">class</span> <span class="vr">BiscoitoCoracao</span>:
     <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">tamanho</span>, <span class="vr">massa</span>, <span class="vr">peso</span>, <span class="vr">cobertura</span>):
         <span class="slf">self</span>.tamanho    = <span class="vr">tamanho</span>
         <span class="slf">self</span>.massa      = <span class="vr">massa</span>
@@ -561,27 +988,177 @@
         <span class="slf">self</span>.temperatura = <span class="vr">-18</span>
         <span class="fn">print</span>(<span class="str">f"Biscoito congelado a {</span><span class="slf">self</span>.temperatura<span class="str">}°C."</span>)
 
-<span class="cm"># Criando uma instância</span>
-<span class="vr">b1</span> = <span class="fn">BiscoitoCoracao</span>(<span class="str">"médio"</span>, <span class="str">"manteiga"</span>, <span class="vr">30</span>, <span class="str">"chocolate"</span>)
-<span class="vr">b1</span>.<span class="fn">cozinhar</span>()   <span class="cm"># → Biscoito assado a 180°C!</span>
-<span class="vr">b1</span>.<span class="fn">congelar</span>()   <span class="cm"># → Biscoito congelado a -18°C.</span></pre>
+  <span class="cm"># Criando uma instância</span>
+  <span class="vr">b1</span> = <span class="fn">BiscoitoCoracao</span>(<span class="str">"médio"</span>, <span class="str">"manteiga"</span>, <span class="vr">30</span>, <span class="str">"chocolate"</span>)
+  <span class="vr">b1</span>.<span class="fn">cozinhar</span>()   <span class="cm"># → Biscoito assado a 180°C!</span>
+  <span class="vr">b1</span>.<span class="fn">congelar</span>()   <span class="cm"># → Biscoito congelado a -18°C.</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!--Paradigmas de programação-->
+    <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">💡 Curiosidade — paradigmas de programação</p>
+ 
+    <div class="analogy" style="margin-bottom:16px;">
+      <div class="analogy-icon">🗺️</div>
+      <div>
+        <h3>O que é um paradigma?</h3>
+        <p>Paradigma é uma <strong>forma de pensar e organizar o código</strong>. POO é apenas um dos paradigmas existentes — há várias outras maneiras de programar, e muitas linguagens modernas suportam mais de um estilo ao mesmo tempo.</p>
+      </div>
+    </div>
+ 
+    <!-- Linguagens OO vs não OO -->
+    <div class="cards-2" style="margin-bottom:16px;">
+      <div class="card blue" style="border-left:4px solid #378ADD;">
+        <span class="badge blue">✅ Orientadas a Objetos</span>
+        <h3>Linguagens com POO</h3>
+        <p style="margin-bottom:8px">Foram projetadas com POO como base (ou suportam plenamente):</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Python</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Java</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">C++</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">C#</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Ruby</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Swift</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Kotlin</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">PHP</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">JavaScript</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">TypeScript</span>
+        </div>
+        <p style="margin-top:10px;font-size:11.5px;color:var(--ink3)">💡 <strong>Java</strong> é famosa por ser "puramente" OO — quase tudo é uma classe.</p>
+      </div>
+      <div class="card coral" style="border-left:4px solid #D85A30;">
+        <span class="badge coral">❌ Não (ou pouco) OO</span>
+        <h3>Linguagens sem POO nativa</h3>
+        <p style="margin-bottom:8px">Foram criadas com outros paradigmas como foco principal:</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">C</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Pascal</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Haskell</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Erlang</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Prolog</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">SQL</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Assembly</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Lisp</span>
+          <span style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:3px 8px;border-radius:4px;color:var(--ink2)">Elm</span>
+        </div>
+        <p style="margin-top:10px;font-size:11.5px;color:var(--ink3)">💡 <strong>C</strong> é procedural puro — base de sistemas operacionais e de linguagens mais modernas.</p>
+      </div>
+    </div>
+ 
+    <!-- Outros paradigmas -->
+    <p class="sec-title" style="margin-top:1.5rem">Outros paradigmas além de OO</p>
+    <div class="cards-2">
+      <div class="card purple">
+        <span class="badge purple">Paradigma 1</span>
+        <h3>⚙️ Programação Procedural</h3>
+        <p>O código é uma sequência de instruções e procedimentos (funções). É o estilo mais clássico — pensa em <em>o que fazer passo a passo</em>. Exemplos: <strong>C</strong>, <strong>Pascal</strong>, <strong>Fortran</strong>.</p>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">Paradigma 2</span>
+        <h3>λ Programação Funcional</h3>
+        <p>Tudo é baseado em funções matemáticas puras, sem efeitos colaterais. Dados são imutáveis. Muito usada em processamento de dados e sistemas robustos. Exemplos: <strong>Haskell</strong>, <strong>Elixir</strong>, <strong>Clojure</strong>.</p>
+      </div>
+      <div class="card amber">
+        <span class="badge amber">Paradigma 3</span>
+        <h3>🧠 Programação Lógica</h3>
+        <p>O programa é definido por <em>fatos e regras</em> — e o computador deduz as respostas. Muito usado em inteligência artificial e linguística computacional. Exemplo clássico: <strong>Prolog</strong>.</p>
+      </div>
+      <div class="card green">
+        <span class="badge green">Paradigma 4</span>
+        <h3>🔀 Multiparadigma</h3>
+        <p>Muitas linguagens modernas não escolhem apenas um estilo. <strong>Python</strong>, <strong>JavaScript</strong> e <strong>Scala</strong> misturam OO com funcional — você usa o que fizer mais sentido para o problema.</p>
+      </div>
+    </div>
+ 
+    <!-- Tabela-resumo visual -->
+    <div style="margin-top:16px; background:#fff; border:1.5px solid var(--rule); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);">
+      <div style="background:#1e1c1a; color:#fab387; font-family:var(--font-mono); font-size:12px; font-weight:700; padding:10px 18px; letter-spacing:.04em;">
+        resumo — paradigma × linguagem
+      </div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:12px; font-family:var(--font-body);">
+          <thead>
+            <tr style="background:var(--paper2);">
+              <th style="text-align:left; padding:10px 18px; font-size:11px; font-weight:700; color:var(--ink4); letter-spacing:.06em; text-transform:uppercase; border-bottom:1.5px solid var(--rule);">Linguagem</th>
+              <th style="text-align:center; padding:10px 12px; font-size:11px; font-weight:700; color:var(--ink4); letter-spacing:.06em; text-transform:uppercase; border-bottom:1.5px solid var(--rule);">OO</th>
+              <th style="text-align:center; padding:10px 12px; font-size:11px; font-weight:700; color:var(--ink4); letter-spacing:.06em; text-transform:uppercase; border-bottom:1.5px solid var(--rule);">Procedural</th>
+              <th style="text-align:center; padding:10px 12px; font-size:11px; font-weight:700; color:var(--ink4); letter-spacing:.06em; text-transform:uppercase; border-bottom:1.5px solid var(--rule);">Funcional</th>
+              <th style="text-align:center; padding:10px 12px; font-size:11px; font-weight:700; color:var(--ink4); letter-spacing:.06em; text-transform:uppercase; border-bottom:1.5px solid var(--rule);">Lógica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--rule2);">
+              <td style="padding:9px 18px; font-weight:700; font-family:var(--font-mono); color:var(--ink2)">Python</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--rule2); background:var(--paper2);">
+              <td style="padding:9px 18px; font-weight:700; font-family:var(--font-mono); color:var(--ink2)">Java</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:#BA7517; font-size:11px">parcial</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--rule2);">
+              <td style="padding:9px 18px; font-weight:700; font-family:var(--font-mono); color:var(--ink2)">C</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--rule2); background:var(--paper2);">
+              <td style="padding:9px 18px; font-weight:700; font-family:var(--font-mono); color:var(--ink2)">Haskell</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--rule2);">
+              <td style="padding:9px 18px; font-weight:700; font-family:var(--font-mono); color:var(--ink2)">JavaScript</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+            </tr>
+            <tr style="background:var(--paper2);">
+              <td style="padding:9px 18px; font-weight:700; font-family:var(--font-mono); color:var(--ink2)">Prolog</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:var(--ink4)">—</td>
+              <td style="text-align:center; padding:9px 12px; color:#1D9E75; font-weight:700">✔</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <div class="pinned" style="margin-top:16px; margin-bottom:0;">
+      <span class="pinned-icon">📌</span>
+      <div>
+        <h4>Vale lembrar</h4>
+        <p>Não existe paradigma "melhor" — cada um tem seu contexto ideal. Python é tão querido justamente por ser multiparadigma: você usa POO quando faz sentido, funções puras quando é mais claro, e procedural quando é mais simples. A escolha depende do problema!</p>
       </div>
     </div>
   </section>
 
-  <!-- NAV PAGES -->
-  <div class="nav-pages fade">
-    <a href="historia-poo.html" class="nav-page" style="align-items:flex-start">
-      <span class="np-label">← aula anterior</span>
-      <span class="np-title">História da POO</span>
-    </a>
-    <a href="../index.html#python" class="nav-page" style="align-items:flex-end">
-      <span class="np-label">voltar para →</span>
-      <span class="np-title">Python — Orientação a Objetos</span>
-    </a>
+    <!-- NAV PAGES -->
+    <div class="nav-pages fade">
+      <a href="historia-poo.html" class="nav-page" style="align-items:flex-start">
+        <span class="np-label">← aula anterior</span>
+        <span class="np-title">História da POO</span>
+      </a>
+      <a href="../index.html#python" class="nav-page" style="align-items:flex-end">
+        <span class="np-label">voltar para →</span>
+        <span class="np-title">Python — Orientação a Objetos</span>
+      </a>
+    </div>
+
   </div>
 
-</div>
-
 </body>
+
 </html>
