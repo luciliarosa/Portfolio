@@ -568,6 +568,91 @@
   </section>
 
   <hr />
+  <hr />
+
+  <!-- DUNDER ATTRIBUTES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Dunder attributes — métodos especiais do Python</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <p><strong>Dunder</strong> vem de <strong>Double UNDERscore</strong> — os métodos com <code>__duplo_underscore__</code> antes e depois do nome. O Python os chama automaticamente em situações específicas, sem você precisar invocar diretamente.</p>
+      <p>Você já usou dois nessa aula: <code>__init__</code> (construtor) e <code>__str__</code> (representação). Mas existem vários outros que deixam sua classe muito mais poderosa.</p>
+    </div>
+    <div class="tip" style="margin-bottom:1.5rem">
+      <p>💡 Dunder <strong>não é nome bonito</strong> — é uma convenção do Python para separar métodos especiais (que o interpretador chama) dos métodos normais (que você chama). Nunca crie métodos com <code>__nome__</code> por conta própria.</p>
+    </div>
+    <div class="cards-2" style="margin-bottom:1.5rem">
+      <div class="card blue">
+        <span class="badge blue">__init__</span>
+        <h3>Construtor</h3>
+        <p>Chamado automaticamente quando o objeto é criado. Define os atributos iniciais.</p>
+        <p style="margin-top:8px;font-size:11.5px;color:var(--ink4)">Ativado por: <code>ContaBancaria('Lucilia')</code></p>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">__str__</span>
+        <h3>Representação legível</h3>
+        <p>Chamado quando você faz <code>print(obj)</code> ou <code>str(obj)</code>. Deve retornar uma string amigável.</p>
+        <p style="margin-top:8px;font-size:11.5px;color:var(--ink4)">Ativado por: <code>print(conta)</code></p>
+      </div>
+      <div class="card purple">
+        <span class="badge purple">__repr__</span>
+        <h3>Representação técnica</h3>
+        <p>Usado no console interativo e em logs. Deve retornar uma string que idealmente recrie o objeto.</p>
+        <p style="margin-top:8px;font-size:11.5px;color:var(--ink4)">Ativado por: digitar <code>conta</code> no console</p>
+      </div>
+      <div class="card amber">
+        <span class="badge amber">__len__</span>
+        <h3>Comprimento</h3>
+        <p>Chamado quando você usa <code>len(obj)</code>. Útil para classes que representam coleções.</p>
+        <p style="margin-top:8px;font-size:11.5px;color:var(--ink4)">Ativado por: <code>len(conta)</code></p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">__eq__</span>
+        <h3>Igualdade</h3>
+        <p>Define o que acontece ao usar <code>==</code> entre dois objetos. Sem ele, Python compara os endereços de memória.</p>
+        <p style="margin-top:8px;font-size:11.5px;color:var(--ink4)">Ativado por: <code>conta1 == conta2</code></p>
+      </div>
+      <div class="card green">
+        <span class="badge green">__del__</span>
+        <h3>Destrutor</h3>
+        <p>Chamado quando o objeto é destruído (removido da memória). Raramente necessário no dia a dia.</p>
+        <p style="margin-top:8px;font-size:11.5px;color:var(--ink4)">Ativado por: <code>del conta</code></p>
+      </div>
+    </div>
+
+    <p class="code-label">exemplo — dunder na ContaBancaria</p>
+    <div class="code-wrap">
+      <pre><span class="kw">class</span> <span class="vr">ContaBancaria</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">titular</span>, <span class="vr">saldo_inicial</span>=<span class="nm">0</span>):
+        <span class="slf">self</span>.__titular = <span class="vr">titular</span>
+        <span class="slf">self</span>.__saldo   = <span class="vr">saldo_inicial</span>
+        <span class="slf">self</span>.__extrato = []
+
+    <span class="cm"># Representação amigável — para print()</span>
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="slf">self</span>):
+        <span class="kw">return</span> <span class="str">f'Conta de {<span class="slf">self</span>.__titular} | Saldo: R$ {<span class="slf">self</span>.__saldo:.2f}'</span>
+
+    <span class="cm"># Representação técnica — para o console</span>
+    <span class="kw">def</span> <span class="fn">__repr__</span>(<span class="slf">self</span>):
+        <span class="kw">return</span> <span class="str">f"ContaBancaria('{<span class="slf">self</span>.__titular}', {<span class="slf">self</span>.__saldo})"</span>
+
+    <span class="cm"># Tamanho — retorna quantas movimentações tem no extrato</span>
+    <span class="kw">def</span> <span class="fn">__len__</span>(<span class="slf">self</span>):
+        <span class="kw">return</span> <span class="fn">len</span>(<span class="slf">self</span>.__extrato)
+
+    <span class="cm"># Igualdade — duas contas são iguais se tiverem o mesmo titular</span>
+    <span class="kw">def</span> <span class="fn">__eq__</span>(<span class="slf">self</span>, <span class="vr">outra</span>):
+        <span class="kw">return</span> <span class="slf">self</span>.__titular <span class="op">==</span> <span class="vr">outra</span>.<span class="fn">get_titular</span>()
+
+<span class="cm"># Testando os dunders</span>
+<span class="vr">c1</span> = <span class="fn">ContaBancaria</span>(<span class="str">'Lucilia'</span>, <span class="nm">1000</span>)
+<span class="vr">c2</span> = <span class="fn">ContaBancaria</span>(<span class="str">'Vinicius'</span>, <span class="nm">300</span>)
+
+<span class="fn">print</span>(<span class="vr">c1</span>)           <span class="cm"># → Conta de Lucilia | Saldo: R$ 1000.00</span>
+<span class="fn">repr</span>(<span class="vr">c1</span>)           <span class="cm"># → ContaBancaria('Lucilia', 1000)</span>
+<span class="fn">len</span>(<span class="vr">c1</span>)            <span class="cm"># → 0  (nenhuma movimentação ainda)</span>
+<span class="fn">print</span>(<span class="vr">c1</span> <span class="op">==</span> <span class="vr">c2</span>)   <span class="cm"># → False</span></pre>
+    </div>
+  </section>
 
   <!-- ERROS COMUNS -->
   <section style="margin-bottom:2rem" class="fade">
