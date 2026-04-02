@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <title>Lógica de Programação — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);
+      --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;
+      --font-serif:'Lora',serif;
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:var(--font-body);
+      background:var(--paper); color:var(--ink);
+      min-height:100vh;
+      background-image:repeating-linear-gradient(
+        transparent,transparent 31px,
+        rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px
+      );
+      background-attachment:fixed;
+    }
+
+    /* NAV */
+    .nav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(250,247,242,.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1.5px solid var(--rule);
+      padding:0 2rem;
+      display:flex; align-items:center;
+      height:56px; gap:0;
+    }
+    .nav-brand {
+      font-family:var(--font-serif); font-size:16px; font-weight:600;
+      color:var(--ink); text-decoration:none;
+      display:flex; align-items:center; gap:8px;
+      margin-right:2rem; white-space:nowrap;
+    }
+    .nav-links { display:flex; align-items:center; gap:4px; flex:1; overflow-x:auto; }
+    .nav-links::-webkit-scrollbar { display:none; }
+    .nav-link {
+      font-size:13px; font-weight:600; color:var(--ink3);
+      text-decoration:none; padding:6px 12px; border-radius:6px;
+      transition:background .15s,color .15s; white-space:nowrap;
+    }
+    .nav-link:hover { background:var(--paper3); color:var(--ink); }
+    .nav-link.active { background:var(--ink); color:var(--paper); }
+    .nav-sep { width:1px; height:18px; background:var(--rule); margin:0 4px; flex-shrink:0; }
+
+    /* PAGE */
+    .page { max-width:800px; margin:0 auto; padding:0 1.5rem 5rem; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+      font-size:12px; color:var(--ink4); padding:16px 0 0;
+    }
+    .breadcrumb a { color:var(--ink3); text-decoration:none; }
+    .breadcrumb a:hover { color:var(--accent2); }
+
+    /* HERO */
+    .article-hero { padding:2rem 0 2.5rem; }
+    .article-eyebrow {
+      font-family:var(--font-mono); font-size:11px; color:var(--ink4);
+      letter-spacing:.06em; margin-bottom:10px;
+    }
+    .article-title {
+      font-family:var(--font-serif); font-size:clamp(26px,5vw,40px);
+      font-weight:600; line-height:1.2; color:var(--ink); margin-bottom:12px;
+    }
+    .article-meta { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .article-meta .dot { width:3px; height:3px; border-radius:50%; background:var(--ink4); }
+    .tag {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px;
+    }
+    .tag.logic  { background:#f3e8ff; color:#7e22ce; }
+    .tag.py     { background:#dbeafe; color:#1e40af; }
+    .tag.gray   { background:var(--paper3); color:var(--ink3); }
+
+    hr { border:none; border-top:1.5px solid var(--rule2); margin:2rem 0; }
+
+    /* SEC TITLE */
+    .sec-title {
+      font-size:11px; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--ink4); margin-bottom:14px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .sec-title::after { content:''; flex:1; height:1px; background:var(--rule2); }
+
+    /* CARDS */
+    .cards-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .cards-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .cards-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+
+    .card {
+      background:var(--paper);
+      border:1.5px solid var(--rule);
+      border-radius:var(--radius);
+      padding:16px 18px;
+    }
+    .card.blue   { border-left:4px solid #378ADD; }
+    .card.purple { border-left:4px solid #7F77DD; }
+    .card.teal   { border-left:4px solid #1D9E75; }
+    .card.amber  { border-left:4px solid #BA7517; }
+    .card.coral  { border-left:4px solid #D85A30; }
+    .card.green  { border-left:4px solid #639922; }
+    .card.violet { border-left:4px solid #7e22ce; }
+    .card.rose   { border-left:4px solid #be185d; }
+    .card h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .card p  { font-size:12px; color:var(--ink2); line-height:1.65; }
+    .card ul { list-style:none; margin-top:8px; display:flex; flex-direction:column; gap:5px; }
+    .card ul li { font-size:12px; color:var(--ink2); display:flex; gap:6px; line-height:1.5; }
+    .card ul li::before { content:'›'; color:var(--accent2); font-weight:700; flex-shrink:0; }
+
+    /* BADGE */
+    .badge {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px; margin-bottom:8px;
+    }
+    .badge.blue   { background:#E6F1FB; color:#0C447C; }
+    .badge.purple { background:#EEEDFE; color:#3C3489; }
+    .badge.teal   { background:#E1F5EE; color:#085041; }
+    .badge.amber  { background:#FAEEDA; color:#854F0B; }
+    .badge.coral  { background:#FAECE7; color:#993C1D; }
+    .badge.green  { background:#EAF3DE; color:#27500A; }
+    .badge.violet { background:#f3e8ff; color:#7e22ce; }
+    .badge.rose   { background:#fce7f3; color:#9d174d; }
+
+    /* ANALOGY */
+    .analogy {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:18px 20px;
+      display:flex; gap:16px; align-items:flex-start;
+      box-shadow:var(--shadow);
+    }
+    .analogy-icon { font-size:28px; flex-shrink:0; padding-top:1px; }
+    .analogy h3 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .analogy p  { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+    .analogy p+p { margin-top:6px; }
+
+    /* INFO BOX */
+    .info {
+      background:var(--paper2); border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:16px 20px; margin-bottom:1rem;
+    }
+    .info p { font-size:13px; color:var(--ink2); line-height:1.75; }
+    .info p+p { margin-top:8px; }
+    .info strong { color:var(--ink); }
+    .info code {
+      font-family:var(--font-mono); font-size:12px;
+      background:#fff; padding:1px 5px; border-radius:3px; color:var(--accent2);
+    }
+
+    /* TIP */
+    .tip {
+      background:#f3e8ff; border:1.5px solid #d8b4fe;
+      border-radius:var(--radius); padding:14px 18px; margin-bottom:1rem;
+    }
+    .tip p { font-size:13px; color:#4c1d95; line-height:1.7; }
+
+    /* WARN */
+    .warn {
+      background:#fef9c3; border:1.5px solid #fde047;
+      border-radius:var(--radius); padding:14px 18px; margin-bottom:1rem;
+    }
+    .warn p { font-size:13px; color:#713f12; line-height:1.7; }
+
+    /* TIMELINE */
+    .timeline { position:relative; padding-left:28px; }
+    .timeline::before {
+      content:''; position:absolute; left:7px; top:6px; bottom:6px;
+      width:2px;
+      background:linear-gradient(to bottom,#7e22ce,#2563a8,#1a7a50);
+    }
+    .tl-item { position:relative; margin-bottom:24px; }
+    .tl-item:last-child { margin-bottom:0; }
+    .tl-dot {
+      position:absolute; left:-24px; top:4px;
+      width:12px; height:12px; border-radius:50%; border:2px solid #fff;
+    }
+    .tl-dot.violet { background:#7e22ce; box-shadow:0 0 0 2px #d8b4fe; }
+    .tl-dot.blue   { background:var(--accent2); box-shadow:0 0 0 2px #93c5fd; }
+    .tl-dot.teal   { background:var(--accent3); box-shadow:0 0 0 2px #86efac; }
+    .tl-dot.amber  { background:#d97706; box-shadow:0 0 0 2px #fde047; }
+    .tl-period { font-family:var(--font-mono); font-size:11px; color:var(--ink4); margin-bottom:3px; }
+    .tl-title  { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:3px; }
+    .tl-desc   { font-size:12px; color:var(--ink3); line-height:1.6; }
+
+    /* STEPS */
+    .steps { display:flex; flex-direction:column; gap:14px; }
+    .step { display:flex; gap:14px; align-items:flex-start; }
+    .step-num {
+      width:32px; height:32px; border-radius:50%;
+      background:var(--ink); color:#fff;
+      font-size:13px; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; margin-top:1px;
+    }
+    .step-num.violet { background:#7e22ce; }
+    .step-body h4 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:4px; }
+    .step-body p  { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+    .step-body code {
+      font-family:var(--font-mono); font-size:11.5px;
+      background:var(--paper2); padding:1px 6px; border-radius:4px; color:var(--accent2);
+    }
+
+    /* CODE */
+    .code-label {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      color:var(--ink4); margin-bottom:8px; letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .code-wrap {
+      background:#1e1c1a; border-radius:var(--radius);
+      padding:20px 22px; overflow-x:auto;
+      box-shadow:var(--shadow-lg); margin-bottom:1rem;
+    }
+    .code-wrap pre {
+      font-family:var(--font-mono); font-size:13px;
+      line-height:1.85; color:#e8e0d5; white-space:pre;
+    }
+    .kw  { color:#89b4fa; }
+    .cm  { color:#6c7086; }
+    .str { color:#a6e3a1; }
+    .fn  { color:#cba6f7; }
+    .slf { color:#f38ba8; }
+    .vr  { color:#fab387; }
+    .nm  { color:#f9e2af; }
+    .op  { color:#cdd6f4; }
+
+    /* SUMMARY */
+    .summary {
+      background:var(--paper2); border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:20px 22px; margin-top:2rem;
+    }
+    .summary h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:12px; }
+    .summary ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .summary li {
+      font-size:13px; color:var(--ink2); line-height:1.6;
+      display:flex; align-items:flex-start; gap:10px;
+    }
+    .summary li::before { content:'→'; color:#7e22ce; font-weight:700; flex-shrink:0; margin-top:1px; }
+
+    /* NAV PAGES */
+    .nav-pages { display:flex; gap:12px; margin-top:2.5rem; flex-wrap:wrap; }
+    .nav-page {
+      flex:1; min-width:200px;
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:14px 18px;
+      text-decoration:none; color:var(--ink);
+      display:flex; flex-direction:column; gap:4px;
+      transition:transform .15s,box-shadow .15s;
+      box-shadow:var(--shadow);
+    }
+    .nav-page:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+    .nav-page .np-label { font-size:11px; color:var(--ink4); font-weight:700; }
+    .nav-page .np-title { font-size:14px; font-weight:700; color:var(--accent2); }
+
+    /* FADE */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade { animation:fadeUp .45s ease both; }
+
+    @media(max-width:600px){
+      .nav { padding:0 1rem; }
+      .page { padding:0 1rem 4rem; }
+      .cards-2 { grid-template-columns:1fr; }
+      .cards-3 { grid-template-columns:1fr; }
+      .cards-4 { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:380px){ .cards-4 { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../notebook.html#logica" class="nav-link">Lógica</a>
+    <a href="logica-programacao.html" class="nav-link active">Lógica de Programação</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <nav class="breadcrumb fade">
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 01 · Lógica de Programação</p>
+    <h1 class="article-title">Lógica de Programação —<br>do início ao código</h1>
+    <div class="article-meta">
+      <span class="tag logic">Lógica</span>
+      <span class="tag py">Python</span>
+      <span class="tag gray">Fundamentos</span>
+      <span class="dot"></span>
+      <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr />
+
+  <!-- O QUE É -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é lógica de programação</p>
+    <div class="info">
+      <p><strong>Lógica de programação</strong> é a capacidade de organizar o pensamento em uma sequência de passos que resolve um problema. Antes de escrever qualquer linha de código, você precisa saber <strong>o que fazer</strong> e <strong>em que ordem fazer</strong>.</p>
+      <p>É como uma receita de bolo: você não coloca o bolo no forno antes de misturar os ingredientes. Na programação também existe uma ordem — e essa ordem é a lógica.</p>
+    </div>
+    <div class="tip">
+      <p>🧠 <strong>Lógica não depende de linguagem.</strong> Você aprende uma vez e leva para Python, JavaScript, Java ou qualquer outra. A linguagem é só a forma de escrever — a lógica é o raciocínio por trás.</p>
+    </div>
+    <div class="cards-2" style="margin-top:1rem">
+      <div class="analogy">
+        <div class="analogy-icon">🍳</div>
+        <div>
+          <h3>Receita de bolo = Algoritmo</h3>
+          <p>Uma receita tem ingredientes (dados de entrada), passos em ordem (processamento) e um bolo pronto (saída). Um programa funciona exatamente assim.</p>
+          <p style="margin-top:6px;font-size:11.5px;color:var(--ink4)">Entrada → Processamento → Saída</p>
+        </div>
+      </div>
+      <div class="analogy">
+        <div class="analogy-icon">🗺️</div>
+        <div>
+          <h3>GPS = Lógica condicional</h3>
+          <p>O GPS avalia condições em tempo real: <em>se a rua está bloqueada, então recalcule a rota</em>. Isso é exatamente o que um <code>if/else</code> faz no código.</p>
+          <p style="margin-top:6px;font-size:11.5px;color:var(--ink4)">Se condição → senão → outra ação</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- HISTÓRIA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Uma breve história da lógica de programação</p>
+    <div class="info" style="margin-bottom:1.5rem">
+      <p>A lógica de programação não nasceu com os computadores. Ela tem raízes na matemática e na filosofia — e passou por séculos de evolução antes de chegar à tela do seu notebook.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot violet"></div>
+        <p class="tl-period">Século IV a.C.</p>
+        <p class="tl-title">Aristóteles e a Lógica Formal</p>
+        <p class="tl-desc">O filósofo grego criou a lógica dedutiva — um sistema de raciocínio baseado em premissas e conclusões. É a base de todo pensamento lógico que usamos até hoje: <em>"Se A então B"</em>.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <p class="tl-period">1843</p>
+        <p class="tl-title">Ada Lovelace — a primeira programadora</p>
+        <p class="tl-desc">Ada escreveu o primeiro algoritmo destinado a ser processado por uma máquina — para o motor analítico de Charles Babbage. Ela é considerada a primeira programadora da história, um século antes dos computadores modernos.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <p class="tl-period">1854</p>
+        <p class="tl-title">George Boole — Álgebra Booleana</p>
+        <p class="tl-desc">Boole criou um sistema matemático baseado em <strong>verdadeiro</strong> e <strong>falso</strong>. Toda lógica condicional da programação moderna (<code>True</code>, <code>False</code>, <code>and</code>, <code>or</code>, <code>not</code>) vem diretamente dele.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot teal"></div>
+        <p class="tl-period">1936</p>
+        <p class="tl-title">Alan Turing — a Máquina de Turing</p>
+        <p class="tl-desc">Turing descreveu uma máquina teórica capaz de executar qualquer algoritmo — lendo, escrevendo e tomando decisões com base em regras. Esse modelo é a base teórica de todos os computadores modernos.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot amber"></div>
+        <p class="tl-period">1950s–hoje</p>
+        <p class="tl-title">Linguagens de programação — da máquina ao Python</p>
+        <p class="tl-desc">Saímos do código de máquina binário para o Assembly, depois para C, Java, e linguagens modernas como Python. A lógica permaneceu a mesma — só a forma de escrever ficou mais humana.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- CONCEITOS FUNDAMENTAIS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Os pilares da lógica de programação</p>
+    <div class="cards-2" style="margin-bottom:1rem">
+      <div class="card violet">
+        <span class="badge violet">Algoritmo</span>
+        <h3>Sequência de passos</h3>
+        <p>É a receita. Um conjunto finito de instruções ordenadas que resolve um problema. Todo programa que existe começa com um algoritmo — às vezes na cabeça, às vezes no papel.</p>
+      </div>
+      <div class="card blue">
+        <span class="badge blue">Variável</span>
+        <h3>Guardar informação</h3>
+        <p>Um espaço na memória com um nome e um valor. Pode mudar ao longo do programa. Ex: <code>idade = 25</code> guarda o número 25 com o nome "idade".</p>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">Condicional</span>
+        <h3>Tomar decisões</h3>
+        <p>O programa avalia uma condição e age diferente dependendo do resultado. <em>Se a senha estiver correta, entra. Senão, nega o acesso.</em></p>
+      </div>
+      <div class="card amber">
+        <span class="badge amber">Repetição</span>
+        <h3>Fazer várias vezes</h3>
+        <p>Quando você precisa executar o mesmo bloco de código múltiplas vezes. Em vez de repetir o código, usa um laço que repete automaticamente.</p>
+      </div>
+      <div class="card green">
+        <span class="badge green">Função</span>
+        <h3>Reaproveitar código</h3>
+        <p>Um bloco de código com nome, que você escreve uma vez e chama várias vezes. Evita repetição e organiza o programa em pedaços menores.</p>
+      </div>
+      <div class="card purple">
+        <span class="badge purple">Entrada e Saída</span>
+        <h3>Comunicar com o mundo</h3>
+        <p>Todo programa recebe dados (entrada) e devolve resultados (saída). Pode ser o teclado, um arquivo, uma API ou a tela do usuário.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- PSEUDOCÓDIGO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Pseudocódigo — pensar antes de codificar</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p><strong>Pseudocódigo</strong> é uma forma de escrever a lógica do programa usando linguagem humana — sem se preocupar com a sintaxe de nenhuma linguagem. É o rascunho antes do código de verdade.</p>
+      <p>Profissionais experientes usam pseudocódigo para planejar soluções complexas. Não é coisa de iniciante — é hábito de quem pensa antes de digitar.</p>
+    </div>
+
+    <p class="code-label">exemplo — verificar se um número é par (pseudocódigo → Python)</p>
+    <div class="cards-2">
+      <div>
+        <p style="font-size:11px;font-weight:700;color:var(--ink4);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;">Pseudocódigo</p>
+        <div class="code-wrap">
+          <pre style="color:#e8e0d5;font-size:12.5px;line-height:1.9"><span style="color:#6c7086">INÍCIO</span>
+  receber número
+  se número dividido por 2
+     tiver resto 0:
+    exibir "é par"
+  senão:
+    exibir "é ímpar"
+<span style="color:#6c7086">FIM</span></pre>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:700;color:var(--ink4);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;">Python</p>
+        <div class="code-wrap">
+          <pre><span class="vr">numero</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Digite um número: "</span>))
+
+<span class="kw">if</span> <span class="vr">numero</span> <span class="op">%</span> <span class="nm">2</span> <span class="op">==</span> <span class="nm">0</span>:
+    <span class="fn">print</span>(<span class="str">"É par"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"É ímpar"</span>)</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- FLUXOGRAMA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Fluxograma — visualizar antes de programar</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>Um <strong>fluxograma</strong> é um diagrama que representa o fluxo de um algoritmo visualmente — com caixas, setas e símbolos padrão. Ajuda a enxergar os caminhos possíveis antes de escrever qualquer código.</p>
+    </div>
+    <div class="cards-4" style="margin-bottom:1rem">
+      <div class="card blue">
+        <span class="badge blue">Oval</span>
+        <h3>Início / Fim</h3>
+        <p>Marca onde o algoritmo começa e onde termina.</p>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">Retângulo</span>
+        <h3>Processo</h3>
+        <p>Uma ação ou cálculo. Ex: calcular total, salvar dado.</p>
+      </div>
+      <div class="card amber">
+        <span class="badge amber">Losango</span>
+        <h3>Decisão</h3>
+        <p>Uma pergunta com resposta Sim/Não. Representa o <code>if</code>.</p>
+      </div>
+      <div class="card purple">
+        <span class="badge purple">Paralelogramo</span>
+        <h3>Entrada/Saída</h3>
+        <p>Leitura de dados (<code>input</code>) ou exibição (<code>print</code>).</p>
+      </div>
+    </div>
+    <div class="tip">
+      <p>💡 <strong>Dica prática:</strong> antes de começar qualquer projeto, tente desenhar o fluxo no papel ou numa ferramenta como Excalidraw ou Lucidchart. Você vai identificar problemas de lógica <em>antes</em> de escrever uma linha de código.</p>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- COMO APRENDER -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Como aprender e se aperfeiçoar em lógica</p>
+    <div class="info" style="margin-bottom:1.5rem">
+      <p>Lógica de programação é uma habilidade — e como toda habilidade, ela se desenvolve com <strong>prática constante</strong>. Não existe atalho, mas existe caminho certo.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num violet">1</div>
+        <div class="step-body">
+          <h4>Aprenda a pensar antes de digitar</h4>
+          <p>Antes de abrir o editor, tente resolver o problema no papel. Escreva o pseudocódigo, desenhe um fluxograma. Programadores experientes passam mais tempo planejando do que codificando.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num violet">2</div>
+        <div class="step-body">
+          <h4>Pratique com exercícios simples todo dia</h4>
+          <p>Sites como <strong>Beecrowd</strong>, <strong>HackerRank</strong> e <strong>LeetCode</strong> têm exercícios de lógica do nível mais básico ao avançado. 15 minutos por dia de prática consistente valem mais do que estudar 4 horas no final de semana.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num violet">3</div>
+        <div class="step-body">
+          <h4>Leia código de outras pessoas</h4>
+          <p>GitHub está cheio de projetos abertos. Leia como outros resolveram problemas parecidos com os seus. Você vai perceber formas de pensar que nunca imaginou — e isso expande sua lógica.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num violet">4</div>
+        <div class="step-body">
+          <h4>Resolva o mesmo problema de formas diferentes</h4>
+          <p>Depois de resolver um exercício, tente resolver de novo usando uma abordagem diferente — com <code>while</code> em vez de <code>for</code>, com função em vez de código solto. Isso fortalece o raciocínio lógico.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num violet">5</div>
+        <div class="step-body">
+          <h4>Explique o que você fez — em voz alta ou por escrito</h4>
+          <p>Se você consegue explicar um algoritmo para outra pessoa usando palavras simples, significa que você realmente entendeu. Se travar na explicação, é sinal que a lógica ainda não está clara na sua cabeça.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- EXEMPLOS EM PYTHON -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Lógica na prática — exemplos em Python</p>
+
+    <p class="code-label">sequência simples — calculadora de IMC</p>
+    <div class="code-wrap" style="margin-bottom:1.5rem">
+      <pre><span class="cm"># Entrada</span>
+<span class="vr">peso</span>  = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Peso (kg): "</span>))
+<span class="vr">altura</span> = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"Altura (m): "</span>))
+
+<span class="cm"># Processamento</span>
+<span class="vr">imc</span> = <span class="vr">peso</span> <span class="op">/</span> (<span class="vr">altura</span> <span class="op">**</span> <span class="nm">2</span>)
+
+<span class="cm"># Saída com condicional</span>
+<span class="kw">if</span> <span class="vr">imc</span> <span class="op"><</span> <span class="nm">18.5</span>:
+    <span class="fn">print</span>(<span class="str">"Abaixo do peso"</span>)
+<span class="kw">elif</span> <span class="vr">imc</span> <span class="op"><</span> <span class="nm">25</span>:
+    <span class="fn">print</span>(<span class="str">"Peso normal"</span>)
+<span class="kw">elif</span> <span class="vr">imc</span> <span class="op"><</span> <span class="nm">30</span>:
+    <span class="fn">print</span>(<span class="str">"Sobrepeso"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Obesidade"</span>)</pre>
+    </div>
+
+    <p class="code-label">repetição — tabuada de qualquer número</p>
+    <div class="code-wrap" style="margin-bottom:1.5rem">
+      <pre><span class="vr">n</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Qual tabuada? "</span>))
+
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">11</span>):
+    <span class="fn">print</span>(<span class="str">f'{<span class="vr">n</span>} x {<span class="vr">i</span>} = {<span class="vr">n</span> <span class="op">*</span> <span class="vr">i</span>}'</span>)
+
+<span class="cm"># → 7 x 1 = 7</span>
+<span class="cm"># → 7 x 2 = 14</span>
+<span class="cm"># → ...até 7 x 10 = 70</span></pre>
+    </div>
+
+    <p class="code-label">função — organizar e reaproveitar</p>
+    <div class="code-wrap">
+      <pre><span class="kw">def</span> <span class="fn">calcular_media</span>(<span class="vr">notas</span>):
+    <span class="cm"># recebe uma lista de notas e retorna a média</span>
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="vr">notas</span>) <span class="op">/</span> <span class="fn">len</span>(<span class="vr">notas</span>)
+
+<span class="kw">def</span> <span class="fn">situacao</span>(<span class="vr">media</span>):
+    <span class="kw">if</span> <span class="vr">media</span> <span class="op">>=</span> <span class="nm">7</span>:
+        <span class="kw">return</span> <span class="str">"Aprovado ✅"</span>
+    <span class="kw">elif</span> <span class="vr">media</span> <span class="op">>=</span> <span class="nm">5</span>:
+        <span class="kw">return</span> <span class="str">"Recuperação ⚠️"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="str">"Reprovado ❌"</span>
+
+<span class="cm"># Usando as funções</span>
+<span class="vr">notas_lucilia</span> = [<span class="nm">8</span>, <span class="nm">7.5</span>, <span class="nm">9</span>, <span class="nm">6</span>]
+<span class="vr">media</span> = <span class="fn">calcular_media</span>(<span class="vr">notas_lucilia</span>)
+<span class="fn">print</span>(<span class="str">f'Média: {<span class="vr">media</span>} — {<span class="fn">situacao</span>(<span class="vr">media</span>)}'</span>)
+<span class="cm"># → Média: 7.625 — Aprovado ✅</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ERROS COMUNS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Erros comuns de quem está começando</p>
+    <div class="cards-2">
+      <div class="card coral">
+        <span class="badge coral">Erro 1</span>
+        <h3>Querer digitar antes de pensar</h3>
+        <p>Abrir o editor sem entender o problema é o caminho mais rápido para se perder. Sempre entenda o que precisa ser feito antes de escrever a primeira linha.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Erro 2</span>
+        <h3>Decorar sintaxe em vez de entender lógica</h3>
+        <p>Saber escrever <code>for i in range(10)</code> sem entender <em>por que</em> funciona não te torna programador. A sintaxe se aprende em minutos — a lógica leva meses.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Erro 3</span>
+        <h3>Desistir no primeiro erro</h3>
+        <p>Erro é parte do processo. Todo programador experiente passa horas depurando. A diferença entre iniciante e sênior não é não errar — é saber como encontrar e corrigir o erro.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Erro 4</span>
+        <h3>Copiar código sem entender</h3>
+        <p>Copiar do Stack Overflow ou do ChatGPT sem entender o que o código faz cria uma ilusão de progresso. Você vai travar na próxima variação do mesmo problema.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:1rem">
+      <p>⚠️ <strong>Síndrome do impostor é real — mas não é permanente.</strong> Todo programador sente que não sabe o suficiente. O segredo é continuar mesmo assim. A sensação de "não estou pronto" vai diminuindo com cada problema que você resolve.</p>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- RESUMO -->
+  <div class="summary fade">
+    <h3>📌 Resumo da aula</h3>
+    <ul>
+      <li><strong>Lógica de programação</strong> é a habilidade de organizar o raciocínio em passos para resolver problemas — ela independe de linguagem.</li>
+      <li>Os conceitos fundamentais são: <strong>algoritmo, variável, condicional, repetição, função e entrada/saída</strong>.</li>
+      <li><strong>Ada Lovelace</strong> (1843) foi a primeira programadora; <strong>George Boole</strong> criou a álgebra booleana que fundamenta toda lógica computacional.</li>
+      <li><strong>Pseudocódigo</strong> é o rascunho da lógica em linguagem humana — use antes de começar a codar.</li>
+      <li><strong>Fluxogramas</strong> ajudam a visualizar o fluxo do algoritmo e identificar problemas antes de escrever código.</li>
+      <li>Para aprender: pratique todo dia, leia código alheio, resolva o mesmo problema de formas diferentes e explique o que fez em voz alta.</li>
+      <li>Os erros mais comuns: codificar sem planejar, decorar sintaxe sem entender lógica, desistir no primeiro erro e copiar sem compreender.</li>
+    </ul>
+  </div>
+
+  <!-- NAV PAGES -->
+  <div class="nav-pages fade">
+    <a href="../notebook.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar para</span>
+      <span class="np-title">Home do Caderno</span>
+    </a>
+    <a href="../notebook.html#python" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima seção →</span>
+      <span class="np-title">Python</span>
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>
