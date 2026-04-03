@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Lucilia Rosa</title>
+  <title>Projetos — Lucilia Rosa</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
@@ -88,6 +88,10 @@
     .dot-python{background:var(--cat-python);}
     .dot-js{background:var(--cat-js);}
     .dot-react{background:var(--cat-react);}
+    /* filtro por status */
+    .filter-btn[data-status="live"].active{background:#166534;border-color:#166534;color:#fff;}
+    .filter-btn[data-status="wip"].active{background:#854d0e;border-color:#854d0e;color:#fff;}
+    .filter-btn[data-status="study"].active{background:var(--rose);border-color:var(--rose);color:#fff;}
 
     /* GRID */
     .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
@@ -109,14 +113,12 @@
       background:var(--paper2);
       cursor:pointer;
     }
-    /* faixa de slides */
     .carousel-track{
       display:flex;
       height:100%;
       transition:transform .4s cubic-bezier(.4,0,.2,1);
       will-change:transform;
     }
-    /* cada slide */
     .carousel-slide{
       flex:0 0 100%;
       height:100%;
@@ -130,7 +132,6 @@
       user-select:none;
       -webkit-user-drag:none;
     }
-    /* placeholder quando não há imagem */
     .carousel-placeholder{
       width:100%;
       height:100%;
@@ -148,7 +149,6 @@
       color:var(--ink4);
       letter-spacing:.04em;
     }
-    /* overlay gradiente sutil */
     .card-carousel::after{
       content:'';
       position:absolute;
@@ -156,7 +156,6 @@
       background:linear-gradient(to top, rgba(28,25,23,.18) 0%, transparent 50%);
       pointer-events:none;
     }
-    /* badge de tecnologia */
     .preview-badge{
       position:absolute;
       top:10px;right:10px;
@@ -168,7 +167,6 @@
     .badge-python{background:var(--cat-python-bg);color:var(--cat-python);border:1px solid var(--cat-python-border);}
     .badge-js{background:var(--cat-js-bg);color:var(--cat-js);border:1px solid var(--cat-js-border);}
     .badge-react{background:var(--cat-react-bg);color:var(--cat-react);border:1px solid var(--cat-react-border);}
-    /* botões prev / next */
     .carousel-btn{
       position:absolute;top:50%;z-index:3;
       transform:translateY(-50%);
@@ -187,9 +185,7 @@
     .carousel-btn.next{right:8px;}
     .card-carousel:hover .carousel-btn{opacity:1;}
     .carousel-btn:hover{background:rgba(250,247,242,1);}
-    /* oculta botão se só 1 slide */
     .carousel-btn:disabled{display:none;}
-    /* dots indicadores */
     .carousel-dots{
       position:absolute;
       bottom:8px;left:50%;
@@ -208,7 +204,6 @@
       background:rgba(250,247,242,.95);
       transform:scale(1.25);
     }
-    /* oculta dots se só 1 slide */
     .carousel-dots:has(.carousel-dot:only-child){display:none;}
 
     /* CARD BODY */
@@ -223,6 +218,7 @@
     .status-wip{background:#fef9c3;color:#854d0e;}
     .status-study{background:var(--rose-light);color:var(--rose);}
     .status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+    .card-status-group{display:flex;flex-wrap:wrap;gap:4px;flex-shrink:0;}
     .card-footer{padding:12px 18px;border-top:1.5px solid var(--rule2);display:flex;gap:8px;}
     .card-link{display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:11.5px;font-weight:700;text-decoration:none;padding:7px 12px;border-radius:6px;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink3);transition:all .15s;flex:1;}
     .card-link:hover{background:var(--paper3);color:var(--ink);border-color:var(--ink3);}
@@ -291,20 +287,39 @@
 
   <section class="fade fade-d2">
     <p class="sec-title" data-i18n="sec_projects">Projetos</p>
+
+    <!-- FILTRO POR CATEGORIA -->
     <div class="filter-bar">
-      <button class="filter-btn active" data-cat="all" onclick="filterCat('all')"><span data-i18n="filter_all">Todos</span></button>
-      <button class="filter-btn" data-cat="html" onclick="filterCat('html')"><span class="filter-dot dot-html"></span> HTML &amp; CSS</button>
-      <button class="filter-btn" data-cat="python" onclick="filterCat('python')"><span class="filter-dot dot-python"></span> Python</button>
-      <button class="filter-btn" data-cat="js" onclick="filterCat('js')"><span class="filter-dot dot-js"></span> JavaScript</button>
-      <button class="filter-btn" data-cat="react" onclick="filterCat('react')"><span class="filter-dot dot-react"></span> React</button>
+      <button class="filter-btn active" data-cat="all" onclick="setCatFilter(this)"><span data-i18n="filter_all">Todos</span></button>
+      <button class="filter-btn" data-cat="html" onclick="setCatFilter(this)"><span class="filter-dot dot-html"></span> HTML &amp; CSS</button>
+      <button class="filter-btn" data-cat="python" onclick="setCatFilter(this)"><span class="filter-dot dot-python"></span> Python</button>
+      <button class="filter-btn" data-cat="js" onclick="setCatFilter(this)"><span class="filter-dot dot-js"></span> JavaScript</button>
+      <button class="filter-btn" data-cat="react" onclick="setCatFilter(this)"><span class="filter-dot dot-react"></span> React</button>
+    </div>
+
+    <!-- FILTRO POR STATUS -->
+    <div class="filter-bar" style="margin-top:-12px;">
+      <button class="filter-btn active" data-status="all" onclick="setStatusFilter(this)"><span data-i18n="filter_all_status">Todos os status</span></button>
+      <button class="filter-btn" data-status="live" onclick="setStatusFilter(this)">
+        <span style="width:8px;height:8px;border-radius:50%;background:#166534;display:inline-block;"></span>
+        <span data-i18n="status_live">Live</span>
+      </button>
+      <button class="filter-btn" data-status="wip" onclick="setStatusFilter(this)">
+        <span style="width:8px;height:8px;border-radius:50%;background:#854d0e;display:inline-block;"></span>
+        <span data-i18n="status_wip">Em andamento</span>
+      </button>
+      <button class="filter-btn" data-status="study" onclick="setStatusFilter(this)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--rose);display:inline-block;"></span>
+        <span data-i18n="status_study">Estudo</span>
+      </button>
     </div>
 
     <div class="projects-grid" id="projectsGrid">
 
       <!-- ═══════════════════════════════════════════════
-           PROJETO 1 — Lucilia's Notebook (HTML & CSS)
+           PROJETO 1 — Lucilia's Notebook (HTML & CSS) | status: live
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="html">
+      <div class="project-card" data-cat="html" data-status="live">
         <div class="card-bar bar-html"></div>
         <div class="card-carousel" data-images='[
                 "../img/project1.png",
@@ -316,7 +331,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p1_title">Lucilia's Notebook</h3>
-            <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p1_desc">Caderno digital de anotações de aulas sobre desenvolvimento full-stack. Reúne conceitos de lógica de programação, Python, Git, GitHub, banco de dados e outros tópicos. Desenvolvido inteiramente no front-end com HTML, CSS e JavaScript, sem dependências externas.</p>
           <div class="card-techs"><span class="tech-chip">HTML5</span><span class="tech-chip">CSS3</span><span class="tech-chip">Flexbox</span><span class="tech-chip">Grid</span><span class="tech-chip">Responsive</span></div>
@@ -332,10 +349,11 @@
           </a>
         </div>
       </div>
+
       <!-- ═══════════════════════════════════════════════
-           PROJETO 2 — Catalogo de Premios (Python)
+           PROJETO 2 — Luci College (Python) | status: study wip
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="python">
+      <div class="project-card" data-cat="python" data-status="study wip">
         <div class="card-bar bar-python"></div>
         <div class="card-carousel" data-images='[
                 "../img/project2-1.png",
@@ -347,8 +365,10 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p4_title">Luci College</h3>
-            <span class="card-status status-study"><span class="status-dot"></span><span data-i18n="status_study">Estudo</span></span>
-            <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-study"><span class="status-dot"></span><span data-i18n="status_study">Estudo</span></span>
+              <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p4_desc">Aplicação web full-stack de catálogo de prêmios para alunos da Luci College Technology Campus. Alunos acumulam pontos por atividades acadêmicas e os resgatam por produtos e serviços exclusivos. Interface construída em HTML, CSS e JavaScript, back-end em Python e dados persistidos em PostgreSQL.</p>
           <div class="card-techs"><span class="tech-chip">Python</span><span class="tech-chip">Flask</span><span class="tech-chip">PostgreSQL</span><span class="tech-chip">JavaScript</span><span class="tech-chip">CSS</span></div>
@@ -366,9 +386,9 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════
-           PROJETO 4 — UI Components Library (HTML & CSS)
+           PROJETO 3 — UI Components Library (HTML & CSS) | status: wip
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="html">
+      <div class="project-card" data-cat="html" data-status="wip">
         <div class="card-bar bar-html"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -378,7 +398,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p2_title">UI Components Library</h3>
-            <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p2_desc">Coleção de componentes visuais reutilizáveis — cards, botões, formulários, badges e tipografia — criados do zero com CSS puro e variáveis customizadas.</p>
           <div class="card-techs"><span class="tech-chip">HTML5</span><span class="tech-chip">CSS Variables</span><span class="tech-chip">Animations</span><span class="tech-chip">Dark Mode</span></div>
@@ -390,9 +412,9 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════
-           PROJETO 3 — Automação de Relatórios (Python)
+           PROJETO 4 — Automação de Relatórios (Python) | status: live
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="python">
+      <div class="project-card" data-cat="python" data-status="live">
         <div class="card-bar bar-python"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -402,7 +424,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p3_title">Automação de Relatórios</h3>
-            <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p3_desc">Script que coleta dados de planilhas Excel, processa indicadores e gera relatórios em PDF automaticamente via agendamento. Usado internamente no SENAI.</p>
           <div class="card-techs"><span class="tech-chip">Python</span><span class="tech-chip">pandas</span><span class="tech-chip">openpyxl</span><span class="tech-chip">reportlab</span><span class="tech-chip">schedule</span></div>
@@ -413,12 +437,10 @@
         </div>
       </div>
 
-      
-
       <!-- ═══════════════════════════════════════════════
-           PROJETO 5 — Task Manager App (JavaScript)
+           PROJETO 5 — Task Manager App (JavaScript) | status: live
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="js">
+      <div class="project-card" data-cat="js" data-status="live">
         <div class="card-bar bar-js"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -428,7 +450,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p5_title">Task Manager App</h3>
-            <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p5_desc">Aplicação de gerenciamento de tarefas com drag-and-drop, filtros por status, persistência em localStorage e modo escuro. 100% Vanilla JS, sem dependências.</p>
           <div class="card-techs"><span class="tech-chip">JavaScript</span><span class="tech-chip">DOM API</span><span class="tech-chip">LocalStorage</span><span class="tech-chip">Drag &amp; Drop</span></div>
@@ -440,9 +464,9 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════
-           PROJETO 6 — Weather App (JavaScript)
+           PROJETO 6 — Weather App (JavaScript) | status: live
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="js">
+      <div class="project-card" data-cat="js" data-status="live">
         <div class="card-bar bar-js"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -452,7 +476,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p6_title">Weather App</h3>
-            <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p6_desc">App de previsão do tempo que consome a API OpenWeatherMap, exibe condições atuais, previsão de 5 dias e troca de unidades °C/°F em tempo real.</p>
           <div class="card-techs"><span class="tech-chip">JavaScript</span><span class="tech-chip">Fetch API</span><span class="tech-chip">OpenWeather</span><span class="tech-chip">Async/Await</span></div>
@@ -464,9 +490,9 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════
-           PROJETO 7 — Finance Tracker (React)
+           PROJETO 7 — Finance Tracker (React) | status: wip
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="react">
+      <div class="project-card" data-cat="react" data-status="wip">
         <div class="card-bar bar-react"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -476,7 +502,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p7_title">Finance Tracker</h3>
-            <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p7_desc">App de controle financeiro pessoal com categorização de despesas, gráficos interativos de gastos por mês e exportação para CSV. Construído com React + Recharts.</p>
           <div class="card-techs"><span class="tech-chip">React</span><span class="tech-chip">Hooks</span><span class="tech-chip">Recharts</span><span class="tech-chip">Context API</span><span class="tech-chip">Vite</span></div>
@@ -488,9 +516,9 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════
-           PROJETO 8 — Kanban Board (React)
+           PROJETO 8 — Kanban Board (React) | status: study
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="react">
+      <div class="project-card" data-cat="react" data-status="study">
         <div class="card-bar bar-react"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -500,7 +528,9 @@
         <div class="card-body">
           <div class="card-header">
             <h3 class="card-title" data-i18n="p8_title">Kanban Board</h3>
-            <span class="card-status status-study"><span class="status-dot"></span><span data-i18n="status_study">Estudo</span></span>
+            <div class="card-status-group">
+              <span class="card-status status-study"><span class="status-dot"></span><span data-i18n="status_study">Estudo</span></span>
+            </div>
           </div>
           <p class="card-desc" data-i18n="p8_desc">Quadro kanban com colunas customizáveis, drag-and-drop entre colunas, tags coloridas por prioridade e persistência em localStorage. Inspirado no Trello.</p>
           <div class="card-techs"><span class="tech-chip">React</span><span class="tech-chip">DnD Kit</span><span class="tech-chip">Tailwind</span><span class="tech-chip">LocalStorage</span></div>
@@ -527,18 +557,14 @@
 const T = {
   pt:{
     nav_home:"Home", nav_about:"Sobre mim", nav_projects:"Projetos",
-    nav_dd_about:"Sobre mim",nav_dd_about_desc:"Trajetória, habilidades e história",
-    nav_dd_projects:"Projetos",nav_dd_projects_desc:"HTML, Python, JavaScript e React",
-    nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"O que é cada área e como se conectam",
-    nav_home:"Home",nav_this:"Projetos",
+    nav_areas:"Frontend · Backend · Fullstack",
     eyebrow:"// meus projetos",
     hero_title:"O que eu<br><em>construí</em>",
     hero_sub:"Projetos reais, estudos e experimentos. Cada um representa uma etapa da jornada — do HTML puro até automações em Python e interfaces em React.",
     sec_stats:"Em números",stat_total:"Projetos",sec_projects:"Projetos",
-    filter_all:"Todos",btn_view:"Ver projeto",
+    filter_all:"Todos",filter_all_status:"Todos os status",btn_view:"Ver projeto",
     status_live:"Live",status_wip:"Em andamento",status_study:"Estudo",
     empty_msg:"Nenhum projeto encontrado nessa categoria ainda. 🌱",
-    back_btn:"📓 Voltar para o Notebook",
     p1_title:"Lucilia's Notebook",p1_desc:"Caderno digital de anotações de aulas sobre desenvolvimento full-stack. Reúne conceitos de lógica de programação, Python, Git, GitHub, banco de dados e outros tópicos. Desenvolvido inteiramente no front-end com HTML, CSS e JavaScript, sem dependências externas.",
     p2_title:"UI Components Library",p2_desc:"Coleção de componentes visuais reutilizáveis — cards, botões, formulários, badges e tipografia — criados do zero com CSS puro e variáveis customizadas.",
     p3_title:"Automação de Relatórios",p3_desc:"Script que coleta dados de planilhas Excel, processa indicadores e gera relatórios em PDF automaticamente via agendamento. Usado internamente no SENAI.",
@@ -551,18 +577,14 @@ const T = {
   },
   en:{
     nav_home:"Home", nav_about:"About me", nav_projects:"Projects",
-    nav_dd_about:"About me",nav_dd_about_desc:"Background, skills and story",
-    nav_dd_projects:"Projects",nav_dd_projects_desc:"HTML, Python, JavaScript and React",
-    nav_dd_areas:"Frontend, Backend &amp; Fullstack",nav_dd_areas_desc:"What each area is and how they connect",
-    nav_home:"Home",nav_this:"Projects",
+    nav_areas:"Frontend · Backend · Fullstack",
     eyebrow:"// my projects",
     hero_title:"What I've<br><em>built</em>",
     hero_sub:"Real projects, studies and experiments. Each one represents a step in the journey — from plain HTML to Python automation and React interfaces.",
     sec_stats:"By the numbers",stat_total:"Projects",sec_projects:"Projects",
-    filter_all:"All",btn_view:"View project",
+    filter_all:"All",filter_all_status:"All statuses",btn_view:"View project",
     status_live:"Live",status_wip:"In progress",status_study:"Study",
     empty_msg:"No projects found in this category yet. 🌱",
-    back_btn:"📓 Back to the Notebook",
     p1_title:"Lucilia's Notebook",p1_desc:"A digital class notebook covering full-stack development concepts. Includes notes on programming logic, Python, Git, GitHub, databases, and more. Built entirely on the front-end using HTML, CSS, and JavaScript, with no external dependencies.",
     p2_title:"UI Components Library",p2_desc:"Collection of reusable visual components — cards, buttons, forms, badges and typography — built from scratch with pure CSS and custom properties.",
     p3_title:"Report Automation",p3_desc:"Script that collects data from Excel spreadsheets, processes indicators and automatically generates PDF reports on a schedule. Used internally at SENAI.",
@@ -593,27 +615,89 @@ function setLang(l){
 }
 if(lang==='en') setLang('en');
 
+/* ─── FILTROS ─── */
+
+// Controla qual categoria está ativa
+function setCatFilter(btn){
+  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterProjects();
+}
+
+// Controla qual status está ativo
+function setStatusFilter(btn){
+  document.querySelectorAll('.filter-btn[data-status]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterProjects();
+}
+
+// Aplica os dois filtros combinados e atualiza os contadores
+function filterProjects(){
+  const cat = document.querySelector('.filter-btn[data-cat].active')?.getAttribute('data-cat') || 'all';
+  const status = document.querySelector('.filter-btn[data-status].active')?.getAttribute('data-status') || 'all';
+
+  const cards = document.querySelectorAll('.project-card');
+  let visible = 0;
+  const counts = { html:0, python:0, js:0, react:0 };
+
+  cards.forEach(card => {
+    const cardCat    = card.getAttribute('data-cat') || '';
+    // data-status pode ter múltiplos valores separados por espaço, ex: "study wip"
+    const cardStatus = (card.getAttribute('data-status') || '').split(' ');
+
+    const matchCat    = cat === 'all' || cardCat === cat;
+    const matchStatus = status === 'all' || cardStatus.includes(status);
+
+    const show = matchCat && matchStatus;
+    card.classList.toggle('hidden', !show);
+
+    if(show){
+      visible++;
+      if(counts[cardCat] !== undefined) counts[cardCat]++;
+    }
+  });
+
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('stat-total').textContent  = visible;
+  document.getElementById('stat-html').textContent   = counts.html;
+  document.getElementById('stat-python').textContent = counts.python;
+  document.getElementById('stat-js').textContent     = counts.js;
+  document.getElementById('stat-react').textContent  = counts.react;
+}
+
+/* ─── STATS INICIAIS ─── */
+(function buildStats(){
+  const cards = document.querySelectorAll('.project-card');
+  document.getElementById('stat-total').textContent = cards.length;
+  const counts = {html:0,python:0,js:0,react:0};
+  cards.forEach(c => {
+    const k = c.getAttribute('data-cat');
+    if(counts[k] !== undefined) counts[k]++;
+  });
+  document.getElementById('stat-html').textContent   = counts.html;
+  document.getElementById('stat-python').textContent = counts.python;
+  document.getElementById('stat-js').textContent     = counts.js;
+  document.getElementById('stat-react').textContent  = counts.react;
+})();
+
 /* ─── CARROSSEL ─── */
 function buildCarousels(){
   document.querySelectorAll('.card-carousel').forEach(container => {
     const raw = container.getAttribute('data-images');
-    const badgeClass  = container.getAttribute('data-badge');
-    const badgeText   = container.getAttribute('data-badge-text') || '';
+    const badgeClass = container.getAttribute('data-badge');
+    const badgeText  = container.getAttribute('data-badge-text') || '';
     let images = [];
     try { images = JSON.parse(raw); } catch(e){}
 
-    // filtra apenas URLs que não são o placeholder
     const validImgs = images.filter(u =>
       u && !u.startsWith('COLOQUE') && u.trim() !== ''
     );
 
-    /* ── badge de tecnologia ── */
     const badge = document.createElement('span');
     badge.className = `preview-badge ${badgeClass}`;
     badge.innerHTML = badgeText;
     container.appendChild(badge);
 
-    /* ── sem imagens: placeholder ── */
     if(validImgs.length === 0){
       const ph = document.createElement('div');
       ph.className = 'carousel-placeholder';
@@ -622,7 +706,6 @@ function buildCarousels(){
       return;
     }
 
-    /* ── track de slides ── */
     const track = document.createElement('div');
     track.className = 'carousel-track';
 
@@ -639,7 +722,6 @@ function buildCarousels(){
     });
     container.appendChild(track);
 
-    /* ── dots ── */
     const dotsWrap = document.createElement('div');
     dotsWrap.className = 'carousel-dots';
     validImgs.forEach((_, i) => {
@@ -650,7 +732,6 @@ function buildCarousels(){
     });
     container.appendChild(dotsWrap);
 
-    /* ── botões prev / next ── */
     const btnPrev = document.createElement('button');
     btnPrev.className = 'carousel-btn prev';
     btnPrev.innerHTML = '&#8592;';
@@ -680,7 +761,6 @@ function buildCarousels(){
     btnPrev.addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
     btnNext.addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); });
 
-    /* ── autoplay (pausa no hover) ── */
     let timer = validImgs.length > 1
       ? setInterval(() => goTo(current + 1), 3000)
       : null;
@@ -691,7 +771,6 @@ function buildCarousels(){
         timer = setInterval(() => goTo(current + 1), 3000);
     });
 
-    /* ── swipe touch ── */
     let touchStartX = 0;
     container.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
     container.addEventListener('touchend', e => {
@@ -700,50 +779,6 @@ function buildCarousels(){
     });
   });
 }
-
-/* ─── FILTROS ─── */
-function filterCat(cat){
-  document.querySelectorAll('.filter-btn').forEach(b =>
-    b.classList.toggle('active', b.getAttribute('data-cat')===cat)
-  );
-  const cards = document.querySelectorAll('.project-card');
-  let visible = 0;
-  cards.forEach(card => {
-    const match = cat==='all' || card.getAttribute('data-cat')===cat;
-    card.classList.toggle('hidden', !match);
-    if(match) visible++;
-  });
-  document.getElementById('emptyState').style.display = visible===0 ? 'block' : 'none';
-  document.getElementById('stat-total').textContent = visible;
-}
-
-/* ─── STATS ─── */
-(function buildStats(){
-  const cards = document.querySelectorAll('.project-card');
-  document.getElementById('stat-total').textContent = cards.length;
-  const counts = {html:0,python:0,js:0,react:0};
-  cards.forEach(c => { const k=c.getAttribute('data-cat'); if(counts[k]!==undefined) counts[k]++; });
-  document.getElementById('stat-html').textContent   = counts.html;
-  document.getElementById('stat-python').textContent = counts.python;
-  document.getElementById('stat-js').textContent     = counts.js;
-  document.getElementById('stat-react').textContent  = counts.react;
-})();
-
-/* ─── NAV DROPDOWN ─── */
-function toggleNavDropdown(){
-  const btn   = document.getElementById('navDropdownBtn');
-  const panel = document.getElementById('navDropdownPanel');
-  const open  = panel.classList.contains('open');
-  btn.classList.toggle('open',!open);
-  panel.classList.toggle('open',!open);
-}
-document.addEventListener('click', e => {
-  const dd = document.getElementById('navDropdown');
-  if(dd && !dd.contains(e.target)){
-    document.getElementById('navDropdownBtn')?.classList.remove('open');
-    document.getElementById('navDropdownPanel')?.classList.remove('open');
-  }
-});
 
 /* ─── INIT ─── */
 buildCarousels();
