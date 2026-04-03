@@ -1,14 +1,14 @@
 # 📓 Lucilia's Notebook — Developer
 
-🇧🇷 Português | [🇨🇦 English](README.en.md)
+Português | [English](README.en.md)
 
 > Caderno de estudos de desenvolvimento web — anotações organizadas por assunto, do jeito que entendi.
 
-**[🌐 Ver o site ao vivo](https://notebookon.vercel.app)** · **[👩‍💻 Sobre mim](https://notebookon.vercel.app/sobre-mim/sobre-mim.html)**
+**[Ver o site ao vivo](https://notebookon.vercel.app)** · **[Sobre mim](https://notebookon.vercel.app/sobre-mim/sobre-mim.html)**
 
 ---
 
-## 📌 Sobre o projeto
+## Sobre o projeto
 
 Este é meu caderno pessoal de estudos em tecnologia. Cada página é uma aula anotada à mão (digitalmente) com explicações, exemplos de código, tabelas e visuais — baseado em cursos da plataforma Curso em Vídeo (Gustavo Guanabara) e outros materiais online.
 
@@ -16,7 +16,7 @@ O objetivo não é ser uma documentação técnica formal, mas sim um espaço de
 
 ---
 
-## 🗂️ Estrutura do projeto
+## Estrutura do projeto
 
 ```
 notebookon/
@@ -53,7 +53,7 @@ notebookon/
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - **Carrossel de matérias** — cards deslizando horizontalmente por seção
 - **Busca em tempo real** — filtra aulas pelo nome, descrição ou palavra-chave
@@ -70,7 +70,7 @@ notebookon/
 
 ---
 
-## 📚 Conteúdo das aulas
+## Conteúdo das aulas
 
 | Matéria | Aulas | Status |
 |---|---|---|
@@ -89,7 +89,7 @@ notebookon/
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 Feito 100% com tecnologias nativas — sem frameworks, sem build tools, sem dependências:
 
@@ -101,7 +101,7 @@ Feito 100% com tecnologias nativas — sem frameworks, sem build tools, sem depe
 
 ---
 
-## 🎨 Design
+## Design
 
 O tema visual é inspirado em um **caderno de papel** — fundo creme com linhas pautadas, fontes serifadas e uma paleta de cores quente e aconchegante.
 
@@ -116,7 +116,7 @@ O tema visual é inspirado em um **caderno de papel** — fundo creme com linhas
 
 ---
 
-## 👩‍💻 Sobre a autora
+## Sobre a autora
 
 **Lucilia Rosa** — Fullstack & Automation Developer · São Paulo, Brasil
 
@@ -128,7 +128,7 @@ Trabalho com Python, SQL e Microsoft Power Platform. Comecei pelas redes de comp
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto é de uso pessoal. O conteúdo das aulas é baseado em cursos públicos e reinterpretado com minhas próprias palavras. Fique à vontade para se inspirar na estrutura, mas não copie o conteúdo pessoal.
 

@@ -1,14 +1,14 @@
 # 📓 Lucilia's Notebook — Developer
 
-[🇧🇷 Português](README.md) | 🇨🇦 English
+[Português](README.md) | English
 
 > A web development study notebook — notes organized by subject, the way I understood them.
 
-**[🌐 View live site](https://notebookon.vercel.app)** · **[👩‍💻 About me](https://notebookon.vercel.app/sobre-mim/sobre-mim.html)**
+**[View live site](https://notebookon.vercel.app)** · **[About me](https://notebookon.vercel.app/sobre-mim/sobre-mim.html)**
 
 ---
 
-## 📌 About the project
+## About the project
 
 This is my personal technology study notebook. Each page is a hand-annotated lesson (digitally) with explanations, code examples, tables and visuals — based on online courses from Curso em Vídeo (Gustavo Guanabara) and other learning materials.
 
@@ -16,7 +16,7 @@ The goal is not to be formal technical documentation, but a space for review and
 
 ---
 
-## 🗂️ Project structure
+## Project structure
 
 ```
 notebookon/
@@ -53,7 +53,7 @@ notebookon/
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Subject carousel** — cards sliding horizontally per section
 - **Real-time search** — filters lessons by name, description or keyword
@@ -70,7 +70,7 @@ notebookon/
 
 ---
 
-## 📚 Lesson content
+## Lesson content
 
 | Subject | Lessons | Status |
 |---|---|---|
@@ -89,7 +89,7 @@ notebookon/
 
 ---
 
-## 🛠️ Technologies
+## Technologies
 
 Built 100% with native web technologies — no frameworks, no build tools, no dependencies:
 
@@ -101,7 +101,7 @@ Built 100% with native web technologies — no frameworks, no build tools, no de
 
 ---
 
-## 🎨 Design
+## Design
 
 The visual theme is inspired by a **paper notebook** — cream background with ruled lines, serif fonts and a warm color palette.
 
@@ -116,7 +116,7 @@ The visual theme is inspired by a **paper notebook** — cream background with r
 
 ---
 
-## 👩‍💻 About the author
+## About the author
 
 **Lucilia Rosa** — Fullstack & Automation Developer · São Paulo, Brazil
 
@@ -129,7 +129,7 @@ I work with Python, SQL and Microsoft Power Platform. I started out in computer 
 
 ---
 
-## 📄 License
+## License
 
 This project is for personal use. The lesson content is based on public courses and reinterpreted in my own words. Feel free to draw inspiration from the structure, but please do not copy the personal content.
 
