@@ -1,678 +1,193 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lucilia Rosa</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --paper: #faf7f2;
-      --paper2: #f3efe8;
-      --paper3: #ede8df;
-      --ink: #1c1917;
-      --ink2: #44403c;
-      --ink3: #78716c;
-      --ink4: #a8a29e;
-      --rule: rgba(28,25,23,.10);
-      --rule2: rgba(28,25,23,.06);
-      --accent: #c84b31;
-      --accent2: #2563a8;
-      --accent3: #1a7a50;
-      --rose: #be185d;
-      --rose-light: #fce7f3;
-      --shadow: 0 2px 12px rgba(28,25,23,.08);
-      --shadow-lg: 0 8px 32px rgba(28,25,23,.13);
-      --radius: 10px;
-      --font-body: 'Nunito', sans-serif;
-      --font-serif: 'Lora', serif;
-      --font-mono: 'JetBrains Mono', monospace;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--paper);
-      color: var(--ink);
-      min-height: 100vh;
-      background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(28,25,23,.04) 31px, rgba(28,25,23,.04) 32px);
-      background-attachment: fixed;
-    }
-
-    /* ── NAV ── */
-    .nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(250,247,242,.93);
-      backdrop-filter: blur(10px);
-      border-bottom: 1.5px solid var(--rule);
-      padding: 0 2rem;
-      display: flex; align-items: center; gap: 0; height: 56px;
-    }
-    .nav-brand {
-      font-family: var(--font-serif); font-size: 16px; font-weight: 600;
-      color: var(--ink); text-decoration: none;
-      display: flex; align-items: center; gap: 8px;
-      margin-right: 1.5rem; white-space: nowrap;
-    }
-    .nav-links { display: flex; align-items: center; gap: 4px; flex: 1; }
-    .nav-link {
-      font-size: 13px; font-weight: 600; color: var(--ink3);
-      text-decoration: none; padding: 6px 12px; border-radius: 6px;
-      transition: background .15s, color .15s; white-space: nowrap;
-    }
-    /* ── CARROSSEL ── */
-    .card-carousel{
-      position:relative;
-      height:160px;
-      overflow:hidden;
-      border-bottom:1.5px solid var(--rule2);
-      background:var(--paper2);
-      cursor:pointer;
-    }
-    /* faixa de slides */
-    .carousel-track{
-      display:flex;
-      height:100%;
-      transition:transform .4s cubic-bezier(.4,0,.2,1);
-      will-change:transform;
-    }
-    /* cada slide */
-    .carousel-slide{
-      flex:0 0 100%;
-      height:100%;
-      position:relative;
-    }
-    .carousel-slide img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      user-select:none;
-      -webkit-user-drag:none;
-    }
-    /* placeholder quando não há imagem */
-    .carousel-placeholder{
-      width:100%;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      background:var(--paper2);
-    }
-    .carousel-placeholder span{font-size:36px;opacity:.35;}
-    .carousel-placeholder p{
-      font-family:var(--font-mono);
-      font-size:10px;
-      color:var(--ink4);
-      letter-spacing:.04em;
-    }
-    /* overlay gradiente sutil */
-    .card-carousel::after{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top, rgba(28,25,23,.18) 0%, transparent 50%);
-      pointer-events:none;
-    }
-    .nav-link:hover { background: var(--paper3); color: var(--ink); }
-    .nav-link.active { background: var(--ink); color: var(--paper); }
-    .nav-sep { width: 1px; height: 18px; background: var(--rule); margin: 0 4px; }
-    .nav-notebook-btn {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 700; color: var(--accent2);
-      background: rgba(37,99,168,.08); border: 1.5px solid rgba(37,99,168,.2);
-      border-radius: 20px; padding: 5px 14px; text-decoration: none;
-      transition: background .15s, border-color .15s; white-space: nowrap;
-      margin-left: auto;
-    }
-    .nav-notebook-btn:hover { background: rgba(37,99,168,.14); border-color: rgba(37,99,168,.35); }
-    .lang-toggle {
-      display: flex; align-items: center; gap: 2px;
-      background: var(--paper2); border: 1.5px solid var(--rule);
-      border-radius: 8px; padding: 3px; flex-shrink: 0; margin-left: 12px;
-    }
-    .lang-btn {
-      font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 5px;
-      border: none; cursor: pointer; background: transparent; color: var(--ink4);
-      transition: background .15s, color .15s; font-family: var(--font-body);
-    }
-    .lang-btn.active { background: #fff; color: var(--ink); box-shadow: 0 1px 4px rgba(28,25,23,.10); }
-    .lang-btn:hover:not(.active) { color: var(--ink); }
-
-    /* ── HERO ── */
-    .hero {
-      max-width: 900px; margin: 0 auto;
-      padding: 5rem 2rem 3rem;
-      display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center;
-    }
-    .hero-left { display: flex; flex-direction: column; gap: 1.2rem; }
-    .hero-eyebrow {
-      font-family: var(--font-mono); font-size: 12px; font-weight: 500;
-      color: var(--ink4); letter-spacing: .06em;
-    }
-    .hero-name {
-      font-family: var(--font-serif);
-      font-size: clamp(38px, 7vw, 62px);
-      font-weight: 600; line-height: 1.1; color: var(--ink);
-    }
-    .hero-name em { font-style: italic; color: var(--accent); }
-    .hero-title {
-      font-size: 16px; font-weight: 700; color: var(--ink2);
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    }
-    .hero-title .badge {
-      font-size: 12px; font-weight: 700; padding: 3px 10px;
-      border-radius: 20px; background: var(--rose-light); color: var(--rose);
-    }
-    .hero-bio {
-      font-size: 15px; color: var(--ink3); line-height: 1.75; max-width: 480px;
-    }
-    .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: .4rem; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--ink); color: var(--paper);
-      font-size: 13px; font-weight: 700; padding: 10px 20px;
-      border-radius: 8px; text-decoration: none;
-      transition: background .15s, transform .15s;
-    }
-    .btn-primary:hover { background: var(--ink2); transform: translateY(-1px); }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: #fff; color: var(--ink2);
-      font-size: 13px; font-weight: 700; padding: 10px 20px;
-      border-radius: 8px; text-decoration: none;
-      border: 1.5px solid var(--rule);
-      transition: border-color .15s, transform .15s, box-shadow .15s;
-    }
-    .btn-secondary:hover { border-color: var(--ink3); transform: translateY(-1px); box-shadow: var(--shadow); }
-    .hero-right { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .hero-avatar {
-      width: 140px; height: 140px; border-radius: 50%;
-      background: linear-gradient(135deg, #fce7f3, #dbeafe, #dcfce7);
-      border: 3px solid #fff; box-shadow: var(--shadow-lg);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-serif); font-size: 52px; font-weight: 600;
-      color: var(--rose); position: relative;
-    }
-    .hero-avatar::after {
-      content: ''; position: absolute; inset: -6px;
-      border-radius: 50%;
-      border: 2px dashed rgba(190,24,93,.2);
-      animation: spin 18s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .hero-status {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 700; color: var(--accent3);
-      background: #dcfce7; border: 1.5px solid rgba(26,122,80,.2);
-      border-radius: 20px; padding: 5px 12px;
-    }
-    .hero-status::before {
-      content: ''; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--accent3);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(.8)} }
-    .hero-location { font-family: var(--font-mono); font-size: 11px; color: var(--ink4); }
-
-    /* ── DIVIDER ── */
-    .divider { max-width: 900px; margin: 0 auto; border: none; border-top: 1.5px solid var(--rule2); }
-
-    /* ── PAGE ── */
-    .page { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
-    .sec { margin-top: 3rem; }
-    .sec-label {
-      font-size: 11px; font-weight: 700; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--ink4); margin-bottom: 18px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--rule2); }
-
-    /* ── SKILLS ── */
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-pill {
-      display: flex; align-items: center; gap: 7px;
-      font-size: 13px; font-weight: 700;
-      padding: 7px 14px; border-radius: 8px;
-      border: 1.5px solid var(--rule);
-      background: #fff; color: var(--ink2);
-      transition: transform .15s, box-shadow .15s;
-    }
-    .skill-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-    .skill-pill .sp-icon { font-size: 15px; }
-
-    /* ── PROJECTS ── */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; }
-    .project-card {
-      background: #fff; border: 1.5px solid var(--rule);
-      border-radius: var(--radius); padding: 0; overflow: hidden;
-      box-shadow: var(--shadow); text-decoration: none; color: inherit;
-      display: flex; flex-direction: column;
-      transition: transform .18s, box-shadow .18s;
-    }
-    .project-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-    .pc-top { height: 6px; }
-    .pc-top.py  { background: linear-gradient(90deg,#3b82f6,#60a5fa); }
-    .pc-top.js  { background: linear-gradient(90deg,#f59e0b,#fcd34d); }
-    .pc-top.html{ background: linear-gradient(90deg,#ef4444,#f87171); }
-    .pc-top.full{ background: linear-gradient(90deg,#8b5cf6,#a78bfa,#60a5fa); }
-    .pc-body { padding: 18px 20px; flex: 1; }
-    .pc-icon { font-size: 26px; margin-bottom: 10px; }
-    .pc-name { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-    .pc-desc { font-size: 12.5px; color: var(--ink3); line-height: 1.6; }
-    .pc-footer { padding: 12px 20px 16px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; border-top: 1px solid var(--rule2); }
-    .pc-tag { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
-    .pc-tag.py  { background:#dbeafe; color:#1e40af; }
-    .pc-tag.js  { background:#fef9c3; color:#854d0e; }
-    .pc-tag.html{ background:#fdecea; color:#b71c1c; }
-    .pc-tag.css { background:#e8eeff; color:#1a3ab8; }
-    .pc-tag.react{ background:#e0f2fe; color:#075985; }
-    .pc-link { margin-left:auto; font-size:11px; font-weight:700; color:var(--accent2); text-decoration:none; }
-    .pc-link:hover { text-decoration: underline; }
-
-    /* ── ABOUT ── */
-    .about-card {
-      background: #fff; border: 1.5px solid var(--rule);
-      border-radius: var(--radius); padding: 24px 28px;
-      box-shadow: var(--shadow);
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-    }
-    .about-block h4 { font-family: var(--font-serif); font-size: 15px; font-weight: 600; margin-bottom: 10px; color: var(--ink); }
-    .about-block p { font-size: 13px; color: var(--ink3); line-height: 1.75; }
-    .about-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-    .about-list li { font-size: 13px; color: var(--ink2); display: flex; align-items: center; gap: 8px; }
-    .about-list li::before { content: '→'; font-family: var(--font-mono); font-size: 11px; color: var(--ink4); flex-shrink: 0; }
-
-    /* ── NOTEBOOK CTA ── */
-    .notebook-cta {
-      margin-top: 3rem;
-      background: linear-gradient(135deg, #faf7f2, #f3efe8);
-      border: 1.5px solid var(--rule);
-      border-radius: 14px; padding: 32px 36px;
-      display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
-      box-shadow: var(--shadow);
-    }
-    .nc-left { display: flex; flex-direction: column; gap: 10px; }
-    .nc-eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--ink4); letter-spacing: .06em; }
-    .nc-title { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--ink); }
-    .nc-title em { font-style: italic; color: var(--accent2); }
-    .nc-desc { font-size: 13px; color: var(--ink3); line-height: 1.7; max-width: 420px; }
-    .nc-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .nc-tag { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
-    .nc-right { display: flex; align-items: center; justify-content: center; }
-    .nc-btn {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--accent2); color: #fff;
-      font-size: 14px; font-weight: 700; padding: 13px 24px;
-      border-radius: 10px; text-decoration: none;
-      box-shadow: 0 4px 14px rgba(37,99,168,.25);
-      transition: background .15s, transform .15s, box-shadow .15s; white-space: nowrap;
-    }
-    .nc-btn:hover { background: #1d4f8a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,168,.35); }
-    .nc-icon-wrap {
-      width: 80px; height: 80px; border-radius: 16px;
-      background: #fff; border: 1.5px solid var(--rule);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 38px; box-shadow: var(--shadow); margin-bottom: 12px;
-    }
-    .nc-right-inner { display: flex; flex-direction: column; align-items: center; gap: 0; }
-
-    /* ── FOOTER ── */
-    .footer {
-      max-width: 900px; margin: 0 auto;
-      padding: 1.5rem 2rem 3rem;
-      border-top: 1.5px solid var(--rule2);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-    }
-    .footer span { font-size: 12px; color: var(--ink4); font-family: var(--font-mono); }
-
-    /* ── BACK TO TOP ── */
-    .back-to-top {
-      position: fixed; bottom: 2rem; right: 2rem;
-      width: 42px; height: 42px; border-radius: 50%;
-      background: var(--ink); color: #fff; border: none; cursor: pointer;
-      font-size: 18px; display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none;
-      transition: opacity .25s, transform .25s; z-index: 90; transform: translateY(8px);
-    }
-    .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    .back-to-top:hover { background: var(--ink2); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-    .fade-up { animation: fadeUp .5s ease both; }
-    .fade-up:nth-child(1){animation-delay:.05s} .fade-up:nth-child(2){animation-delay:.12s}
-    .fade-up:nth-child(3){animation-delay:.19s} .fade-up:nth-child(4){animation-delay:.26s}
-    .fade-up:nth-child(5){animation-delay:.33s} .fade-up:nth-child(6){animation-delay:.40s}
-    [data-i18n] { transition: opacity .18s ease; }
-    .lang-switching [data-i18n] { opacity: 0; }
-
-    @media(max-width:640px){
-      .hero { grid-template-columns:1fr; padding:2.5rem 1rem 2rem; }
-      .hero-right { flex-direction: row; justify-content: flex-start; }
-      .hero-avatar { width:90px; height:90px; font-size:34px; }
-      .page { padding: 0 1rem 4rem; }
-      .about-card { grid-template-columns: 1fr; }
-      .notebook-cta { grid-template-columns:1fr; }
-      .nc-right { justify-content: flex-start; }
-      .nav { padding: 0 1rem; }
-      .nav-links { display:none; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav class="nav">
-  <a href="index.html" class="nav-brand">Lucilia Rosa | Software Developer</a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-link active" data-i18n="nav_home">Home</a>
-    <span class="nav-sep"></span>
-    <a href="sobre-mim/sobre-mim.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
-    <a href="sobre-mim/projetos.html" class="nav-link" data-i18n="nav_projects">Projetos</a>
-    <a href="sobre-mim/dev-areas.html" class="nav-link" data-i18n="nav_areas">Frontend · Backend · Fullstack</a>
-  </div>
-  <a href="notebook.html" class="nav-notebook-btn" data-i18n="nav_notebook">Caderno de Estudos</a>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇨🇦 EN</button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow fade-up" data-i18n="eyebrow">// fullstack & automation developer</p>
-    <h1 class="hero-name fade-up">Lucilia<br><em>Rosa</em></h1>
-    <p class="hero-title fade-up">
-      <span data-i18n="hero_title">Fullstack &amp; Automation Developer</span>
-      <span class="badge" data-i18n="hero_badge">São Paulo, BR</span>
-    </p>
-    <p class="hero-bio fade-up" data-i18n="hero_bio">
-      Desenvolvedora com foco em automação, aplicações web e aprendizado contínuo. Apaixonada por código limpo, boas interfaces e resolver problemas reais com tecnologia.
-    </p>
-    <div class="hero-cta fade-up">
-      <a href="sobre-mim/projetos.html" class="btn-primary" data-i18n="cta_projects">Ver projetos</a>
-      <a href="sobre-mim/sobre-mim.html" class="btn-secondary" data-i18n="cta_about">Sobre mim</a>
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucilia Rosa</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/hero.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/carousel.css">
+  </head>
+  <body data-page="index">
+  <nav class="nav">
+    <a href="index.html" class="nav-brand">Lucilia Rosa | Software Developer</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link active" data-i18n="nav_home">Home</a>
+      <span class="nav-sep"></span>
+      <a href="about-me/about-me.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
+      <a href="about-me/projects.html" class="nav-link" data-i18n="nav_projects">Projetos</a>
+      <a href="about-me/dev-area.html" class="nav-link" data-i18n="nav_areas">Frontend · Backend · Fullstack</a>
     </div>
-  </div>
-  <div class="hero-right fade-up">
-    <div class="hero-avatar"><img src="../img/lucilia.jpeg" alt="Lucilia Rosa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/></div>
-    <span class="hero-status" data-i18n="hero_status">Disponível para oportunidades</span>
-    <span class="hero-location">Building solutions that make real life easier</span>
-  </div>
-</header>
-
-<hr class="divider" />
-
-<main class="page">
-
-  <!-- SKILLS -->
-  <section class="sec fade-up">
-    <p class="sec-label" data-i18n="sec_skills">Habilidades</p>
-    <div class="skills-grid">
-      <span class="skill-pill"><span class="sp-icon">🐍</span> Python</span>
-      <span class="skill-pill"><span class="sp-icon">⚡</span> JavaScript</span>
-      <span class="skill-pill"><span class="sp-icon">⚛️</span> React</span>
-      <span class="skill-pill"><span class="sp-icon">🌐</span> HTML</span>
-      <span class="skill-pill"><span class="sp-icon">🎨</span> CSS</span>
-      <span class="skill-pill"><span class="sp-icon">🗄️</span> SQL</span>
-      <span class="skill-pill"><span class="sp-icon">🌿</span> Git &amp; GitHub</span>
-      <span class="skill-pill"><span class="sp-icon">🤖</span> Automação</span>
-      <span class="skill-pill"><span class="sp-icon">🌍</span> English</span>
+    <!-- <a href="/notebook/notebook.html" class="nav-notebook-btn" data-i18n="nav_notebook">Caderno de Estudos</a> -->
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇨🇦 EN</button>
     </div>
-  </section>
+  </nav>
 
-  <!-- ABOUT -->
-  <section class="sec fade-up">
-    <p class="sec-label" data-i18n="sec_about">Sobre mim</p>
-    <div class="about-card">
-      <div class="about-block">
-        <h4 data-i18n="about_h1">Quem sou eu</h4>
-        <p data-i18n="about_p1">Desenvolvedora Fullstack &amp; Automation com base em São Paulo. Estou em constante evolução, combinando cursos, projetos práticos e muita documentação — além de um caderno de estudos que virou projeto por si só.</p>
-      </div>
-      <div class="about-block">
-        <h4 data-i18n="about_h2">O que eu faço</h4>
-        <ul class="about-list">
-          <li data-i18n="about_li1">Desenvolvimento web (Frontend &amp; Fullstack)</li>
-          <li data-i18n="about_li2">Automação com Python</li>
-          <li data-i18n="about_li3">Modelagem e consultas SQL</li>
-          <li data-i18n="about_li4">Controle de versão com Git &amp; GitHub</li>
-        </ul>
+  <header class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow fade-up" data-i18n="eyebrow">// fullstack & automation developer</p>
+      <h1 class="hero-name fade-up">Lucilia<br><em>Rosa</em></h1>
+      <p class="hero-title fade-up">
+        <span data-i18n="hero_title">Fullstack &amp; Automation Developer</span>
+        <span class="badge" data-i18n="hero_badge">São Paulo, BR</span>
+      </p>
+      <p class="hero-bio fade-up" data-i18n="hero_bio">
+        Desenvolvedora com foco em automação, aplicações web e aprendizado contínuo. Apaixonada por código limpo, boas interfaces e resolver problemas reais com tecnologia.
+      </p>
+      <div class="hero-cta fade-up">
+        <a href="about-me/projects.html" class="btn-primary" data-i18n="cta_projects">Ver projetos</a>
+        <a href="about-me/about-me.html" class="btn-secondary" data-i18n="cta_about">Sobre mim</a>
       </div>
     </div>
-    <div style="text-align:center;margin-top:14px;">
-      <a href="sobre-mim/sobre-mim.html" class="btn-secondary" style="display:inline-flex;" data-i18n="full_about">Ler história completa →</a>
+    <div class="hero-right fade-up">
+      <div class="hero-avatar"><img src="../img/lucilia.jpeg" alt="Lucilia Rosa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/></div>
+      <span class="hero-status" data-i18n="hero_status">Disponível para oportunidades</span>
+      <span class="hero-location">Building solutions that make real life easier</span>
     </div>
-  </section>
+  </header>
 
-  <!-- PROJECTS -->
-  <section class="sec fade-up">
-    <p class="sec-label" data-i18n="sec_projects">Projetos em destaque</p>
-    <div class="projects-grid">
-      <a href="sobre-mim/projetos.html" class="project-card">
-        <div class="pc-top full"></div>
-        <div class="pc-body">
-          <div class="card-carousel" data-images='[
-                "img/project1.png",
-                "img/project2.png",
-                "img/project3.png",
-                "img/project4.png"
-        ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
-        </div><br>
-          <p class="pc-name" data-i18n="proj1_name">Lucilia's Notebook</p>
-          <p class="pc-desc" data-i18n="proj1_desc">Caderno digital de anotações de aulas sobre desenvolvimento full-stack. Reúne conceitos de lógica de programação, Python, Git, GitHub, banco de dados e outros tópicos. Desenvolvido inteiramente no front-end com HTML, CSS e JavaScript, sem dependências externas.</p>
-        </div>
-        <div class="pc-footer">
-          <span class="pc-tag html">HTML</span>
-          <span class="pc-tag css">CSS</span>
-          <span class="pc-tag js">JS</span>
-          <span class="pc-link" data-i18n="proj_link">Ver →</span>
-        </div>
-      </a>
-      <a href="sobre-mim/projetos.html" class="project-card">
-        <div class="pc-top py"></div>
-        <div class="pc-body">
-          <div class="card-carousel" data-images='[
-                "img/project2-1.png",
-                "img/project2-2.png",
-                "img/project2-3.png",
-                "img/project2-4.png"
-        ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
-        </div><br>
-          <p class="pc-name" data-i18n="proj2_name">Luci College</p>
-          <p class="pc-desc" data-i18n="proj2_desc">Aplicação web full-stack de catálogo de prêmios para alunos da Luci College Technology Campus. Alunos acumulam pontos por atividades acadêmicas e os resgatam por produtos e serviços exclusivos. Interface construída em HTML, CSS e JavaScript, back-end em Python e dados persistidos em PostgreSQL.</p>
-        </div>
-        <div class="pc-footer">
-          <span class="pc-tag py">Python</span>
-          <span class="pc-tag css">CSS</span>
-          <span class="pc-tag js">JS</span>
-          <span class="pc-link" data-i18n="proj_link">Ver →</span>
-        </div>
-      </a>
-      <a href="sobre-mim/projetos.html" class="project-card">
-        <div class="pc-top js"></div>
-        <div class="pc-body">
-          <div class="pc-icon">⚛️</div>
-          <p class="pc-name" data-i18n="proj3_name">Interfaces React</p>
-          <p class="pc-desc" data-i18n="proj3_desc">Componentes e aplicações com React — hooks, estado e consumo de APIs externas.</p>
-        </div>
-        <div class="pc-footer">
-          <span class="pc-tag react">React</span>
-          <span class="pc-tag js">JS</span>
-          <span class="pc-link" data-i18n="proj_link">Ver →</span>
-        </div>
-      </a>
-    </div>
-    <div style="text-align:center;margin-top:16px;">
-      <a href="sobre-mim/projetos.html" class="btn-secondary" style="display:inline-flex;" data-i18n="all_projects">Ver todos os projetos →</a>
-    </div>
-  </section>
+  <hr class="divider" />
 
-  <!-- NOTEBOOK CTA -->
-  <div class="notebook-cta fade-up">
-    <div class="nc-left">
-      <span class="nc-eyebrow" data-i18n="nc_eyebrow">// também por aqui</span>
-      <p class="nc-title" data-i18n="nc_title">Meu <em>Caderno de Estudos</em></p>
-      <p class="nc-desc" data-i18n="nc_desc">Anotações organizadas de tudo que aprendo — Python, HTML, CSS, JavaScript, Git, SQL e English. Do jeito que entendi, para revisar quando precisar.</p>
-      <div class="nc-tags">
-        <span class="nc-tag" style="background:#dbeafe;color:#1e40af;">Python</span>
-        <span class="nc-tag" style="background:#fef9c3;color:#854d0e;">JavaScript</span>
-        <span class="nc-tag" style="background:#fdecea;color:#b71c1c;">HTML &amp; CSS</span>
-        <span class="nc-tag" style="background:#fce7f3;color:#9d174d;">Git</span>
-        <span class="nc-tag" style="background:#dcfce7;color:#166634;">SQL</span>
-        <span class="nc-tag" style="background:#ede9fe;color:#5b21b6;">English</span>
+  <main class="page">
+
+    <!-- SKILLS -->
+    <section class="sec fade-up">
+      <p class="sec-label" data-i18n="sec_skills">Habilidades</p>
+      <div class="skills-grid">
+        <span class="skill-pill"><span class="sp-icon"></span> Python</span>
+        <span class="skill-pill"><span class="sp-icon"></span> JavaScript</span>
+        <span class="skill-pill"><span class="sp-icon"></span> React</span>
+        <span class="skill-pill"><span class="sp-icon"></span> HTML</span>
+        <span class="skill-pill"><span class="sp-icon"></span> CSS</span>
+        <span class="skill-pill"><span class="sp-icon"></span> SQL</span>
+        <span class="skill-pill"><span class="sp-icon"></span> Git &amp; GitHub</span>
+        <span class="skill-pill"><span class="sp-icon"></span> Automação</span>
+        <span class="skill-pill"><span class="sp-icon"></span> English</span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="sec fade-up">
+      <p class="sec-label" data-i18n="sec_about">Sobre mim</p>
+      <div class="about-card">
+        <div class="about-block">
+          <h4 data-i18n="about_h1">Quem sou eu</h4>
+          <p data-i18n="about_p1">Desenvolvedora Fullstack &amp; Automation com base em São Paulo. Estou em constante evolução, combinando cursos, projetos práticos e muita documentação — além de um caderno de estudos que virou projeto por si só.</p>
+        </div>
+        <div class="about-block">
+          <h4 data-i18n="about_h2">O que eu faço</h4>
+          <ul class="about-list">
+            <li data-i18n="about_li1">Desenvolvimento web (Frontend &amp; Fullstack)</li>
+            <li data-i18n="about_li2">Automação com Python</li>
+            <li data-i18n="about_li3">Modelagem e consultas SQL</li>
+            <li data-i18n="about_li4">Controle de versão com Git &amp; GitHub</li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:14px;">
+        <a href="about-me/about-me.html" class="btn-secondary" style="display:inline-flex;" data-i18n="full_about">Ler história completa →</a>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="sec fade-up">
+      <p class="sec-label" data-i18n="sec_projects">Projetos em destaque</p>
+      <div class="projects-grid">
+        <a href="about-me/projects.html" class="project-card">
+          <div class="pc-top full"></div>
+          <div class="pc-body">
+            <div class="card-carousel" data-images='[
+                  "img/project1.png",
+                  "img/project2.png",
+                  "img/project3.png",
+                  "img/project4.png"
+          ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
+          </div><br>
+            <p class="pc-name" data-i18n="proj1_name">Lucilia's Notebook</p>
+            <p class="pc-desc" data-i18n="proj1_desc">Caderno digital de anotações de aulas sobre desenvolvimento full-stack. Reúne conceitos de lógica de programação, Python, Git, GitHub, banco de dados e outros tópicos. Desenvolvido inteiramente no front-end com HTML, CSS e JavaScript, sem dependências externas.</p>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-tag html">HTML</span>
+            <span class="pc-tag css">CSS</span>
+            <span class="pc-tag js">JS</span>
+            <span class="pc-link" data-i18n="proj_link">Ver →</span>
+          </div>
+        </a>
+        <a href="about-me/projects.html" class="project-card">
+          <div class="pc-top py"></div>
+          <div class="pc-body">
+            <div class="card-carousel" data-images='[
+                  "img/project2-1.png",
+                  "img/project2-2.png",
+                  "img/project2-3.png",
+                  "img/project2-4.png"
+          ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
+          </div><br>
+            <p class="pc-name" data-i18n="proj2_name">Luci College</p>
+            <p class="pc-desc" data-i18n="proj2_desc">Aplicação web full-stack de catálogo de prêmios para alunos da Luci College Technology Campus. Alunos acumulam pontos por atividades acadêmicas e os resgatam por produtos e serviços exclusivos. Interface construída em HTML, CSS e JavaScript, back-end em Python e dados persistidos em PostgreSQL.</p>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-tag py">Python</span>
+            <span class="pc-tag css">CSS</span>
+            <span class="pc-tag js">JS</span>
+            <span class="pc-link" data-i18n="proj_link">Ver →</span>
+          </div>
+        </a>
+        <a href="about-me/projects.html" class="project-card">
+          <div class="pc-top js"></div>
+          <div class="pc-body">
+            <div class="pc-icon">⚛️</div>
+            <p class="pc-name" data-i18n="proj3_name">Interfaces React</p>
+            <p class="pc-desc" data-i18n="proj3_desc">Componentes e aplicações com React — hooks, estado e consumo de APIs externas.</p>
+          </div>
+          <div class="pc-footer">
+            <span class="pc-tag react">React</span>
+            <span class="pc-tag js">JS</span>
+            <span class="pc-link" data-i18n="proj_link">Ver →</span>
+          </div>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <a href="about-me/projects.html" class="btn-secondary" style="display:inline-flex;" data-i18n="all_projects">Ver todos os projetos →</a>
+      </div>
+    </section>
+
+    <!-- NOTEBOOK CTA -->
+    <div class="notebook-cta fade-up">
+      <div class="nc-left">
+        <span class="nc-eyebrow" data-i18n="nc_eyebrow">// também por aqui</span>
+        <p class="nc-title" data-i18n="nc_title">Meu <em>Caderno de Estudos</em></p>
+        <p class="nc-desc" data-i18n="nc_desc">Anotações organizadas de tudo que aprendo — Python, HTML, CSS, JavaScript, Git, SQL e English. Do jeito que entendi, para revisar quando precisar.</p>
+        <div class="nc-tags">
+          <span class="nc-tag" style="background:#dbeafe;color:#1e40af;">Python</span>
+          <span class="nc-tag" style="background:#fef9c3;color:#854d0e;">JavaScript</span>
+          <span class="nc-tag" style="background:#fdecea;color:#b71c1c;">HTML &amp; CSS</span>
+          <span class="nc-tag" style="background:#fce7f3;color:#9d174d;">Git</span>
+          <span class="nc-tag" style="background:#dcfce7;color:#166634;">SQL</span>
+          <span class="nc-tag" style="background:#ede9fe;color:#5b21b6;">English</span>
+        </div>
+      </div>
+      <div class="nc-right">
+        <div class="nc-right-inner">
+          <div class="nc-icon-wrap">📓</div>
+          <a href="notebook/notebook.html" class="nc-btn" data-i18n="nc_btn">Abrir caderno →</a>
+        </div>
       </div>
     </div>
-    <div class="nc-right">
-      <div class="nc-right-inner">
-        <div class="nc-icon-wrap">📓</div>
-        <a href="notebook.html" class="nc-btn" data-i18n="nc_btn">Abrir caderno →</a>
-      </div>
-    </div>
-  </div>
+  </main>
 
-</main>
+  <footer class="footer">
+    <span>© 2026 Lucilia Rosa. <span data-i18n="footer_rights">Todos os direitos reservados.</span></span>
+    <span data-i18n="footer_made">Feito com 🍫 e muito código</span>
+  </footer>
 
-<footer class="footer">
-  <span>© 2026 Lucilia Rosa. <span data-i18n="footer_rights">Todos os direitos reservados.</span></span>
-  <span data-i18n="footer_made">Feito com 🍫 e muito código</span>
-</footer>
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
 
-<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
-
-<script id="script-fix">
-const T = {
-  pt:{
-    nav_home:"Home", nav_about:"Sobre mim", nav_projects:"Projetos",
-    nav_areas:"Frontend · Backend · Fullstack", nav_notebook:"Caderno de Estudos",
-    eyebrow:"// fullstack & automation developer",
-    hero_title:"Fullstack &amp; Automation Developer", hero_badge:"São Paulo, BR",
-    hero_bio:"Desenvolvedora com foco em automação, aplicações web e aprendizado contínuo. Apaixonada por código limpo, boas interfaces e resolver problemas reais com tecnologia.",
-    cta_projects:"Ver projetos", cta_about:"Sobre mim",
-    hero_status:"Disponível para oportunidades",
-    sec_skills:"Habilidades", sec_projects:"Projetos em destaque", sec_about:"Sobre mim",
-    proj1_name:"Lucilia's Notebook", 
-    proj1_desc:"Caderno digital de anotações de aulas sobre desenvolvimento full-stack. Reúne conceitos de lógica de programação, Python, Git, GitHub, banco de dados e outros tópicos. Desenvolvido inteiramente no front-end com HTML, CSS e JavaScript, sem dependências externas.",
-    proj2_name:"Luci College", 
-    proj2_desc:"Aplicação web full-stack de catálogo de prêmios para alunos da Luci College Technology Campus. Alunos acumulam pontos por atividades acadêmicas e os resgatam por produtos e serviços exclusivos. Interface construída em HTML, CSS e JavaScript, back-end em Python e dados persistidos em PostgreSQL.",
-    proj3_name:"Interfaces React", 
-    proj3_desc:"Componentes e aplicações com React — hooks, estado e consumo de APIs externas.",
-    proj_link:"Ver →", all_projects:"Ver todos os projetos →",
-    about_h1:"Quem sou eu", 
-    about_p1:"Desenvolvedora Fullstack &amp; Automation com base em São Paulo. Estou em constante evolução, combinando cursos, projetos práticos e muita documentação — além de um caderno de estudos que virou projeto por si só.",
-    about_h2:"O que eu faço",
-    about_li1:"Desenvolvimento web (Frontend &amp; Fullstack)", 
-    about_li2:"Automação com Python", 
-    about_li3:"Modelagem e consultas SQL", 
-    about_li4:"Controle de versão com Git &amp; GitHub",
-    full_about:"Ler história completa →",
-    footer_rights:"Todos os direitos reservados.", 
-    footer_made:"Feito com 🍫 e muito código"
-  },
-  en:{
-    nav_home:"Home", nav_about:"About me", nav_projects:"Projects",
-    nav_areas:"Frontend · Backend · Fullstack", nav_notebook:"Study Notebook",
-    eyebrow:"// fullstack & automation developer",
-    hero_title:"Fullstack &amp; Automation Developer", hero_badge:"São Paulo, BR",
-    hero_bio:"Developer focused on automation and web applications.",
-    cta_projects:"View projects", cta_about:"About me",
-    hero_status:"Open to opportunities",
-    sec_skills:"Skills", sec_projects:"Featured projects", sec_about:"About me",
-    proj1_name:"Lucilia's Notebook", proj1_desc:"A digital class notebook covering full-stack development concepts. Includes notes on programming logic, Python, Git, GitHub, databases, and more. Built entirely on the front-end using HTML, CSS, and JavaScript, with no external dependencies.",
-    proj2_name:"Luci College", proj2_desc:"A full-stack web application for a rewards catalog at Luci College Technology Campus. Students accumulate points through academic activities and redeem them for exclusive products and services. Front-end built with HTML, CSS, and JavaScript, back-end powered by Python, and data persisted in PostgreSQL.", 
-    proj3_name:"React Interfaces", proj3_desc:"Components and applications with React — hooks, state and external API consumption.",
-    proj_link:"View →", all_projects:"View all projects →",
-    about_h1:"Who I am", 
-    about_p1:"Fullstack &amp; Automation Developer based in São Paulo. Constantly evolving, combining courses, hands-on projects and lots of documentation — plus a study notebook that became a project of its own.",
-    about_h2:"What I do",
-    about_li1:"Web development (Frontend &amp; Fullstack)", 
-    about_li2:"Automation with Python", 
-    about_li3:"SQL modeling and queries", 
-    about_li4:"Version control with Git &amp; GitHub",
-    full_about:"Read full story →",
-    footer_rights:"All rights reserved.", 
-    footer_made:"Made with 🍫 and code"
-  }
-};
-
-let lang = localStorage.getItem('nb_lang') || 'pt';
-
-function setLang(l) {
-  lang = l;
-  localStorage.setItem('nb_lang', l);
-  document.body.classList.add('lang-switching');
-  setTimeout(function() {
-    document.querySelectorAll('[data-i18n]').forEach(function(el) {
-      var v = T[l][el.getAttribute('data-i18n')];
-      if (v !== undefined) el.innerHTML = v;
-    });
-    document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
-    document.title = l === 'pt' ? 'Lucilia Rosa' : 'Lucilia Rosa';
-    document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
-    document.getElementById('btn-en').classList.toggle('active', l === 'en');
-    document.body.classList.remove('lang-switching');
-  }, 180);
-}
-
-if (lang === 'en') setLang('en');
-
-/* ─── CARROSSEL FUNCIONANDO ─── */
-function buildCarousels(){
-  document.querySelectorAll('.card-carousel').forEach(container => {
-
-    const raw = container.getAttribute('data-images');
-    let images = [];
-
-    try {
-      images = JSON.parse(raw);
-    } catch(e){
-      console.error('Erro no JSON do carousel', e);
-      return;
-    }
-
-    if (!images.length) return;
-
-    const track = document.createElement('div');
-    track.classList.add('carousel-track');
-
-    images.forEach(src => {
-      const slide = document.createElement('div');
-      slide.classList.add('carousel-slide');
-
-      const img = document.createElement('img');
-      img.src = src;
-
-      slide.appendChild(img);
-      track.appendChild(slide);
-    });
-
-    container.appendChild(track);
-
-    let index = 0;
-
-    setInterval(() => {
-      index = (index + 1) % images.length;
-      track.style.transform = `translateX(-${index * 100}%)`;
-    }, 3000);
-  });
-}
-
-/* ─── BOTÃO VOLTAR AO TOPO ─── */
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('backToTop');
-  if (btn) {
-    btn.classList.toggle('visible', window.scrollY > 400);
-  }
-});
-
-/* ─── INIT ─── */
-document.addEventListener('DOMContentLoaded', () => {
-  setLang(lang);
-  buildCarousels();
-});
-</script>
-</body>
+  <script src="/js/main.js"></script>
+  <script src="/js/carousel.js"></script>
+  </body>
 </html>

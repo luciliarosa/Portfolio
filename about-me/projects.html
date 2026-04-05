@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Projetos — Lucilia Rosa</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/about-me/project.css">
+  <link rel="stylesheet" href="/css/hero.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/carousel.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-brand">Lucilia Rosa | Software Developer</a>
+  <div class="nav-links">
+    <a href="../index.html" class="nav-link" data-i18n="nav_home">Home</a>
+    <span class="nav-sep"></span>
+    <a href="about-me.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
+    <a href="projects.html" class="nav-link active" data-i18n="nav_projects">Projetos</a>
+    <a href="dev-area.html" class="nav-link" data-i18n="nav_areas">Frontend · Backend · Fullstack</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇨🇦 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="hero fade">
+    <p class="hero-eyebrow" data-i18n="eyebrow">// meus projetos</p>
+    <h1 class="hero-title" data-i18n="hero_title">O que eu<br><em>construí</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Projetos reais, estudos e experimentos. Cada um representa uma etapa da jornada — do HTML puro até automações em Python e interfaces em React.</p>
+  </div>
+
+  <hr/>
+
+  <section class="fade fade-d1">
+    <p class="sec-title" data-i18n="sec_stats">Em números</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="stat-total" style="color:var(--ink)">0</div><div class="stat-label" data-i18n="stat_total">Projetos</div></div>
+      <div class="stat"><div class="stat-num" id="stat-html" style="color:var(--cat-html)">0</div><div class="stat-label">HTML &amp; CSS</div></div>
+      <div class="stat"><div class="stat-num" id="stat-python" style="color:var(--cat-python)">0</div><div class="stat-label">Python</div></div>
+      <div class="stat"><div class="stat-num" id="stat-js" style="color:var(--cat-js)">0</div><div class="stat-label">JavaScript</div></div>
+      <div class="stat"><div class="stat-num" id="stat-react" style="color:var(--cat-react)">0</div><div class="stat-label">React</div></div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section class="fade fade-d2">
+    <p class="sec-title" data-i18n="sec_projects">Projetos</p>
+
+    <!-- FILTRO POR CATEGORIA -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-cat="all" onclick="setCatFilter(this)"><span data-i18n="filter_all">Todos</span></button>
+      <button class="filter-btn" data-cat="html" onclick="setCatFilter(this)"><span class="filter-dot dot-html"></span> HTML &amp; CSS</button>
+      <button class="filter-btn" data-cat="python" onclick="setCatFilter(this)"><span class="filter-dot dot-python"></span> Python</button>
+      <button class="filter-btn" data-cat="js" onclick="setCatFilter(this)"><span class="filter-dot dot-js"></span> JavaScript</button>
+      <button class="filter-btn" data-cat="react" onclick="setCatFilter(this)"><span class="filter-dot dot-react"></span> React</button>
+    </div>
+
+    <!-- FILTRO POR STATUS -->
+    <div class="filter-bar" style="margin-top:-12px;">
+      <button class="filter-btn active" data-status="all" onclick="setStatusFilter(this)"><span data-i18n="filter_all_status">Todos os status</span></button>
+      <button class="filter-btn" data-status="live" onclick="setStatusFilter(this)">
+        <span style="width:8px;height:8px;border-radius:50%;background:#166534;display:inline-block;"></span>
+        <span data-i18n="status_live">Live</span>
+      </button>
+      <button class="filter-btn" data-status="wip" onclick="setStatusFilter(this)">
+        <span style="width:8px;height:8px;border-radius:50%;background:#854d0e;display:inline-block;"></span>
+        <span data-i18n="status_wip">Em andamento</span>
+      </button>
+      <button class="filter-btn" data-status="study" onclick="setStatusFilter(this)">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--rose);display:inline-block;"></span>
+        <span data-i18n="status_study">Estudo</span>
+      </button>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 1 — Lucilia's Notebook (HTML & CSS) | status: live
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="html" data-status="live">
+        <div class="card-bar bar-html"></div>
+        <div class="card-carousel" data-images='[
+                "../img/project1.png",
+                "../img/project2.png",
+                "../img/project3.png",
+                "../img/project4.png"
+        ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p1_title">Lucilia's Notebook</h3>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p1_desc">Caderno digital de anotações de aulas sobre desenvolvimento full-stack. Reúne conceitos de lógica de programação, Python, Git, GitHub, banco de dados e outros tópicos. Desenvolvido inteiramente no front-end com HTML, CSS e JavaScript, sem dependências externas.</p>
+          <div class="card-techs"><span class="tech-chip">HTML5</span><span class="tech-chip">CSS3</span><span class="tech-chip">Flexbox</span><span class="tech-chip">Grid</span><span class="tech-chip">Responsive</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://github.com/luciliarosa/notebookon.git" target="_blank" class="card-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://lucilliarosa.com.br/notebook.html" target="_blank" class="card-link primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-i18n="btn_view">Ver projeto</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 2 — Luci College (Python) | status: study wip
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="python" data-status="study wip">
+        <div class="card-bar bar-python"></div>
+        <div class="card-carousel" data-images='[
+                "../img/project2-1.png",
+                "../img/project2-2.png",
+                "../img/project2-3.png",
+                "../img/project2-4.png"
+        ]' data-badge="badge-python" data-badge-text="Python">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p4_title">Luci College</h3>
+            <div class="card-status-group">
+              <span class="card-status status-study"><span class="status-dot"></span><span data-i18n="status_study">Estudo</span></span>
+              <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p4_desc">Aplicação web full-stack de catálogo de prêmios para alunos da Luci College Technology Campus. Alunos acumulam pontos por atividades acadêmicas e os resgatam por produtos e serviços exclusivos. Interface construída em HTML, CSS e JavaScript, back-end em Python e dados persistidos em PostgreSQL.</p>
+          <div class="card-techs"><span class="tech-chip">Python</span><span class="tech-chip">Flask</span><span class="tech-chip">PostgreSQL</span><span class="tech-chip">JavaScript</span><span class="tech-chip">CSS</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://github.com/luciliarosa/LuciCollege.git" target="_blank" class="card-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://luci-college.vercel.app/" target="_blank" class="card-link primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-i18n="btn_view">Ver projeto</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 3 — UI Components Library (HTML & CSS) | status: wip
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="html" data-status="wip">
+        <div class="card-bar bar-html"></div>
+        <div class="card-carousel" data-images='[
+          "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
+          "COLOQUE_A_URL_DA_IMAGEM_2_AQUI"
+        ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p2_title">UI Components Library</h3>
+            <div class="card-status-group">
+              <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p2_desc">Coleção de componentes visuais reutilizáveis — cards, botões, formulários, badges e tipografia — criados do zero com CSS puro e variáveis customizadas.</p>
+          <div class="card-techs"><span class="tech-chip">HTML5</span><span class="tech-chip">CSS Variables</span><span class="tech-chip">Animations</span><span class="tech-chip">Dark Mode</span></div>
+        </div>
+        <div class="card-footer">
+          <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
+          <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 4 — Automação de Relatórios (Python) | status: live
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="python" data-status="live">
+        <div class="card-bar bar-python"></div>
+        <div class="card-carousel" data-images='[
+          "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
+          "COLOQUE_A_URL_DA_IMAGEM_2_AQUI"
+        ]' data-badge="badge-python" data-badge-text="Python">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p3_title">Automação de Relatórios</h3>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p3_desc">Script que coleta dados de planilhas Excel, processa indicadores e gera relatórios em PDF automaticamente via agendamento. Usado internamente no SENAI.</p>
+          <div class="card-techs"><span class="tech-chip">Python</span><span class="tech-chip">pandas</span><span class="tech-chip">openpyxl</span><span class="tech-chip">reportlab</span><span class="tech-chip">schedule</span></div>
+        </div>
+        <div class="card-footer">
+          <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
+          <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 5 — Task Manager App (JavaScript) | status: live
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="js" data-status="live">
+        <div class="card-bar bar-js"></div>
+        <div class="card-carousel" data-images='[
+          "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
+          "COLOQUE_A_URL_DA_IMAGEM_2_AQUI"
+        ]' data-badge="badge-js" data-badge-text="JavaScript">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p5_title">Task Manager App</h3>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p5_desc">Aplicação de gerenciamento de tarefas com drag-and-drop, filtros por status, persistência em localStorage e modo escuro. 100% Vanilla JS, sem dependências.</p>
+          <div class="card-techs"><span class="tech-chip">JavaScript</span><span class="tech-chip">DOM API</span><span class="tech-chip">LocalStorage</span><span class="tech-chip">Drag &amp; Drop</span></div>
+        </div>
+        <div class="card-footer">
+          <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
+          <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 6 — Weather App (JavaScript) | status: live
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="js" data-status="live">
+        <div class="card-bar bar-js"></div>
+        <div class="card-carousel" data-images='[
+          "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
+          "COLOQUE_A_URL_DA_IMAGEM_2_AQUI"
+        ]' data-badge="badge-js" data-badge-text="JavaScript">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p6_title">Weather App</h3>
+            <div class="card-status-group">
+              <span class="card-status status-live"><span class="status-dot"></span><span data-i18n="status_live">Live</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p6_desc">App de previsão do tempo que consome a API OpenWeatherMap, exibe condições atuais, previsão de 5 dias e troca de unidades °C/°F em tempo real.</p>
+          <div class="card-techs"><span class="tech-chip">JavaScript</span><span class="tech-chip">Fetch API</span><span class="tech-chip">OpenWeather</span><span class="tech-chip">Async/Await</span></div>
+        </div>
+        <div class="card-footer">
+          <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
+          <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 7 — Finance Tracker (React) | status: wip
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="react" data-status="wip">
+        <div class="card-bar bar-react"></div>
+        <div class="card-carousel" data-images='[
+          "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
+          "COLOQUE_A_URL_DA_IMAGEM_2_AQUI"
+        ]' data-badge="badge-react" data-badge-text="React">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p7_title">Finance Tracker</h3>
+            <div class="card-status-group">
+              <span class="card-status status-wip"><span class="status-dot"></span><span data-i18n="status_wip">Em andamento</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p7_desc">App de controle financeiro pessoal com categorização de despesas, gráficos interativos de gastos por mês e exportação para CSV. Construído com React + Recharts.</p>
+          <div class="card-techs"><span class="tech-chip">React</span><span class="tech-chip">Hooks</span><span class="tech-chip">Recharts</span><span class="tech-chip">Context API</span><span class="tech-chip">Vite</span></div>
+        </div>
+        <div class="card-footer">
+          <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
+          <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════
+           PROJETO 8 — Kanban Board (React) | status: study
+           ═══════════════════════════════════════════════ -->
+      <div class="project-card" data-cat="react" data-status="study">
+        <div class="card-bar bar-react"></div>
+        <div class="card-carousel" data-images='[
+          "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
+          "COLOQUE_A_URL_DA_IMAGEM_2_AQUI"
+        ]' data-badge="badge-react" data-badge-text="React">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-title" data-i18n="p8_title">Kanban Board</h3>
+            <div class="card-status-group">
+              <span class="card-status status-study"><span class="status-dot"></span><span data-i18n="status_study">Estudo</span></span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="p8_desc">Quadro kanban com colunas customizáveis, drag-and-drop entre colunas, tags coloridas por prioridade e persistência em localStorage. Inspirado no Trello.</p>
+          <div class="card-techs"><span class="tech-chip">React</span><span class="tech-chip">DnD Kit</span><span class="tech-chip">Tailwind</span><span class="tech-chip">LocalStorage</span></div>
+        </div>
+        <div class="card-footer">
+          <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
+          <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
+        </div>
+      </div>
+
+      <div class="empty-state" id="emptyState">
+        <p data-i18n="empty_msg">Nenhum projeto encontrado nessa categoria ainda. 🌱</p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr/>
+
+</div>
+  <script src="/js/about-me/projects.js"></script>
+  <script src="/js/carousel.js"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Lucilia Rosa</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/about-me/dev-area.css">
+    <link rel="stylesheet" href="/css/hero.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/carousel.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-brand">Lucilia Rosa | Software Developer</a>
+  <div class="nav-links">
+    <a href="../index.html" class="nav-link" data-i18n="nav_home">Home</a>
+    <span class="nav-sep"></span>
+    <a href="about-me.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
+    <a href="projects.html" class="nav-link" data-i18n="nav_projects">Projetos</a>
+    <a href="dev-area.html" class="nav-link active" data-i18n="nav_areas">Frontend · Backend · Fullstack</a>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇨🇦 EN</button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// conceitos essenciais · desenvolvimento web</p>
+    <h1 class="article-title" data-i18n="article_title">Frontend, Backend<br>&amp; Fullstack —<br><span style="font-size:.6em;font-style:italic;color:var(--ink3);">O que é cada área e como se conectam</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-blue">Dev Concepts</span>
+      <span class="tag tag-gray" data-i18n="tag_level">Iniciante</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="meta_sub">Guia completo para entender as áreas do dev</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_intro">A grande divisão do desenvolvimento web</p>
+    <div class="info">
+      <p data-i18n="intro_p1">Quando falamos em desenvolvimento web, tudo que existe num site ou aplicação pode ser dividido em duas grandes partes: <strong>o que o usuário vê</strong> (Frontend) e <strong>o que acontece nos bastidores</strong> (Backend). Quem trabalha com as duas é chamado de <strong>Fullstack</strong>.</p>
+      <p data-i18n="intro_p2">Entender essa divisão é fundamental — tanto para escolher seu caminho de carreira quanto para trabalhar em equipe e entender o que cada pessoa faz no projeto.</p>
+    </div>
+    <div class="quote">
+      <p data-i18n="intro_quote">"Se o desenvolvimento web fosse um restaurante: o Frontend seria o salão, a decoração e o cardápio — tudo que o cliente vê. O Backend seria a cozinha — onde o trabalho real acontece, mas o cliente nunca vê."</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_areas">As três áreas explicadas</p>
+    <div class="areas-grid">
+      <div class="area-card ac-front">
+        <div class="ac-top">
+          <div class="ac-icon">🎨</div>
+          <div class="ac-tag" data-i18n="front_tag">Lado do cliente</div>
+          <div class="ac-name">Frontend</div>
+          <div class="ac-desc" data-i18n="front_desc">Tudo que o usuário vê e interage diretamente — botões, formulários, animações, layout, cores.</div>
+        </div>
+        <div class="ac-body">
+          <h4 data-i18n="techs_title">Tecnologias</h4>
+          <ul>
+            <li><span class="tech-pill">HTML</span> <span data-i18n="front_t1">estrutura do conteúdo</span></li>
+            <li><span class="tech-pill">CSS</span> <span data-i18n="front_t2">estilo e layout</span></li>
+            <li><span class="tech-pill">JavaScript</span> <span data-i18n="front_t3">interatividade</span></li>
+            <li><span class="tech-pill">React</span> <span data-i18n="front_t4">interfaces modernas</span></li>
+            <li><span class="tech-pill">Vue / Angular</span> <span data-i18n="front_t5">outros frameworks</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="area-card ac-back">
+        <div class="ac-top">
+          <div class="ac-icon">⚙️</div>
+          <div class="ac-tag" data-i18n="back_tag">Lado do servidor</div>
+          <div class="ac-name">Backend</div>
+          <div class="ac-desc" data-i18n="back_desc">A lógica de negócio, banco de dados, autenticação e APIs — o motor que faz tudo funcionar.</div>
+        </div>
+        <div class="ac-body">
+          <h4 data-i18n="techs_title">Tecnologias</h4>
+          <ul>
+            <li><span class="tech-pill">Python</span> <span data-i18n="back_t1">Django, FastAPI, Flask</span></li>
+            <li><span class="tech-pill">Node.js</span> <span data-i18n="back_t2">JavaScript no servidor</span></li>
+            <li><span class="tech-pill">SQL</span> <span data-i18n="back_t3">banco de dados</span></li>
+            <li><span class="tech-pill">APIs REST</span> <span data-i18n="back_t4">comunicação com o front</span></li>
+            <li><span class="tech-pill">Java / C#</span> <span data-i18n="back_t5">linguagens enterprise</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="area-card ac-full">
+        <div class="ac-top">
+          <div class="ac-icon">🔀</div>
+          <div class="ac-tag" data-i18n="full_tag">Os dois lados</div>
+          <div class="ac-name">Fullstack</div>
+          <div class="ac-desc" data-i18n="full_desc">Trabalha tanto no frontend quanto no backend. Consegue desenvolver uma aplicação completa sozinho.</div>
+        </div>
+        <div class="ac-body">
+          <h4 data-i18n="techs_title">Tecnologias</h4>
+          <ul>
+            <li><span class="tech-pill">React + Node</span> <span data-i18n="full_t1">stack JavaScript completa</span></li>
+            <li><span class="tech-pill">Python + React</span> <span data-i18n="full_t2">combo muito popular</span></li>
+            <li><span class="tech-pill">Next.js</span> <span data-i18n="full_t3">framework fullstack</span></li>
+            <li><span class="tech-pill">SQL / NoSQL</span> <span data-i18n="full_t4">banco de dados</span></li>
+            <li><span class="tech-pill">Git + Deploy</span> <span data-i18n="full_t5">versionamento e entrega</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_relation">Como as camadas se comunicam</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <p data-i18n="relation_p">Num sistema web, as três camadas conversam em sequência. O usuário interage com o <strong>Frontend</strong>, que faz requisições para o <strong>Backend</strong>, que consulta o <strong>Banco de Dados</strong> e devolve a resposta.</p>
+    </div>
+    <div class="relation-diagram">
+      <div class="rd-layers">
+        <div class="rd-layer rd-layer-front">
+          <div class="rd-icon">🖥️</div>
+          <div><div class="rd-label">Frontend</div><div class="rd-sub" data-i18n="rd_front_sub">Roda no navegador do usuário</div></div>
+          <div class="rd-tech"><span class="tech-pill">HTML</span><span class="tech-pill">CSS</span><span class="tech-pill">JavaScript</span><span class="tech-pill">React</span></div>
+        </div>
+        <div class="rd-arrow">⬇️ <span style="font-size:11px;color:var(--ink4);" data-i18n="rd_arrow1">requisição HTTP / API</span> ⬆️</div>
+        <div class="rd-layer rd-layer-back">
+          <div class="rd-icon">⚙️</div>
+          <div><div class="rd-label">Backend</div><div class="rd-sub" data-i18n="rd_back_sub">Roda no servidor</div></div>
+          <div class="rd-tech"><span class="tech-pill">Python</span><span class="tech-pill">Node.js</span><span class="tech-pill">APIs</span></div>
+        </div>
+        <div class="rd-arrow">⬇️ <span style="font-size:11px;color:var(--ink4);" data-i18n="rd_arrow2">query SQL / consulta</span> ⬆️</div>
+        <div class="rd-layer rd-layer-db">
+          <div class="rd-icon">🗄️</div>
+          <div><div class="rd-label" data-i18n="rd_db_label">Banco de Dados</div><div class="rd-sub" data-i18n="rd_db_sub">Armazena os dados</div></div>
+          <div class="rd-tech"><span class="tech-pill">PostgreSQL</span><span class="tech-pill">MySQL</span><span class="tech-pill">MongoDB</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tip">
+      <p data-i18n="relation_tip">💡 <strong>Exemplo prático:</strong> quando você faz login num site, o Frontend envia seu email e senha para o Backend via API. O Backend consulta o Banco de Dados para verificar suas credenciais e retorna um token de autenticação para o Frontend exibir sua conta.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_compare">Comparativo das áreas</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th data-i18n="col_aspect">Aspecto</th>
+          <th><span class="badge-front">Frontend</span></th>
+          <th><span class="badge-back">Backend</span></th>
+          <th><span class="badge-full">Fullstack</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td data-i18n="cmp1_label">Foco</td><td data-i18n="cmp1_front">Interface e experiência do usuário</td><td data-i18n="cmp1_back">Lógica, dados e segurança</td><td data-i18n="cmp1_full">Visão completa do sistema</td></tr>
+        <tr><td data-i18n="cmp2_label">Onde roda</td><td data-i18n="cmp2_front">Navegador do usuário</td><td data-i18n="cmp2_back">Servidor / cloud</td><td data-i18n="cmp2_full">Nos dois ambientes</td></tr>
+        <tr><td data-i18n="cmp3_label">Linguagens</td><td data-i18n="cmp3_front">HTML, CSS, JavaScript</td><td data-i18n="cmp3_back">Python, Java, Node.js, C#</td><td data-i18n="cmp3_full">Combina os dois lados</td></tr>
+        <tr><td data-i18n="cmp4_label">Vê resultado</td><td data-i18n="cmp4_front">Imediatamente na tela</td><td data-i18n="cmp4_back">Via logs, APIs e testes</td><td data-i18n="cmp4_full">De ponta a ponta</td></tr>
+        <tr><td data-i18n="cmp5_label">Habilidades extras</td><td data-i18n="cmp5_front">Design, UX, responsividade</td><td data-i18n="cmp5_back">Banco de dados, segurança, DevOps</td><td data-i18n="cmp5_full">Gestão de projeto, arquitetura</td></tr>
+        <tr><td data-i18n="cmp6_label">Curva de aprendizado</td><td data-i18n="cmp6_front">Resultados visuais rápidos</td><td data-i18n="cmp6_back">Mais abstrato no início</td><td data-i18n="cmp6_full">Mais longa, mais ampla</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_career">Qual caminho escolher?</p>
+    <div class="career-grid">
+      <div class="career-card">
+        <div class="cc-icon">🎨</div>
+        <h3 data-i18n="car1_h">Escolha Frontend se...</h3>
+        <p data-i18n="car1_p">Você gosta de ver resultado visual imediato, tem interesse em design e experiência do usuário, e quer criar interfaces bonitas e acessíveis.</p>
+        <div class="cc-tip" data-i18n="car1_tip">💡 Comece com HTML + CSS + JavaScript. Depois aprenda React ou Vue.</div>
+      </div>
+      <div class="career-card">
+        <div class="cc-icon">⚙️</div>
+        <h3 data-i18n="car2_h">Escolha Backend se...</h3>
+        <p data-i18n="car2_p">Você gosta de resolver problemas lógicos, trabalhar com dados, criar sistemas robustos e não se importa de trabalhar sem uma interface visual direta.</p>
+        <div class="cc-tip" data-i18n="car2_tip">💡 Comece com Python + SQL. Depois aprenda um framework como Django ou FastAPI.</div>
+      </div>
+      <div class="career-card">
+        <div class="cc-icon">🔀</div>
+        <h3 data-i18n="car3_h">Escolha Fullstack se...</h3>
+        <p data-i18n="car3_p">Você quer entender o sistema como um todo, trabalhar em startups ou projetos menores, ou ter a flexibilidade de atuar em qualquer parte do projeto.</p>
+        <div class="cc-tip" data-i18n="car3_tip">💡 Domine uma área primeiro antes de expandir para o outro lado.</div>
+      </div>
+      <div class="career-card">
+        <div class="cc-icon">✨</div>
+        <h3 data-i18n="car4_h">E a Lucilia?</h3>
+        <p data-i18n="car4_p">Comecei pelas redes, migrei para o Backend com Python e SQL, e fui expandindo para o Frontend com HTML, CSS e JavaScript — me tornando Fullstack naturalmente.</p>
+        <div class="cc-tip" data-i18n="car4_tip">💡 Não existe caminho certo. O melhor é aquele que faz sentido pra você.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- RECOMENDAÇÕES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_rec">Onde estudar — minhas indicações</p>
+    <div class="info" style="margin-bottom:1.5rem;">
+      <p data-i18n="rec_intro">Estudar tecnologia por conta própria exige boas fontes. Essas são as duas plataformas que eu indico com convicção — cada uma para um perfil e momento diferente.</p>
+    </div>
+
+    <div class="rec-grid">
+
+      <!-- ALURA -->
+      <div class="rec-card rec-alura">
+        <div class="rec-top">
+          <div class="rec-logo">A<span>lura</span></div>
+          <div class="rec-tag" data-i18n="rec_alura_tag">Para quem está começando ou quer evoluir no dia a dia</div>
+          <p class="rec-desc" data-i18n="rec_alura_desc">A maior plataforma de tecnologia do Brasil. Cursos práticos, didáticos e sempre atualizados — do HTML básico ao Machine Learning. Eu uso e recomendo de verdade.</p>
+        </div>
+        <div class="rec-body">
+          <span class="rec-badge-discount" data-i18n="rec_alura_badge">Desconto com meu link de indicação</span>
+          <ul class="rec-pros">
+            <li data-i18n="rec_alura_p1">Trilhas completas por área: Frontend, Backend, Data Science, DevOps</li>
+            <li data-i18n="rec_alura_p2">Cursos em português, bem didáticos e com projetos práticos</li>
+            <li data-i18n="rec_alura_p3">Sempre tem promoção — com meu link o desconto é garantido</li>
+            <li data-i18n="rec_alura_p4">Certificados reconhecidos pelo mercado</li>
+            <li data-i18n="rec_alura_p5">Acesso a toda a plataforma com uma assinatura só</li>
+          </ul>
+          <div class="rec-note" data-i18n="rec_alura_note">💬 <strong>Minha opinião:</strong> perfeita para quem quer aprender no próprio ritmo, com conteúdo de qualidade e sem gastar muito. Ideal para complementar a grade de uma faculdade ou para quem está migrando de área.</div>
+          <a href="https://www.alura.com.br/indica-dev/luciliarosa" target="_blank" class="rec-btn">
+            <span data-i18n="rec_alura_btn">Acessar com desconto</span>
+          </a>
+          <p class="rec-disclaimer" data-i18n="rec_disclaimer">* link de indicação — você ganha desconto e me apoia 🤍</p>
+        </div>
+      </div>
+
+      <!-- FIAP -->
+      <div class="rec-card rec-fiap">
+        <div class="rec-top">
+          <div class="rec-logo">FI<span>AP</span></div>
+          <div class="rec-tag" data-i18n="rec_fiap_tag">Para quem quer formação premium com foco no mercado</div>
+          <p class="rec-desc" data-i18n="rec_fiap_desc">Uma das faculdades de tecnologia mais respeitadas. Metodologia mão na massa e network de alto nível. É um investimento — e vale cada centavo.</p>
+        </div>
+        <div class="rec-body">
+          <span class="rec-badge-premium" data-i18n="rec_fiap_badge">Ensino premium · Investimento alto · Vale muito</span>
+          <ul class="rec-pros">
+            <li data-i18n="rec_fiap_p1">Metodologia 100% prática — você aprende fazendo projetos reais</li>
+            <li data-i18n="rec_fiap_p2">Professores atuantes no mercado de trabalho, não só acadêmicos</li>
+            <li data-i18n="rec_fiap_p3">Network poderoso — alunos e ex-alunos em grandes empresas</li>
+            <li data-i18n="rec_fiap_p4">Cursos de graduação, pós e MBAs reconhecidos</li>
+            <li data-i18n="rec_fiap_p5">Parceria com empresas como IBM, Oracle e Microsoft</li>
+          </ul>
+          <div class="rec-note" data-i18n="rec_fiap_note">💬 <strong>Minha opinião:</strong> não fiz FIAP, mas acompanho de perto quem fez e o nível é outro. Se você tem condições de investir em uma formação mais robusta, é uma das melhores escolhas que você pode fazer na área de tech.</div>
+          <a href="https://www.fiap.com.br" target="_blank" class="rec-btn">
+            <span data-i18n="rec_fiap_btn">Conhecer a FIAP</span>
+          </a>
+          <p class="rec-disclaimer" data-i18n="rec_disclaimer">🤍</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+</div>
+  <script src="/js/about-me/dev-area.js"></script>
+  <script src="/js/carousel.js"></script>
+</body>
+</html>
