@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <title>JS Básico — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --js:#ca8a04; --js-bg:#fefce8; --js-border:#fde047;
+      --shadow:0 2px 12px rgba(28,25,23,.08);
+      --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;
+      --font-serif:'Lora',serif;
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:var(--font-body);
+      background:var(--paper); color:var(--ink);
+      min-height:100vh;
+      background-image:repeating-linear-gradient(
+        transparent,transparent 31px,
+        rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px
+      );
+      background-attachment:fixed;
+    }
+
+    /* NAV */
+    .nav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(250,247,242,.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1.5px solid var(--rule);
+      padding:0 2rem;
+      display:flex; align-items:center;
+      height:56px; gap:0; width:100%;
+    }
+    .nav-brand {
+      font-family:var(--font-serif); font-size:16px; font-weight:600;
+      color:var(--ink); text-decoration:none;
+      display:flex; align-items:center; gap:8px;
+      margin-right:2rem; white-space:nowrap;
+    }
+    .nav-links { display:flex; align-items:center; gap:4px; flex:1; overflow-x:auto; }
+    .nav-links::-webkit-scrollbar { display:none; }
+    .nav-link {
+      font-size:13px; font-weight:600; color:var(--ink3);
+      text-decoration:none; padding:6px 12px; border-radius:6px;
+      transition:background .15s,color .15s; white-space:nowrap;
+    }
+    .nav-link:hover { background:var(--paper3); color:var(--ink); }
+    .nav-link.active { background:var(--ink); color:var(--paper); }
+    .nav-sep { width:1px; height:18px; background:var(--rule); margin:0 4px; flex-shrink:0; }
+
+    /* PAGE */
+    .page { max-width:800px; margin:0 auto; padding:0 1.5rem 5rem; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+      font-size:12px; color:var(--ink4); padding:16px 0 0;
+    }
+    .breadcrumb a { color:var(--ink3); text-decoration:none; }
+    .breadcrumb a:hover { color:var(--accent2); }
+
+    /* HERO */
+    .article-hero { padding:2rem 0 2.5rem; }
+    .article-eyebrow {
+      font-family:var(--font-mono); font-size:11px; color:var(--ink4);
+      letter-spacing:.06em; margin-bottom:10px;
+    }
+    .article-title {
+      font-family:var(--font-serif); font-size:clamp(26px,5vw,40px);
+      font-weight:600; line-height:1.2; color:var(--ink); margin-bottom:12px;
+    }
+    .article-meta { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .article-meta .dot { width:3px; height:3px; border-radius:50%; background:var(--ink4); }
+    .tag {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px;
+    }
+    .tag.js   { background:var(--js-bg); color:var(--js); border:1px solid var(--js-border); }
+    .tag.gray { background:var(--paper3); color:var(--ink3); }
+    .tag.green { background:#dcfce7; color:#166534; }
+
+    hr { border:none; border-top:1.5px solid var(--rule2); margin:2rem 0; }
+
+    /* SEC TITLE */
+    .sec-title {
+      font-size:11px; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--ink4); margin-bottom:14px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .sec-title::after { content:''; flex:1; height:1px; background:var(--rule2); }
+
+    /* CARDS */
+    .cards-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .cards-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .cards-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+
+    .card {
+      background:var(--paper);
+      border:1.5px solid var(--rule);
+      border-radius:var(--radius);
+      padding:16px 18px;
+    }
+    .card.blue   { border-left:4px solid #378ADD; }
+    .card.purple { border-left:4px solid #7F77DD; }
+    .card.teal   { border-left:4px solid #1D9E75; }
+    .card.amber  { border-left:4px solid #BA7517; }
+    .card.coral  { border-left:4px solid #D85A30; }
+    .card.green  { border-left:4px solid #639922; }
+    .card.yellow { border-left:4px solid var(--js); }
+    .card.rose   { border-left:4px solid #be185d; }
+    .card h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .card p  { font-size:12px; color:var(--ink2); line-height:1.65; }
+    .card ul { list-style:none; margin-top:8px; display:flex; flex-direction:column; gap:4px; }
+    .card ul li { font-size:12px; color:var(--ink2); display:flex; gap:6px; line-height:1.5; }
+    .card ul li::before { content:'›'; color:var(--js); font-weight:700; flex-shrink:0; }
+
+    /* BADGE */
+    .badge {
+      display:inline-block; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:20px; margin-bottom:8px;
+    }
+    .badge.blue   { background:#E6F1FB; color:#0C447C; }
+    .badge.purple { background:#EEEDFE; color:#3C3489; }
+    .badge.teal   { background:#E1F5EE; color:#085041; }
+    .badge.amber  { background:#FAEEDA; color:#854F0B; }
+    .badge.coral  { background:#FAECE7; color:#993C1D; }
+    .badge.green  { background:#EAF3DE; color:#27500A; }
+    .badge.yellow { background:var(--js-bg); color:var(--js); }
+    .badge.rose   { background:#fce7f3; color:#9d174d; }
+
+    /* ANALOGY */
+    .analogy {
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:18px 20px;
+      display:flex; gap:16px; align-items:flex-start;
+      box-shadow:var(--shadow);
+    }
+    .analogy-icon { font-size:28px; flex-shrink:0; padding-top:1px; }
+    .analogy h3 { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+    .analogy p  { font-size:12.5px; color:var(--ink2); line-height:1.65; }
+    .analogy p+p { margin-top:6px; }
+    .analogy code {
+      font-family:var(--font-mono); font-size:11px;
+      background:var(--paper2); padding:1px 5px; border-radius:3px; color:var(--js);
+    }
+
+    /* INFO */
+    .info {
+      background:var(--paper2); border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:16px 20px; margin-bottom:1rem;
+    }
+    .info p { font-size:13px; color:var(--ink2); line-height:1.75; }
+    .info p+p { margin-top:8px; }
+    .info strong { color:var(--ink); }
+    .info code {
+      font-family:var(--font-mono); font-size:12px;
+      background:#fff; padding:1px 5px; border-radius:3px; color:var(--accent2);
+    }
+
+    /* TIP */
+    .tip {
+      background:var(--js-bg); border:1.5px solid var(--js-border);
+      border-radius:var(--radius); padding:14px 18px; margin-bottom:1rem;
+    }
+    .tip p { font-size:13px; color:#713f12; line-height:1.7; }
+
+    /* WARN */
+    .warn {
+      background:#fef9c3; border:1.5px solid #fde047;
+      border-radius:var(--radius); padding:14px 18px; margin-bottom:1rem;
+    }
+    .warn p { font-size:13px; color:#713f12; line-height:1.7; }
+
+    /* TIMELINE */
+    .timeline { position:relative; padding-left:28px; }
+    .timeline::before {
+      content:''; position:absolute; left:7px; top:6px; bottom:6px;
+      width:2px;
+      background:linear-gradient(to bottom,#ca8a04,#2563a8,#1a7a50);
+    }
+    .tl-item { position:relative; margin-bottom:24px; }
+    .tl-item:last-child { margin-bottom:0; }
+    .tl-dot {
+      position:absolute; left:-24px; top:4px;
+      width:12px; height:12px; border-radius:50%; border:2px solid #fff;
+    }
+    .tl-dot.yellow { background:var(--js); box-shadow:0 0 0 2px var(--js-border); }
+    .tl-dot.blue   { background:var(--accent2); box-shadow:0 0 0 2px #93c5fd; }
+    .tl-dot.teal   { background:var(--accent3); box-shadow:0 0 0 2px #86efac; }
+    .tl-dot.amber  { background:#d97706; box-shadow:0 0 0 2px #fde047; }
+    .tl-period { font-family:var(--font-mono); font-size:11px; color:var(--ink4); margin-bottom:3px; }
+    .tl-title  { font-size:14px; font-weight:700; color:var(--ink); margin-bottom:3px; }
+    .tl-desc   { font-size:12px; color:var(--ink3); line-height:1.6; }
+
+    /* COMPARE TABLE */
+    .compare-table { width:100%; border-collapse:collapse; background:#fff; border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); margin-bottom:1.5rem; }
+    .compare-table th { background:var(--ink); color:var(--paper); font-size:11px; font-weight:700; padding:10px 14px; text-align:left; letter-spacing:.04em; }
+    .compare-table td { font-size:12.5px; padding:10px 14px; border-bottom:1px solid var(--rule2); color:var(--ink2); vertical-align:top; line-height:1.6; }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .compare-table tr:nth-child(even) td { background:var(--paper2); }
+    .compare-table td:first-child { font-weight:700; color:var(--ink); white-space:nowrap; font-family:var(--font-mono); font-size:12px; }
+
+    /* CODE */
+    .code-label {
+      font-family:var(--font-mono); font-size:10px; font-weight:500;
+      color:var(--ink4); margin-bottom:8px; letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .code-wrap {
+      background:#1e1c1a; border-radius:var(--radius);
+      padding:20px 22px; overflow-x:auto;
+      box-shadow:var(--shadow-lg); margin-bottom:1rem;
+    }
+    .code-wrap pre {
+      font-family:var(--font-mono); font-size:13px;
+      line-height:1.85; color:#e8e0d5; white-space:pre;
+    }
+    .kw  { color:#89b4fa; }
+    .cm  { color:#6c7086; }
+    .str { color:#a6e3a1; }
+    .fn  { color:#cba6f7; }
+    .vr  { color:#fab387; }
+    .nm  { color:#f9e2af; }
+    .op  { color:#cdd6f4; }
+    .tg  { color:#f38ba8; }  /* tag HTML */
+    .at  { color:#89dceb; }  /* atributo */
+
+    /* SUMMARY */
+    .summary {
+      background:var(--paper2); border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:20px 22px; margin-top:2rem;
+    }
+    .summary h3 { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:12px; }
+    .summary ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .summary li {
+      font-size:13px; color:var(--ink2); line-height:1.6;
+      display:flex; align-items:flex-start; gap:10px;
+    }
+    .summary li::before { content:'→'; color:var(--js); font-weight:700; flex-shrink:0; margin-top:1px; }
+
+    /* NAV PAGES */
+    .nav-pages { display:flex; gap:12px; margin-top:2.5rem; flex-wrap:wrap; }
+    .nav-page {
+      flex:1; min-width:200px;
+      background:#fff; border:1.5px solid var(--rule);
+      border-radius:var(--radius); padding:14px 18px;
+      text-decoration:none; color:var(--ink);
+      display:flex; flex-direction:column; gap:4px;
+      transition:transform .15s,box-shadow .15s;
+      box-shadow:var(--shadow);
+    }
+    .nav-page:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+    .nav-page .np-label { font-size:11px; color:var(--ink4); font-weight:700; }
+    .nav-page .np-title { font-size:14px; font-weight:700; color:var(--accent2); }
+
+    /* FADE */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .fade { animation:fadeUp .45s ease both; }
+
+    @media(max-width:600px){
+      .nav { padding:0 1rem; }
+      .page { padding:0 1rem 4rem; }
+      .cards-2 { grid-template-columns:1fr; }
+      .cards-3 { grid-template-columns:1fr; }
+      .cards-4 { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:380px){ .cards-4 { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../notebook.html#javascript" class="nav-link">JavaScript</a>
+    <a href="js-basico.html" class="nav-link active">JS Básico</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <nav class="breadcrumb fade">
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 01 · JavaScript · JS Básico</p>
+    <h1 class="article-title">JavaScript — história,<br>DOM, eventos e funções</h1>
+    <div class="article-meta">
+      <span class="tag js">JavaScript</span>
+      <span class="tag gray">Browser</span>
+      <span class="tag green">Fundamentos</span>
+      <span class="dot"></span>
+      <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr />
+
+  <!-- HISTÓRIA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">A história do JavaScript</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>JavaScript nasceu em <strong>1995</strong>, criado por <strong>Brendan Eich</strong> em apenas <strong>10 dias</strong> enquanto trabalhava na Netscape. O objetivo era simples: dar vida às páginas web — fazer botões funcionarem, validar formulários, criar interações sem precisar recarregar a página.</p>
+      <p>Originalmente chamado de <strong>Mocha</strong>, depois <strong>LiveScript</strong>, e só então renomeado para JavaScript — aproveitando a popularidade do Java na época. Apesar do nome, <strong>não tem nada a ver com Java</strong>. São linguagens completamente diferentes.</p>
+    </div>
+
+    <div class="timeline" style="margin-bottom:1.5rem">
+      <div class="tl-item">
+        <div class="tl-dot yellow"></div>
+        <p class="tl-period">1995</p>
+        <p class="tl-title">Brendan Eich cria o JavaScript</p>
+        <p class="tl-desc">Desenvolvido em 10 dias para o Netscape Navigator. Nasce como linguagem de script para o browser.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot blue"></div>
+        <p class="tl-period">1997</p>
+        <p class="tl-title">ECMAScript — a padronização</p>
+        <p class="tl-desc">O JavaScript é padronizado pela ECMA International como ECMAScript. A partir daí, todas as versões são chamadas de ES + número (ES5, ES6, ES2023...).</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot teal"></div>
+        <p class="tl-period">2009</p>
+        <p class="tl-title">Node.js — JS fora do browser</p>
+        <p class="tl-desc">Ryan Dahl lança o Node.js, permitindo rodar JavaScript no servidor. O JS deixa de ser exclusivo do browser e vai para o backend também.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot amber"></div>
+        <p class="tl-period">2015 — hoje</p>
+        <p class="tl-title">ES6+ — JavaScript moderno</p>
+        <p class="tl-desc">Arrow functions, classes, módulos, promises, async/await... O JS se torna uma linguagem madura e dominante. Hoje está em todo lugar: browser, servidor, mobile e desktop.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <p>⚡ <strong>Curiosidade:</strong> JavaScript é a única linguagem que roda nativamente em todos os browsers sem precisar instalar nada. É por isso que hoje é a linguagem mais usada no mundo — está em todo site que você acessa.</p>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- O QUE É JS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que o JavaScript faz na web</p>
+    <div class="info" style="margin-bottom:1.5rem">
+      <p>A web é construída em três camadas: <strong>HTML</strong> define a estrutura (o esqueleto), <strong>CSS</strong> define a aparência (a roupa), e <strong>JavaScript</strong> define o comportamento (os músculos). Sem JS, a página é estática — um documento que não reage a nada.</p>
+    </div>
+    <div class="cards-3" style="margin-bottom:1.5rem">
+      <div class="analogy">
+        <div class="analogy-icon">🦴</div>
+        <div>
+          <h3>HTML — estrutura</h3>
+          <p>Define o que existe na página: títulos, parágrafos, botões, imagens. É o esqueleto.</p>
+        </div>
+      </div>
+      <div class="analogy">
+        <div class="analogy-icon">👗</div>
+        <div>
+          <h3>CSS — aparência</h3>
+          <p>Define como cada elemento aparece: cor, tamanho, posição, animação visual.</p>
+        </div>
+      </div>
+      <div class="analogy">
+        <div class="analogy-icon">💪</div>
+        <div>
+          <h3>JavaScript — comportamento</h3>
+          <p>Define o que acontece quando o usuário interage: cliques, formulários, animações dinâmicas.</p>
+        </div>
+      </div>
+    </div>
+    <div class="cards-2">
+      <div class="card yellow">
+        <span class="badge yellow">JS pode...</span>
+        <h3>O que o JavaScript faz</h3>
+        <ul>
+          <li>Reagir a cliques, teclas e movimentos do mouse</li>
+          <li>Mostrar e esconder elementos da página</li>
+          <li>Validar formulários antes de enviar</li>
+          <li>Fazer requisições a APIs sem recarregar a página</li>
+          <li>Criar contadores, cronômetros e animações</li>
+          <li>Armazenar dados no navegador (localStorage)</li>
+        </ul>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Atenção</span>
+        <h3>O que JS não é</h3>
+        <ul>
+          <li>Não é Java — são linguagens completamente diferentes</li>
+          <li>Não é só para web — roda também no servidor (Node.js)</li>
+          <li>Não precisa de compilação — o browser interpreta direto</li>
+          <li>Não é uma linguagem fraca — é poderosa e tipada dinamicamente</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ONDE ESCREVER JS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Onde escrever JavaScript</p>
+    <div class="cards-3" style="margin-bottom:1rem">
+      <div class="card blue">
+        <span class="badge blue">Inline</span>
+        <h3>Diretamente na tag</h3>
+        <p>Usando atributos como <code style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:1px 4px;border-radius:3px;">onclick</code>. Funciona, mas não é recomendado para projetos maiores.</p>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">Internal</span>
+        <h3>Tag &lt;script&gt; no HTML</h3>
+        <p>Dentro de uma tag <code style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:1px 4px;border-radius:3px;">&lt;script&gt;</code> no próprio arquivo HTML. Bom para páginas simples.</p>
+      </div>
+      <div class="card yellow">
+        <span class="badge yellow">External</span>
+        <h3>Arquivo .js separado</h3>
+        <p>Arquivo externo linkado com <code style="font-family:var(--font-mono);font-size:11px;background:var(--paper2);padding:1px 4px;border-radius:3px;">src="script.js"</code>. Melhor prática — separa HTML do JS.</p>
+      </div>
+    </div>
+
+    <p class="code-label">as três formas na prática</p>
+    <div class="code-wrap">
+      <pre><span class="cm">&lt;!-- 1. Inline — evitar --&gt;</span>
+<span class="tg">&lt;button</span> <span class="at">onclick</span>=<span class="str">"alert('clicou!')"</span><span class="tg">&gt;</span>Clique<span class="tg">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- 2. Internal — dentro do HTML --&gt;</span>
+<span class="tg">&lt;script&gt;</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'olá do script interno'</span>);
+<span class="tg">&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- 3. External — arquivo separado (melhor prática) --&gt;</span>
+<span class="tg">&lt;script</span> <span class="at">src</span>=<span class="str">"script.js"</span><span class="tg">&gt;&lt;/script&gt;</span>
+
+<span class="cm">&lt;!-- ⚠️ Sempre coloque o script antes do &lt;/body&gt;
+     para garantir que o HTML já foi carregado --&gt;</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- VARIÁVEIS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Variáveis — var, let e const</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>Variável é um espaço na memória com um nome para guardar informação. No JavaScript moderno, usamos <strong><code>let</code></strong> e <strong><code>const</code></strong>. O <code>var</code> é o jeito antigo — ainda funciona, mas tem comportamentos confusos e é evitado.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Palavra-chave</th>
+          <th>Pode reatribuir?</th>
+          <th>Escopo</th>
+          <th>Quando usar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>var</td>
+          <td>✅ Sim</td>
+          <td>Função (confuso)</td>
+          <td>Não usar — legado</td>
+        </tr>
+        <tr>
+          <td>let</td>
+          <td>✅ Sim</td>
+          <td>Bloco { }</td>
+          <td>Valores que mudam</td>
+        </tr>
+        <tr>
+          <td>const</td>
+          <td>❌ Não</td>
+          <td>Bloco { }</td>
+          <td>Valores fixos (padrão)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="code-label">variáveis na prática</p>
+    <div class="code-wrap">
+      <pre><span class="cm">// const — valor não muda (use sempre que possível)</span>
+<span class="kw">const</span> <span class="vr">nome</span> = <span class="str">'Lucilia'</span>;
+<span class="kw">const</span> <span class="vr">idade</span> = <span class="nm">30</span>;
+<span class="kw">const</span> <span class="vr">ativo</span> = <span class="kw">true</span>;
+
+<span class="cm">// let — valor pode mudar</span>
+<span class="kw">let</span> <span class="vr">pontos</span> = <span class="nm">0</span>;
+<span class="vr">pontos</span> = <span class="nm">10</span>;   <span class="cm">// reatribuição ok</span>
+<span class="vr">pontos</span> <span class="op">+=</span> <span class="nm">5</span>;   <span class="cm">// pontos agora é 15</span>
+
+<span class="cm">// Tipos de dados</span>
+<span class="kw">const</span> <span class="vr">texto</span>   = <span class="str">'string — texto entre aspas'</span>;
+<span class="kw">const</span> <span class="vr">numero</span>  = <span class="nm">42</span>;           <span class="cm">// number — inteiro ou decimal</span>
+<span class="kw">const</span> <span class="vr">decimal</span> = <span class="nm">3.14</span>;
+<span class="kw">const</span> <span class="vr">ligado</span>  = <span class="kw">true</span>;         <span class="cm">// boolean</span>
+<span class="kw">const</span> <span class="vr">vazio</span>   = <span class="kw">null</span>;         <span class="cm">// null — sem valor intencional</span>
+<span class="kw">let</span>   <span class="vr">naodef</span>;                 <span class="cm">// undefined — não inicializada</span>
+
+<span class="cm">// Template literal — string com variável dentro</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Olá, ${<span class="vr">nome</span>}! Você tem ${<span class="vr">idade</span>} anos.`</span>);
+<span class="cm">// → Olá, Lucilia! Você tem 30 anos.</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- FUNÇÕES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Funções — definindo e chamando</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>Função é um bloco de código com nome que você escreve uma vez e chama várias vezes. Em JavaScript existem três formas principais de declarar funções.</p>
+    </div>
+
+    <p class="code-label">as três formas de declarar funções</p>
+    <div class="code-wrap" style="margin-bottom:1.5rem">
+      <pre><span class="cm">// 1. Function declaration — içamento (hoisting) automático</span>
+<span class="kw">function</span> <span class="fn">somar</span>(<span class="vr">a</span>, <span class="vr">b</span>) {
+  <span class="kw">return</span> <span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span>;
+}
+
+<span class="cm">// 2. Function expression — guardada em variável</span>
+<span class="kw">const</span> <span class="vr">multiplicar</span> = <span class="kw">function</span>(<span class="vr">a</span>, <span class="vr">b</span>) {
+  <span class="kw">return</span> <span class="vr">a</span> <span class="op">*</span> <span class="vr">b</span>;
+};
+
+<span class="cm">// 3. Arrow function (ES6) — forma moderna e curta</span>
+<span class="kw">const</span> <span class="vr">dividir</span> = (<span class="vr">a</span>, <span class="vr">b</span>) <span class="op">=&gt;</span> <span class="vr">a</span> <span class="op">/</span> <span class="vr">b</span>;
+
+<span class="cm">// Chamando as funções</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">somar</span>(<span class="nm">3</span>, <span class="nm">4</span>));         <span class="cm">// → 7</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">multiplicar</span>(<span class="nm">3</span>, <span class="nm">4</span>));  <span class="cm">// → 12</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">dividir</span>(<span class="nm">10</span>, <span class="nm">2</span>));     <span class="cm">// → 5</span></pre>
+    </div>
+
+    <p class="code-label">parâmetros, retorno e valor padrão</p>
+    <div class="code-wrap">
+      <pre><span class="cm">// Parâmetro com valor padrão</span>
+<span class="kw">function</span> <span class="fn">saudacao</span>(<span class="vr">nome</span> = <span class="str">'visitante'</span>) {
+  <span class="kw">return</span> <span class="str">`Olá, ${<span class="vr">nome</span>}!`</span>;
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">saudacao</span>(<span class="str">'Lucilia'</span>));  <span class="cm">// → Olá, Lucilia!</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">saudacao</span>());           <span class="cm">// → Olá, visitante!</span>
+
+<span class="cm">// Função sem retorno — só executa uma ação</span>
+<span class="kw">function</span> <span class="fn">mostrarMensagem</span>(<span class="vr">msg</span>) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'📢 '</span> <span class="op">+</span> <span class="vr">msg</span>);
+}
+
+<span class="fn">mostrarMensagem</span>(<span class="str">'Bem-vinda ao JavaScript!'</span>);</pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- DOM -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">DOM — Document Object Model</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>Quando o browser carrega uma página HTML, ele cria uma representação em memória chamada <strong>DOM</strong> — uma árvore de objetos onde cada tag HTML é um nó. O JavaScript acessa e modifica essa árvore, mudando o que aparece na tela <strong>sem recarregar a página</strong>.</p>
+    </div>
+    <div class="cards-2" style="margin-bottom:1.5rem">
+      <div class="analogy">
+        <div class="analogy-icon">🌳</div>
+        <div>
+          <h3>DOM é uma árvore</h3>
+          <p>O <code>document</code> é a raiz. Dentro dele tem o <code>&lt;html&gt;</code>, que tem <code>&lt;head&gt;</code> e <code>&lt;body&gt;</code>, que têm outros elementos — e assim vai formando galhos.</p>
+        </div>
+      </div>
+      <div class="analogy">
+        <div class="analogy-icon">🎭</div>
+        <div>
+          <h3>JS manipula o DOM</h3>
+          <p>Com JavaScript você pode: mudar texto, trocar cor, esconder elementos, adicionar classes CSS, criar novos elementos e removê-los — tudo em tempo real.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="code-label">selecionando elementos do DOM</p>
+    <div class="code-wrap" style="margin-bottom:1.5rem">
+      <pre><span class="cm">// Selecionando um elemento pelo ID</span>
+<span class="kw">const</span> <span class="vr">titulo</span> = <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'meu-titulo'</span>);
+
+<span class="cm">// Selecionando pelo seletor CSS (mais moderno e flexível)</span>
+<span class="kw">const</span> <span class="vr">botao</span>  = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">'#btn-salvar'</span>);
+<span class="kw">const</span> <span class="vr">card</span>   = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">'.card'</span>);       <span class="cm">// primeiro .card</span>
+<span class="kw">const</span> <span class="vr">todos</span>  = <span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">'.card'</span>);   <span class="cm">// todos os .card</span>
+
+<span class="cm">// Formas antigas (ainda funcionam)</span>
+<span class="fn">document</span>.<span class="fn">getElementsByClassName</span>(<span class="str">'card'</span>);
+<span class="fn">document</span>.<span class="fn">getElementsByTagName</span>(<span class="str">'p'</span>);</pre>
+    </div>
+
+    <p class="code-label">modificando elementos do DOM</p>
+    <div class="code-wrap">
+      <pre><span class="kw">const</span> <span class="vr">titulo</span> = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">'#titulo'</span>);
+
+<span class="cm">// Mudar o texto</span>
+<span class="vr">titulo</span>.<span class="at">textContent</span> = <span class="str">'Novo título!'</span>;
+
+<span class="cm">// Mudar o HTML interno (aceita tags)</span>
+<span class="vr">titulo</span>.<span class="at">innerHTML</span> = <span class="str">'Título com &lt;em&gt;itálico&lt;/em&gt;'</span>;
+
+<span class="cm">// Mudar estilos CSS</span>
+<span class="vr">titulo</span>.<span class="at">style</span>.<span class="at">color</span> = <span class="str">'#c84b31'</span>;
+<span class="vr">titulo</span>.<span class="at">style</span>.<span class="at">fontSize</span> = <span class="str">'24px'</span>;
+
+<span class="cm">// Adicionar e remover classes CSS</span>
+<span class="vr">titulo</span>.<span class="at">classList</span>.<span class="fn">add</span>(<span class="str">'destaque'</span>);
+<span class="vr">titulo</span>.<span class="at">classList</span>.<span class="fn">remove</span>(<span class="str">'oculto'</span>);
+<span class="vr">titulo</span>.<span class="at">classList</span>.<span class="fn">toggle</span>(<span class="str">'ativo'</span>);     <span class="cm">// adiciona ou remove</span>
+
+<span class="cm">// Ler e mudar atributos</span>
+<span class="vr">titulo</span>.<span class="fn">getAttribute</span>(<span class="str">'id'</span>);
+<span class="vr">titulo</span>.<span class="fn">setAttribute</span>(<span class="str">'data-valor'</span>, <span class="str">'42'</span>);</pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- EVENTOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Eventos — reagindo à interação do usuário</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>Evento é qualquer coisa que acontece na página: um clique, uma tecla pressionada, o mouse passando por cima de um elemento, a página terminando de carregar. O JavaScript <strong>escuta</strong> esses eventos e executa uma função quando eles acontecem.</p>
+    </div>
+
+    <div class="cards-4" style="margin-bottom:1.5rem">
+      <div class="card yellow">
+        <span class="badge yellow">Mouse</span>
+        <h3>Eventos de mouse</h3>
+        <ul>
+          <li><code style="font-family:var(--font-mono);font-size:10px">click</code> — clicou</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">dblclick</code> — duplo clique</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">mouseover</code> — passou o mouse</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">mouseout</code> — saiu o mouse</li>
+        </ul>
+      </div>
+      <div class="card blue">
+        <span class="badge blue">Teclado</span>
+        <h3>Eventos de teclado</h3>
+        <ul>
+          <li><code style="font-family:var(--font-mono);font-size:10px">keydown</code> — tecla pressionada</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">keyup</code> — tecla solta</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">keypress</code> — tecla digitada</li>
+        </ul>
+      </div>
+      <div class="card teal">
+        <span class="badge teal">Formulário</span>
+        <h3>Eventos de form</h3>
+        <ul>
+          <li><code style="font-family:var(--font-mono);font-size:10px">submit</code> — formulário enviado</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">change</code> — valor mudou</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">input</code> — digitando</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">focus</code> — campo ativo</li>
+        </ul>
+      </div>
+      <div class="card purple">
+        <span class="badge purple">Página</span>
+        <h3>Eventos da página</h3>
+        <ul>
+          <li><code style="font-family:var(--font-mono);font-size:10px">load</code> — página carregou</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">DOMContentLoaded</code> — DOM pronto</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">scroll</code> — rolou a página</li>
+          <li><code style="font-family:var(--font-mono);font-size:10px">resize</code> — janela redimensionada</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="code-label">addEventListener — a forma correta de escutar eventos</p>
+    <div class="code-wrap" style="margin-bottom:1.5rem">
+      <pre><span class="kw">const</span> <span class="vr">btn</span> = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">'#meu-botao'</span>);
+
+<span class="cm">// addEventListener(evento, função)</span>
+<span class="vr">btn</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Botão clicado!'</span>);
+});
+
+<span class="cm">// Com arrow function (mais moderno)</span>
+<span class="vr">btn</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () <span class="op">=&gt;</span> {
+  <span class="fn">alert</span>(<span class="str">'Olá!'</span>);
+});
+
+<span class="cm">// Usando o objeto de evento (e) para mais informações</span>
+<span class="fn">document</span>.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, (<span class="vr">e</span>) <span class="op">=&gt;</span> {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Tecla pressionada:'</span>, <span class="vr">e</span>.<span class="at">key</span>);
+});
+
+<span class="cm">// Evento de scroll</span>
+<span class="fn">window</span>.<span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, () <span class="op">=&gt;</span> {
+  <span class="kw">const</span> <span class="vr">btn</span> = <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'back-to-top'</span>);
+  <span class="vr">btn</span>.<span class="at">classList</span>.<span class="fn">toggle</span>(<span class="str">'visible'</span>, <span class="fn">window</span>.<span class="at">scrollY</span> <span class="op">&gt;</span> <span class="nm">400</span>);
+});</pre>
+    </div>
+
+    <p class="code-label">exemplo completo — botão que muda texto e cor</p>
+    <div class="code-wrap">
+      <pre><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tg">&lt;button</span> <span class="at">id</span>=<span class="str">"btn-tema"</span><span class="tg">&gt;</span>Ativar modo escuro<span class="tg">&lt;/button&gt;</span>
+<span class="tg">&lt;div</span> <span class="at">id</span>=<span class="str">"caixa"</span><span class="tg">&gt;</span>Conteúdo da página<span class="tg">&lt;/div&gt;</span>
+
+<span class="cm">// JavaScript</span>
+<span class="kw">const</span> <span class="vr">btn</span>  = <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'btn-tema'</span>);
+<span class="kw">const</span> <span class="vr">box</span>  = <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'caixa'</span>);
+<span class="kw">let</span>   <span class="vr">dark</span> = <span class="kw">false</span>;
+
+<span class="vr">btn</span>.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () <span class="op">=&gt;</span> {
+  <span class="vr">dark</span> = <span class="op">!</span><span class="vr">dark</span>;  <span class="cm">// inverte o valor</span>
+
+  <span class="vr">box</span>.<span class="at">style</span>.<span class="at">background</span> = <span class="vr">dark</span> ? <span class="str">'#1c1917'</span> : <span class="str">'#fff'</span>;
+  <span class="vr">box</span>.<span class="at">style</span>.<span class="at">color</span>      = <span class="vr">dark</span> ? <span class="str">'#faf7f2'</span> : <span class="str">'#1c1917'</span>;
+  <span class="vr">btn</span>.<span class="at">textContent</span>      = <span class="vr">dark</span> ? <span class="str">'Desativar modo escuro'</span> : <span class="str">'Ativar modo escuro'</span>;
+});</pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- CONSOLE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Console — seu melhor amigo no debug</p>
+    <div class="info" style="margin-bottom:1rem">
+      <p>O <strong>console do navegador</strong> (F12 → Console) é onde o JavaScript se comunica com você durante o desenvolvimento. É a ferramenta mais usada para testar, debugar e entender o que está acontecendo no código.</p>
+    </div>
+
+    <p class="code-label">os principais métodos do console</p>
+    <div class="code-wrap">
+      <pre><span class="cm">// Exibir valores — o mais usado</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'mensagem normal'</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="vr">variavel</span>, <span class="vr">outra</span>);      <span class="cm">// pode passar vários valores</span>
+
+<span class="cm">// Tipos de mensagem</span>
+<span class="fn">console</span>.<span class="fn">warn</span>(<span class="str">'atenção — amarelo'</span>);
+<span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'erro — vermelho'</span>);
+<span class="fn">console</span>.<span class="fn">info</span>(<span class="str">'informação — azul'</span>);
+
+<span class="cm">// Mostrar objeto formatado como tabela</span>
+<span class="kw">const</span> <span class="vr">usuarios</span> = [
+  { <span class="at">nome</span>: <span class="str">'Lucilia'</span>, <span class="at">idade</span>: <span class="nm">30</span> },
+  { <span class="at">nome</span>: <span class="str">'Vinicius'</span>, <span class="at">idade</span>: <span class="nm">32</span> }
+];
+<span class="fn">console</span>.<span class="fn">table</span>(<span class="vr">usuarios</span>);
+
+<span class="cm">// Medir tempo de execução</span>
+<span class="fn">console</span>.<span class="fn">time</span>(<span class="str">'minhaOperacao'</span>);
+<span class="cm">// ... código ...</span>
+<span class="fn">console</span>.<span class="fn">timeEnd</span>(<span class="str">'minhaOperacao'</span>);  <span class="cm">// ex: minhaOperacao: 3.2ms</span></pre>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- ERROS COMUNS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Erros comuns de quem está começando</p>
+    <div class="cards-2">
+      <div class="card coral">
+        <span class="badge coral">Erro 1</span>
+        <h3>Script antes do HTML</h3>
+        <p>Colocar o <code style="font-family:var(--font-mono);font-size:11px">&lt;script&gt;</code> no <code style="font-family:var(--font-mono);font-size:11px">&lt;head&gt;</code> faz o JS executar antes do HTML existir. O elemento não é encontrado e dá <code style="font-family:var(--font-mono);font-size:11px">null</code>. Sempre coloque antes do <code style="font-family:var(--font-mono);font-size:11px">&lt;/body&gt;</code>.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Erro 2</span>
+        <h3>= vs == vs ===</h3>
+        <p><code style="font-family:var(--font-mono);font-size:11px">=</code> atribui valor. <code style="font-family:var(--font-mono);font-size:11px">==</code> compara com conversão de tipo. <code style="font-family:var(--font-mono);font-size:11px">===</code> compara valor e tipo (use sempre esse). <code style="font-family:var(--font-mono);font-size:11px">'5' == 5</code> é <code>true</code>, mas <code style="font-family:var(--font-mono);font-size:11px">'5' === 5</code> é <code>false</code>.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Erro 3</span>
+        <h3>querySelector retorna null</h3>
+        <p>Se o seletor não encontra nada, retorna <code style="font-family:var(--font-mono);font-size:11px">null</code>. Tentar chamar um método em <code>null</code> gera <code style="font-family:var(--font-mono);font-size:11px">TypeError</code>. Verifique se o ID ou classe está correto no HTML.</p>
+      </div>
+      <div class="card coral">
+        <span class="badge coral">Erro 4</span>
+        <h3>Esquecer o addEventListener</h3>
+        <p>Usar <code style="font-family:var(--font-mono);font-size:11px">onclick</code> inline no HTML mistura comportamento com estrutura. Prefira sempre <code style="font-family:var(--font-mono);font-size:11px">addEventListener</code> no JavaScript — é mais organizado e permite múltiplos eventos.</p>
+      </div>
+    </div>
+    <div class="warn" style="margin-top:1rem">
+      <p>⚠️ <strong>Dica de debug:</strong> quando algo não funciona, abra o console do browser (F12) e leia a mensagem de erro. Ela diz exatamente o que aconteceu e em qual linha. A maioria dos erros de iniciante aparece ali.</p>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- RESUMO
+  <div class="summary fade">
+    <h3>📌 Resumo da aula</h3>
+    <ul>
+      <li>JavaScript foi criado em <strong>1995 por Brendan Eich</strong> em 10 dias. Não tem nada a ver com Java — o nome foi só marketing.</li>
+      <li>Na web, <strong>HTML estrutura, CSS estiliza e JS dá comportamento</strong>. Sem JS, a página não reage a nada.</li>
+      <li>Use <strong><code>const</code> por padrão</strong> e <code>let</code> quando o valor precisar mudar. Evite <code>var</code>.</li>
+      <li>Funções podem ser declaradas de três formas: <strong>function declaration</strong>, <strong>function expression</strong> e <strong>arrow function</strong>.</li>
+      <li>O <strong>DOM</strong> é a árvore de objetos que representa o HTML. JS acessa e modifica essa árvore com <code>querySelector</code>, <code>textContent</code>, <code>classList</code> e outros.</li>
+      <li>Use <strong><code>addEventListener</code></strong> para escutar eventos — cliques, teclas, scroll, formulários e mais.</li>
+      <li>O <strong>console</strong> (F12) é a ferramenta de debug mais importante. <code>console.log</code> é seu melhor amigo.</li>
+      <li>Sempre coloque o <code>&lt;script&gt;</code> <strong>antes do <code>&lt;/body&gt;</code></strong> para garantir que o HTML já existe quando o JS rodar.</li>
+    </ul>
+  </div> -->
+
+  <!-- NAV PAGES -->
+  <div class="nav-pages fade">
+    <a href="/notebook/notebook.html#javascript" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar para</span>
+      <span class="np-title">JavaScript</span>
+    </a>
+    <a href="js-moderno.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">JS Moderno — ES6+</span>
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

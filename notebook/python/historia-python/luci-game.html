@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>"/>
+  <title>Luci's Game - História & Ecossistema do Python</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #faf7f2; --paper2: #f3efe8; --paper3: #ede8df;
+      --ink: #1c1917; --ink2: #44403c; --ink3: #78716c; --ink4: #a8a29e;
+      --rule: rgba(28,25,23,.10); --rule2: rgba(28,25,23,.06);
+      --accent: #c84b31; --accent2: #2563a8; --accent3: #1a7a50;
+      --gold: #b45309; --gold-bg: #fffbeb; --gold-border: rgba(180,140,20,.25);
+      --shadow: 0 2px 12px rgba(28,25,23,.08);
+      --shadow-lg: 0 8px 32px rgba(28,25,23,.13);
+      --radius: 12px;
+      --font-body: 'Nunito', sans-serif;
+      --font-serif: 'Lora', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --easy: #1a7a50; --easy-bg: #f0fdf4; --easy-border: rgba(26,122,80,.2);
+      --mid: #b45309;  --mid-bg: #fffbeb;  --mid-border: rgba(180,140,20,.25);
+      --hard: #9d174d; --hard-bg: #fdf2f8; --hard-border: rgba(157,23,77,.2);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(28,25,23,.04) 31px, rgba(28,25,23,.04) 32px);
+      background-attachment: fixed;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,247,242,.93); backdrop-filter: blur(8px);
+      border-bottom: 1.5px solid var(--rule);
+      padding: 0 2rem; height: 56px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-brand { font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .nav-sep { width: 1px; height: 18px; background: var(--rule); }
+    .nav-back {
+      font-size: 12px; font-weight: 700; color: var(--ink3);
+      background: var(--paper2); border: 1.5px solid var(--rule); border-radius: 20px;
+      padding: 5px 14px; text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-back:hover { background: var(--paper3); color: var(--ink); }
+    .nav-score-display {
+      margin-left: auto; display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 12px; color: var(--ink3);
+    }
+    .nav-score-val { font-weight: 700; color: var(--accent2); font-size: 14px; }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 720px; margin: 0 auto;
+      padding: 3.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+      color: var(--ink4); letter-spacing: .06em;
+      background: var(--paper2); border: 1.5px solid var(--rule);
+      border-radius: 20px; padding: 4px 14px; margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: var(--font-serif); font-size: clamp(36px,7vw,58px);
+      font-weight: 600; line-height: 1.1; color: var(--ink);
+      margin-bottom: .6rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent2); }
+    .hero-sub { font-size: 15px; color: var(--ink3); line-height: 1.7; max-width: 440px; margin: 0 auto 2rem; }
+
+    /* level selector */
+    .level-pills {
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .level-pill {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+      padding: 7px 18px; border-radius: 20px; cursor: pointer; border: none;
+      transition: transform .15s, box-shadow .15s;
+      letter-spacing: .03em;
+    }
+    .level-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .level-pill.easy  { background: var(--easy-bg);  color: var(--easy);  border: 1.5px solid var(--easy-border); }
+    .level-pill.mid   { background: var(--mid-bg);   color: var(--mid);   border: 1.5px solid var(--mid-border); }
+    .level-pill.hard  { background: var(--hard-bg);  color: var(--hard);  border: 1.5px solid var(--hard-border); }
+    .level-pill.all   { background: var(--paper2);   color: var(--ink2);  border: 1.5px solid var(--rule); }
+    .level-pill.active { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .level-pill.easy.active  { background: var(--easy); color: #fff; border-color: var(--easy); }
+    .level-pill.mid.active   { background: var(--mid);  color: #fff; border-color: var(--mid); }
+    .level-pill.hard.active  { background: var(--hard); color: #fff; border-color: var(--hard); }
+    .level-pill.all.active   { background: var(--ink2); color: #fff; border-color: var(--ink2); }
+
+    /* ── GAME AREA ── */
+    .game-wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+    /* progress bar */
+    .progress-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .progress-track {
+      flex: 1; height: 6px; background: var(--paper3); border-radius: 99px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--accent2); border-radius: 99px;
+      transition: width .4s ease;
+    }
+    .progress-label { font-family: var(--font-mono); font-size: 11px; color: var(--ink4); white-space: nowrap; }
+
+    /* question card */
+    .q-card {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: slideIn .35s ease both;
+    }
+    @keyframes slideIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+
+    .q-header {
+      padding: 16px 22px 14px;
+      border-bottom: 1.5px solid var(--rule2);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .q-level-badge {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
+    }
+    .q-level-badge.easy { background: var(--easy-bg); color: var(--easy); border: 1px solid var(--easy-border); }
+    .q-level-badge.mid  { background: var(--mid-bg);  color: var(--mid);  border: 1px solid var(--mid-border); }
+    .q-level-badge.hard { background: var(--hard-bg); color: var(--hard); border: 1px solid var(--hard-border); }
+    .q-type-badge {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+      padding: 3px 10px; border-radius: 20px;
+      background: var(--paper2); color: var(--ink4); border: 1px solid var(--rule);
+    }
+    .q-num { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--ink4); }
+
+    .q-body { padding: 24px 22px 20px; }
+    .q-text {
+      font-family: var(--font-serif); font-size: 18px; line-height: 1.6;
+      color: var(--ink); margin-bottom: 22px;
+    }
+    .q-text code {
+      font-family: var(--font-mono); font-size: 15px;
+      background: var(--paper2); padding: 2px 7px; border-radius: 5px;
+      color: var(--accent2);
+    }
+
+    /* options */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option-btn {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 18px; border-radius: 10px;
+      border: 1.5px solid var(--rule);
+      background: var(--paper);
+      font-family: var(--font-body); font-size: 14px; font-weight: 600;
+      color: var(--ink2); cursor: pointer; text-align: left;
+      transition: border-color .15s, background .15s, transform .12s;
+    }
+    .option-btn:hover:not(:disabled) { border-color: var(--accent2); background: #f0f4ff; transform: translateX(4px); }
+    .option-btn .opt-letter {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--paper2); color: var(--ink4);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background .15s, color .15s;
+    }
+    .option-btn:hover:not(:disabled) .opt-letter { background: var(--accent2); color: #fff; }
+    .option-btn:disabled { cursor: default; }
+
+    /* true/false buttons */
+    .tf-options { display: flex; gap: 14px; }
+    .tf-btn {
+      flex: 1; padding: 18px; border-radius: 10px;
+      border: 1.5px solid var(--rule); background: var(--paper);
+      font-family: var(--font-body); font-size: 16px; font-weight: 800;
+      cursor: pointer; transition: all .15s; display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+    }
+    .tf-btn .tf-icon { font-size: 28px; }
+    .tf-btn.true-btn:hover:not(:disabled)  { border-color: var(--easy); background: var(--easy-bg); color: var(--easy); }
+    .tf-btn.false-btn:hover:not(:disabled) { border-color: var(--accent); background: #fff5f5; color: var(--accent); }
+    .tf-btn:disabled { cursor: default; }
+
+    /* result states */
+    .option-btn.correct, .tf-btn.correct {
+      border-color: var(--easy) !important; background: var(--easy-bg) !important;
+      color: var(--easy) !important; animation: pop .3s ease;
+    }
+    .option-btn.correct .opt-letter { background: var(--easy); color: #fff; }
+    .option-btn.wrong, .tf-btn.wrong {
+      border-color: var(--accent) !important; background: #fff5f5 !important;
+      color: var(--accent) !important; animation: shake .35s ease;
+    }
+    .option-btn.wrong .opt-letter { background: var(--accent); color: #fff; }
+    .option-btn.reveal { border-color: var(--easy) !important; background: var(--easy-bg) !important; color: var(--easy) !important; opacity: .65; }
+    .option-btn.reveal .opt-letter { background: var(--easy); color: #fff; }
+
+    @keyframes pop   { 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }
+    @keyframes shake { 0%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} 100%{transform:translateX(0)} }
+
+    /* feedback */
+    .feedback {
+      margin-top: 16px; padding: 14px 18px; border-radius: 10px;
+      font-size: 13px; font-weight: 600; line-height: 1.6;
+      display: none;
+    }
+    .feedback.show { display: block; animation: slideIn .25s ease; }
+    .feedback.ok  { background: var(--easy-bg); color: var(--easy); border: 1px solid var(--easy-border); }
+    .feedback.err { background: #fff5f5; color: var(--accent); border: 1px solid rgba(200,75,49,.2); }
+    .feedback-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+
+    /* footer actions */
+    .q-footer { padding: 16px 22px; border-top: 1.5px solid var(--rule2); display: flex; justify-content: flex-end; }
+    .next-btn {
+      padding: 10px 28px; border-radius: 20px;
+      background: var(--ink); color: #fff;
+      font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      border: none; cursor: pointer; display: none;
+      transition: background .15s, transform .12s;
+    }
+    .next-btn.show { display: inline-flex; align-items: center; gap: 6px; animation: slideIn .2s ease; }
+    .next-btn:hover { background: var(--ink2); transform: translateY(-1px); }
+
+    /* ── SCORE PANEL ── */
+    .score-panel {
+      background: #fff; border: 1.5px solid var(--rule);
+      border-radius: var(--radius); box-shadow: var(--shadow-lg);
+      padding: 3rem 2rem; text-align: center;
+      display: none; animation: slideIn .4s ease;
+    }
+    .score-panel.show { display: block; }
+    .score-trophy { font-size: 64px; margin-bottom: 1rem; }
+    .score-title { font-family: var(--font-serif); font-size: 32px; font-weight: 600; color: var(--ink); margin-bottom: .4rem; }
+    .score-title em { font-style: italic; color: var(--accent2); }
+    .score-subtitle { font-size: 14px; color: var(--ink3); margin-bottom: 2rem; }
+    .score-number {
+      font-family: var(--font-mono); font-size: 56px; font-weight: 700;
+      color: var(--accent2); line-height: 1; margin-bottom: .3rem;
+    }
+    .score-denom { font-family: var(--font-mono); font-size: 14px; color: var(--ink4); margin-bottom: 2rem; }
+
+    .score-breakdown {
+      display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .score-stat {
+      background: var(--paper2); border: 1px solid var(--rule);
+      border-radius: 10px; padding: 12px 20px; min-width: 100px;
+    }
+    .score-stat-val { font-family: var(--font-mono); font-size: 22px; font-weight: 700; }
+    .score-stat-val.green { color: var(--easy); }
+    .score-stat-val.red   { color: var(--accent); }
+    .score-stat-val.gold  { color: var(--gold); }
+    .score-stat-label { font-size: 11px; color: var(--ink4); font-weight: 600; margin-top: 2px; }
+
+    .score-msg {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 15px; color: var(--ink3); margin-bottom: 2rem;
+      padding: 16px 20px; background: var(--gold-bg);
+      border: 1px solid var(--gold-border); border-radius: 10px;
+    }
+
+    .score-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 12px 28px; border-radius: 20px;
+      background: var(--ink); color: #fff;
+      font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      border: none; cursor: pointer; transition: background .15s, transform .12s;
+    }
+    .btn-primary:hover { background: var(--ink2); transform: translateY(-2px); }
+    .btn-secondary {
+      padding: 12px 28px; border-radius: 20px;
+      background: var(--paper2); color: var(--ink2);
+      font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      border: 1.5px solid var(--rule); cursor: pointer; text-decoration: none;
+      transition: background .15s, transform .12s; display: inline-block;
+    }
+    .btn-secondary:hover { background: var(--paper3); transform: translateY(-2px); }
+
+    /* streak badge */
+    .streak-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .streak-dot {
+      width: 30px; height: 8px; border-radius: 99px; background: var(--paper3);
+      transition: background .3s;
+    }
+    .streak-dot.done-ok  { background: var(--easy); }
+    .streak-dot.done-err { background: var(--accent); }
+    .streak-dot.current  { background: var(--accent2); animation: pulse 1s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+    @media(max-width:600px) {
+      .nav { padding: 0 1rem; }
+      .hero { padding: 2.5rem 1rem 1.5rem; }
+      .game-wrap { padding: 0 1rem 4rem; }
+      .tf-options { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <span class="nav-sep"></span>
+  <a href="../../notebook.html#python" class="nav-back">← Python</a>
+  <div class="nav-score-display" id="navScore" style="display:none">
+    🏆 <span class="nav-score-val" id="navScoreVal">0</span> pts
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-badge">Mini-game · História & Ecossistema do python</div>
+  <h1>Python <em>Game</em></h1>
+  <p class="hero-sub">Teste o que você aprendeu sobre a história do Python, o Zen, as PEPs e o ecossistema da linguagem. Boa sorte! 🐍</p>
+
+  <div class="level-pills">
+    <button class="level-pill all active" onclick="setFilter('all')">Todas</button>
+    <button class="level-pill easy" onclick="setFilter('easy')">Fácil</button>
+    <button class="level-pill mid"  onclick="setFilter('mid')">Médio</button>
+    <button class="level-pill hard" onclick="setFilter('hard')">Difícil</button>
+  </div>
+</header>
+
+<div class="game-wrap">
+
+  <div class="progress-row" id="progressRow" style="display:none">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-label" id="progressLabel">0 / 0</span>
+  </div>
+
+  <div class="streak-row" id="streakRow"></div>
+
+  <div class="q-card" id="qCard" style="display:none">
+    <div class="q-header">
+      <span class="q-level-badge" id="qLevel"></span>
+      <span class="q-type-badge" id="qType"></span>
+      <span class="q-num" id="qNum"></span>
+    </div>
+    <div class="q-body">
+      <p class="q-text" id="qText"></p>
+      <div id="qOptions"></div>
+      <div class="feedback" id="feedback">
+        <div class="feedback-title" id="feedbackTitle"></div>
+        <div id="feedbackBody"></div>
+      </div>
+    </div>
+    <div class="q-footer">
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- start screen -->
+  <div id="startCard" style="text-align:center;padding:2rem 0">
+    <p style="font-family:var(--font-serif);font-style:italic;font-size:16px;color:var(--ink3);margin-bottom:1.5rem">
+      Selecione um nível acima ou jogue com todas as perguntas!
+    </p>
+    <button class="btn-primary" style="font-size:15px;padding:14px 36px" onclick="startGame()">
+      🎮 Começar jogo
+    </button>
+  </div>
+
+  <!-- score panel -->
+  <div class="score-panel" id="scorePanel">
+    <div class="score-trophy" id="scoreTrophy">🏆</div>
+    <h2 class="score-title" id="scoreTitle">Parabéns, <em>Lucilia!</em></h2>
+    <p class="score-subtitle" id="scoreSubtitle">Você completou o quiz!</p>
+    <div class="score-number" id="scoreNumber">0</div>
+    <div class="score-denom" id="scoreDenom">pontos</div>
+    <div class="score-breakdown">
+      <div class="score-stat">
+        <div class="score-stat-val green" id="statCorrect">0</div>
+        <div class="score-stat-label">✅ Acertos</div>
+      </div>
+      <div class="score-stat">
+        <div class="score-stat-val red" id="statWrong">0</div>
+        <div class="score-stat-label">❌ Erros</div>
+      </div>
+      <div class="score-stat">
+        <div class="score-stat-val gold" id="statPct">0%</div>
+        <div class="score-stat-label">🎯 Aproveitamento</div>
+      </div>
+    </div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <div class="score-actions">
+      <button class="btn-primary" onclick="restartGame()">Jogar novamente</button>
+      <a href="../../notebook.html#python" class="btn-secondary">Voltar ao caderno</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  BANCO DE QUESTÕES — Python História & Ecossistema
+// ═══════════════════════════════════════════
+const ALL_QUESTIONS = [
+
+  // ── FÁCIL ──────────────────────────────────
+  {
+    level: 'easy', type: 'mc',
+    text: 'Quem criou a linguagem Python?',
+    options: [
+      'Linus Torvalds',
+      'Guido van Rossum',
+      'James Gosling',
+      'Dennis Ritchie'
+    ],
+    answer: 1,
+    explanation: 'Python foi criado por Guido van Rossum, pesquisador holandês do CWI (Centrum Wiskunde & Informatica), durante o recesso de Natal de 1989. Linus criou o Linux, Gosling criou o Java e Ritchie criou o C.'
+  },
+  {
+    level: 'easy', type: 'tf',
+    text: 'O nome "Python" foi inspirado na cobra do mesmo nome.',
+    answer: false,
+    explanation: 'Falso! O nome foi inspirado no grupo de comédia britânico Monty Python. Guido estava lendo os roteiros do "Monty Python\'s Flying Circus" enquanto desenvolvia a linguagem. Por isso a documentação usa exemplos como spam e eggs em vez de foo e bar.'
+  },
+  {
+    level: 'easy', type: 'mc',
+    text: 'Em que ano o Python foi criado?',
+    options: ['1985', '1989', '1995', '2000'],
+    answer: 1,
+    explanation: 'Python começou a ser desenvolvido em dezembro de 1989, durante o recesso de Natal no CWI, na Holanda. A primeira versão pública (0.9.0) foi publicada em fevereiro de 1991 no USENET.'
+  },
+  {
+    level: 'easy', type: 'tf',
+    text: 'Python é uma linguagem de código aberto (open source) e gratuita.',
+    answer: true,
+    explanation: 'Verdadeiro! Python é open source e pode ser usado, modificado e distribuído livremente. A licença se chama PSF License (Python Software Foundation License) e é compatível com a GPL.'
+  },
+  {
+    level: 'easy', type: 'mc',
+    text: 'Qual comando revela o Zen do Python no terminal?',
+    options: [
+      'print(zen)',
+      'python --zen',
+      'import this',
+      'show zen'
+    ],
+    answer: 2,
+    explanation: 'Digitando "import this" no terminal Python, você vê o Zen do Python — os 19 aforismos filosóficos escritos por Tim Peters que guiam o design da linguagem, formalizados na PEP 20.'
+  },
+  {
+    level: 'easy', type: 'mc',
+    text: 'O que significa a sigla BDFL, título carregado por Guido van Rossum?',
+    options: [
+      'Big Data Framework Leader',
+      'Benevolent Dictator For Life',
+      'Best Developer For Linux',
+      'Bug-Driven Feature License'
+    ],
+    answer: 1,
+    explanation: 'BDFL significa "Benevolent Dictator For Life" (Ditador Benevolente Vitalício). Era o título dado a Guido como líder do Python, reconhecendo sua autoridade final nas decisões da linguagem. Ele se aposentou do cargo em 2018.'
+  },
+  {
+    level: 'easy', type: 'tf',
+    text: 'A documentação oficial do Python fica em docs.python.org.',
+    answer: true,
+    explanation: 'Verdadeiro! docs.python.org é o endereço oficial da documentação do Python, com tutorial, referência da linguagem, biblioteca padrão e FAQ. É considerada uma das melhores documentações de qualquer linguagem.'
+  },
+
+  // ── MÉDIO ──────────────────────────────────
+  {
+    level: 'mid', type: 'mc',
+    text: 'Qual linguagem influenciou diretamente a criação do Python, sendo sua "antecessora"?',
+    options: ['C++', 'Perl', 'ABC', 'BASIC'],
+    answer: 2,
+    explanation: 'O Python foi criado como sucessor do ABC — uma linguagem didática do CWI. Guido herdou coisas boas do ABC (indentação, tipos de alto nível, legibilidade) e corrigiu seu maior problema: a impossibilidade de extensão e integração com o sistema operacional.'
+  },
+  {
+    level: 'mid', type: 'tf',
+    text: 'O Python 3.0 era totalmente compatível com o código escrito em Python 2.',
+    answer: false,
+    explanation: 'Falso! O Python 3.0 (lançado em dezembro de 2008) foi uma revisão completamente incompatível com o Python 2. Código antigo não rodava na nova versão. A migração da comunidade levou mais de uma década, e o suporte ao Python 2 só encerrou em janeiro de 2020.'
+  },
+  {
+    level: 'mid', type: 'mc',
+    text: 'O que é uma PEP no contexto do Python?',
+    options: [
+      'Um tipo especial de erro de sintaxe',
+      'Uma proposta formal de melhoria para a linguagem',
+      'Um gerenciador de pacotes do Python',
+      'Um arquivo de configuração do ambiente virtual'
+    ],
+    answer: 1,
+    explanation: 'PEP significa Python Enhancement Proposal (Proposta de Melhoria do Python). É um documento formal que descreve uma mudança proposta, sua justificativa e detalhes técnicos. Toda melhoria importante ao Python passa por uma PEP.'
+  },
+  {
+    level: 'mid', type: 'mc',
+    text: 'Qual PEP define o guia oficial de estilo para código Python?',
+    options: ['PEP 8', 'PEP 20', 'PEP 257', 'PEP 484'],
+    answer: 0,
+    explanation: 'A PEP 8 é o guia oficial de estilo do Python. Define convenções de nomenclatura, indentação com 4 espaços, comprimento de linha, espaçamento e muito mais. É a "bíblia" do estilo de código Python.'
+  },
+  {
+    level: 'mid', type: 'tf',
+    text: 'O repositório oficial de pacotes Python onde o pip busca bibliotecas se chama PyPI.',
+    answer: true,
+    explanation: 'Verdadeiro! O PyPI (Python Package Index), em pypi.org, é o repositório oficial de pacotes Python. Conta com mais de 500 mil pacotes disponíveis. Quando você executa pip install alguma-coisa, o pip busca o pacote no PyPI.'
+  },
+  {
+    level: 'mid', type: 'mc',
+    text: 'Em que ano o suporte ao Python 2 foi oficialmente encerrado?',
+    options: ['2015', '2018', '2020', '2022'],
+    answer: 2,
+    explanation: 'O suporte ao Python 2 foi oficialmente encerrado em janeiro de 2020. O Python 2.7, lançado em 2010, foi a última versão da série 2.x e recebeu suporte por quase 10 anos — muito mais do que o planejado, devido à migração lenta da comunidade para o Python 3.'
+  },
+  {
+    level: 'mid', type: 'mc',
+    text: 'Qual foi a principal mudança no modelo de desenvolvimento trazida pelo Python 2.0 em 2000?',
+    options: [
+      'Adição de f-strings e type hints',
+      'Abertura do desenvolvimento para a comunidade, de forma colaborativa',
+      'Criação do pip e do PyPI',
+      'Adição do operador walrus :='
+    ],
+    answer: 1,
+    explanation: 'O Python 2.0 (2000) foi a primeira versão desenvolvida de forma realmente colaborativa e aberta. O código passou a ser hospedado publicamente e a comunidade ganhou voz nas decisões. Além disso, trouxe list comprehensions, suporte a Unicode e garbage collection com detecção de ciclos.'
+  },
+
+  // ── DIFÍCIL ────────────────────────────────
+  {
+    level: 'hard', type: 'mc',
+    text: 'Qual operador, adicionado no Python 3.8, gerou polêmica suficiente para Guido van Rossum deixar o cargo de BDFL?',
+    options: [
+      'O operador de exponenciação **',
+      'O operador de divisão inteira //',
+      'O operador walrus :=',
+      'O operador de desempacotamento *'
+    ],
+    answer: 2,
+    explanation: 'O operador walrus (:=), introduzido na PEP 572, permite atribuição dentro de expressões (ex: if n := len(a) > 10). A discussão acalorada na comunidade sobre sua adição fez Guido se sentir exausto e anunciar sua aposentadoria como BDFL em julho de 2018.'
+  },
+  {
+    level: 'hard', type: 'tf',
+    text: 'O CPython é a única implementação existente do Python.',
+    answer: false,
+    explanation: 'Falso! CPython é a implementação de referência (escrita em C), mas existem outras: PyPy (mais rápida, com compilação JIT), Jython (roda na JVM do Java), MicroPython (para microcontroladores e sistemas embarcados) e IronPython (para .NET), entre outras.'
+  },
+  {
+    level: 'hard', type: 'mc',
+    text: 'Segundo o Zen do Python (PEP 20), qual é a ordem correta dos princípios?',
+    options: [
+      '"Simples é melhor que complexo" vem antes de "Explícito é melhor que implícito"',
+      '"Legibilidade importa" vem antes de "Bonito é melhor que feio"',
+      '"Explícito é melhor que implícito" vem antes de "Simples é melhor que complexo"',
+      '"Plano é melhor que aninhado" é o primeiro princípio do Zen'
+    ],
+    answer: 2,
+    explanation: 'No Zen do Python: 01 - Bonito é melhor que feio. 02 - Explícito é melhor que implícito. 03 - Simples é melhor que complexo. 04 - Complexo é melhor que complicado. 05 - Plano é melhor que aninhado. A ordem importa — é um documento filosófico com hierarquia de valores.'
+  },
+  {
+    level: 'hard', type: 'mc',
+    text: 'Em que ano Python ultrapassou o JavaScript e se tornou a linguagem mais usada no GitHub?',
+    options: ['2019', '2021', '2023', '2024'],
+    answer: 3,
+    explanation: 'Em 2024, Python ultrapassou o JavaScript no GitHub, tornando-se a linguagem mais usada da plataforma após mais de 10 anos de domínio do JS. Antes disso, Python havia chegado ao 1º lugar no índice TIOBE em 2021.'
+  },
+  {
+    level: 'hard', type: 'tf',
+    text: 'A PEP 484 introduziu as anotações de tipo (type hints) no Python, tornando-o uma linguagem estaticamente tipada.',
+    answer: false,
+    explanation: 'Falso na segunda parte! A PEP 484 realmente introduziu as anotações de tipo (type hints) no Python 3.5, mas isso NÃO tornou o Python estaticamente tipado. As anotações são opcionais e não são verificadas em tempo de execução — o Python continua sendo dinamicamente tipado. Ferramentas como mypy verificam os tipos separadamente.'
+  },
+  {
+    level: 'hard', type: 'mc',
+    text: 'Qual foi o local e a forma como a primeira versão pública do Python (0.9.0) foi distribuída em 1991?',
+    options: [
+      'Publicada no GitHub como repositório open source',
+      'Distribuída em disquetes na conferência PyCon',
+      'Publicada no grupo alt.sources do USENET',
+      'Enviada por e-mail para uma lista de programadores do CWI'
+    ],
+    answer: 2,
+    explanation: 'Em fevereiro de 1991, Guido publicou o Python 0.9.0 no grupo alt.sources do USENET — a rede de discussão distribuída que existia antes da web moderna. O GitHub não existia; o USENET era o principal meio de distribuição de software da época.'
+  }
+];
+
+// ═══════════════════════════════════════════
+//  ESTADO DO JOGO
+// ═══════════════════════════════════════════
+let questions   = [];
+let current     = 0;
+let score       = 0;
+let correct     = 0;
+let wrong       = 0;
+let answered    = false;
+let filterLevel = 'all';
+let history     = [];
+
+const POINTS = { easy: 10, mid: 20, hard: 30 };
+
+function setFilter(level) {
+  filterLevel = level;
+  document.querySelectorAll('.level-pill').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.level-pill.${level === 'all' ? 'all' : level}`).classList.add('active');
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startGame() {
+  document.getElementById('startCard').style.display = 'none';
+  document.getElementById('scorePanel').classList.remove('show');
+
+  const pool = filterLevel === 'all'
+    ? ALL_QUESTIONS
+    : ALL_QUESTIONS.filter(q => q.level === filterLevel);
+
+  const easyQ = shuffle(pool.filter(q => q.level === 'easy'));
+  const midQ  = shuffle(pool.filter(q => q.level === 'mid'));
+  const hardQ = shuffle(pool.filter(q => q.level === 'hard'));
+  questions = [...easyQ, ...midQ, ...hardQ];
+
+  current = 0; score = 0; correct = 0; wrong = 0; history = [];
+
+  document.getElementById('navScore').style.display = 'flex';
+  document.getElementById('progressRow').style.display = 'flex';
+  document.getElementById('qCard').style.display = 'block';
+
+  updateStreak();
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (current >= questions.length) { showScore(); return; }
+  answered = false;
+
+  const q = questions[current];
+  const total = questions.length;
+
+  const pct = (current / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${current + 1} / ${total}`;
+
+  const lvlMap = { easy: '🌱 Fácil', mid: '🔥 Médio', hard: '⚡ Difícil' };
+  const lvlEl = document.getElementById('qLevel');
+  lvlEl.textContent = lvlMap[q.level];
+  lvlEl.className = 'q-level-badge ' + q.level;
+
+  document.getElementById('qType').textContent = q.type === 'mc' ? '🔘 Múltipla escolha' : '✅ Verdadeiro ou Falso';
+  document.getElementById('qNum').textContent = `#${current + 1}`;
+  document.getElementById('qText').innerHTML = q.text;
+
+  const optDiv = document.getElementById('qOptions');
+  optDiv.innerHTML = '';
+
+  if (q.type === 'mc') {
+    const letters = ['A', 'B', 'C', 'D'];
+    const wrap = document.createElement('div');
+    wrap.className = 'options';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
+      btn.onclick = () => answerMC(i);
+      wrap.appendChild(btn);
+    });
+    optDiv.appendChild(wrap);
+  } else {
+    const wrap = document.createElement('div');
+    wrap.className = 'tf-options';
+    ['true-btn', 'false-btn'].forEach((cls, i) => {
+      const val = i === 0;
+      const btn = document.createElement('button');
+      btn.className = `tf-btn ${cls}`;
+      btn.innerHTML = `<span class="tf-icon">${val ? '✅' : '❌'}</span><span>${val ? 'Verdadeiro' : 'Falso'}</span>`;
+      btn.onclick = () => answerTF(val);
+      wrap.appendChild(btn);
+    });
+    optDiv.appendChild(wrap);
+  }
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  document.getElementById('nextBtn').className = 'next-btn';
+
+  const card = document.getElementById('qCard');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = 'slideIn .35s ease both';
+}
+
+function answerMC(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const isCorrect = idx === q.answer;
+  const btns = document.querySelectorAll('.option-btn');
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.answer) btn.classList.add('correct');
+    else if (i === idx && !isCorrect) btn.classList.add('wrong');
+  });
+
+  showFeedback(isCorrect, q);
+}
+
+function answerTF(val) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const isCorrect = val === q.answer;
+  const btns = document.querySelectorAll('.tf-btn');
+
+  btns.forEach(btn => {
+    btn.disabled = true;
+    const btnVal = btn.classList.contains('true-btn');
+    if (btnVal === q.answer) btn.classList.add('correct');
+    else if (btnVal === val && !isCorrect) btn.classList.add('wrong');
+  });
+
+  showFeedback(isCorrect, q);
+}
+
+function showFeedback(isCorrect, q) {
+  if (isCorrect) {
+    score += POINTS[q.level]; correct++;
+    history.push('ok');
+  } else {
+    wrong++;
+    history.push('err');
+  }
+
+  document.getElementById('navScoreVal').textContent = score;
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'ok' : 'err');
+  document.getElementById('feedbackTitle').textContent = isCorrect
+    ? `✅ Correto! +${POINTS[q.level]} pontos`
+    : '❌ Não foi dessa vez...';
+  document.getElementById('feedbackBody').textContent = q.explanation;
+
+  document.getElementById('nextBtn').className = 'next-btn show';
+  updateStreak();
+}
+
+function nextQuestion() {
+  current++;
+  renderQuestion();
+}
+
+function updateStreak() {
+  const row = document.getElementById('streakRow');
+  const total = questions.length;
+  row.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    if (i < history.length) {
+      dot.className = 'streak-dot ' + (history[i] === 'ok' ? 'done-ok' : 'done-err');
+    } else if (i === history.length && history.length < total) {
+      dot.className = 'streak-dot current';
+    } else {
+      dot.className = 'streak-dot';
+    }
+    row.appendChild(dot);
+  }
+}
+
+function showScore() {
+  document.getElementById('qCard').style.display = 'none';
+  document.getElementById('progressRow').style.display = 'none';
+  document.getElementById('streakRow').style.display = 'none';
+
+  const total = questions.length;
+  const pct = Math.round((correct / total) * 100);
+
+  document.getElementById('scoreNumber').textContent = score;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statPct').textContent = pct + '%';
+
+  let trophy, title, msg;
+  if (pct === 100) {
+    trophy = '🏆'; title = 'Perfeito <em>!</em>';
+    msg = '"Você acertou tudo! Dominou a história do Python do início ao fim. Guido ficaria orgulhoso! 🐍"';
+  } else if (pct >= 80) {
+    trophy = '🌟'; title = 'Muito bem <em>!</em>';
+    msg = '"Excelente! Você conhece bem a história e o ecossistema do Python. Revise os que errou e vai para 100%!"';
+  } else if (pct >= 60) {
+    trophy = '💪'; title = 'Bom trabalho <em>!</em>';
+    msg = '"Você está no caminho certo! Revise as aulas de História e Ecossistema e tente novamente."';
+  } else if (pct >= 40) {
+    trophy = '📚'; title = 'Continue estudando <em>!</em>';
+    msg = '"Não desanime! Volte às aulas de Python e releia sobre o Zen, as PEPs e a história da linguagem."';
+  } else {
+    trophy = '🌱'; title = 'Vamos revisar mais <em>!</em>';
+    msg = '"A história do Python é rica! Volte às aulas, releia com calma e volte mais preparada. Você consegue!"';
+  }
+
+  document.getElementById('scoreTrophy').textContent = trophy;
+  document.getElementById('scoreTitle').innerHTML = title;
+  document.getElementById('scoreMsg').textContent = msg;
+
+  const panel = document.getElementById('scorePanel');
+  panel.classList.add('show');
+}
+
+function restartGame() {
+  document.getElementById('scorePanel').classList.remove('show');
+  document.getElementById('streakRow').style.display = 'flex';
+  startGame();
+}
+</script>
+</body>
+</html>

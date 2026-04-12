@@ -115,6 +115,18 @@
     .lesson-link .ll-badge { margin-left:auto; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; }
     .ll-badge.new{background:#fce7f3;color:#9d174d;} .ll-badge.done{background:#dcfce7;color:#166534;}
 
+    /* ── GAME BUTTON ── */
+    .sc-game-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 700;
+      padding: 5px 13px; border-radius: 20px;
+      background: #fce7f3; color: #9d174d;
+      border: 1.5px solid rgba(157,23,77,.25);
+      text-decoration: none;
+      transition: background .15s, transform .15s, color .15s, box-shadow .15s;
+    }
+    .sc-game-btn:hover { background: #9d174d; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(157,23,77,.25); }
+
     /* ── PINNED ── */
     .pinned { background:#fffbeb; border:1.5px solid rgba(180,140,20,.25); border-radius:var(--radius); padding:16px 20px; display:flex; gap:12px; align-items:flex-start; margin-bottom:2rem; }
     .pinned-icon { font-size:20px; flex-shrink:0; }
@@ -125,6 +137,8 @@
     .portfolio-banner { display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#f0f4ff,#faf7f2); border:1.5px solid rgba(37,99,168,.18); border-radius:var(--radius); padding:14px 20px; margin-bottom:2rem; text-decoration:none; color:inherit; transition:box-shadow .18s,transform .18s; }
     .portfolio-banner:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); }
     .pb-icon { font-size:24px; flex-shrink:0; }
+    .pb-photo { width:48px; height:48px; border-radius:50%; object-fit:cover; flex-shrink:0; border:2px solid rgba(37,99,168,.18); }
+    .pb-photo-placeholder { width:48px; height:48px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,var(--accent2),var(--accent3)); color:#fff; font-family:var(--font-serif); font-size:20px; font-weight:600; display:flex; align-items:center; justify-content:center; border:2px solid rgba(37,99,168,.18); }
     .pb-text { flex:1; }
     .pb-text strong { font-size:13px; font-weight:700; color:var(--ink); display:block; margin-bottom:2px; }
     .pb-text span { font-size:12px; color:var(--ink3); }
@@ -188,8 +202,9 @@
     </div>
   </div>
 
-  <a href="index.html" class="portfolio-banner fade-up">
-    <span class="pb-icon">🌸</span>
+  <a href="/index.html" class="portfolio-banner fade-up">
+    <img src="/img/lucilia.jpeg" alt="Foto da Lucilia" class="pb-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <span class="pb-photo-placeholder" style="display:none">L</span>
     <div class="pb-text">
       <strong data-i18n="banner_title">Quer ver meu portfólio?</strong>
       <span data-i18n="banner_desc">Projetos, skills e perfil profissional da Lucilia Rosa</span>
@@ -213,11 +228,11 @@
 
   <!-- LÓGICA DE PROGRAMAÇÃO -->
   <section id="logica" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label">🧠 Lógica de Programação<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('logica-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('logica-track',1)">›</button></span></p>
+    <p class="sec-label">Lógica de Programação<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('logica-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('logica-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="logica-track">
         <div class="subject-card fade-up" id="card-logica" data-search="lógica programação algoritmo variável condicional repetição função pseudocódigo fluxograma ada lovelace boole turing">
-          <div class="sc-header"><span class="sc-icon">🧠</span><span class="sc-arrow">→</span></div>
+          <div class="sc-header"><span class="sc-icon">🧠</span><a href="logica/luci-game.html" class="sc-game-btn">🎮 Game</a></div>
           <div class="sc-body"><p class="sc-name">Lógica de Programação</p><p class="sc-desc">História, conceitos fundamentais, pseudocódigo, fluxograma e como se aperfeiçoar.</p></div>
           <div class="sc-footer">
             <span class="sc-tag" style="background:#f3e8ff;color:#7e22ce;">Lógica</span>
@@ -234,12 +249,12 @@
 
   <!-- PYTHON -->
   <section id="python" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label">🐍 Python<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('py-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('py-track',1)">›</button></span></p>
+    <p class="sec-label">Python<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('py-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('py-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="py-track">
 
         <div class="subject-card fade-up" id="card-sobre" data-search="sobre python história linguagem guido van rossum ecossistema zen">
-          <div class="sc-header"><span class="sc-icon">🐍</span><span class="sc-arrow">→</span></div>
+          <div class="sc-header"><span class="sc-icon">🐍</span><span class="sc-arrow">→</span><a href="python/historia-python/luci-game.html" class="sc-game-btn">🎮 Game</a></div>
           <div class="sc-body"><p class="sc-name" data-i18n="py1_name">Sobre o Python</p><p class="sc-desc" data-i18n="py1_desc">A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.</p></div>
           <div class="sc-footer"><span class="sc-tag py">Python</span><button class="sc-toggle-btn" onclick="toggleCard('card-sobre',this)" data-i18n="btn_see">▼ ver aulas</button><span class="sc-count">2 <span data-i18n="lessons_word">aulas</span></span></div>
           <div class="lessons-panel">
@@ -292,7 +307,7 @@
 
   <!-- HTML & CSS -->
   <section id="htmlcss" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label">🌐 HTML &amp; 🎨 CSS<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('html-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('html-track',1)">›</button></span></p>
+    <p class="sec-label">HTML &amp; CSS<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('html-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('html-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="html-track">
 
@@ -322,20 +337,40 @@
 
   <!-- JAVASCRIPT -->
   <section id="javascript" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label">⚡ JavaScript<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('js-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('js-track',1)">›</button></span></p>
+    <p class="sec-label">JavaScript<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('js-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('js-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="js-track">
 
-        <div class="subject-card fade-up" id="card-jsbasico" data-search="javascript js básico dom eventos variáveis funções browser">
+        <div class="subject-card fade-up" id="card-jsbasico" data-search="javascript js básico dom eventos variáveis funções browser história netscape brendan eich">
           <div class="sc-header"><span class="sc-icon">🌐</span><span class="sc-arrow">→</span></div>
-          <div class="sc-body"><p class="sc-name" data-i18n="js1_name">JS Básico</p><p class="sc-desc" data-i18n="js1_desc">DOM, eventos, variáveis e funções no browser.</p></div>
-          <div class="sc-footer"><span class="sc-tag js">JavaScript</span><span class="sc-count" data-i18n="coming_soon">em breve</span></div>
+          <div class="sc-body">
+            <p class="sc-name" data-i18n="js1_name">JS Básico</p>
+            <p class="sc-desc" data-i18n="js1_desc">DOM, eventos, variáveis e funções no browser.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag js">JavaScript</span>
+            <button class="sc-toggle-btn" onclick="toggleCard('card-jsbasico',this)" data-i18n="btn_see">▼ ver aulas</button>
+            <span class="sc-count">1 <span data-i18n="lessons_word">aula</span></span>
+          </div>
+          <div class="lessons-panel">
+            <a href="js/js_basic.html" class="lesson-link">
+              <span class="ll-num">01</span>
+              <span data-i18n="js1_l1">JavaScript — história, DOM, eventos e funções</span>
+              <span class="ll-badge done" data-i18n="badge_done">feita</span>
+            </a>
+          </div>
         </div>
 
         <div class="subject-card fade-up" id="card-jsmodern" data-search="javascript js moderno es6 arrow functions promises async await">
           <div class="sc-header"><span class="sc-icon">🚀</span><span class="sc-arrow">→</span></div>
-          <div class="sc-body"><p class="sc-name" data-i18n="js2_name">JS Moderno</p><p class="sc-desc" data-i18n="js2_desc">ES6+, arrow functions, promises, async/await.</p></div>
-          <div class="sc-footer"><span class="sc-tag js">JavaScript</span><span class="sc-count" data-i18n="coming_soon">em breve</span></div>
+          <div class="sc-body">
+            <p class="sc-name" data-i18n="js2_name">JS Moderno</p>
+            <p class="sc-desc" data-i18n="js2_desc">ES6+, arrow functions, promises, async/await.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag js">JavaScript</span>
+            <span class="sc-count" data-i18n="coming_soon">em breve</span>
+          </div>
         </div>
 
       </div>
@@ -344,7 +379,7 @@
 
   <!-- GIT -->
   <section id="git" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label">🌿 Git &amp; GitHub<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('git-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('git-track',1)">›</button></span></p>
+    <p class="sec-label">Git &amp; GitHub<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('git-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('git-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="git-track">
 
@@ -365,15 +400,12 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       BANCO DE DADOS — SQL + PostgreSQL lado a lado
-       ══════════════════════════════════════════ -->
+  <!-- BANCO DE DADOS -->
   <section id="banco" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label" data-i18n="sec_db">🗄️ Banco de Dados<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('db-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('db-track',1)">›</button></span></p>
+    <p class="sec-label" data-i18n="sec_db">Banco de Dados<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('db-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('db-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="db-track">
 
-        <!-- Card SQL -->
         <div class="subject-card fade-up" id="card-sql" data-search="sql banco dados select insert update delete joins modelagem pk fk relacionamentos normalização">
           <div class="sc-header"><span class="sc-icon">🗄️</span><span class="sc-arrow">→</span></div>
           <div class="sc-body">
@@ -393,7 +425,6 @@
           </div>
         </div>
 
-        <!-- Card PostgreSQL -->
         <div class="subject-card fade-up" id="card-postgresql" data-search="postgresql postgres banco dados relacional história como funciona projetos elephant">
           <div class="sc-header"><span class="sc-icon">🐘</span><span class="sc-arrow">→</span></div>
           <div class="sc-body">
@@ -412,13 +443,13 @@
           </div>
         </div>
 
-      </div><!-- fim #db-track -->
-    </div><!-- fim .carousel-wrap -->
+      </div>
+    </div>
   </section>
 
   <!-- ENGLISH -->
   <section id="english" class="search-section" style="margin-bottom:2.5rem">
-    <p class="sec-label">🌍 English<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('en-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('en-track',1)">›</button></span></p>
+    <p class="sec-label">English<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('en-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('en-track',1)">›</button></span></p>
     <div class="carousel-wrap">
       <div class="subjects" id="en-track">
 
@@ -486,12 +517,10 @@ const T={
     badge_done:"feita", badge_new:"nova",
     sec_db:"🗄️ Banco de Dados",
     search_empty:"Nenhuma aula encontrada. Tente outro termo. 🔎",
-    /* Python — Sobre */
     py1_name:"Sobre o Python",
     py1_desc:"A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.",
     py1_l1:"História do Python — origem e criação",
     py1_l2:"Ecossistema, docs oficiais e Zen do Python",
-    /* Python — Fundamentos */
     py2_name:"Fundamentos",
     py2_desc:"Variáveis, operadores, condicionais, laços e funções em Python.",
     py2_l1:"Variáveis e Tipos Primitivos",
@@ -499,14 +528,12 @@ const T={
     py2_l3:"Estruturas Condicionais (if, elif, else)",
     py2_l4:"Laços de Repetição (for e while)",
     py2_l5:"Funções — definindo e reutilizando código",
-    /* Python — Estruturas de Dados */
     py3_name:"Estruturas de Dados",
     py3_desc:"Listas, tuplas, dicionários e conjuntos com Python.",
     py3_l1:"Listas — índices, fatiamento e métodos",
     py3_l2:"Tuplas — imutabilidade e desempacotamento",
     py3_l3:"Dicionários — chave, valor e métodos",
     py3_l4:"Conjuntos — sets e operações matemáticas",
-    /* Python — POO */
     py4_name:"Orientação a Objetos",
     py4_desc:"Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.",
     py4_l1:"História da POO — origem e criadores",
@@ -514,7 +541,6 @@ const T={
     py4_l3:"Criando Classes e Objetos na Prática",
     py4_l4:"Melhorando Classes e Criando uma Conta Bancária",
     py4_l5:"Rich Python",
-    /* HTML & CSS */
     html1_name:"HTML",
     html1_desc:"A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.",
     html1_l1:"História do HTML — origem e evolução",
@@ -523,10 +549,11 @@ const T={
     css1_desc:"A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.",
     css1_l1:"História do CSS — Håkon Wium Lie e a origem",
     css1_l2:"Conceitos de CSS — seletores, Box Model e layout",
-    /* JavaScript */
-    js1_name:"JS Básico", js1_desc:"DOM, eventos, variáveis e funções no browser.",
-    js2_name:"JS Moderno", js2_desc:"ES6+, arrow functions, promises, async/await.",
-    /* Git */
+    js1_name:"JS Básico",
+    js1_desc:"DOM, eventos, variáveis e funções no browser.",
+    js1_l1:"JavaScript — história, DOM, eventos e funções",
+    js2_name:"JS Moderno",
+    js2_desc:"ES6+, arrow functions, promises, async/await.",
     git1_name:"Controle de Versão",
     git1_desc:"Commits, branches, merge, pull requests e GitHub.",
     git1_l1:"Introdução — controle de versão e as 3 áreas",
@@ -534,18 +561,15 @@ const T={
     git1_l3:"Branches — criando e navegando entre elas",
     git1_l4:"Merge, Rebase e resolução de conflitos",
     git1_l5:"GitHub, push/pull e Pull Requests",
-    /* Banco de Dados — SQL */
     db1_desc:"SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.",
     sql1_l1:"SELECT — consultas, filtros e agregações",
     sql1_l2:"INSERT, UPDATE e DELETE — manipulando dados",
     sql1_l3:"JOINs — unindo tabelas",
     sql1_l4:"Modelagem — PK, FK, relacionamentos e normalização",
-    /* Banco de Dados — PostgreSQL */
     pg1_desc:"História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.",
     pg1_l1:"PostgreSQL — História",
     pg1_l2:"PostgreSQL — Como Funciona",
     pg1_l3:"PostgreSQL — Projetos",
-    /* English */
     en1_name:"English Grammar",
     en1_desc:"Artigos, Pronomes, Tempos Verbais, Preposições e Verbos.",
     en1_l1:"Artigos", en1_l2:"Pronomes", en1_l3:"Tempos Verbais",
@@ -575,12 +599,10 @@ const T={
     badge_done:"done", badge_new:"new",
     sec_db:"🗄️ Databases",
     search_empty:"No lessons found. Try another term. 🔎",
-    /* Python — About */
     py1_name:"About Python",
     py1_desc:"The language history, who created it, how it evolved, official docs and the Zen of Python.",
     py1_l1:"Python History — origin and creation",
     py1_l2:"Ecosystem, official docs and Zen of Python",
-    /* Python — Fundamentals */
     py2_name:"Fundamentals",
     py2_desc:"Variables, operators, conditionals, loops and functions in Python.",
     py2_l1:"Variables and Primitive Types",
@@ -588,14 +610,12 @@ const T={
     py2_l3:"Conditional Statements (if, elif, else)",
     py2_l4:"Loops (for and while)",
     py2_l5:"Functions — defining and reusing code",
-    /* Python — Data Structures */
     py3_name:"Data Structures",
     py3_desc:"Lists, tuples, dictionaries and sets in Python.",
     py3_l1:"Lists — indexes, slicing and methods",
     py3_l2:"Tuples — immutability and unpacking",
     py3_l3:"Dictionaries — key, value and methods",
     py3_l4:"Sets — sets and mathematical operations",
-    /* Python — OOP */
     py4_name:"Object-Oriented Programming",
     py4_desc:"Classes, objects, attributes, methods, visibility and the 4 pillars of OOP.",
     py4_l1:"OOP History — origin and creators",
@@ -603,7 +623,6 @@ const T={
     py4_l3:"Creating Classes and Objects in Practice",
     py4_l4:"Improving Classes and Creating a Bank Account",
     py4_l5:"Rich Python",
-    /* HTML & CSS */
     html1_name:"HTML",
     html1_desc:"The language that structures the web — history, elements, semantics and core concepts.",
     html1_l1:"HTML History — origin and evolution",
@@ -612,10 +631,11 @@ const T={
     css1_desc:"The language that styles the web — history, selectors, Box Model, Flexbox and responsiveness.",
     css1_l1:"CSS History — Håkon Wium Lie and the origin",
     css1_l2:"CSS Concepts — selectors, Box Model and layout",
-    /* JavaScript */
-    js1_name:"JS Basics", js1_desc:"DOM, events, variables and functions in the browser.",
-    js2_name:"Modern JS", js2_desc:"ES6+, arrow functions, promises, async/await.",
-    /* Git */
+    js1_name:"JS Basics",
+    js1_desc:"DOM, events, variables and functions in the browser.",
+    js1_l1:"JavaScript — history, DOM, events and functions",
+    js2_name:"Modern JS",
+    js2_desc:"ES6+, arrow functions, promises, async/await.",
     git1_name:"Version Control",
     git1_desc:"Commits, branches, merge, pull requests and GitHub.",
     git1_l1:"Introduction — version control and the 3 areas",
@@ -623,18 +643,15 @@ const T={
     git1_l3:"Branches — creating and switching between them",
     git1_l4:"Merge, Rebase and conflict resolution",
     git1_l5:"GitHub, push/pull and Pull Requests",
-    /* Databases — SQL */
     db1_desc:"SELECT, INSERT, UPDATE, DELETE, JOINs and modeling.",
     sql1_l1:"SELECT — queries, filters and aggregations",
     sql1_l2:"INSERT, UPDATE and DELETE — manipulating data",
     sql1_l3:"JOINs — joining tables",
     sql1_l4:"Modeling — PK, FK, relationships and normalization",
-    /* Databases — PostgreSQL */
     pg1_desc:"History, architecture and hands-on projects with the world's most powerful open source database.",
     pg1_l1:"PostgreSQL — History",
     pg1_l2:"PostgreSQL — How It Works",
     pg1_l3:"PostgreSQL — Projects",
-    /* English */
     en1_name:"English Grammar",
     en1_desc:"Articles, Pronouns, Verb Tenses, Prepositions and Verbs.",
     en1_l1:"Articles", en1_l2:"Pronouns", en1_l3:"Verb Tenses",
