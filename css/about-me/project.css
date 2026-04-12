@@ -15,9 +15,7 @@
       --cat-react:#0891b2;--cat-react-bg:#ecfeff;--cat-react-border:#a5f3fc;
     }
     html{scroll-behavior:smooth;}
-    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
-      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
-      background-attachment:fixed;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;}
 
     /* NAV */
     .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;overflow:visible;}

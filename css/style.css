@@ -28,7 +28,7 @@
       background: var(--paper);
       color: var(--ink);
       min-height: 100vh;
-      background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(28,25,23,.04) 31px, rgba(28,25,23,.04) 32px);
+      /* background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(28,25,23,.04) 31px, rgba(28,25,23,.04) 32px); */
       background-attachment: fixed;
     }
 
