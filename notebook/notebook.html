@@ -22,7 +22,7 @@
     }
     html { scroll-behavior:smooth; }
     body { font-family:var(--font-body); background:var(--paper); color:var(--ink); min-height:100vh; background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px); background-attachment:fixed; }
-
+ 
     /* ── NAV ── */
     .nav { position:sticky; top:0; z-index:100; background:rgba(250,247,242,.92); backdrop-filter:blur(8px); border-bottom:1.5px solid var(--rule); padding:0 2rem; display:flex; align-items:center; gap:0; height:56px; overflow:visible; }
     .nav-brand { font-family:var(--font-serif); font-size:16px; font-weight:600; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:8px; margin-right:1.5rem; white-space:nowrap; }
@@ -34,24 +34,11 @@
     .nav-link:hover { background:var(--paper3); color:var(--ink); }
     .nav-link.active { background:var(--ink); color:var(--paper); }
     .nav-sep { width:1px; height:18px; background:var(--rule); margin:0 4px; flex-shrink:0; }
-    .nav-dropdown { position:relative; }
-    .nav-dropdown-btn { background:none; border:none; cursor:pointer; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--ink3); padding:6px 12px; border-radius:6px; transition:background .15s,color .15s; white-space:nowrap; }
-    .nav-dropdown-btn:hover { background:var(--paper3); color:var(--ink); }
-    .nav-dropdown-btn.open { background:var(--ink); color:var(--paper); }
-    .nav-dropdown-panel { display:none; position:absolute; top:calc(100% + 8px); left:0; background:#fff; border:1.5px solid var(--rule); border-radius:var(--radius); box-shadow:var(--shadow-lg); min-width:260px; z-index:999; overflow:hidden; }
-    .nav-dropdown-panel.open { display:block; }
-    .nav-dropdown-item { display:flex; align-items:center; gap:12px; padding:11px 16px; font-size:13px; font-weight:600; color:var(--ink2); text-decoration:none; border-bottom:1px solid var(--rule2); transition:background .15s,color .15s; }
-    .nav-dropdown-item:last-child { border-bottom:none; }
-    .nav-dropdown-item:hover { background:var(--paper2); color:var(--accent2); }
-    .nav-dropdown-item .ndi-icon { width:30px; height:30px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; }
-    .nav-dropdown-item .ndi-text { display:flex; flex-direction:column; gap:1px; }
-    .nav-dropdown-item .ndi-name { font-size:13px; font-weight:700; color:var(--ink); }
-    .nav-dropdown-item .ndi-desc { font-size:11px; color:var(--ink4); font-weight:400; }
     .lang-toggle { display:flex; align-items:center; gap:2px; background:var(--paper2); border:1.5px solid var(--rule); border-radius:8px; padding:3px; flex-shrink:0; margin-left:10px; }
     .lang-btn { font-size:12px; font-weight:700; padding:4px 10px; border-radius:5px; border:none; cursor:pointer; background:transparent; color:var(--ink4); transition:background .15s,color .15s; font-family:var(--font-body); display:flex; align-items:center; gap:5px; }
     .lang-btn.active { background:#fff; color:var(--ink); box-shadow:0 1px 4px rgba(28,25,23,.10); }
     .lang-btn:hover:not(.active) { color:var(--ink); }
-
+ 
     /* ── HERO ── */
     .hero { max-width:860px; margin:0 auto; padding:4rem 1.5rem 2.5rem; display:flex; flex-direction:column; gap:1rem; }
     .hero-eyebrow { font-family:var(--font-mono); font-size:12px; font-weight:500; color:var(--ink4); letter-spacing:.06em; }
@@ -61,7 +48,7 @@
     .hero-meta { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:.5rem; }
     .hero-meta span { font-family:var(--font-mono); font-size:11px; color:var(--ink4); }
     .hero-meta .dot { width:4px; height:4px; border-radius:50%; background:var(--ink4); }
-
+ 
     /* ── PAGE ── */
     .page { max-width:860px; margin:0 auto; padding:0 1.5rem 5rem; }
     .sec-label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink4); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
@@ -70,7 +57,7 @@
     .slb { width:26px; height:26px; border-radius:50%; background:#fff; border:1.5px solid var(--rule); cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; color:var(--ink3); transition:background .15s; }
     .slb:hover { background:var(--paper2); color:var(--ink); }
     .slb:disabled { opacity:.3; cursor:default; }
-
+ 
     /* ── BUSCA ── */
     .search-wrap { position:relative; margin-bottom:2rem; }
     .search-input { width:100%; padding:11px 16px 11px 42px; font-size:14px; font-family:var(--font-body); background:#fff; border:1.5px solid var(--rule); border-radius:var(--radius); color:var(--ink); outline:none; transition:border-color .15s,box-shadow .15s; }
@@ -83,7 +70,7 @@
     .search-empty.visible { display:block; }
     .search-empty p { font-family:var(--font-serif); font-style:italic; font-size:15px; color:var(--ink4); }
     .search-section-hidden { display:none !important; }
-
+ 
     /* ── CARROSSEL ── */
     .carousel-wrap { position:relative; }
     .subjects { display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:8px; -webkit-overflow-scrolling:touch; }
@@ -104,6 +91,8 @@
     .sc-footer { padding:10px 20px 14px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .sc-tag { font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; }
     .sc-tag.py{background:#dbeafe;color:#1e40af;} .sc-tag.js{background:#fef9c3;color:#854d0e;} .sc-tag.git{background:#fce7f3;color:#9d174d;} .sc-tag.db{background:#dcfce7;color:#166634;} .sc-tag.pg{background:#e0f2fe;color:#0369a1;} .sc-tag.en{background:#ede9fe;color:#5b21b6;} .sc-tag.html{background:#fdecea;color:#b71c1c;} .sc-tag.css{background:#e8eeff;color:#1a3ab8;}
+    .sc-tag.react{background:#e0f7fa;color:#006064;}
+    .sc-tag.fr{background:#fff3e0;color:#e65100;}
     .sc-count { margin-left:auto; font-family:var(--font-mono); font-size:11px; color:var(--ink4); }
     .lessons-panel { border-top:1.5px solid var(--rule2); max-height:0; overflow:hidden; transition:max-height .3s ease; }
     .subject-card.open .lessons-panel { max-height:400px; }
@@ -114,7 +103,7 @@
     .lesson-link .ll-num { font-family:var(--font-mono); font-size:10px; color:var(--ink4); min-width:22px; }
     .lesson-link .ll-badge { margin-left:auto; font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; }
     .ll-badge.new{background:#fce7f3;color:#9d174d;} .ll-badge.done{background:#dcfce7;color:#166534;}
-
+ 
     /* ── GAME BUTTON ── */
     .sc-game-btn {
       display: inline-flex; align-items: center; gap: 5px;
@@ -126,13 +115,13 @@
       transition: background .15s, transform .15s, color .15s, box-shadow .15s;
     }
     .sc-game-btn:hover { background: #9d174d; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(157,23,77,.25); }
-
+ 
     /* ── PINNED ── */
     .pinned { background:#fffbeb; border:1.5px solid rgba(180,140,20,.25); border-radius:var(--radius); padding:16px 20px; display:flex; gap:12px; align-items:flex-start; margin-bottom:2rem; }
     .pinned-icon { font-size:20px; flex-shrink:0; }
     .pinned h4 { font-size:13px; font-weight:700; color:#92400e; margin-bottom:3px; }
     .pinned p { font-size:12px; color:#a16207; line-height:1.6; }
-
+ 
     /* ── PORTFOLIO MINI BANNER ── */
     .portfolio-banner { display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#f0f4ff,#faf7f2); border:1.5px solid rgba(37,99,168,.18); border-radius:var(--radius); padding:14px 20px; margin-bottom:2rem; text-decoration:none; color:inherit; transition:box-shadow .18s,transform .18s; }
     .portfolio-banner:hover { box-shadow:var(--shadow-lg); transform:translateY(-2px); }
@@ -143,12 +132,12 @@
     .pb-text strong { font-size:13px; font-weight:700; color:var(--ink); display:block; margin-bottom:2px; }
     .pb-text span { font-size:12px; color:var(--ink3); }
     .pb-arrow { font-size:12px; font-weight:700; color:var(--accent2); flex-shrink:0; }
-
+ 
     /* ── BACK TO TOP ── */
     .back-to-top { position:fixed; bottom:2rem; right:2rem; width:42px; height:42px; border-radius:50%; background:var(--ink); color:#fff; border:none; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:opacity .25s,transform .25s; z-index:90; transform:translateY(8px); }
     .back-to-top.visible { opacity:1; pointer-events:auto; transform:translateY(0); }
     .back-to-top:hover { background:var(--ink2); }
-
+ 
     [data-i18n] { transition:opacity .18s ease; }
     .lang-switching [data-i18n] { opacity:0; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
@@ -169,9 +158,11 @@
     <a href="notebook.html#python" class="nav-link">Python</a>
     <a href="notebook.html#htmlcss" class="nav-link">HTML &amp; CSS</a>
     <a href="notebook.html#javascript" class="nav-link">JavaScript</a>
+    <a href="notebook.html#react" class="nav-link">React</a>
     <a href="notebook.html#git" class="nav-link">Git</a>
     <a href="notebook.html#banco" class="nav-link" data-i18n="nav_db">Banco de Dados</a>
     <a href="notebook.html#english" class="nav-link">English</a>
+    <a href="notebook.html#frances" class="nav-link">Français</a>
   </div>
 </nav>
 
@@ -180,11 +171,9 @@
   <h1 class="hero-title fade-up">Lucilia's<br><em>Notebook</em></h1>
   <p class="hero-sub fade-up" data-i18n="hero_sub">Anotações de aula organizadas por assunto. Tudo que aprendi, do jeito que entendi — baseado em cursos online.</p>
   <div class="hero-meta fade-up">
-    <span data-i18n="meta_local">📍 Aprendizado Online</span>
+    <span data-i18n="meta_local">Aprendizado Online</span>
     <span class="dot"></span>
-    <span data-i18n="meta_status">✏️ Em andamento</span>
-    <span class="dot"></span>
-    <span>Python · JS · Git · DB · English</span>
+    <span data-i18n="meta_status">Em andamento</span>
   </div>
 </header>
 
@@ -373,6 +362,60 @@
     </div>
   </section>
 
+  <!-- REACT — nova seção -->
+  <section id="react" class="search-section" style="margin-bottom:2.5rem">
+    <p class="sec-label">React<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('react-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('react-track',1)">›</button></span></p>
+    <div class="carousel-wrap">
+      <div class="subjects" id="react-track">
+ 
+        <div class="subject-card fade-up" id="card-react-intro" data-search="react história origem facebook meta jordan walke biblioteca interface ui componentes virtual dom jsx">
+          <div class="sc-header"><span class="sc-icon">⚛️</span><span class="sc-arrow">→</span></div>
+          <div class="sc-body">
+            <p class="sc-name">Introdução ao React</p>
+            <p class="sc-desc">O que é React, como surgiu, por que usar e os conceitos essenciais: componentes, JSX e Virtual DOM.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag react">React</span>
+            <button class="sc-toggle-btn" onclick="toggleCard('card-react-intro',this)">▼ ver aulas</button>
+            <span class="sc-count">1 aula</span>
+          </div>
+          <div class="lessons-panel">
+            <a href="react/react-intro.html" class="lesson-link">
+              <span class="ll-num">01</span>
+              <span>Introdução ao React — história, JSX e componentes</span>
+              <span class="ll-badge new">nova</span>
+            </a>
+          </div>
+        </div>
+ 
+        <div class="subject-card fade-up" id="card-react-hooks" data-search="react hooks useState useEffect componentes estado ciclo de vida">
+          <div class="sc-header"><span class="sc-icon">🪝</span><span class="sc-arrow">→</span></div>
+          <div class="sc-body">
+            <p class="sc-name">React Hooks</p>
+            <p class="sc-desc">useState, useEffect e outros hooks para gerenciar estado e efeitos nos componentes.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag react">React</span>
+            <span class="sc-count">em breve</span>
+          </div>
+        </div>
+ 
+        <div class="subject-card fade-up" id="card-react-props" data-search="react props propriedades componentes comunicação pai filho">
+          <div class="sc-header"><span class="sc-icon">🔗</span><span class="sc-arrow">→</span></div>
+          <div class="sc-body">
+            <p class="sc-name">Props &amp; Comunicação</p>
+            <p class="sc-desc">Como passar dados entre componentes com props e entender o fluxo de dados no React.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag react">React</span>
+            <span class="sc-count">em breve</span>
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+  </section>
+
   <!-- GIT -->
   <section id="git" class="search-section" style="margin-bottom:2.5rem">
     <p class="sec-label">Git &amp; GitHub<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('git-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('git-track',1)">›</button></span></p>
@@ -484,6 +527,59 @@
           <div class="sc-footer"><span class="sc-tag en">Writing</span><span class="sc-count" data-i18n="coming_soon">em breve</span></div>
         </div>
 
+      </div>
+    </div>
+  </section>
+  <!-- FRANÇAIS — nova seção -->
+  <section id="frances" class="search-section" style="margin-bottom:2.5rem">
+    <p class="sec-label">Français<span class="sec-label-btns"><button class="slb" onclick="scrollCarousel('fr-track',-1)">‹</button><button class="slb" onclick="scrollCarousel('fr-track',1)">›</button></span></p>
+    <div class="carousel-wrap">
+      <div class="subjects" id="fr-track">
+ 
+        <div class="subject-card fade-up" id="card-fr-intro" data-search="francês français introdução alfabeto pronúncia cumprimentos saudações básico bonjour merci">
+          <div class="sc-header"><span class="sc-icon">🇫🇷</span><span class="sc-arrow">→</span></div>
+          <div class="sc-body">
+            <p class="sc-name">Premiers Pas</p>
+            <p class="sc-desc">Primeiros passos em francês — alfabeto, pronúncia, cumprimentos e frases essenciais do dia a dia.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag fr">Français</span>
+            <button class="sc-toggle-btn" onclick="toggleCard('card-fr-intro',this)">▼ ver aulas</button>
+            <span class="sc-count">1 aula</span>
+          </div>
+          <div class="lessons-panel">
+            <a href="francais/fr-intro.html" class="lesson-link">
+              <span class="ll-num">01</span>
+              <span>Premiers Pas — alfabeto, pronúncia e cumprimentos</span>
+              <span class="ll-badge new">nova</span>
+            </a>
+          </div>
+        </div>
+ 
+        <div class="subject-card fade-up" id="card-fr-grammaire" data-search="francês grammaire gramática artigos gênero número substantivos adjetivos género">
+          <div class="sc-header"><span class="sc-icon">📝</span><span class="sc-arrow">→</span></div>
+          <div class="sc-body">
+            <p class="sc-name">Grammaire de Base</p>
+            <p class="sc-desc">Gênero e número, artigos definidos e indefinidos, substantivos e adjetivos em francês.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag fr">Français</span>
+            <span class="sc-count">em breve</span>
+          </div>
+        </div>
+ 
+        <div class="subject-card fade-up" id="card-fr-verbes" data-search="francês verbos verbes être avoir présent indicatif conjugação">
+          <div class="sc-header"><span class="sc-icon">🔤</span><span class="sc-arrow">→</span></div>
+          <div class="sc-body">
+            <p class="sc-name">Verbes Essentiels</p>
+            <p class="sc-desc">Os verbos être e avoir, conjugação no présent de l'indicatif e verbos do 1º grupo.</p>
+          </div>
+          <div class="sc-footer">
+            <span class="sc-tag fr">Français</span>
+            <span class="sc-count">em breve</span>
+          </div>
+        </div>
+ 
       </div>
     </div>
   </section>
