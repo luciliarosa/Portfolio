@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <title>Primeiros Passos em Francês — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#2d5fa8;         /* azul francês */
+      --accent2:#c84b31;        /* toque de tricolore — vermelho */
+      --accent3:#1a7a3a;        /* verde esmeralda */
+      --accent-light:#e8eef8;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;
+    }
+
+    /* ── NAV ── */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+
+    /* ── LAYOUT ── */
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+
+    /* ── HERO ── */
+    .article-hero{padding:2rem 0 2.5rem;position:relative;}
+    .flag-stripe{display:flex;gap:6px;margin-bottom:14px;}
+    .stripe{height:6px;border-radius:3px;flex:1;}
+    .stripe-b{background:#002395;}.stripe-w{background:#e0dbd2;}.stripe-r{background:#ED2939;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,42px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-fr{background:var(--accent-light);color:#1a3a6e;}.tag-gray{background:var(--paper3);color:var(--ink3);}
+
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+
+    /* ── SEC TITLE ── */
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+    /* ── INFO BOX ── */
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;}
+
+    /* ── TIP ── */
+    .tip{background:var(--accent-light);border:1.5px solid rgba(45,95,168,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip p{font-size:13px;color:#1a3a6e;line-height:1.7;}
+
+    .tip-red{background:#fdecea;border:1.5px solid rgba(200,75,49,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip-red p{font-size:13px;color:#7f1d1d;line-height:1.7;}
+
+    /* ── BOTÃO VÍDEO + MODAL ── */
+    .btn-video{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:background .15s,transform .12s;}
+    .btn-video:hover{background:#1a3a6e;transform:translateY(-1px);}
+    .btn-video svg{width:16px;height:16px;flex-shrink:0;}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(28,25,23,.75);display:flex;align-items:center;justify-content:center;z-index:999;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s;}
+    .modal-backdrop.open{opacity:1;pointer-events:all;}
+    .modal-box{background:#1c1917;border-radius:var(--radius);width:100%;max-width:680px;overflow:hidden;transform:scale(.95);transition:transform .2s;}
+    .modal-backdrop.open .modal-box{transform:scale(1);}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;}
+    .modal-title{font-size:13px;color:var(--ink4);font-weight:600;}
+    .modal-close{background:none;border:none;color:var(--ink3);font-size:24px;cursor:pointer;line-height:1;padding:0 4px;border-radius:4px;}
+    .modal-close:hover{color:var(--paper);background:rgba(255,255,255,.08);}
+    .modal-video{aspect-ratio:16/9;width:100%;background:#000;display:block;border:none;}
+
+    /* ── ALPHABET GRID ── */
+    .alpha-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-bottom:1rem;}
+    .alpha-card{background:#fff;border:1.5px solid var(--rule);border-radius:8px;padding:10px 8px;text-align:center;box-shadow:var(--shadow);}
+    .alpha-letter{font-family:var(--font-serif);font-size:26px;font-weight:600;color:var(--accent);display:block;line-height:1;}
+    .alpha-sound{font-family:var(--font-mono);font-size:10px;color:var(--ink4);margin-top:4px;display:block;}
+    .alpha-ex{font-size:10px;color:var(--ink3);font-style:italic;margin-top:2px;display:block;}
+    .alpha-card.special{border-color:rgba(45,95,168,.3);background:var(--accent-light);}
+
+    /* ── EXAMPLE BOX ── */
+    .example-box{background:#fff;border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:8px;box-shadow:var(--shadow);}
+    .example-box .fr{font-family:var(--font-serif);font-size:15px;color:var(--ink);font-style:italic;margin-bottom:4px;}
+    .example-box .pt{font-size:12px;color:var(--ink4);}
+    .example-box .pron{font-family:var(--font-mono);font-size:11px;color:var(--accent);margin-top:3px;}
+    .example-box code{font-family:var(--font-mono);font-size:13px;background:var(--accent-light);padding:1px 6px;border-radius:3px;color:var(--accent);font-style:normal;}
+
+    .example-box.red{border-left-color:var(--accent2);}
+    .example-box.red code{background:#fdecea;color:var(--accent2);}
+    .example-box.green{border-left-color:var(--accent3);}
+    .example-box.green code{background:#e8f5ec;color:var(--accent3);}
+
+    /* ── PHRASE TABLE ── */
+    .phrase-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .phrase-table thead tr{background:var(--ink);color:var(--paper);}
+    .phrase-table th{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;text-align:left;}
+    .phrase-table tbody tr{border-bottom:1px solid var(--rule2);}
+    .phrase-table tbody tr:last-child{border-bottom:none;}
+    .phrase-table tbody tr:hover{background:var(--paper2);}
+    .phrase-table td{padding:10px 14px;font-size:13px;color:var(--ink2);line-height:1.5;vertical-align:top;}
+    .phrase-table td:first-child{font-family:var(--font-serif);font-style:italic;color:var(--ink);font-size:14px;}
+    .phrase-table td:nth-child(2){font-family:var(--font-mono);font-size:11px;color:var(--accent);}
+
+    /* ── SOUND CARDS ── */
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .sound-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+    .sound-card h3{font-family:var(--font-mono);font-size:16px;color:var(--accent);margin-bottom:8px;font-weight:500;}
+    .sound-card p{font-size:12px;color:var(--ink3);line-height:1.6;margin-bottom:8px;}
+    .sound-card .examples{display:flex;flex-direction:column;gap:4px;}
+    .sound-card .ex-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+    .sound-card .ex-fr{font-family:var(--font-serif);font-style:italic;color:var(--ink);}
+    .sound-card .ex-pt{color:var(--ink4);}
+    .sound-card .badge{display:inline-block;font-family:var(--font-mono);font-size:10px;background:var(--accent-light);color:var(--accent);padding:2px 8px;border-radius:4px;margin-bottom:6px;}
+
+    /* ── GREETING CARDS ── */
+    .greet-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem;}
+    .greet-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;}
+    .greet-card .time{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);}
+    .greet-card .fr-phrase{font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--ink);}
+    .greet-card .pron{font-family:var(--font-mono);font-size:11px;color:var(--accent);}
+    .greet-card .translation{font-size:12px;color:var(--ink3);}
+    .greet-card .context{font-size:11px;color:var(--ink4);font-style:italic;border-top:1px solid var(--rule2);padding-top:6px;margin-top:2px;}
+
+    /* ── NUMBERS ── */
+    .num-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;}
+    .num-card{background:#fff;border:1.5px solid var(--rule);border-radius:8px;padding:10px 12px;box-shadow:var(--shadow);}
+    .num-number{font-family:var(--font-mono);font-size:22px;font-weight:500;color:var(--accent);display:block;}
+    .num-fr{font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--ink);display:block;margin-top:2px;}
+    .num-pron{font-size:10px;color:var(--ink4);font-family:var(--font-mono);display:block;margin-top:2px;}
+
+    /* ── DIALOG ── */
+    .dialog{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .dialog-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;}
+    .dialog-line{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+    .dialog-line:last-child{margin-bottom:0;}
+    .dialog-speaker{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;min-width:40px;padding-top:3px;}
+    .dialog-speaker.a{color:var(--accent);}
+    .dialog-speaker.b{color:var(--accent2);}
+    .dialog-content{}
+    .dialog-fr{font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--ink);}
+    .dialog-pron{font-family:var(--font-mono);font-size:10px;color:var(--ink4);margin-top:2px;}
+    .dialog-pt{font-size:12px;color:var(--ink3);margin-top:1px;}
+
+    /* ── ACCENT MARKS ── */
+    .accent-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem;}
+    .accent-pill{background:#fff;border:1.5px solid var(--rule);border-radius:8px;padding:10px 14px;box-shadow:var(--shadow);min-width:120px;}
+    .acc-char{font-family:var(--font-serif);font-size:28px;color:var(--accent);display:block;line-height:1;}
+    .acc-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink4);margin-top:4px;}
+    .acc-desc{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.4;}
+
+    /* ── NAV PAGES ── */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    .fade-d1{animation-delay:.05s;}.fade-d2{animation-delay:.10s;}.fade-d3{animation-delay:.15s;}
+    .fade-d4{animation-delay:.20s;}.fade-d5{animation-delay:.25s;}.fade-d6{animation-delay:.30s;}
+
+    @media(max-width:600px){
+      .nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}
+      .g2,.g3,.greet-grid,.zero-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../../notebook/notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../notebook/notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../notebook/notebook.html#frances" class="nav-link">Français</a>
+    <a href="#Primeiros Passos" class="nav-link active">Primeiros Passos</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// lição 01 · Français pour Débutants · Primeiros Passos</p>
+    <h1 class="article-title">Primeiros Passos<br><span style="font-size:.6em;color:var(--ink3);font-style:italic">en français</span></h1>
+    <div class="article-meta">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <span class="tag tag-fr">Français</span>
+    <span class="tag tag-gray">Nível A1</span>
+    <span class="dot"></span>
+    <span style="font-size:12px;color:var(--ink4)">alfabeto · pronúncia · cumprimentos · essenciais</span>
+  </div>
+  <button class="btn-video" onclick="abrirVideo()">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="8" cy="8" r="7.25" stroke="white" stroke-width="1.5"/>
+      <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="white"/>
+    </svg>
+    Assistir ao vídeo
+  </button>
+</div>
+  </header>
+
+  <hr/>
+
+  <div class="modal-backdrop" id="modal-video">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Primeiros Passos en français — Aula introdutória</span>
+      <button class="modal-close" onclick="fecharVideo()">×</button>
+    </div>
+    <video class="modal-video" id="modal-video-player" controls>
+  <source src="../../img/Francês__Iniciantes_A1.mp4" type="video/mp4">
+</video>
+  </div>
+</div>
+
+  <!-- INTRO -->
+  <section style="margin-bottom:2rem" class="fade fade-d1">
+    <p class="sec-title">Por que aprender francês?</p>
+    <div class="info">
+      <h3>A língua da luz — <em>la langue de la lumière</em></h3>
+      <p>O francês é falado por mais de <strong>300 milhões de pessoas</strong> em 5 continentes. É língua oficial da ONU, União Europeia, e de 29 países. Além de abrir portas profissionais, é a base para entender espanhol, italiano, português e romeno. Compartilha com o português cerca de <strong>85% do vocabulário latino</strong> — você já sabe mais do que imagina!</p>
+      <ul>
+        <li>Idioma oficial de 29 países (França, Bélgica, Suíça, Canadá, Senegal…)</li>
+        <li>2ª língua mais estudada no mundo, depois do inglês</li>
+        <li>A pronúncia parece difícil, mas tem padrões — e você vai aprender todos aqui</li>
+        <li>Muitas palavras francesas entraram no inglês: <em>restaurant, ballet, café, genre…</em></li>
+      </ul>
+    </div>
+  </section>
+
+  <hr id="alfabeto"/>
+
+  <!-- ALFABETO -->
+  <section style="margin-bottom:2rem" class="fade fade-d2">
+    <p class="sec-title">O Alfabeto Francês — <em>L'alphabet</em></p>
+    <div class="tip">
+      <p><strong>Boas notícias!</strong> O alfabeto francês tem <strong>as mesmas 26 letras</strong> do inglês e do português. O que muda é a <em>pronúncia</em> de cada letra quando soletramos, e a presença de <strong>acentos e cedilha</strong> que modificam sons.</p>
+    </div>
+    <div class="alpha-grid">
+      <div class="alpha-card">
+        <span class="alpha-letter">A</span>
+        <span class="alpha-sound">/a/</span>
+        <span class="alpha-ex">ami</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">B</span>
+        <span class="alpha-sound">/be/</span>
+        <span class="alpha-ex">bonjour</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">C</span>
+        <span class="alpha-sound">/se/</span>
+        <span class="alpha-ex">café</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">D</span>
+        <span class="alpha-sound">/de/</span>
+        <span class="alpha-ex">deux</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">E</span>
+        <span class="alpha-sound">/ə/</span>
+        <span class="alpha-ex">et</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">F</span>
+        <span class="alpha-sound">/ɛf/</span>
+        <span class="alpha-ex">fille</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">G</span>
+        <span class="alpha-sound">/ʒe/</span>
+        <span class="alpha-ex">garçon</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">H</span>
+        <span class="alpha-sound">/aʃ/</span>
+        <span class="alpha-ex">heure</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">I</span>
+        <span class="alpha-sound">/i/</span>
+        <span class="alpha-ex">ici</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">J</span>
+        <span class="alpha-sound">/ʒi/</span>
+        <span class="alpha-ex">jour</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">K</span>
+        <span class="alpha-sound">/ka/</span>
+        <span class="alpha-ex">kilo</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">L</span>
+        <span class="alpha-sound">/ɛl/</span>
+        <span class="alpha-ex">livre</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">M</span>
+        <span class="alpha-sound">/ɛm/</span>
+        <span class="alpha-ex">merci</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">N</span>
+        <span class="alpha-sound">/ɛn/</span>
+        <span class="alpha-ex">non</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">O</span>
+        <span class="alpha-sound">/o/</span>
+        <span class="alpha-ex">ou</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">P</span>
+        <span class="alpha-sound">/pe/</span>
+        <span class="alpha-ex">pardon</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">Q</span>
+        <span class="alpha-sound">/ky/</span>
+        <span class="alpha-ex">qui</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">R</span>
+        <span class="alpha-sound">/ɛʁ/</span>
+        <span class="alpha-ex">rue</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">S</span>
+        <span class="alpha-sound">/ɛs/</span>
+        <span class="alpha-ex">soir</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">T</span>
+        <span class="alpha-sound">/te/</span>
+        <span class="alpha-ex">tout</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">U</span>
+        <span class="alpha-sound">/y/</span>
+        <span class="alpha-ex">une</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">V</span>
+        <span class="alpha-sound">/ve/</span>
+        <span class="alpha-ex">vous</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">W</span>
+        <span class="alpha-sound">/dubləve/</span>
+        <span class="alpha-ex">wifi</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">X</span>
+        <span class="alpha-sound">/iks/</span>
+        <span class="alpha-ex">taxi</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">Y</span>
+        <span class="alpha-sound">/iɡʁɛk/</span>
+        <span class="alpha-ex">yeux</span>
+      </div>
+      <div class="alpha-card">
+        <span class="alpha-letter">Z</span>
+        <span class="alpha-sound">/zɛd/</span>
+        <span class="alpha-ex">zéro</span>
+      </div>
+    </div>
+
+    <!-- Accentuated chars -->
+    <p class="sec-title" style="margin-top:1.5rem">Letras com acento e cedilha</p>
+    <div class="accent-row">
+      <div class="accent-pill">
+        <span class="acc-char">É é</span>
+        <div class="acc-name">Accent aigu</div>
+        <div class="acc-desc">Som /e/ fechado.<br><em>été, café</em></div>
+      </div>
+      <div class="accent-pill">
+        <span class="acc-char">È è</span>
+        <div class="acc-name">Accent grave</div>
+        <div class="acc-desc">Som /ɛ/ aberto.<br><em>très, après</em></div>
+      </div>
+      <div class="accent-pill">
+        <span class="acc-char">Ê ê</span>
+        <div class="acc-name">Accent circonflexe</div>
+        <div class="acc-desc">Som /ɛ/ longo.<br><em>être, fenêtre</em></div>
+      </div>
+      <div class="accent-pill">
+        <span class="acc-char">Ë ë</span>
+        <div class="acc-name">Tréma</div>
+        <div class="acc-desc">Vogal pronunciada separada.<br><em>Noël, naïf</em></div>
+      </div>
+      <div class="accent-pill">
+        <span class="acc-char">Ç ç</span>
+        <div class="acc-name">Cédille</div>
+        <div class="acc-desc">C lê-se /s/ antes de a, o, u.<br><em>garçon, façon</em></div>
+      </div>
+      <div class="accent-pill">
+        <span class="acc-char">Œ œ</span>
+        <div class="acc-name">Ligature</div>
+        <div class="acc-desc">Som /œ/ (entre ó e ê).<br><em>cœur, sœur</em></div>
+      </div>
+    </div>
+  </section>
+
+  <hr id="pronúncia"/>
+
+  <!-- PRONÚNCIA -->
+  <section style="margin-bottom:2rem" class="fade fade-d3">
+    <p class="sec-title">Pronúncia — os grandes segredos</p>
+    <div class="tip-red">
+      <p><strong>A maior diferença em relação ao português:</strong> em francês, <strong>consoantes finais geralmente são mudas</strong>. A palavra <em>vous</em> ("você/vocês") soa /vu/, não /vus/. Já as vogais nasais são únicas do francês — aprenda-as e você soa nativo!</p>
+    </div>
+
+    <p class="sec-title" style="margin-top:1.2rem">Sons que não existem em português</p>
+    <div class="g2" style="margin-bottom:1rem;">
+      <div class="sound-card">
+        <div class="badge">/y/ — o U francês</div>
+        <h3>u</h3>
+        <p>Pronuncie /i/ mas arredonde os lábios como /u/. É o "u" de <em>tu, une, sur</em>.</p>
+        <div class="examples">
+          <div class="ex-row"><span class="ex-fr">tu</span><span class="ex-pt">"tü" (com lábios arredondados)</span></div>
+          <div class="ex-row"><span class="ex-fr">une</span><span class="ex-pt">"ün"</span></div>
+          <div class="ex-row"><span class="ex-fr">sur</span><span class="ex-pt">"sür"</span></div>
+        </div>
+      </div>
+      <div class="sound-card">
+        <div class="badge">/ʁ/ — o R gutural</div>
+        <h3>r</h3>
+        <p>Como fazer um gargarejo suave na garganta. Diferente do R brasileiro ou carioca.</p>
+        <div class="examples">
+          <div class="ex-row"><span class="ex-fr">rue</span><span class="ex-pt">rua (R gutural)</span></div>
+          <div class="ex-row"><span class="ex-fr">rouge</span><span class="ex-pt">vermelho</span></div>
+          <div class="ex-row"><span class="ex-fr">merci</span><span class="ex-pt">obrigado/a</span></div>
+        </div>
+      </div>
+      <div class="sound-card">
+        <div class="badge">voyelles nasales</div>
+        <h3>an · en · in · on · un</h3>
+        <p>Vogais nasalizadas — o som sai pelo nariz. Não há N pronunciado no final.</p>
+        <div class="examples">
+          <div class="ex-row"><span class="ex-fr">an / en</span><span class="ex-pt">/ɑ̃/ — como "ã" longo</span></div>
+          <div class="ex-row"><span class="ex-fr">in / ain</span><span class="ex-pt">/ɛ̃/ — como "ẽ" nasal</span></div>
+          <div class="ex-row"><span class="ex-fr">on</span><span class="ex-pt">/ɔ̃/ — como "õ"</span></div>
+          <div class="ex-row"><span class="ex-fr">un</span><span class="ex-pt">/œ̃/ — "ã" com lábios arredondados</span></div>
+        </div>
+      </div>
+      <div class="sound-card">
+        <div class="badge">consoantes finais mudas</div>
+        <h3>s · t · d · x · p</h3>
+        <p>Na maioria das palavras, consoantes no final não são pronunciadas.</p>
+        <div class="examples">
+          <div class="ex-row"><span class="ex-fr">vous</span><span class="ex-pt">/vu/ — não /vus/</span></div>
+          <div class="ex-row"><span class="ex-fr">est</span><span class="ex-pt">/ɛ/ — não /ɛst/</span></div>
+          <div class="ex-row"><span class="ex-fr">grand</span><span class="ex-pt">/ɡʁɑ̃/ — não /ɡʁɑ̃d/</span></div>
+          <div class="ex-row"><span class="ex-fr">beaux</span><span class="ex-pt">/bo/ — não /boz/</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liaison -->
+    <p class="sec-title">La liaison — a ligação entre palavras</p>
+    <div class="info">
+      <h3>Quando a consoante "ressuscita"</h3>
+      <p>Em alguns casos, uma consoante final (normalmente muda) <strong>é pronunciada</strong> quando a próxima palavra começa com vogal. Isso se chama <em>liaison</em>.</p>
+      <ul>
+        <li><em>vous avez</em> → /vu za ve/ (o S de <em>vous</em> liga ao A de <em>avez</em>)</li>
+        <li><em>les amis</em> → /le za mi/ (o S de <em>les</em> liga ao A de <em>amis</em>)</li>
+        <li><em>ils ont</em> → /il zõ/ (o S de <em>ils</em> liga ao O de <em>ont</em>)</li>
+      </ul>
+    </div>
+
+    <!-- GN, CH, etc -->
+    <p class="sec-title" style="margin-top:1.2rem">Combinações especiais de letras</p>
+    <div class="g3">
+      <div class="example-box">
+        <div class="fr"><code>ch</code> → /ʃ/ (como "ch" em "chuva")</div>
+        <div class="pt">chat (gato), chocolat, chercher</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>gn</code> → /ɲ/ (como "nh" em "banho")</div>
+        <div class="pt">montagne, champagne, agneau</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>ou</code> → /u/ (como "u" em "lua")</div>
+        <div class="pt">ou (ou), bonjour, rouge</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>eu / œu</code> → /ø/ ou /œ/</div>
+        <div class="pt">feu (fogo), peur (medo), cœur</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>oi</code> → /wa/ (como "u-a")</div>
+        <div class="pt">moi (eu/mim), soir, voilà</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>ai / ei</code> → /ɛ/ (como "é")</div>
+        <div class="pt">j'ai (tenho), mais (mas), seize</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>au / eau</code> → /o/ (como "ô")</div>
+        <div class="pt">eau (água), beaucoup, aussi</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>ph</code> → /f/ (como "f")</div>
+        <div class="pt">photo, téléphone, pharmacie</div>
+      </div>
+      <div class="example-box">
+        <div class="fr"><code>ill</code> → /ij/ (como "lh" suave)</div>
+        <div class="pt">fille (menina), famille, maillot</div>
+      </div>
+    </div>
+  </section>
+
+  <hr id="cumprimentos"/>
+
+  <!-- CUMPRIMENTOS -->
+  <section style="margin-bottom:2rem" class="fade fade-d4">
+    <p class="sec-title">Cumprimentos — <em>Les salutations</em></p>
+    <div class="tip">
+      <p><strong>Dica cultural:</strong> Em francês há dois registros — <strong>formal</strong> (<em>vous</em>) e <strong>informal</strong> (<em>tu</em>). Use <em>vous</em> com desconhecidos, chefes e pessoas mais velhas. Use <em>tu</em> com amigos e crianças. Essa distinção é muito importante socialmente!</p>
+    </div>
+
+    <div class="greet-grid">
+      <div class="greet-card">
+        <div class="time">☀️ manhã / tarde / qualquer hora</div>
+        <div class="fr-phrase">Bonjour !</div>
+        <div class="pron">/bɔ̃.ʒuʁ/</div>
+        <div class="translation">Bom dia / Boa tarde / Olá</div>
+        <div class="context">O cumprimento mais universal do francês. Diga sempre ao entrar em uma loja!</div>
+      </div>
+      <div class="greet-card">
+        <div class="time">🌙 a partir do fim da tarde</div>
+        <div class="fr-phrase">Bonsoir !</div>
+        <div class="pron">/bɔ̃.swaʁ/</div>
+        <div class="translation">Boa tarde / Boa noite (ao chegar)</div>
+        <div class="context">Usado ao encontrar alguém à noite. <em>Bonne nuit</em> é só para desejar boa noite ao dormir.</div>
+      </div>
+      <div class="greet-card">
+        <div class="time">😊 informal — entre amigos</div>
+        <div class="fr-phrase">Salut !</div>
+        <div class="pron">/sa.ly/</div>
+        <div class="translation">Oi! / Tchauzinho!</div>
+        <div class="context">Serve tanto para chegar quanto para se despedir informalmente.</div>
+      </div>
+      <div class="greet-card">
+        <div class="time">👋 despedida formal</div>
+        <div class="fr-phrase">Au revoir !</div>
+        <div class="pron">/o.ʁə.vwaʁ/</div>
+        <div class="translation">Adeus / Até logo</div>
+        <div class="context">Literalmente "até rever". A despedida formal por excelência.</div>
+      </div>
+      <div class="greet-card">
+        <div class="time">🤝 perguntando como vai</div>
+        <div class="fr-phrase">Comment allez-vous ?</div>
+        <div class="pron">/kɔ.mɑ̃.ta.le.vu/</div>
+        <div class="translation">Como vai você? (formal)</div>
+        <div class="context">Versão informal: <em>Comment ça va ?</em> ou simplesmente <em>Ça va ?</em></div>
+      </div>
+      <div class="greet-card">
+        <div class="time">✅ respondendo que vai bem</div>
+        <div class="fr-phrase">Ça va bien, merci !</div>
+        <div class="pron">/sa.va.bjɛ̃.mɛʁ.si/</div>
+        <div class="translation">Estou bem, obrigado/a!</div>
+        <div class="context">O <em>merci</em> no final é sempre bem-vindo. Pode adicionar <em>Et vous ?</em> (E você?)</div>
+      </div>
+    </div>
+
+    <!-- Diálogo modelo -->
+    <p class="sec-title" style="margin-top:1.5rem">Diálogo modelo — <em>Première rencontre</em></p>
+    <div class="dialog">
+      <div class="dialog-title">📍 Situação: dois colegas se encontram pela manhã no trabalho</div>
+      <div class="dialog-line">
+        <div class="dialog-speaker a">A</div>
+        <div class="dialog-content">
+          <div class="dialog-fr">Bonjour, Marie ! Comment ça va ?</div>
+          <div class="dialog-pron">/bɔ̃.ʒuʁ ma.ʁi kɔ.mɑ̃ sa.va/</div>
+          <div class="dialog-pt">Bom dia, Marie! Como vai?</div>
+        </div>
+      </div>
+      <div class="dialog-line">
+        <div class="dialog-speaker b">B</div>
+        <div class="dialog-content">
+          <div class="dialog-fr">Très bien, merci ! Et toi ?</div>
+          <div class="dialog-pron">/tʁɛ.bjɛ̃ mɛʁ.si e.twa/</div>
+          <div class="dialog-pt">Muito bem, obrigada! E você?</div>
+        </div>
+      </div>
+      <div class="dialog-line">
+        <div class="dialog-speaker a">A</div>
+        <div class="dialog-content">
+          <div class="dialog-fr">Ça va bien ! Bonne journée !</div>
+          <div class="dialog-pron">/sa.va.bjɛ̃ bɔn.ʒuʁ.ne/</div>
+          <div class="dialog-pt">Bem! Tenha um bom dia!</div>
+        </div>
+      </div>
+      <div class="dialog-line">
+        <div class="dialog-speaker b">B</div>
+        <div class="dialog-content">
+          <div class="dialog-fr">Merci, vous aussi ! Au revoir !</div>
+          <div class="dialog-pron">/mɛʁ.si vu.zo.si o.ʁə.vwaʁ/</div>
+          <div class="dialog-pt">Obrigada, igualmente! Até logo!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr id="essenciais"/>
+
+  <!-- FRASES ESSENCIAIS -->
+  <section style="margin-bottom:2rem" class="fade fade-d5">
+    <p class="sec-title">Frases essenciais do dia a dia</p>
+
+    <p style="font-size:13px;color:var(--ink3);margin-bottom:14px;line-height:1.7;">Estas são as frases que você vai usar <em>todo dia</em> — em restaurantes, lojas, hotéis e ao se apresentar. Aprenda-as de cor!</p>
+
+    <!-- Polidez -->
+    <p class="sec-title">Polidez e agradecimentos</p>
+    <table class="phrase-table">
+      <thead>
+        <tr>
+          <th>Francês</th>
+          <th>Pronúncia</th>
+          <th>Português</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Merci (beaucoup)</td><td>/mɛʁ.si bo.ku/</td><td>Obrigado/a (muito)</td></tr>
+        <tr><td>De rien / Je vous en prie</td><td>/də.ʁjɛ̃/ · /ʒə.vu.zɑ̃.pʁi/</td><td>De nada (informal / formal)</td></tr>
+        <tr><td>S'il vous plaît</td><td>/sil.vu.plɛ/</td><td>Por favor (formal)</td></tr>
+        <tr><td>S'il te plaît</td><td>/sil.tə.plɛ/</td><td>Por favor (informal)</td></tr>
+        <tr><td>Pardon / Excusez-moi</td><td>/paʁ.dɔ̃/ · /ɛks.ky.ze.mwa/</td><td>Desculpe / Com licença</td></tr>
+        <tr><td>Je suis désolé(e)</td><td>/ʒə.sɥi.de.zɔ.le/</td><td>Sinto muito / Desculpe-me</td></tr>
+        <tr><td>Avec plaisir !</td><td>/a.vɛk.plɛ.ziʁ/</td><td>Com prazer!</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Apresentação -->
+    <p class="sec-title" style="margin-top:1.5rem">Apresentação pessoal</p>
+    <div class="example-box">
+      <div class="fr">Je m'appelle <code>Lucilia</code>.</div>
+      <div class="pron">/ʒə.ma.pɛl/</div>
+      <div class="pt">Meu nome é Lucilia. (literalmente: "Eu me chamo…")</div>
+    </div>
+    <div class="example-box">
+      <div class="fr">J'ai <code>trente</code> ans.</div>
+      <div class="pron">/ʒɛ.tʁɑ̃t.ɑ̃/</div>
+      <div class="pt">Tenho 30 anos. (em francês usa-se "ter" a idade, não "ser")</div>
+    </div>
+    <div class="example-box">
+      <div class="fr">Je suis <code>brésilienne</code>.</div>
+      <div class="pron">/ʒə.sɥi.bʁe.zi.ljɛn/</div>
+      <div class="pt">Sou brasileira. (masculino: <em>brésilien</em>)</div>
+    </div>
+    <div class="example-box">
+      <div class="fr">J'habite à <code>São Paulo</code>.</div>
+      <div class="pron">/ʒa.bit.a/</div>
+      <div class="pt">Moro em São Paulo.</div>
+    </div>
+    <div class="example-box">
+      <div class="fr">Je parle <code>portugais</code> et un peu de français.</div>
+      <div class="pron">/ʒə.paʁl.pɔʁ.ty.ɡɛ.e.œ̃.pø.də.fʁɑ̃.sɛ/</div>
+      <div class="pt">Falo português e um pouco de francês.</div>
+    </div>
+
+    <!-- Restaurante / Loja -->
+    <p class="sec-title" style="margin-top:1.5rem">No restaurante e na loja</p>
+    <table class="phrase-table">
+      <thead>
+        <tr><th>Francês</th><th>Pronúncia</th><th>Português</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Je voudrais…</td><td>/ʒə.vu.dʁɛ/</td><td>Eu gostaria de… (forma educada de pedir)</td></tr>
+        <tr><td>Un café, s'il vous plaît.</td><td>/œ̃.ka.fe/</td><td>Um café, por favor.</td></tr>
+        <tr><td>L'addition, s'il vous plaît.</td><td>/la.di.sjɔ̃/</td><td>A conta, por favor.</td></tr>
+        <tr><td>C'est combien ?</td><td>/sɛ.kɔ̃.bjɛ̃/</td><td>Quanto custa? / Quanto é?</td></tr>
+        <tr><td>Vous avez… ?</td><td>/vu.za.ve/</td><td>Vocês têm… ? / Você tem… ?</td></tr>
+        <tr><td>Je regarde, merci.</td><td>/ʒə.ʁə.ɡaʁd/</td><td>Estou só olhando, obrigado/a.</td></tr>
+        <tr><td>C'est délicieux !</td><td>/sɛ.de.li.sjø/</td><td>Está delicioso!</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Pedindo ajuda -->
+    <p class="sec-title" style="margin-top:1.5rem">Pedindo ajuda e direções</p>
+    <div class="example-box green">
+      <div class="fr">Excusez-moi, parlez-vous <code>anglais</code> ?</div>
+      <div class="pron">/ɛks.ky.ze.mwa paʁ.le.vu.ɑ̃.ɡlɛ/</div>
+      <div class="pt">Com licença, você fala inglês? (ou: <em>portugais</em> — português)</div>
+    </div>
+    <div class="example-box green">
+      <div class="fr">Je ne comprends pas.</div>
+      <div class="pron">/ʒə.nə.kɔ̃.pʁɑ̃.pa/</div>
+      <div class="pt">Não entendo. (frase essencial para iniciantes!)</div>
+    </div>
+    <div class="example-box green">
+      <div class="fr">Pouvez-vous répéter, s'il vous plaît ?</div>
+      <div class="pron">/pu.ve.vu.ʁe.pe.te/</div>
+      <div class="pt">Você pode repetir, por favor?</div>
+    </div>
+    <div class="example-box green">
+      <div class="fr">Où est <code>la gare</code>, s'il vous plaît ?</div>
+      <div class="pron">/u.ɛ.la.ɡaʁ/</div>
+      <div class="pt">Onde fica a estação de trem, por favor?</div>
+    </div>
+    <div class="example-box green">
+      <div class="fr">À droite / À gauche / Tout droit</div>
+      <div class="pron">/a.dʁwat/ · /a.ɡoʃ/ · /tu.dʁwa/</div>
+      <div class="pt">À direita / À esquerda / Em frente (reto)</div>
+    </div>
+  </section>
+
+  <hr id="numeros"/>
+
+  <!-- NÚMEROS -->
+  <section style="margin-bottom:2rem" class="fade fade-d6">
+    <p class="sec-title">Números — <em>Les nombres</em></p>
+    <div class="tip-red">
+      <p><strong>Atenção!</strong> O francês tem uma particularidade curiosa nos números maiores: <strong>70 = soixante-dix</strong> (60+10), <strong>80 = quatre-vingts</strong> (4×20) e <strong>90 = quatre-vingt-dix</strong> (4×20+10). Estranhíssimo, mas é assim mesmo!</p>
+    </div>
+    <div class="num-grid" style="margin-bottom:1.2rem;">
+      <div class="num-card"><span class="num-number">0</span><span class="num-fr">zéro</span><span class="num-pron">/ze.ʁo/</span></div>
+      <div class="num-card"><span class="num-number">1</span><span class="num-fr">un / une</span><span class="num-pron">/œ̃/ /yn/</span></div>
+      <div class="num-card"><span class="num-number">2</span><span class="num-fr">deux</span><span class="num-pron">/dø/</span></div>
+      <div class="num-card"><span class="num-number">3</span><span class="num-fr">trois</span><span class="num-pron">/tʁwa/</span></div>
+      <div class="num-card"><span class="num-number">4</span><span class="num-fr">quatre</span><span class="num-pron">/katʁ/</span></div>
+      <div class="num-card"><span class="num-number">5</span><span class="num-fr">cinq</span><span class="num-pron">/sɛ̃k/</span></div>
+      <div class="num-card"><span class="num-number">6</span><span class="num-fr">six</span><span class="num-pron">/sis/</span></div>
+      <div class="num-card"><span class="num-number">7</span><span class="num-fr">sept</span><span class="num-pron">/sɛt/</span></div>
+      <div class="num-card"><span class="num-number">8</span><span class="num-fr">huit</span><span class="num-pron">/ɥit/</span></div>
+      <div class="num-card"><span class="num-number">9</span><span class="num-fr">neuf</span><span class="num-pron">/nœf/</span></div>
+      <div class="num-card"><span class="num-number">10</span><span class="num-fr">dix</span><span class="num-pron">/dis/</span></div>
+      <div class="num-card"><span class="num-number">11</span><span class="num-fr">onze</span><span class="num-pron">/ɔ̃z/</span></div>
+      <div class="num-card"><span class="num-number">12</span><span class="num-fr">douze</span><span class="num-pron">/duz/</span></div>
+      <div class="num-card"><span class="num-number">13</span><span class="num-fr">treize</span><span class="num-pron">/tʁɛz/</span></div>
+      <div class="num-card"><span class="num-number">14</span><span class="num-fr">quatorze</span><span class="num-pron">/ka.tɔʁz/</span></div>
+      <div class="num-card"><span class="num-number">15</span><span class="num-fr">quinze</span><span class="num-pron">/kɛ̃z/</span></div>
+      <div class="num-card"><span class="num-number">16</span><span class="num-fr">seize</span><span class="num-pron">/sɛz/</span></div>
+      <div class="num-card"><span class="num-number">17</span><span class="num-fr">dix-sept</span><span class="num-pron">/di.sɛt/</span></div>
+      <div class="num-card"><span class="num-number">18</span><span class="num-fr">dix-huit</span><span class="num-pron">/di.zɥit/</span></div>
+      <div class="num-card"><span class="num-number">19</span><span class="num-fr">dix-neuf</span><span class="num-pron">/diz.nœf/</span></div>
+      <div class="num-card"><span class="num-number">20</span><span class="num-fr">vingt</span><span class="num-pron">/vɛ̃/</span></div>
+      <div class="num-card"><span class="num-number">30</span><span class="num-fr">trente</span><span class="num-pron">/tʁɑ̃t/</span></div>
+      <div class="num-card"><span class="num-number">40</span><span class="num-fr">quarante</span><span class="num-pron">/ka.ʁɑ̃t/</span></div>
+      <div class="num-card"><span class="num-number">50</span><span class="num-fr">cinquante</span><span class="num-pron">/sɛ̃.kɑ̃t/</span></div>
+      <div class="num-card"><span class="num-number">60</span><span class="num-fr">soixante</span><span class="num-pron">/swa.sɑ̃t/</span></div>
+      <div class="num-card" style="border-color:rgba(200,75,49,.35);"><span class="num-number" style="color:var(--accent2)">70</span><span class="num-fr">soixante-dix</span><span class="num-pron">60+10 !</span></div>
+      <div class="num-card" style="border-color:rgba(200,75,49,.35);"><span class="num-number" style="color:var(--accent2)">80</span><span class="num-fr">quatre-vingts</span><span class="num-pron">4×20 !</span></div>
+      <div class="num-card" style="border-color:rgba(200,75,49,.35);"><span class="num-number" style="color:var(--accent2)">90</span><span class="num-fr">quatre-vingt-dix</span><span class="num-pron">4×20+10 !</span></div>
+      <div class="num-card"><span class="num-number">100</span><span class="num-fr">cent</span><span class="num-pron">/sɑ̃/</span></div>
+      <div class="num-card"><span class="num-number">1 000</span><span class="num-fr">mille</span><span class="num-pron">/mil/</span></div>
+    </div>
+
+    <div class="info">
+      <h3>Como formar números entre 20 e 69</h3>
+      <p>Adicione o número unitário com hífen: <strong>vingt et un</strong> (21), <strong>vingt-deux</strong> (22)… <strong>trente et un</strong> (31), <strong>trente-deux</strong> (32)… Use <em>et</em> (e) só antes de 1 e 11.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- VOCABULÁRIO BÔNUS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Vocabulário bônus — palavras que você já conhece</p>
+    <div class="tip">
+      <p><strong>Cognatos felizes!</strong> Graças ao latim compartilhado, muitas palavras francesas são quase idênticas ao português. Leia em voz alta e surpreenda-se:</p>
+    </div>
+    <div class="g3">
+      <div class="example-box"><div class="fr">important → <code>important</code></div><div class="pt">importante</div></div>
+      <div class="example-box"><div class="fr">musique → <code>mu.zik</code></div><div class="pt">música</div></div>
+      <div class="example-box"><div class="fr">restaurant → <code>ʁɛs.tɔ.ʁɑ̃</code></div><div class="pt">restaurante</div></div>
+      <div class="example-box"><div class="fr">hôtel → <code>o.tɛl</code></div><div class="pt">hotel</div></div>
+      <div class="example-box"><div class="fr">possible → <code>pɔ.sibl</code></div><div class="pt">possível</div></div>
+      <div class="example-box"><div class="fr">communication → <code>ko.my.ni.ka.sjɔ̃</code></div><div class="pt">comunicação</div></div>
+      <div class="example-box"><div class="fr">animal → <code>a.ni.mal</code></div><div class="pt">animal</div></div>
+      <div class="example-box"><div class="fr">nation → <code>na.sjɔ̃</code></div><div class="pt">nação</div></div>
+      <div class="example-box"><div class="fr">art → <code>aʁ</code></div><div class="pt">arte</div></div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="../notebook.html#frances" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Frances</span>
+    </a>
+    <!-- <a href="#alfabeto" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima lição →</span>
+      <span class="np-title">Verbos em Francês</span>
+    </a> -->
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  // Smooth scroll para âncoras da nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Highlight nav link baseado na seção visível
+  const sections = ['alfabeto','pronúncia','cumprimentos','essenciais','numeros'];
+  const navLinks = document.querySelectorAll('.nav-links .nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => {
+          if (l.getAttribute('href') === '#' + entry.target.id) {
+            l.style.background = 'var(--paper3)';
+            l.style.color = 'var(--ink)';
+          } else if (!l.classList.contains('active')) {
+            l.style.background = '';
+            l.style.color = '';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(id => {
+    const el = document.getElementById(id) || document.querySelector('[id="' + id + '"]');
+    if (el) observer.observe(el);
+  });
+
+ function abrirVideo() {
+  document.getElementById('modal-video').classList.add('open');
+}
+function fecharVideo() {
+  document.getElementById('modal-video').classList.remove('open');
+  document.getElementById('modal-video-player').pause();
+}
+document.getElementById('modal-video').addEventListener('click', function(e) {
+  if (e.target === this) fecharVideo();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') fecharVideo();
+});
+</script>
+</body>
+</html>
