@@ -68,19 +68,15 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="/notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="/index.html" class="nav-link">Home</a>
+    <a href="/notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="/notebook/notebook.html#banco" class="nav-link">Banco de Dados</a>
     <a href="sql-select.html" class="nav-link">SELECT</a>
     <a href="sql-insert-update-delete.html" class="nav-link active">INSERT/UPDATE/DELETE</a>
     <a href="sql-joins.html" class="nav-link">JOINs</a>
     <a href="sql-modelagem.html" class="nav-link">Modelagem</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
 </nav>
 
@@ -105,7 +101,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_dml">O que é DML?</p>
     <div class="info">
-      <h3 data-i18n="dml_h">📝 Data Manipulation Language</h3>
+      <h3 data-i18n="dml_h">Data Manipulation Language</h3>
       <p data-i18n="dml_p">DML é o subconjunto do SQL que <strong>manipula os dados</strong> dentro das tabelas — inserindo, alterando e removendo registros. Diferente do DDL (que cria e altera estruturas), o DML opera sobre o conteúdo. Os três comandos principais são <code>INSERT</code>, <code>UPDATE</code> e <code>DELETE</code>.</p>
     </div>
   </section>
@@ -150,7 +146,7 @@
       <p data-i18n="upd_p">O <code>SET</code> define os novos valores. O <code>WHERE</code> define quais linhas serão afetadas. <strong>Sem WHERE, todos os registros serão alterados!</strong></p>
     </div>
     <div class="warn">
-      <span>⚠️</span>
+      <span></span>
       <p data-i18n="warn_upd"><strong>Regra de ouro:</strong> nunca faça um UPDATE sem WHERE (a não ser que realmente queira alterar todos os registros). Antes de executar, rode um SELECT com o mesmo WHERE para conferir quantas linhas serão afetadas.</p>
     </div>
     <div class="code-wrap">
@@ -186,7 +182,7 @@
       <p data-i18n="del_p">Remove linhas que atendem à condição. Sem <code>WHERE</code>, apaga <strong>todos</strong> os registros da tabela (mas mantém a estrutura). Operação irreversível — não tem Ctrl+Z!</p>
     </div>
     <div class="warn">
-      <span>🚨</span>
+      <span></span>
       <p data-i18n="warn_del"><strong>Cuidado redobrado:</strong> DELETE sem WHERE apaga tudo. Sempre verifique com SELECT antes. Em produção, considere fazer um backup ou usar transações (<code>BEGIN TRANSACTION</code>) para poder fazer rollback.</p>
     </div>
     <div class="code-wrap">

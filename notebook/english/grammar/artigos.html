@@ -79,11 +79,11 @@
     <a href="../../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="../../notebook.html#english" class="nav-link">Grammar</a>
+    <a href="preposicoes.html" class="nav-link" data-i18n="nav_current">Preposições</a>
+    <a href="tempos-verbais.html" class="nav-link" data-i18n="nav_current">Tempos Verbais</a>
     <a href="artigos.html" class="nav-link active" data-i18n="nav_current">Artigos</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+    <a href="pronomes.html" class="nav-link" data-i18n="nav_current">Pronomes</a>
+    <a href="verbos.html" class="nav-link" data-i18n="nav_current">Verbos Regulares e Irregulares</a>
   </div>
 </nav>
 
@@ -98,7 +98,7 @@
       <span class="tag tag-eng">English Grammar</span>
       <span class="tag tag-gray" data-i18n="level">Básico</span>
       <span class="dot"></span>
-      <span style="font-size:12px;color:var(--ink4)">🔤 a · an · the · (zero)</span>
+      <span style="font-size:12px;color:var(--ink4)">a · an · the · (zero)</span>
     </div>
   </header>
 
@@ -108,7 +108,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_intro">O que são artigos?</p>
     <div class="info">
-      <h3 data-i18n="intro_h">🔤 Determinantes do substantivo</h3>
+      <h3 data-i18n="intro_h">Determinantes do substantivo</h3>
       <p data-i18n="intro_p">Artigos são palavras que acompanham um substantivo para indicar se ele é <strong>específico (definido)</strong> ou <strong>não-específico (indefinido)</strong>. Em inglês existem apenas <strong>3 artigos</strong> — A, AN e THE — mas saber quando usar cada um (ou nenhum!) faz toda a diferença.</p>
     </div>
     <div class="g3">
@@ -151,7 +151,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_sound">A ou AN? — O truque do som</p>
     <div class="tip">
-      <p data-i18n="sound_tip">💡 <strong>A regra não é sobre a letra — é sobre o SOM!</strong> Use <strong>AN</strong> quando a próxima palavra começa com <em>som de vogal</em> (mesmo que a letra seja consoante). Use <strong>A</strong> quando começa com <em>som de consoante</em> (mesmo que a letra seja vogal).</p>
+      <p data-i18n="sound_tip"><strong>A regra não é sobre a letra — é sobre o SOM!</strong> Use <strong>AN</strong> quando a próxima palavra começa com <em>som de vogal</em> (mesmo que a letra seja consoante). Use <strong>A</strong> quando começa com <em>som de consoante</em> (mesmo que a letra seja vogal).</p>
     </div>
     <div class="example-box">
       <div class="en"><code>an</code> hour — o "h" é mudo, soa como "our" (vogal) ✓</div>
@@ -245,13 +245,6 @@
 </div>
 
 <script>
-const T={
-  pt:{nav_current:"Artigos",breadcrumb:"Artigos",eyebrow:"// lição 03 · English Grammar · Articles",title:"Artigos",level:"Básico",sec_intro:"O que são artigos?",intro_h:"🔤 Determinantes do substantivo",intro_p:"Artigos são palavras que acompanham um substantivo para indicar se ele é <strong>específico (definido)</strong> ou <strong>não-específico (indefinido)</strong>. Em inglês existem apenas <strong>3 artigos</strong> — A, AN e THE — mas saber quando usar cada um (ou nenhum!) faz toda a diferença.",a_name:"Indefinido — consoante",a_r1:"Antes de som consonantal",a_r2:"Qualquer item de um grupo",a_r3:"Primeira menção",a_ex:"I saw <strong>a</strong> dog. / She is <strong>a</strong> teacher. / <strong>A</strong> cat is an animal.",an_name:"Indefinido — vogal",an_r1:"Antes de som vocálico (a,e,i,o,u)",an_r2:"Mesmas regras do \"A\"",an_r3:"Depende do SOM, não da letra!",an_ex:"<strong>an</strong> apple, <strong>an</strong> hour (h mudo), <strong>a</strong> university (som /j/)",the_name:"Definido — único/conhecido",the_r1:"Já mencionado antes",the_r2:"Único no contexto",the_r3:"Único no mundo (the sun)",the_ex:"I saw <strong>a</strong> dog. <strong>The</strong> dog was black. / <strong>The</strong> moon is bright.",sec_sound:"A ou AN? — O truque do som",sound_tip:"💡 <strong>A regra não é sobre a letra — é sobre o SOM!</strong> Use <strong>AN</strong> quando a próxima palavra começa com <em>som de vogal</em> (mesmo que a letra seja consoante). Use <strong>A</strong> quando começa com <em>som de consoante</em> (mesmo que a letra seja vogal).",sound_ex1:"O \"h\" de \"hour\" é mudo. O som é /aʊər/ — começa com vogal.",sound_ex2:"\"University\" começa com o som /j/ (y), que é uma consoante.",sound_ex3:"Siglas seguem o som de como são pronunciadas, não a letra escrita.",sec_the:"Quando usar THE",the_ex1:"Tenho um gato. O gato é laranja. (segunda menção = já conhecido)",the_ex2:"Único no contexto — todos sabem qual luz é essa.",the_ex3:"Único no mundo ou único no papel.",the_ex4:"Rios, oceanos, países plurais ou com \"States/Republic/Kingdom\" usam THE.",sec_zero:"Artigo zero — quando NÃO usar artigo",zero_general:"Generalizações",zero_g1:"Substantivos plurais em geral",zero_g2:"Substantivos incontáveis",zero_g_ex:"Dogs are loyal. / Water is essential. / Love is beautiful.",zero_names:"Nomes próprios",zero_n1:"Nomes de pessoas",zero_n2:"A maioria dos países e cidades",zero_n3:"Línguas e disciplinas",zero_n_ex:"Brazil, London, English, Science, Mary.",zero_places:"Lugares e instituições",zero_p1:"school, work, home, church",zero_p2:"(quando a função importa, não o lugar)",zero_p_ex:"She's at school (estudando). / at the school (no prédio).",zero_meals:"Refeições, esportes, jogos",zero_m1:"breakfast, lunch, dinner",zero_m2:"football, tennis, chess",zero_m_ex:"We had dinner. / He plays chess every day.",nav_prev_label:"← lição anterior",nav_prev_title:"Tempos Verbais",nav_next_label:"próxima lição →",nav_next_title:"Pronomes"},
-  en:{nav_current:"Articles",breadcrumb:"Articles",eyebrow:"// lesson 03 · English Grammar · Articles",title:"Articles",level:"Basic",sec_intro:"What are articles?",intro_h:"🔤 Noun determiners",intro_p:"Articles are words that accompany a noun to indicate whether it is <strong>specific (definite)</strong> or <strong>non-specific (indefinite)</strong>. In English there are only <strong>3 articles</strong> — A, AN and THE — but knowing when to use each one (or none!) makes all the difference.",a_name:"Indefinite — consonant",a_r1:"Before a consonant sound",a_r2:"Any member of a group",a_r3:"First mention",a_ex:"I saw <strong>a</strong> dog. / She is <strong>a</strong> teacher. / <strong>A</strong> cat is an animal.",an_name:"Indefinite — vowel",an_r1:"Before a vowel sound (a,e,i,o,u)",an_r2:"Same rules as \"A\"",an_r3:"Depends on SOUND, not the letter!",an_ex:"<strong>an</strong> apple, <strong>an</strong> hour (silent h), <strong>a</strong> university (sound /j/)",the_name:"Definite — specific/known",the_r1:"Already mentioned before",the_r2:"Unique in context",the_r3:"One of a kind (the sun)",the_ex:"I saw <strong>a</strong> dog. <strong>The</strong> dog was black. / <strong>The</strong> moon is bright.",sec_sound:"A or AN? — The sound trick",sound_tip:"💡 <strong>The rule is about SOUND, not the letter!</strong> Use <strong>AN</strong> when the next word begins with a <em>vowel sound</em> (even if the letter is a consonant). Use <strong>A</strong> when it begins with a <em>consonant sound</em> (even if the letter is a vowel).",sound_ex1:"The \"h\" in \"hour\" is silent. The sound is /aʊər/ — starts with a vowel.",sound_ex2:"\"University\" starts with the /j/ (y) sound — a consonant.",sound_ex3:"Acronyms follow how they are pronounced, not the written letter.",sec_the:"When to use THE",the_ex1:"I have a cat. The cat is orange. (second mention = already known)",the_ex2:"Unique in context — everyone knows which light that is.",the_ex3:"One of a kind in the world or in the role.",the_ex4:"Rivers, oceans, plural countries or those with \"States/Republic/Kingdom\" use THE.",sec_zero:"Zero article — when NOT to use an article",zero_general:"Generalizations",zero_g1:"Plural nouns in general",zero_g2:"Uncountable nouns",zero_g_ex:"Dogs are loyal. / Water is essential. / Love is beautiful.",zero_names:"Proper nouns",zero_n1:"People's names",zero_n2:"Most countries and cities",zero_n3:"Languages and subjects",zero_n_ex:"Brazil, London, English, Science, Mary.",zero_places:"Places and institutions",zero_p1:"school, work, home, church",zero_p2:"(when the function matters, not the building)",zero_p_ex:"She's at school (studying). / at the school (at the building).",zero_meals:"Meals, sports, games",zero_m1:"breakfast, lunch, dinner",zero_m2:"football, tennis, chess",zero_m_ex:"We had dinner. / He plays chess every day.",nav_prev_label:"← previous lesson",nav_prev_title:"Verb Tenses",nav_next_label:"next lesson →",nav_next_title:"Pronouns"}
-};
-let lang=localStorage.getItem('nb_lang')||'pt';
-function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
-if(lang==='en')setLang('en');
 </script>
 </body>
 </html>

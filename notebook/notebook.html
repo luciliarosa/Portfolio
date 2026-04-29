@@ -173,10 +173,6 @@
     <a href="notebook.html#banco" class="nav-link" data-i18n="nav_db">Banco de Dados</a>
     <a href="notebook.html#english" class="nav-link">English</a>
   </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇨🇦 EN</button>
-  </div>
 </nav>
 
 <header class="hero">
@@ -458,10 +454,10 @@
           <div class="sc-body"><p class="sc-name" data-i18n="en1_name">English Grammar</p><p class="sc-desc" data-i18n="en1_desc">Artigos, Pronomes, Tempos Verbais, Preposições e Verbos.</p></div>
           <div class="sc-footer"><span class="sc-tag en">Grammar</span><button class="sc-toggle-btn" onclick="toggleCard('card-en-grammar',this)" data-i18n="btn_see">▼ ver aulas</button><span class="sc-count">5 <span data-i18n="lessons_word">aulas</span></span></div>
           <div class="lessons-panel">
-            <a href="english/grammar/artigos.html" class="lesson-link"><span class="ll-num">01</span><span data-i18n="en1_l1">Artigos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="english/grammar/pronomes.html" class="lesson-link"><span class="ll-num">02</span><span data-i18n="en1_l2">Pronomes</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="english/grammar/tempos-verbais.html" class="lesson-link"><span class="ll-num">03</span><span data-i18n="en1_l3">Tempos Verbais</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
-            <a href="english/grammar/preposicoes.html" class="lesson-link"><span class="ll-num">04</span><span data-i18n="en1_l4">Preposições</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
+            <a href="english/grammar/preposicoes.html" class="lesson-link"><span class="ll-num">01</span><span data-i18n="en1_l4">Preposições</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
+            <a href="english/grammar/tempos-verbais.html" class="lesson-link"><span class="ll-num">02</span><span data-i18n="en1_l3">Tempos Verbais</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
+            <a href="english/grammar/artigos.html" class="lesson-link"><span class="ll-num">03</span><span data-i18n="en1_l1">Artigos</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
+            <a href="english/grammar/pronomes.html" class="lesson-link"><span class="ll-num">04</span><span data-i18n="en1_l2">Pronomes</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
             <a href="english/grammar/verbos.html" class="lesson-link"><span class="ll-num">05</span><span data-i18n="en1_l5">Verbos Regulares e Irregulares</span><span class="ll-badge done" data-i18n="badge_done">feita</span></a>
           </div>
         </div>
@@ -497,173 +493,6 @@
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
 
 <script>
-const T={
-  pt:{
-    nav_back:"← Portfólio", nav_home:"Caderno", nav_db:"Banco de Dados",
-    nav_profile:"Perfil &amp; Projetos ▾",
-    nav_about:"Sobre mim", nav_about_desc:"Trajetória, habilidades e história",
-    nav_projects:"Projetos", nav_projects_desc:"HTML, Python, JavaScript e React",
-    nav_areas:"Frontend, Backend &amp; Fullstack", nav_areas_desc:"O que é cada área e como se conectam",
-    eyebrow:"// developer notes",
-    hero_sub:"Anotações de aula organizadas por assunto. Tudo que aprendi, do jeito que entendi — baseado em cursos online.",
-    meta_local:"📍 Aprendizado Online", meta_status:"✏️ Em andamento",
-    pinned_title:"Nota da Lucilia",
-    pinned_text:"Esse caderno é o meu jeito de revisar e fixar o conteúdo. Clique em qualquer matéria para ver os tópicos e acessar as aulas anotadas.",
-    banner_title:"Quer ver meu portfólio?",
-    banner_desc:"Projetos, skills e perfil profissional da Lucilia Rosa",
-    banner_link:"Ver portfólio →",
-    btn_see:"▼ ver aulas", btn_hide:"▲ ocultar",
-    lessons_word:"aulas", coming_soon:"em breve",
-    badge_done:"feita", badge_new:"nova",
-    sec_db:"🗄️ Banco de Dados",
-    search_empty:"Nenhuma aula encontrada. Tente outro termo. 🔎",
-    py1_name:"Sobre o Python",
-    py1_desc:"A história da linguagem, quem criou, como evoluiu, documentação oficial e o Zen do Python.",
-    py1_l1:"História do Python — origem e criação",
-    py1_l2:"Ecossistema, docs oficiais e Zen do Python",
-    py2_name:"Fundamentos",
-    py2_desc:"Variáveis, operadores, condicionais, laços e funções em Python.",
-    py2_l1:"Variáveis e Tipos Primitivos",
-    py2_l2:"Operadores (aritméticos, relacionais, lógicos)",
-    py2_l3:"Estruturas Condicionais (if, elif, else)",
-    py2_l4:"Laços de Repetição (for e while)",
-    py2_l5:"Funções — definindo e reutilizando código",
-    py3_name:"Estruturas de Dados",
-    py3_desc:"Listas, tuplas, dicionários e conjuntos com Python.",
-    py3_l1:"Listas — índices, fatiamento e métodos",
-    py3_l2:"Tuplas — imutabilidade e desempacotamento",
-    py3_l3:"Dicionários — chave, valor e métodos",
-    py3_l4:"Conjuntos — sets e operações matemáticas",
-    py4_name:"Orientação a Objetos",
-    py4_desc:"Classes, objetos, atributos, métodos, visibilidade e os 4 pilares da POO.",
-    py4_l1:"História da POO — origem e criadores",
-    py4_l2:"Classes, Objetos, Atributos e Pilares",
-    py4_l3:"Criando Classes e Objetos na Prática",
-    py4_l4:"Melhorando Classes e Criando uma Conta Bancária",
-    py4_l5:"Rich Python",
-    html1_name:"HTML",
-    html1_desc:"A linguagem que estrutura a web — história, elementos, semântica e conceitos fundamentais.",
-    html1_l1:"História do HTML — origem e evolução",
-    html1_l2:"Conceitos de HTML — tags, semântica e estrutura",
-    css1_name:"CSS",
-    css1_desc:"A linguagem que estiliza a web — história, seletores, Box Model, Flexbox e responsividade.",
-    css1_l1:"História do CSS — Håkon Wium Lie e a origem",
-    css1_l2:"Conceitos de CSS — seletores, Box Model e layout",
-    js1_name:"JS Básico",
-    js1_desc:"DOM, eventos, variáveis e funções no browser.",
-    js1_l1:"JavaScript — história, DOM, eventos e funções",
-    js2_name:"JS Moderno",
-    js2_desc:"ES6+, arrow functions, promises, async/await.",
-    git1_name:"Controle de Versão",
-    git1_desc:"Commits, branches, merge, pull requests e GitHub.",
-    git1_l1:"Introdução — controle de versão e as 3 áreas",
-    git1_l2:"Commits — staging, histórico e como desfazer",
-    git1_l3:"Branches — criando e navegando entre elas",
-    git1_l4:"Merge, Rebase e resolução de conflitos",
-    git1_l5:"GitHub, push/pull e Pull Requests",
-    db1_desc:"SELECT, INSERT, UPDATE, DELETE, JOINs e modelagem.",
-    sql1_l1:"SELECT — consultas, filtros e agregações",
-    sql1_l2:"INSERT, UPDATE e DELETE — manipulando dados",
-    sql1_l3:"JOINs — unindo tabelas",
-    sql1_l4:"Modelagem — PK, FK, relacionamentos e normalização",
-    pg1_desc:"História, arquitetura e projetos práticos com o banco de dados mais poderoso do mundo open source.",
-    pg1_l1:"PostgreSQL — História",
-    pg1_l2:"PostgreSQL — Como Funciona",
-    pg1_l3:"PostgreSQL — Projetos",
-    en1_name:"English Grammar",
-    en1_desc:"Artigos, Pronomes, Tempos Verbais, Preposições e Verbos.",
-    en1_l1:"Artigos", en1_l2:"Pronomes", en1_l3:"Tempos Verbais",
-    en1_l4:"Preposições", en1_l5:"Verbos Regulares e Irregulares",
-    en2_name:"English Vocabulary",
-    en2_desc:"Vocabulário temático — tecnologia, viagens e muito mais.",
-    en2_l1:"Tech &amp; Programming", en2_l2:"Travel &amp; Transport",
-    en3_name:"Reading in English", en3_desc:"Leitura e interpretação de textos em inglês.",
-    en4_name:"Writing in English", en4_desc:"Redação, e-mails, essays e escrita formal em inglês."
-  },
-  en:{
-    nav_back:"← Portfolio", nav_home:"Notebook", nav_db:"Databases",
-    nav_profile:"Profile &amp; Projects ▾",
-    nav_about:"About me", nav_about_desc:"Background, skills and story",
-    nav_projects:"Projects", nav_projects_desc:"HTML, Python, JavaScript and React",
-    nav_areas:"Frontend, Backend &amp; Fullstack", nav_areas_desc:"What each area is and how they connect",
-    eyebrow:"// developer notes",
-    hero_sub:"Class notes organized by subject. Everything I learned, the way I understood it — based on online courses.",
-    meta_local:"📍 Online Learning", meta_status:"✏️ In progress",
-    pinned_title:"Lucilia's Note",
-    pinned_text:"This notebook is my way of reviewing and retaining knowledge. Click on any subject to see the topics and access the annotated lessons.",
-    banner_title:"Want to see my portfolio?",
-    banner_desc:"Projects, skills and professional profile of Lucilia Rosa",
-    banner_link:"View portfolio →",
-    btn_see:"▼ see lessons", btn_hide:"▲ hide",
-    lessons_word:"lessons", coming_soon:"coming soon",
-    badge_done:"done", badge_new:"new",
-    sec_db:"🗄️ Databases",
-    search_empty:"No lessons found. Try another term. 🔎",
-    py1_name:"About Python",
-    py1_desc:"The language history, who created it, how it evolved, official docs and the Zen of Python.",
-    py1_l1:"Python History — origin and creation",
-    py1_l2:"Ecosystem, official docs and Zen of Python",
-    py2_name:"Fundamentals",
-    py2_desc:"Variables, operators, conditionals, loops and functions in Python.",
-    py2_l1:"Variables and Primitive Types",
-    py2_l2:"Operators (arithmetic, relational, logical)",
-    py2_l3:"Conditional Statements (if, elif, else)",
-    py2_l4:"Loops (for and while)",
-    py2_l5:"Functions — defining and reusing code",
-    py3_name:"Data Structures",
-    py3_desc:"Lists, tuples, dictionaries and sets in Python.",
-    py3_l1:"Lists — indexes, slicing and methods",
-    py3_l2:"Tuples — immutability and unpacking",
-    py3_l3:"Dictionaries — key, value and methods",
-    py3_l4:"Sets — sets and mathematical operations",
-    py4_name:"Object-Oriented Programming",
-    py4_desc:"Classes, objects, attributes, methods, visibility and the 4 pillars of OOP.",
-    py4_l1:"OOP History — origin and creators",
-    py4_l2:"Classes, Objects, Attributes and Pillars",
-    py4_l3:"Creating Classes and Objects in Practice",
-    py4_l4:"Improving Classes and Creating a Bank Account",
-    py4_l5:"Rich Python",
-    html1_name:"HTML",
-    html1_desc:"The language that structures the web — history, elements, semantics and core concepts.",
-    html1_l1:"HTML History — origin and evolution",
-    html1_l2:"HTML Concepts — tags, semantics and structure",
-    css1_name:"CSS",
-    css1_desc:"The language that styles the web — history, selectors, Box Model, Flexbox and responsiveness.",
-    css1_l1:"CSS History — Håkon Wium Lie and the origin",
-    css1_l2:"CSS Concepts — selectors, Box Model and layout",
-    js1_name:"JS Basics",
-    js1_desc:"DOM, events, variables and functions in the browser.",
-    js1_l1:"JavaScript — history, DOM, events and functions",
-    js2_name:"Modern JS",
-    js2_desc:"ES6+, arrow functions, promises, async/await.",
-    git1_name:"Version Control",
-    git1_desc:"Commits, branches, merge, pull requests and GitHub.",
-    git1_l1:"Introduction — version control and the 3 areas",
-    git1_l2:"Commits — staging, history and how to undo",
-    git1_l3:"Branches — creating and switching between them",
-    git1_l4:"Merge, Rebase and conflict resolution",
-    git1_l5:"GitHub, push/pull and Pull Requests",
-    db1_desc:"SELECT, INSERT, UPDATE, DELETE, JOINs and modeling.",
-    sql1_l1:"SELECT — queries, filters and aggregations",
-    sql1_l2:"INSERT, UPDATE and DELETE — manipulating data",
-    sql1_l3:"JOINs — joining tables",
-    sql1_l4:"Modeling — PK, FK, relationships and normalization",
-    pg1_desc:"History, architecture and hands-on projects with the world's most powerful open source database.",
-    pg1_l1:"PostgreSQL — History",
-    pg1_l2:"PostgreSQL — How It Works",
-    pg1_l3:"PostgreSQL — Projects",
-    en1_name:"English Grammar",
-    en1_desc:"Articles, Pronouns, Verb Tenses, Prepositions and Verbs.",
-    en1_l1:"Articles", en1_l2:"Pronouns", en1_l3:"Verb Tenses",
-    en1_l4:"Prepositions", en1_l5:"Regular and Irregular Verbs",
-    en2_name:"English Vocabulary",
-    en2_desc:"Thematic vocabulary — technology, travel and more.",
-    en2_l1:"Tech &amp; Programming", en2_l2:"Travel &amp; Transport",
-    en3_name:"Reading in English", en3_desc:"Reading and interpreting texts in English.",
-    en4_name:"Writing in English", en4_desc:"Essays, emails, formal writing and composition in English."
-  }
-};
-
 let lang = localStorage.getItem('nb_lang') || 'pt';
 
 function setLang(l) {

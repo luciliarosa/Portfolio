@@ -87,9 +87,9 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="../../notebook.html#git" class="nav-link">GIT</a>
     <a href="git-intro.html" class="nav-link">Introdução</a>
@@ -108,7 +108,7 @@
     <div class="article-meta">
       <span class="tag git">Git</span><span class="tag gray">Commits</span>
       <span class="dot"></span>
-      <span style="font-size:12px;color:var(--ink4)">📖 Baseado no Curso em Vídeo — Guanabara</span>
+      <span style="font-size:12px;color:var(--ink4)">Baseado no Curso em Vídeo — Guanabara</span>
     </div>
   </header>
 
@@ -117,7 +117,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title">O que é um commit?</p>
     <div class="info">
-      <h3>📸 Uma fotografia do seu projeto</h3>
+      <h3>Uma fotografia do seu projeto</h3>
       <p>Um commit é um <strong>registro permanente</strong> do estado do projeto naquele momento. Cada commit tem: um <strong>hash SHA-1</strong> único (ex: <code>a3f5c2d</code>), a mensagem que você escreveu, autor, data e um ponteiro para o commit anterior. É a unidade básica do histórico Git.</p>
     </div>
     <div class="commit-line">
@@ -200,11 +200,11 @@
     </div>
     <div class="g2">
       <div class="info" style="border-left:4px solid #BA7517;margin-bottom:0;">
-        <h3>⚠️ reset --hard</h3>
+        <h3>reset --hard</h3>
         <p>Apaga os commits E as alterações. Use com cuidado — as mudanças desaparecem para sempre no seu working directory. Nunca use em commits já enviados ao GitHub.</p>
       </div>
       <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
-        <h3>✅ revert</h3>
+        <h3>revert</h3>
         <p>Cria um novo commit que desfaz o anterior — sem apagar o histórico. É a forma segura de desfazer algo que já foi enviado ao repositório remoto.</p>
       </div>
     </div>
@@ -239,7 +239,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title">Conventional Commits — o padrão da indústria</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3>🏷️ Prefixos que todo dev precisa conhecer</h3>
+      <h3>Prefixos que todo dev precisa conhecer</h3>
       <p>O <strong>Conventional Commits</strong> é uma convenção de mensagens de commit amplamente adotada. O formato é: <code>tipo(escopo): descrição</code> — onde o escopo é opcional e indica qual parte do projeto foi afetada. Ferramentas como o GitHub usam esses prefixos para gerar changelogs automáticos.</p>
     </div>
     <table class="cc-table">
@@ -311,7 +311,7 @@
     </table>
 
     <div class="info" style="margin-bottom:1rem;">
-      <h3>📐 Formato completo com escopo</h3>
+      <h3>Formato completo com escopo</h3>
       <p>O escopo é opcional mas ajuda a localizar onde a mudança aconteceu. Fica entre parênteses depois do tipo:</p>
     </div>
     <div class="cmd-block">
@@ -330,7 +330,7 @@
 
     <div class="g2">
       <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
-        <h3>✅ Por que seguir esse padrão?</h3>
+        <h3>Por que seguir esse padrão?</h3>
         <ul>
           <li>Histórico legível por qualquer pessoa do time</li>
           <li>Gera changelogs automáticos com ferramentas como <code>semantic-release</code></li>
@@ -339,7 +339,7 @@
         </ul>
       </div>
       <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
-        <h3>💡 Dica — extensão no VS Code</h3>
+        <h3>Dica — extensão no VS Code</h3>
         <p>Instale a extensão <strong>Conventional Commits</strong> no VS Code. Ela abre um guia passo a passo na hora de escrever a mensagem — você escolhe o tipo, escopo e descrição com autocompletar.</p>
       </div>
     </div>

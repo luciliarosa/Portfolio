@@ -276,11 +276,11 @@
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="../../index.html" class="nav-brand">
+  <a href="../../notebook.html" class="nav-brand">
     <span>📓</span> Lucilia's Notebook
   </a>
   <div class="nav-links">
-    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="../../notebook.html#python" class="nav-link">Python</a>
     <a href="historia-poo.html" class="nav-link">História da POO</a>
@@ -306,7 +306,7 @@
       <span class="tag gray">POO</span>
       <span class="tag green">Prática</span>
       <span class="dot"></span>
-      <span>📖 Baseado no Curso em Vídeo — Guanabara</span>
+      <span>Baseado no Curso em Vídeo — Guanabara</span>
     </div>
   </header>
 
@@ -320,7 +320,7 @@
       <p>A ideia é sair do exemplo da Caneta (abstrato) e partir para algo mais próximo do mundo real: uma conta com titular, saldo, depósitos e saques.</p>
     </div>
     <div class="tip">
-      <p>💡 <strong>Por que conta bancária?</strong> Porque ela tem tudo que uma boa classe precisa: atributos (saldo, titular), métodos (depositar, sacar), validações (não sacar mais do que tem) e encapsulamento (saldo não deve ser alterado diretamente).</p>
+      <p><strong>Por que conta bancária?</strong> Porque ela tem tudo que uma boa classe precisa: atributos (saldo, titular), métodos (depositar, sacar), validações (não sacar mais do que tem) e encapsulamento (saldo não deve ser alterado diretamente).</p>
     </div>
   </section>
 
@@ -331,7 +331,7 @@
     <p class="sec-title">Melhorando uma classe — boas práticas</p>
     <div class="cards-2" style="margin-bottom:1.5rem">
       <div class="analogy">
-        <div class="analogy-icon">⚠️</div>
+        <div class="analogy-icon"></div>
         <div>
           <h3>Classe sem boas práticas</h3>
           <p>Atributos públicos — qualquer código pode alterar o saldo diretamente. Sem validação, sem controle. Isso quebra o encapsulamento.</p>
@@ -339,7 +339,7 @@
         </div>
       </div>
       <div class="analogy">
-        <div class="analogy-icon">✅</div>
+        <div class="analogy-icon"></div>
         <div>
           <h3>Classe com boas práticas</h3>
           <p>Atributos privados com <code>__</code>. Acesso controlado por métodos. Validações dentro dos métodos. O objeto cuida da sua própria integridade.</p>
@@ -455,7 +455,7 @@
     </div>
 
     <div class="tip" style="margin-bottom:1.5rem">
-      <p>💡 O <strong>construtor</strong> (<code>__init__</code>) é chamado automaticamente quando o objeto é criado. Aqui já definimos os atributos com <code>__</code> (privados) e criamos uma lista de extrato vazia que vai crescer com cada operação.</p>
+      <p>O <strong>construtor</strong> (<code>__init__</code>) é chamado automaticamente quando o objeto é criado. Aqui já definimos os atributos com <code>__</code> (privados) e criamos uma lista de extrato vazia que vai crescer com cada operação.</p>
     </div>
 
     <!-- PASSO 2 -->
@@ -546,22 +546,22 @@
     <p class="sec-title">Os pilares da POO na prática — ContaBancaria</p>
     <div class="cards-2">
       <div class="card blue">
-        <span class="badge blue">🧩 Abstração</span>
+        <span class="badge blue">Abstração</span>
         <h3>Simplificamos o mundo real</h3>
         <p>Uma conta bancária real tem dezenas de atributos. Aqui modelamos só o necessário: titular, saldo, limite e extrato. O resto não importa para o nosso programa.</p>
       </div>
       <div class="card teal">
-        <span class="badge teal">🔒 Encapsulamento</span>
+        <span class="badge teal">Encapsulamento</span>
         <h3>Saldo só muda por métodos</h3>
         <p>O <code>__saldo</code> é privado. Ninguém faz <code>conta.saldo = -999</code>. Só <code>depositar()</code> e <code>sacar()</code> alteram o saldo — e com validação.</p>
       </div>
       <div class="card purple">
-        <span class="badge purple">🧬 Herança</span>
+        <span class="badge purple">Herança</span>
         <h3>Pronto para herdar</h3>
         <p>Poderíamos criar <code>ContaCorrente</code> e <code>ContaPoupanca</code> herdando de <code>ContaBancaria</code>, cada uma com suas particularidades, sem reescrever tudo.</p>
       </div>
       <div class="card amber">
-        <span class="badge amber">🎭 Polimorfismo</span>
+        <span class="badge amber">Polimorfismo</span>
         <h3>Mesmo método, comportamentos diferentes</h3>
         <p>Uma <code>ContaPoupanca</code> poderia ter seu próprio <code>sacar()</code> com regras diferentes (ex: só 1 saque por mês), mesmo herdando da classe base.</p>
       </div>
@@ -579,7 +579,7 @@
       <p>Você já usou dois nessa aula: <code>__init__</code> (construtor) e <code>__str__</code> (representação). Mas existem vários outros que deixam sua classe muito mais poderosa.</p>
     </div>
     <div class="tip" style="margin-bottom:1.5rem">
-      <p>💡 Dunder <strong>não é nome bonito</strong> — é uma convenção do Python para separar métodos especiais (que o interpretador chama) dos métodos normais (que você chama). Nunca crie métodos com <code>__nome__</code> por conta própria.</p>
+      <p>Dunder <strong>não é nome bonito</strong> — é uma convenção do Python para separar métodos especiais (que o interpretador chama) dos métodos normais (que você chama). Nunca crie métodos com <code>__nome__</code> por conta própria.</p>
     </div>
     <div class="cards-2" style="margin-bottom:1.5rem">
       <div class="card blue">
@@ -684,24 +684,11 @@
 
   <hr />
 
-  <!-- RESUMO -->
-  <div class="summary fade">
-    <h3>📌 Resumo da aula</h3>
-    <ul>
-      <li><strong>Atributos privados</strong> com <code>__</code> protegem os dados do objeto de alterações externas.</li>
-      <li><strong>Métodos com validação</strong> garantem que o objeto só mude de estado de formas permitidas.</li>
-      <li>O método <strong><code>__str__</code></strong> define o que aparece ao usar <code>print()</code> com o objeto.</li>
-      <li><strong>Getters</strong> são métodos que retornam atributos privados de forma controlada.</li>
-      <li>O método <strong><code>transferir()</code></strong> chama <code>depositar()</code> de outro objeto — objetos interagindo entre si.</li>
-      <li>Todos os <strong>4 pilares da POO</strong> aparecem na ContaBancaria: abstração, encapsulamento, herança (potencial) e polimorfismo (potencial).</li>
-    </ul>
-  </div>
-
   <!-- NAV PAGES -->
   <div class="nav-pages fade">
-    <a href="poo-conceitos.html" class="nav-page" style="align-items:flex-start">
+    <a href="criando-classes-objetos.html" class="nav-page" style="align-items:flex-start">
       <span class="np-label">← aula anterior</span>
-      <span class="np-title">Classes, Objetos e os 4 Pilares</span>
+      <span class="np-title">Criando Classes e Objetos na Prática</span>
     </a>
     <a href="rich-python.html" class="nav-page" style="align-items:flex-end">
       <span class="np-label">próxima aula →</span>

@@ -74,17 +74,13 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="../../notebook.html#htmlcss" class="nav-link">HTML & CSS</a>
     <a href="html-historia.html" class="nav-link">História HTML</a>
     <a href="html-conceitos.html" class="nav-link active">Conceitos HTML</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
 </nav>
 
@@ -99,7 +95,7 @@
       <span class="tag tag-html">HTML</span>
       <span class="tag gray" data-i18n="tag_basic">Básico</span>
       <span class="dot"></span>
-      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">📖 Baseado em MDN Web Docs</span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">Baseado em MDN Web Docs</span>
     </div>
   </header>
 
@@ -109,20 +105,20 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_what">O que é HTML?</p>
     <div class="info">
-      <h3 data-i18n="what_h">🏗️ A estrutura de toda página web</h3>
+      <h3 data-i18n="what_h">A estrutura de toda página web</h3>
       <p data-i18n="what_p">HTML não é uma linguagem de programação — é uma <strong>linguagem de marcação</strong>. Ela define a <strong>estrutura e o significado</strong> do conteúdo de uma página web. Pense nela como o esqueleto de uma página: o CSS é a roupa e o JavaScript é o movimento.</p>
     </div>
     <div class="g3">
       <div class="info" style="border-left:4px solid var(--html);margin-bottom:0;">
-        <h3>🦴 HTML</h3>
+        <h3>HTML</h3>
         <p data-i18n="trio_html">Estrutura e conteúdo. Define o que cada coisa é — título, parágrafo, imagem, link.</p>
       </div>
       <div class="info" style="border-left:4px solid #264de4;margin-bottom:0;">
-        <h3>👗 CSS</h3>
+        <h3>CSS</h3>
         <p data-i18n="trio_css">Aparência e estilo. Define como cada coisa parece — cores, tamanhos, fontes, layout.</p>
       </div>
       <div class="info" style="border-left:4px solid #f7df1e;margin-bottom:0;">
-        <h3>⚡ JavaScript</h3>
+        <h3>JavaScript</h3>
         <p data-i18n="trio_js">Comportamento e interação. Define o que acontece quando o usuário age — cliques, animações, dados.</p>
       </div>
     </div>
@@ -146,7 +142,7 @@
     </div>
     <div class="g2">
       <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
-        <h3 data-i18n="void_h">🚫 Elementos void (sem fechamento)</h3>
+        <h3 data-i18n="void_h">Elementos void (sem fechamento)</h3>
         <p data-i18n="void_p">Alguns elementos não têm tag de fechamento porque não envolvem conteúdo. São chamados de <strong>void elements</strong>.</p>
         <ul>
           <li><code>&lt;img&gt;</code> — imagem</li>
@@ -158,7 +154,7 @@
         </ul>
       </div>
       <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
-        <h3 data-i18n="attr_h">🏷️ Atributos</h3>
+        <h3 data-i18n="attr_h">Atributos</h3>
         <p data-i18n="attr_p">Atributos fornecem informação adicional aos elementos. Sempre ficam na tag de abertura no formato <code>nome="valor"</code>.</p>
         <ul>
           <li><code>class</code> — <span data-i18n="attr1">categoria para CSS/JS</span></li>
@@ -178,7 +174,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_structure">Estrutura básica de uma página HTML</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="struct_h">📄 O esqueleto obrigatório</h3>
+      <h3 data-i18n="struct_h">O esqueleto obrigatório</h3>
       <p data-i18n="struct_p">Todo documento HTML válido precisa dessa estrutura base. Cada parte tem uma função específica que o browser usa para processar a página corretamente.</p>
     </div>
     <div class="code-wrap">
@@ -261,7 +257,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_semantic">HTML semântico — o HTML do HTML5</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="sem_h">💡 Por que usar tags semânticas?</h3>
+      <h3 data-i18n="sem_h">Por que usar tags semânticas?</h3>
       <p data-i18n="sem_p">Tags semânticas dizem ao browser (e aos motores de busca e leitores de tela) <strong>o que aquele conteúdo significa</strong>, não só como ele parece. Usar <code>&lt;nav&gt;</code> em vez de <code>&lt;div id="nav"&gt;</code> ajuda no SEO, na acessibilidade e na legibilidade do código.</p>
     </div>
     <div class="sem-grid">
@@ -293,7 +289,7 @@
       <span class="np-label" data-i18n="nav_prev_label">← aula anterior</span>
       <span class="np-title" data-i18n="nav_prev_title">História do HTML</span>
     </a>
-    <a href="css-historia.html" class="nav-page" style="align-items:flex-end">
+    <a href="../css/css-historia.html" class="nav-page" style="align-items:flex-end">
       <span class="np-label" data-i18n="nav_next_label">próxima aula →</span>
       <span class="np-title" data-i18n="nav_next_title">História do CSS</span>
     </a>
@@ -301,86 +297,6 @@
 </div>
 
 <script>
-const T={
-  pt:{
-    breadcrumb:"Conceitos de HTML",eyebrow:"// aula 02 · HTML · Conceitos",title:"Conceitos Básicos\nde HTML",
-    tag_basic:"Básico",source:"📖 Baseado em MDN Web Docs",
-    sec_what:"O que é HTML?",what_h:"🏗️ A estrutura de toda página web",
-    what_p:"HTML não é uma linguagem de programação — é uma <strong>linguagem de marcação</strong>. Ela define a <strong>estrutura e o significado</strong> do conteúdo de uma página web. Pense nela como o esqueleto de uma página: o CSS é a roupa e o JavaScript é o movimento.",
-    trio_html:"Estrutura e conteúdo. Define o que cada coisa é — título, parágrafo, imagem, link.",
-    trio_css:"Aparência e estilo. Define como cada coisa parece — cores, tamanhos, fontes, layout.",
-    trio_js:"Comportamento e interação. Define o que acontece quando o usuário age — cliques, animações, dados.",
-    sec_anatomy:"Anatomia de um elemento HTML",
-    anat1:"<strong>Tag de abertura:</strong> &lt;p&gt;",anat2:"<strong>Atributo:</strong> class=\"destaque\"",
-    anat3:"<strong>Conteúdo:</strong> Olá, mundo!",anat4:"<strong>Tag de fechamento:</strong> &lt;/p&gt;",
-    void_h:"🚫 Elementos void (sem fechamento)",void_p:"Alguns elementos não têm tag de fechamento porque não envolvem conteúdo. São chamados de <strong>void elements</strong>.",
-    attr_h:"🏷️ Atributos",attr_p:"Atributos fornecem informação adicional aos elementos. Sempre ficam na tag de abertura no formato <code>nome=\"valor\"</code>.",
-    attr1:"categoria para CSS/JS",attr2:"identificador único",attr3:"destino de um link",attr4:"caminho de imagem",attr5:"texto alternativo",attr6:"CSS inline",
-    sec_structure:"Estrutura básica de uma página HTML",struct_h:"📄 O esqueleto obrigatório",
-    struct_p:"Todo documento HTML válido precisa dessa estrutura base. Cada parte tem uma função específica que o browser usa para processar a página corretamente.",
-    sec_tags:"Tags essenciais — as mais usadas",
-    tag_h_name:"Títulos",tag_h_desc:"Hierarquia de títulos. H1 é o mais importante (um por página), H6 o menor. Importantíssimos para SEO e acessibilidade.",
-    tag_p_name:"Parágrafo",tag_p_desc:"Define um bloco de texto. O browser adiciona espaço automaticamente entre parágrafos.",
-    tag_a_name:"Link (âncora)",tag_a_desc:"Cria um hiperlink. O atributo <code>href</code> define o destino. Pode abrir em nova aba com <code>target=\"_blank\"</code>.",
-    tag_img_name:"Imagem",tag_img_desc:"Insere uma imagem. Sempre use o atributo <code>alt</code> para acessibilidade.",
-    tag_ul_name:"Listas",tag_ul_desc:"<code>&lt;ul&gt;</code> = lista não ordenada (bolinhas). <code>&lt;ol&gt;</code> = numerada. <code>&lt;li&gt;</code> = cada item.",
-    tag_div_name:"Contêineres genéricos",tag_div_desc:"<code>&lt;div&gt;</code> agrupa blocos. <code>&lt;span&gt;</code> agrupa inline. Sem significado semântico — usados com CSS.",
-    tag_form_name:"Formulários",tag_form_desc:"Coletam dados do usuário. <code>&lt;input type=\"text\"&gt;</code>, <code>email</code>, <code>password</code>, <code>checkbox</code>, <code>radio</code>...",
-    tag_strong_name:"Ênfase",tag_strong_desc:"<code>&lt;strong&gt;</code> = negrito com significado (importante). <code>&lt;em&gt;</code> = itálico com significado (ênfase).",
-    sec_semantic:"HTML semântico — o HTML do HTML5",sem_h:"💡 Por que usar tags semânticas?",
-    sem_p:"Tags semânticas dizem ao browser (e aos motores de busca e leitores de tela) <strong>o que aquele conteúdo significa</strong>, não só como ele parece. Usar <code>&lt;nav&gt;</code> em vez de <code>&lt;div id=\"nav\"&gt;</code> ajuda no SEO, na acessibilidade e na legibilidade do código.",
-    sem_header:"Cabeçalho da página ou seção",sem_nav:"Menu de navegação",sem_main:"Conteúdo principal da página",
-    sem_section:"Seção temática do conteúdo",sem_article:"Conteúdo independente (post, notícia)",sem_aside:"Conteúdo lateral relacionado",
-    sem_footer:"Rodapé da página ou seção",sem_figure:"Imagem com legenda",sem_time:"Data ou hora",
-    nav_prev_label:"← aula anterior",nav_prev_title:"História do HTML",nav_next_label:"próxima aula →",nav_next_title:"História do CSS"
-  },
-  en:{
-    breadcrumb:"HTML Concepts",eyebrow:"// lesson 02 · HTML · Concepts",title:"Basic HTML\nConcepts",
-    tag_basic:"Basics",source:"📖 Based on MDN Web Docs",
-    sec_what:"What is HTML?",what_h:"🏗️ The structure of every web page",
-    what_p:"HTML is not a programming language — it's a <strong>markup language</strong>. It defines the <strong>structure and meaning</strong> of a web page's content. Think of it as the skeleton of a page: CSS is the clothing and JavaScript is the movement.",
-    trio_html:"Structure and content. Defines what each thing is — heading, paragraph, image, link.",
-    trio_css:"Appearance and style. Defines how each thing looks — colors, sizes, fonts, layout.",
-    trio_js:"Behavior and interaction. Defines what happens when the user acts — clicks, animations, data.",
-    sec_anatomy:"Anatomy of an HTML element",
-    anat1:"<strong>Opening tag:</strong> &lt;p&gt;",anat2:"<strong>Attribute:</strong> class=\"highlight\"",
-    anat3:"<strong>Content:</strong> Hello, world!",anat4:"<strong>Closing tag:</strong> &lt;/p&gt;",
-    void_h:"🚫 Void elements (no closing tag)",void_p:"Some elements have no closing tag because they don't wrap content. These are called <strong>void elements</strong>.",
-    attr_h:"🏷️ Attributes",attr_p:"Attributes provide additional information to elements. They always go in the opening tag in <code>name=\"value\"</code> format.",
-    attr1:"category for CSS/JS",attr2:"unique identifier",attr3:"link destination",attr4:"image path",attr5:"alternative text",attr6:"inline CSS",
-    sec_structure:"Basic structure of an HTML page",struct_h:"📄 The required skeleton",
-    struct_p:"Every valid HTML document needs this base structure. Each part has a specific function that the browser uses to process the page correctly.",
-    sec_tags:"Essential tags — the most used",
-    tag_h_name:"Headings",tag_h_desc:"Heading hierarchy. H1 is the most important (one per page), H6 the smallest. Critically important for SEO and accessibility.",
-    tag_p_name:"Paragraph",tag_p_desc:"Defines a block of text. The browser automatically adds space between paragraphs.",
-    tag_a_name:"Link (anchor)",tag_a_desc:"Creates a hyperlink. The <code>href</code> attribute defines the destination. Can open in a new tab with <code>target=\"_blank\"</code>.",
-    tag_img_name:"Image",tag_img_desc:"Inserts an image. Always use the <code>alt</code> attribute for accessibility.",
-    tag_ul_name:"Lists",tag_ul_desc:"<code>&lt;ul&gt;</code> = unordered list (bullets). <code>&lt;ol&gt;</code> = numbered. <code>&lt;li&gt;</code> = each item.",
-    tag_div_name:"Generic containers",tag_div_desc:"<code>&lt;div&gt;</code> groups blocks. <code>&lt;span&gt;</code> groups inline content. No semantic meaning — used with CSS.",
-    tag_form_name:"Forms",tag_form_desc:"Collect user data. <code>&lt;input type=\"text\"&gt;</code>, <code>email</code>, <code>password</code>, <code>checkbox</code>, <code>radio</code>...",
-    tag_strong_name:"Emphasis",tag_strong_desc:"<code>&lt;strong&gt;</code> = bold with meaning (important). <code>&lt;em&gt;</code> = italic with meaning (emphasis).",
-    sec_semantic:"Semantic HTML — the HTML of HTML5",sem_h:"💡 Why use semantic tags?",
-    sem_p:"Semantic tags tell the browser (and search engines and screen readers) <strong>what the content means</strong>, not just how it looks. Using <code>&lt;nav&gt;</code> instead of <code>&lt;div id=\"nav\"&gt;</code> helps with SEO, accessibility, and code readability.",
-    sem_header:"Page or section header",sem_nav:"Navigation menu",sem_main:"Main page content",
-    sem_section:"Themed content section",sem_article:"Independent content (post, news)",sem_aside:"Related sidebar content",
-    sem_footer:"Page or section footer",sem_figure:"Image with caption",sem_time:"Date or time",
-    nav_prev_label:"← previous lesson",nav_prev_title:"History of HTML",nav_next_label:"next lesson →",nav_next_title:"History of CSS"
-  }
-};
-let lang=localStorage.getItem('nb_lang')||'pt';
-function setLang(l){
-  lang=l;localStorage.setItem('nb_lang',l);
-  document.body.classList.add('lang-switching');
-  setTimeout(()=>{
-    document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});
-    document.documentElement.lang=l==='pt'?'pt-BR':'en';
-    document.title=l==='pt'?'Conceitos de HTML — Lucilia\'s Notebook':'HTML Concepts — Lucilia\'s Notebook';
-    document.getElementById('btn-pt').classList.toggle('active',l==='pt');
-    document.getElementById('btn-en').classList.toggle('active',l==='en');
-    document.body.classList.remove('lang-switching');
-  },180);
-}
-if(lang==='en')setLang('en');
 </script>
 </body>
 </html>

@@ -87,10 +87,6 @@
     <a href="postgresql-como-funciona.html" class="nav-link active" data-i18n="nav_how">Como Funciona</a>
     <a href="postgresql-projetos.html" class="nav-link" data-i18n="nav_proj">Projetos</a>
   </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
-  </div>
 </nav>
 
 <div class="page">
@@ -111,7 +107,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_type">Que tipo de banco de dados é o PostgreSQL?</p>
     <div class="info">
-      <h3 data-i18n="type_h">🗄️ Relacional + Orientado a Objetos (ORDBMS)</h3>
+      <h3 data-i18n="type_h">Relacional + Orientado a Objetos (ORDBMS)</h3>
       <p data-i18n="type_p">O PostgreSQL é classificado como um <strong>ORDBMS</strong> (Object-Relational Database Management System) — ou seja, é um banco relacional com extensões de orientação a objetos. Isso significa que ele organiza os dados em <strong>tabelas com linhas e colunas</strong> (como todo banco relacional), mas também suporta tipos customizados, herança de tabelas, funções em múltiplas linguagens e muito mais.</p>
     </div>
     <div class="g2" style="margin-bottom:1rem;">
@@ -154,7 +150,7 @@
       </div>
     </div>
     <div class="info">
-      <h3 data-i18n="arch_h">💡 Processo por conexão (process-per-connection)</h3>
+      <h3 data-i18n="arch_h">Processo por conexão (process-per-connection)</h3>
       <p data-i18n="arch_p">Ao contrário do MySQL (que usa threads), o PostgreSQL cria um <strong>processo OS separado para cada conexão</strong>. Isso dá isolamento e estabilidade — uma conexão travada não afeta as outras — mas tem custo de memória. Por isso, usar um <strong>connection pooler</strong> como o PgBouncer é uma prática essencial em produção.</p>
     </div>
   </section>

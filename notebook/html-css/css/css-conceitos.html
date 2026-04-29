@@ -75,17 +75,13 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="../../notebook.html#htmlcss" class="nav-link">HTML & CSS</a>
     <a href="css-historia.html" class="nav-link">História CSS</a>
     <a href="css-conceitos.html" class="nav-link active">Conceitos CSS</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
 </nav>
 
@@ -100,7 +96,7 @@
       <span class="tag tag-css">CSS</span>
       <span class="tag gray" data-i18n="tag_basic">Básico</span>
       <span class="dot"></span>
-      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">📖 Baseado em MDN Web Docs</span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="source">Baseado em MDN Web Docs</span>
     </div>
   </header>
 
@@ -110,7 +106,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_syntax">Sintaxe do CSS</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="syntax_h">🎯 Seletor + Propriedade + Valor</h3>
+      <h3 data-i18n="syntax_h">Seletor + Propriedade + Valor</h3>
       <p data-i18n="syntax_p">Uma regra CSS é formada por um <strong>seletor</strong> (quem vai receber o estilo), uma <strong>propriedade</strong> (o que vai mudar) e um <strong>valor</strong> (para quanto vai mudar). Simples assim.</p>
     </div>
     <div class="code-wrap">
@@ -177,7 +173,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_boxmodel">O Box Model — tudo é uma caixa</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="box_h">📦 O conceito mais importante do CSS</h3>
+      <h3 data-i18n="box_h">O conceito mais importante do CSS</h3>
       <p data-i18n="box_p">No CSS, <strong>todo elemento é uma caixa retangular</strong>. Essa caixa tem quatro camadas: o conteúdo, o padding (espaço interno), a borda e a margem (espaço externo). Entender o Box Model é fundamental para controlar espaçamento e layout.</p>
     </div>
     <div class="box-model">
@@ -211,7 +207,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_spec">Especificidade — quem ganha o conflito?</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="spec_h">⚖️ A hierarquia do CSS</h3>
+      <h3 data-i18n="spec_h">A hierarquia do CSS</h3>
       <p data-i18n="spec_p">Quando duas regras tentam estilizar o mesmo elemento, o CSS usa a <strong>especificidade</strong> para decidir qual prevalece. Quanto mais específico o seletor, maior seu peso. Em caso de empate, a regra que aparece <strong>por último no código</strong> vence.</p>
     </div>
     <div class="spec-card">
@@ -310,7 +306,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_responsive">Media Queries — responsividade</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="resp_h">📱 Adaptando para qualquer tela</h3>
+      <h3 data-i18n="resp_h">Adaptando para qualquer tela</h3>
       <p data-i18n="resp_p">Media queries aplicam estilos condicionalmente — geralmente baseadas no tamanho da tela. A abordagem <strong>mobile-first</strong> é a recomendada: começa pelo mobile e vai adicionando estilos para telas maiores.</p>
     </div>
     <div class="code-wrap">
@@ -341,7 +337,7 @@
       <span class="np-label" data-i18n="nav_prev_label">← aula anterior</span>
       <span class="np-title" data-i18n="nav_prev_title">História do CSS</span>
     </a>
-    <a href="../../index.html#javascript" class="nav-page" style="align-items:flex-end">
+    <a href="../../notebook.html#javascript" class="nav-page" style="align-items:flex-end">
       <span class="np-label" data-i18n="nav_next_label">próximo módulo →</span>
       <span class="np-title" data-i18n="nav_next_title">JavaScript</span>
     </a>
@@ -349,61 +345,6 @@
 </div>
 
 <script>
-const T={
-  pt:{
-    breadcrumb:"Conceitos de CSS",eyebrow:"// aula 04 · CSS · Conceitos",title:"Conceitos Básicos\nde CSS",
-    tag_basic:"Básico",source:"📖 Baseado em MDN Web Docs",
-    sec_syntax:"Sintaxe do CSS",syntax_h:"🎯 Seletor + Propriedade + Valor",
-    syntax_p:"Uma regra CSS é formada por um <strong>seletor</strong> (quem vai receber o estilo), uma <strong>propriedade</strong> (o que vai mudar) e um <strong>valor</strong> (para quanto vai mudar). Simples assim.",
-    sec_selectors:"Tipos de seletores",
-    sel_basic_h:"Seletores básicos",sel1:"por tag (todos os &lt;p&gt;)",sel2:"por classe (começa com ponto)",sel3:"por ID (começa com #)",sel4:"universal (tudo)",
-    sel_combo_h:"Seletores combinados",sel5:"descendente (p dentro de div)",sel6:"filho direto",sel7:"múltiplos (h1 e h2)",sel8:"pseudo-classe (estado)",sel9:"pseudo-elemento",
-    sec_boxmodel:"O Box Model — tudo é uma caixa",box_h:"📦 O conceito mais importante do CSS",
-    box_p:"No CSS, <strong>todo elemento é uma caixa retangular</strong>. Essa caixa tem quatro camadas: o conteúdo, o padding (espaço interno), a borda e a margem (espaço externo). Entender o Box Model é fundamental para controlar espaçamento e layout.",
-    bm_margin:"margin (espaço externo)",bm_border:"border (borda)",bm_padding:"padding (espaço interno)",bm_content:"conteúdo",
-    sec_spec:"Especificidade — quem ganha o conflito?",spec_h:"⚖️ A hierarquia do CSS",
-    spec_p:"Quando duas regras tentam estilizar o mesmo elemento, o CSS usa a <strong>especificidade</strong> para decidir qual prevalece. Quanto mais específico o seletor, maior seu peso. Em caso de empate, a regra que aparece <strong>por último no código</strong> vence.",
-    spec_inline:"Inline style",spec_class:"Classe / pseudo",spec_tag:"Tag",
-    sec_props:"Propriedades essenciais",
-    prop_color_h:"Cores",prop_color_p:"Aceita nome (<code>red</code>), hex (<code>#ff0000</code>), RGB (<code>rgb(255,0,0)</code>) ou HSL. <code>background</code> controla o fundo, <code>color</code> o texto.",
-    prop_font_h:"Tipografia",prop_font_p:"Controla tamanho, família, peso (<code>font-weight</code>) e estilo (<code>font-style</code>) do texto. Use <code>rem</code> para tamanhos relativos à raiz.",
-    prop_display_h:"Display",prop_display_p:"<code>block</code> ocupa linha inteira. <code>inline</code> flui com o texto. <code>flex</code> e <code>grid</code> ativam os sistemas de layout modernos.",
-    prop_flex_h:"Flexbox",prop_flex_p:"Ativa com <code>display: flex</code>. Controla alinhamento com <code>justify-content</code> (eixo principal) e <code>align-items</code> (eixo cruzado).",
-    prop_grid_h:"CSS Grid",prop_grid_p:"Ativa com <code>display: grid</code>. Cria layouts em duas dimensões. <code>grid-template-columns</code> define as colunas, <code>gap</code> o espaçamento.",
-    prop_var_h:"Variáveis CSS",prop_var_p:"Declare com <code>--nome: valor</code> no <code>:root</code>. Use com <code>var(--nome)</code>. Facilitam temas, modo escuro e manutenção.",
-    sec_responsive:"Media Queries — responsividade",resp_h:"📱 Adaptando para qualquer tela",
-    resp_p:"Media queries aplicam estilos condicionalmente — geralmente baseadas no tamanho da tela. A abordagem <strong>mobile-first</strong> é a recomendada: começa pelo mobile e vai adicionando estilos para telas maiores.",
-    nav_prev_label:"← aula anterior",nav_prev_title:"História do CSS",nav_next_label:"próximo módulo →",nav_next_title:"JavaScript"
-  },
-  en:{
-    breadcrumb:"CSS Concepts",eyebrow:"// lesson 04 · CSS · Concepts",title:"Basic CSS\nConcepts",
-    tag_basic:"Basics",source:"📖 Based on MDN Web Docs",
-    sec_syntax:"CSS syntax",syntax_h:"🎯 Selector + Property + Value",
-    syntax_p:"A CSS rule is formed by a <strong>selector</strong> (who receives the style), a <strong>property</strong> (what changes) and a <strong>value</strong> (what it changes to). Simple as that.",
-    sec_selectors:"Types of selectors",
-    sel_basic_h:"Basic selectors",sel1:"by tag (all &lt;p&gt;)",sel2:"by class (starts with dot)",sel3:"by ID (starts with #)",sel4:"universal (everything)",
-    sel_combo_h:"Combined selectors",sel5:"descendant (p inside div)",sel6:"direct child",sel7:"multiple (h1 and h2)",sel8:"pseudo-class (state)",sel9:"pseudo-element",
-    sec_boxmodel:"The Box Model — everything is a box",box_h:"📦 The most important concept in CSS",
-    box_p:"In CSS, <strong>every element is a rectangular box</strong>. This box has four layers: the content, padding (inner space), border, and margin (outer space). Understanding the Box Model is fundamental to controlling spacing and layout.",
-    bm_margin:"margin (outer space)",bm_border:"border",bm_padding:"padding (inner space)",bm_content:"content",
-    sec_spec:"Specificity — who wins the conflict?",spec_h:"⚖️ The CSS hierarchy",
-    spec_p:"When two rules try to style the same element, CSS uses <strong>specificity</strong> to decide which one wins. The more specific the selector, the higher its weight. In case of a tie, the rule that appears <strong>last in the code</strong> wins.",
-    spec_inline:"Inline style",spec_class:"Class / pseudo",spec_tag:"Tag",
-    sec_props:"Essential properties",
-    prop_color_h:"Colors",prop_color_p:"Accepts name (<code>red</code>), hex (<code>#ff0000</code>), RGB (<code>rgb(255,0,0)</code>), or HSL. <code>background</code> controls the background, <code>color</code> the text.",
-    prop_font_h:"Typography",prop_font_p:"Controls font size, family, weight (<code>font-weight</code>), and style (<code>font-style</code>). Use <code>rem</code> for sizes relative to the root.",
-    prop_display_h:"Display",prop_display_p:"<code>block</code> takes up a full line. <code>inline</code> flows with text. <code>flex</code> and <code>grid</code> activate modern layout systems.",
-    prop_flex_h:"Flexbox",prop_flex_p:"Activated with <code>display: flex</code>. Controls alignment with <code>justify-content</code> (main axis) and <code>align-items</code> (cross axis).",
-    prop_grid_h:"CSS Grid",prop_grid_p:"Activated with <code>display: grid</code>. Creates two-dimensional layouts. <code>grid-template-columns</code> defines columns, <code>gap</code> the spacing.",
-    prop_var_h:"CSS Variables",prop_var_p:"Declare with <code>--name: value</code> in <code>:root</code>. Use with <code>var(--name)</code>. Makes themes, dark mode, and maintenance easier.",
-    sec_responsive:"Media Queries — responsiveness",resp_h:"📱 Adapting to any screen",
-    resp_p:"Media queries apply styles conditionally — usually based on screen size. The <strong>mobile-first</strong> approach is recommended: start with mobile and add styles for larger screens.",
-    nav_prev_label:"← previous lesson",nav_prev_title:"History of CSS",nav_next_label:"next module →",nav_next_title:"JavaScript"
-  }
-};
-let lang=localStorage.getItem('nb_lang')||'pt';
-function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.title=l==='pt'?'Conceitos de CSS — Lucilia\'s Notebook':'CSS Concepts — Lucilia\'s Notebook';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
-if(lang==='en')setLang('en');
 </script>
 </body>
 </html>

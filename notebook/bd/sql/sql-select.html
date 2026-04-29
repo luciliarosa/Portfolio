@@ -70,19 +70,15 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="/notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="/index.html" class="nav-link">Home</a>
+    <a href="/notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="/notebook/notebook.html#banco" class="nav-link">Banco de Dados</a>
     <a href="sql-select.html" class="nav-link active">SELECT</a>
     <a href="sql-insert-update-delete.html" class="nav-link">INSERT/UPDATE/DELETE</a>
     <a href="sql-joins.html" class="nav-link">JOINs</a>
     <a href="sql-modelagem.html" class="nav-link">Modelagem</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
 </nav>
 
@@ -145,7 +141,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_where">WHERE — filtrando resultados</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="where_h">🔍 A cláusula mais usada do SQL</h3>
+      <h3 data-i18n="where_h">A cláusula mais usada do SQL</h3>
       <p data-i18n="where_p">O <code>WHERE</code> filtra as linhas que atendem a uma condição. Pode combinar condições com <code>AND</code>, <code>OR</code> e <code>NOT</code>.</p>
     </div>
     <div class="code-wrap">
@@ -229,7 +225,7 @@
 <span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="nm">1</span>;  <span class="cm">-- só cidades com mais de 1 cliente</span></pre>
     </div>
     <div class="info">
-      <h3 data-i18n="having_h">💡 WHERE vs HAVING</h3>
+      <h3 data-i18n="having_h">WHERE vs HAVING</h3>
       <p data-i18n="having_p"><code>WHERE</code> filtra <strong>linhas</strong> antes de agrupar. <code>HAVING</code> filtra <strong>grupos</strong> depois do <code>GROUP BY</code>. Não é possível usar funções de agregação dentro do <code>WHERE</code>.</p>
     </div>
   </section>

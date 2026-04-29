@@ -76,24 +76,21 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
-    <a href="../../index.html" class="nav-link">Grammar</a>
-    <a href="verbos.html" class="nav-link active" data-i18n="nav_current">Verbos</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+    <a href="../../notebook.html" class="nav-link">Grammar</a>
+    <a href="preposicoes.html" class="nav-link" data-i18n="nav_current">Preposições</a>
+    <a href="tempos-verbais.html" class="nav-link" data-i18n="nav_current">Tempos Verbais</a>
+    <a href="artigos.html" class="nav-link" data-i18n="nav_current">Artigos</a>
+    <a href="pronomes.html" class="nav-link" data-i18n="nav_current">Pronomes</a>
+    <a href="verbos.html" class="nav-link active" data-i18n="nav_current">Verbos Regulares e Irregulares</a>
   </div>
 </nav>
 
 <div class="page">
   <nav class="breadcrumb fade">
-    <a href="../../index.html">Home</a><span>›</span>
-    <a href="../../index.html">Grammar</a><span>›</span>
-    <span data-i18n="breadcrumb">Verbos</span>
   </nav>
 
   <header class="article-hero fade">
@@ -103,7 +100,7 @@
       <span class="tag tag-eng">English Grammar</span>
       <span class="tag tag-gray" data-i18n="level">Básico–Intermediário</span>
       <span class="dot"></span>
-      <span style="font-size:12px;color:var(--ink4)">⚡ base · past simple · past participle</span>
+      <span style="font-size:12px;color:var(--ink4)">base · past simple · past participle</span>
     </div>
   </header>
 
@@ -114,7 +111,7 @@
     <p class="sec-title" data-i18n="sec_intro">A diferença fundamental</p>
     <div class="g2">
       <div class="info" style="border-left:4px solid #1a7a50;margin-bottom:0;">
-        <h3 data-i18n="reg_h">✅ Verbos Regulares</h3>
+        <h3 data-i18n="reg_h">Verbos Regulares</h3>
         <p data-i18n="reg_p">Formam o passado e o particípio adicionando <code>-ed</code> ao verbo base. Simples e previsível.</p>
         <ul>
           <li>play → played → played</li>
@@ -124,7 +121,7 @@
         </ul>
       </div>
       <div class="info" style="border-left:4px solid #c84b31;margin-bottom:0;">
-        <h3 data-i18n="irr_h">⚠️ Verbos Irregulares</h3>
+        <h3 data-i18n="irr_h">Verbos Irregulares</h3>
         <p data-i18n="irr_p">Mudam de forma no passado de maneira imprevisível. Precisam ser <strong>memorizados</strong> — não há regra universal.</p>
         <ul>
           <li>go → went → gone</li>
@@ -261,7 +258,7 @@
       <span class="np-label" data-i18n="nav_prev_label">← lição anterior</span>
       <span class="np-title" data-i18n="nav_prev_title">Pronomes</span>
     </a>
-    <a href="../../index.html" class="nav-page" style="align-items:flex-end">
+    <a href="../../notebook.html#english" class="nav-page" style="align-items:flex-end">
       <span class="np-label" data-i18n="nav_next_label">← voltar ao índice</span>
       <span class="np-title" data-i18n="nav_next_title">English Grammar</span>
     </a>
@@ -269,13 +266,6 @@
 </div>
 
 <script>
-const T={
-  pt:{nav_current:"Verbos",breadcrumb:"Verbos",eyebrow:"// lição 05 · English Grammar · Regular & Irregular Verbs",title:"Verbos Regulares\ne Irregulares",level:"Básico–Intermediário",sec_intro:"A diferença fundamental",reg_h:"✅ Verbos Regulares",reg_p:"Formam o passado e o particípio adicionando <code>-ed</code> ao verbo base. Simples e previsível.",irr_h:"⚠️ Verbos Irregulares",irr_p:"Mudam de forma no passado de maneira imprevisível. Precisam ser <strong>memorizados</strong> — não há regra universal.",sec_ed:"Regras para adicionar -ED",ed1_rule:"Verbo normal",ed1_desc:"Adicione -ed diretamente",ed2_rule:"Termina em -e",ed2_desc:"Adicione apenas -d",ed3_rule:"Termina em consoante + y",ed3_desc:"Troque o -y por -ied",ed4_rule:"CVC curto (1 sílaba)",ed4_desc:"Dobre a consoante final + ed",ed5_rule:"Termina em -ic",ed5_desc:"Adicione -ked",ed6_rule:"Vogal + y no final",ed6_desc:"Apenas adicione -ed",sec_patterns:"Padrões dos verbos irregulares",pat_tip:"💡 Embora não haja uma regra única, existem <strong>padrões de mudança</strong> que ajudam na memorização. Agrupe os verbos por padrão para aprender mais rápido!",pat1_name:"PADRÃO A-A-A (sem mudança)",pat1_desc:"Mesma forma nas três colunas: put, cut, hit, let, set, shut, cost, hurt, read*",pat2_name:"PADRÃO A-B-A (base = particípio)",pat2_desc:"Base e particípio iguais, passado diferente: come, become, run",pat3_name:"PADRÃO A-B-B (passado = particípio)",pat3_desc:"Past e particípio iguais: bring, buy, catch, feel, find, keep, make, say, sell, teach, think",pat4_name:"PADRÃO A-B-C (todos diferentes)",pat4_desc:"Três formas distintas: be, do, go, eat, give, know, see, speak, take, write, swim",sec_list:"Os 30 verbos irregulares mais usados",col_base:"Base Form",col_past:"Past Simple",col_pp:"Past Participle",col_pt:"Português",nav_prev_label:"← lição anterior",nav_prev_title:"Pronomes",nav_next_label:"← voltar ao índice",nav_next_title:"English Grammar"},
-  en:{nav_current:"Verbs",breadcrumb:"Verbs",eyebrow:"// lesson 05 · English Grammar · Regular & Irregular Verbs",title:"Regular & Irregular Verbs",level:"Basic–Intermediate",sec_intro:"The fundamental difference",reg_h:"✅ Regular Verbs",reg_p:"Form the past tense and participle by adding <code>-ed</code> to the base verb. Simple and predictable.",irr_h:"⚠️ Irregular Verbs",irr_p:"Change form in the past in unpredictable ways. They need to be <strong>memorized</strong> — there is no universal rule.",sec_ed:"Rules for adding -ED",ed1_rule:"Normal verb",ed1_desc:"Just add -ed",ed2_rule:"Ends in -e",ed2_desc:"Just add -d",ed3_rule:"Ends in consonant + y",ed3_desc:"Change -y to -ied",ed4_rule:"Short CVC (1 syllable)",ed4_desc:"Double the final consonant + ed",ed5_rule:"Ends in -ic",ed5_desc:"Add -ked",ed6_rule:"Vowel + y at the end",ed6_desc:"Just add -ed",sec_patterns:"Irregular verb patterns",pat_tip:"💡 Although there is no single rule, there are <strong>change patterns</strong> that help with memorization. Group verbs by pattern to learn faster!",pat1_name:"PATTERN A-A-A (no change)",pat1_desc:"Same form in all three columns: put, cut, hit, let, set, shut, cost, hurt, read*",pat2_name:"PATTERN A-B-A (base = participle)",pat2_desc:"Base and participle the same, past different: come, become, run",pat3_name:"PATTERN A-B-B (past = participle)",pat3_desc:"Past and participle the same: bring, buy, catch, feel, find, keep, make, say, sell, teach, think",pat4_name:"PATTERN A-B-C (all different)",pat4_desc:"Three distinct forms: be, do, go, eat, give, know, see, speak, take, write, swim",sec_list:"The 30 most used irregular verbs",col_base:"Base Form",col_past:"Past Simple",col_pp:"Past Participle",col_pt:"Portuguese",nav_prev_label:"← previous lesson",nav_prev_title:"Pronouns",nav_next_label:"← back to index",nav_next_title:"English Grammar"}
-};
-let lang=localStorage.getItem('nb_lang')||'pt';
-function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
-if(lang==='en')setLang('en');
 </script>
 </body>
 </html>

@@ -72,19 +72,15 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="/notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="/index.html" class="nav-link">Home</a>
+    <a href="/notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
     <a href="/notebook/notebook.html#banco" class="nav-link">Banco de Dados</a>
     <a href="sql-select.html" class="nav-link">SELECT</a>
     <a href="sql-insert-update-delete.html" class="nav-link">INSERT/UPDATE/DELETE</a>
     <a href="sql-joins.html" class="nav-link active">JOINs</a>
     <a href="sql-modelagem.html" class="nav-link">Modelagem</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
   </div>
 </nav>
 
@@ -135,7 +131,7 @@
       </div>
     </div>
     <div class="info">
-      <h3 data-i18n="fk_h">🔑 A chave que une as tabelas</h3>
+      <h3 data-i18n="fk_h">A chave que une as tabelas</h3>
       <p data-i18n="fk_p">A coluna <code>cliente_id</code> na tabela <code>pedidos</code> é uma <strong>chave estrangeira (FK)</strong> que referencia o <code>id</code> da tabela <code>clientes</code>. É essa relação que o JOIN usa para cruzar os dados.</p>
     </div>
   </section>
@@ -251,7 +247,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_multi">Múltiplos JOINs na mesma query</p>
     <div class="info" style="margin-bottom:1rem;">
-      <h3 data-i18n="multi_h">🔗 Encadeando tabelas</h3>
+      <h3 data-i18n="multi_h">Encadeando tabelas</h3>
       <p data-i18n="multi_p">É possível unir quantas tabelas precisar em uma única query. Cada JOIN adiciona uma nova tabela. O banco vai cruzando as relações em cadeia.</p>
     </div>
     <div class="code-wrap">

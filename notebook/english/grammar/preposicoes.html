@@ -67,24 +67,21 @@
 </head>
 <body>
 <nav class="nav">
-  <a href="../../index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
   <div class="nav-links">
-    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../notebook.html" class="nav-link">Home</a>
     <span class="nav-sep"></span>
-    <a href="../../index.html" class="nav-link">Grammar</a>
+    <a href="../../notebook.html" class="nav-link">Grammar</a>
     <a href="preposicoes.html" class="nav-link active" data-i18n="nav_current">Preposições</a>
-  </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+    <a href="tempos-verbais.html" class="nav-link" data-i18n="nav_current">Tempos Verbais</a>
+    <a href="artigos.html" class="nav-link " data-i18n="nav_current">Artigos</a>
+    <a href="pronomes.html" class="nav-link" data-i18n="nav_current">Pronomes</a>
+    <a href="verbos.html" class="nav-link" data-i18n="nav_current">Verbos Regulares e Irregulares</a>
   </div>
 </nav>
 
 <div class="page">
   <nav class="breadcrumb fade">
-    <a href="../../index.html">Home</a><span>›</span>
-    <a href="../../index.html">Grammar</a><span>›</span>
-    <span data-i18n="breadcrumb">Preposições</span>
   </nav>
 
   <header class="article-hero fade">
@@ -94,7 +91,7 @@
       <span class="tag tag-eng">English Grammar</span>
       <span class="tag tag-gray" data-i18n="level">Básico–Intermediário</span>
       <span class="dot"></span>
-      <span style="font-size:12px;color:var(--ink4)">📍 in · on · at · by · for · with</span>
+      <span style="font-size:12px;color:var(--ink4)">in · on · at · by · for · with</span>
     </div>
   </header>
 
@@ -104,18 +101,18 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_what">O que são preposições?</p>
     <div class="info">
-      <h3 data-i18n="what_h">🔗 Palavras que conectam</h3>
+      <h3 data-i18n="what_h">Palavras que conectam</h3>
       <p data-i18n="what_p">Preposições são palavras curtas que conectam um substantivo ou pronome ao resto da frase, indicando <strong>lugar, tempo, direção, causa ou maneira</strong>. Em inglês, elas são invariáveis — não mudam de acordo com gênero ou número.</p>
     </div>
     <div class="g3">
       <div class="info" style="border-left:4px solid var(--accent);margin-bottom:0;text-align:center;">
-        <h3>📍 Lugar</h3><p style="font-size:18px;font-weight:700;color:var(--accent);margin-top:6px">in · on · at<br>under · between</p>
+        <h3>Lugar</h3><p style="font-size:18px;font-weight:700;color:var(--accent);margin-top:6px">in · on · at<br>under · between</p>
       </div>
       <div class="info" style="border-left:4px solid #0891b2;margin-bottom:0;text-align:center;">
-        <h3>⏰ Tempo</h3><p style="font-size:18px;font-weight:700;color:#0891b2;margin-top:6px">in · on · at<br>since · for</p>
+        <h3>Tempo</h3><p style="font-size:18px;font-weight:700;color:#0891b2;margin-top:6px">in · on · at<br>since · for</p>
       </div>
       <div class="info" style="border-left:4px solid #1a7a50;margin-bottom:0;text-align:center;">
-        <h3>➡️ Movimento</h3><p style="font-size:18px;font-weight:700;color:#1a7a50;margin-top:6px">to · from · into<br>through · across</p>
+        <h3>Movimento</h3><p style="font-size:18px;font-weight:700;color:#1a7a50;margin-top:6px">to · from · into<br>through · across</p>
       </div>
     </div>
   </section>
@@ -126,7 +123,7 @@
   <section style="margin-bottom:2rem" class="fade">
     <p class="sec-title" data-i18n="sec_inOnat">In, On, At — Lugar e Tempo</p>
     <div class="tip">
-      <p data-i18n="inOnat_tip">💡 <strong>Regra geral:</strong> <strong>IN</strong> = dentro de espaços grandes (países, cidades, quartos) ou períodos longos (meses, anos). <strong>ON</strong> = superfícies ou dias específicos. <strong>AT</strong> = pontos exatos (endereços, horas).</p>
+      <p data-i18n="inOnat_tip"><strong>Regra geral:</strong> <strong>IN</strong> = dentro de espaços grandes (países, cidades, quartos) ou períodos longos (meses, anos). <strong>ON</strong> = superfícies ou dias específicos. <strong>AT</strong> = pontos exatos (endereços, horas).</p>
     </div>
     <div class="prep-grid">
       <div class="prep-card">
@@ -254,7 +251,7 @@
   </section>
 
   <div class="nav-pages fade">
-    <a href="../../index.html" class="nav-page" style="align-items:flex-start">
+    <a href="../../notebook.html#english" class="nav-page" style="align-items:flex-start">
       <span class="np-label" data-i18n="nav_prev_label">← índice</span>
       <span class="np-title" data-i18n="nav_prev_title">English Grammar</span>
     </a>
@@ -266,13 +263,6 @@
 </div>
 
 <script>
-const T={
-  pt:{nav_current:"Preposições",breadcrumb:"Preposições",eyebrow:"// lição 01 · English Grammar · Prepositions",title:"Preposições\n",level:"Básico–Intermediário",sec_what:"O que são preposições?",what_h:"🔗 Palavras que conectam",what_p:"Preposições são palavras curtas que conectam um substantivo ou pronome ao resto da frase, indicando <strong>lugar, tempo, direção, causa ou maneira</strong>. Em inglês, elas são invariáveis — não mudam de acordo com gênero ou número.",sec_inOnat:"In, On, At — Lugar e Tempo",inOnat_tip:"💡 <strong>Regra geral:</strong> <strong>IN</strong> = dentro de espaços grandes (países, cidades, quartos) ou períodos longos (meses, anos). <strong>ON</strong> = superfícies ou dias específicos. <strong>AT</strong> = pontos exatos (endereços, horas).",in_h:"Lugar: dentro de",in_p1:"países, cidades, bairros",in_p2:"cômodos de uma casa",in_p3:"espaços fechados",in_ex1:"She lives <strong>in</strong> Brazil. / I'm <strong>in</strong> the kitchen.",in_t:"Tempo: períodos longos",in_t1:"meses, anos, décadas",in_t2:"partes do dia (morning, afternoon)",in_tex:"I was born <strong>in</strong> 2000. / <strong>in</strong> the morning.",on_h:"Lugar: sobre superfícies",on_p1:"superfícies (mesa, chão, parede)",on_p2:"ruas, avenidas",on_p3:"transportes (bus, train)",on_ex:"The book is <strong>on</strong> the table.",on_t:"Tempo: dias específicos",on_t1:"dias da semana",on_t2:"datas específicas",on_tex:"<strong>on</strong> Monday / <strong>on</strong> July 4th",at_h:"Lugar: pontos exatos",at_p1:"endereços com número",at_p2:"lugares específicos (school, work)",at_p3:"eventos",at_ex:"She's <strong>at</strong> home / <strong>at</strong> the party.",at_t:"Tempo: horas exatas",at_t1:"horas específicas",at_t2:"momentos (midnight, noon)",at_tex:"<strong>at</strong> 3pm / <strong>at</strong> midnight",sec_ex:"Exemplos em frases",ex1_pt:"A reunião é às 3h na segunda-feira em janeiro.",ex2_pt:"Ela mora em São Paulo, na Avenida Paulista.",ex3_pt:"As chaves estão sobre a mesa, não na gaveta.",ex4_pt:"Te vejo no aeroporto às 6h da manhã.",sec_other:"Outras preposições essenciais",time_prep:"Preposições de tempo",for_desc:"= duração (for 2 years)",since_desc:"= desde um ponto (since 2020)",ago_desc:"= tempo atrás (3 days ago)",time_ex:"I've lived here <strong>for</strong> 5 years, <strong>since</strong> 2019.",mov_prep:"Preposições de movimento",to_desc:"= direção, destino (go to school)",from_desc:"= origem (from Brazil)",into_desc:"= entrar em (walk into the room)",mov_ex:"She walked <strong>into</strong> the room <strong>from</strong> the hall.",other_prep:"Outras relações",by_desc:"= até, agente, meio (by car)",with_desc:"= companhia/instrumento",of_desc:"= posse, parte de algo",other_ex:"I'll be there <strong>by</strong> 5pm. Write <strong>with</strong> a pen.",pos_prep:"Posição relativa",under_desc:"= embaixo de",over_desc:"= acima de, mais de",between_desc:"= entre dois",among_desc:"= entre vários",pos_ex:"The cat is <strong>under</strong> the bed. Sit <strong>between</strong> us.",nav_prev_label:"← índice",nav_prev_title:"English Grammar",nav_next_label:"próxima lição →",nav_next_title:"Tempos Verbais"},
-  en:{nav_current:"Prepositions",breadcrumb:"Prepositions",eyebrow:"// lesson 01 · English Grammar · Prepositions",title:"Prepositions",level:"Basic–Intermediate",sec_what:"What are prepositions?",what_h:"🔗 Words that connect",what_p:"Prepositions are short words that connect a noun or pronoun to the rest of a sentence, indicating <strong>place, time, direction, cause, or manner</strong>. In English, they are invariable — they don't change according to gender or number.",sec_inOnat:"In, On, At — Place and Time",inOnat_tip:"💡 <strong>General rule:</strong> <strong>IN</strong> = inside large spaces (countries, cities, rooms) or long periods (months, years). <strong>ON</strong> = surfaces or specific days. <strong>AT</strong> = exact points (addresses, times).",in_h:"Place: inside",in_p1:"countries, cities, neighborhoods",in_p2:"rooms in a house",in_p3:"enclosed spaces",in_ex1:"She lives <strong>in</strong> Brazil. / I'm <strong>in</strong> the kitchen.",in_t:"Time: long periods",in_t1:"months, years, decades",in_t2:"parts of the day (morning, afternoon)",in_tex:"I was born <strong>in</strong> 2000. / <strong>in</strong> the morning.",on_h:"Place: on surfaces",on_p1:"surfaces (table, floor, wall)",on_p2:"streets, avenues",on_p3:"transport (bus, train)",on_ex:"The book is <strong>on</strong> the table.",on_t:"Time: specific days",on_t1:"days of the week",on_t2:"specific dates",on_tex:"<strong>on</strong> Monday / <strong>on</strong> July 4th",at_h:"Place: exact points",at_p1:"numbered addresses",at_p2:"specific places (school, work)",at_p3:"events",at_ex:"She's <strong>at</strong> home / <strong>at</strong> the party.",at_t:"Time: exact hours",at_t1:"specific times",at_t2:"moments (midnight, noon)",at_tex:"<strong>at</strong> 3pm / <strong>at</strong> midnight",sec_ex:"Examples in sentences",ex1_pt:"The meeting is at 3 o'clock on Monday in January.",ex2_pt:"She lives in São Paulo, on Avenida Paulista.",ex3_pt:"The keys are on the table, not in the drawer.",ex4_pt:"I'll see you at the airport at 6am.",sec_other:"Other essential prepositions",time_prep:"Time prepositions",for_desc:"= duration (for 2 years)",since_desc:"= from a point in time (since 2020)",ago_desc:"= time in the past (3 days ago)",time_ex:"I've lived here <strong>for</strong> 5 years, <strong>since</strong> 2019.",mov_prep:"Movement prepositions",to_desc:"= direction, destination (go to school)",from_desc:"= origin (from Brazil)",into_desc:"= entering (walk into the room)",mov_ex:"She walked <strong>into</strong> the room <strong>from</strong> the hall.",other_prep:"Other relations",by_desc:"= by, deadline, means (by car)",with_desc:"= company/instrument",of_desc:"= possession, part of something",other_ex:"I'll be there <strong>by</strong> 5pm. Write <strong>with</strong> a pen.",pos_prep:"Relative position",under_desc:"= below",over_desc:"= above, more than",between_desc:"= between two",among_desc:"= among several",pos_ex:"The cat is <strong>under</strong> the bed. Sit <strong>between</strong> us.",nav_prev_label:"← index",nav_prev_title:"English Grammar",nav_next_label:"next lesson →",nav_next_title:"Verb Tenses"}
-};
-let lang=localStorage.getItem('nb_lang')||'pt';
-function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
-if(lang==='en')setLang('en');
 </script>
 </body>
 </html>
