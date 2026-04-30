@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>"/>
+  <title>Console Python — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper:#faf7f2; --paper2:#f3efe8; --paper3:#ede8df;
+      --ink:#1c1917; --ink2:#44403c; --ink3:#78716c; --ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10); --rule2:rgba(28,25,23,.06);
+      --accent:#c84b31; --accent2:#2563a8; --accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);
+      --shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;
+      --font-serif:'Lora',serif;
+      --font-mono:'JetBrains Mono',monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:var(--font-body);
+      background:var(--paper);
+      color:var(--ink);
+      min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;
+    }
+
+    /* NAV */
+    .nav { position:sticky; top:0; z-index:100; background:rgba(250,247,242,.92); backdrop-filter:blur(8px); border-bottom:1.5px solid var(--rule); padding:0 2rem; display:flex; align-items:center; gap:0; height:56px; }
+    .nav-brand { font-family:var(--font-serif); font-size:16px; font-weight:600; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:8px; margin-right:1.5rem; white-space:nowrap; }
+    .nav-back { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--ink3); background:var(--paper2); border:1.5px solid var(--rule); border-radius:20px; padding:5px 14px; text-decoration:none; transition:background .15s,color .15s; white-space:nowrap; }
+    .nav-back:hover { background:var(--paper3); color:var(--ink); }
+    .nav-title { font-size:13px; font-weight:700; color:var(--ink3); margin-left:1rem; padding-left:1rem; border-left:1.5px solid var(--rule); }
+    .nav-title em { font-style:normal; color:var(--accent2); }
+    .py-status { margin-left:auto; font-family:var(--font-mono); font-size:11px; font-weight:500; padding:4px 12px; border-radius:20px; background:var(--paper2); border:1.5px solid var(--rule); color:var(--ink4); transition:all .3s; }
+    .py-status.ready { background:#dcfce7; border-color:rgba(26,122,80,.25); color:#166534; }
+    .py-status.error { background:#fee2e2; border-color:rgba(200,75,49,.25); color:#b91c1c; }
+
+    /* HERO */
+    .hero { max-width:1100px; margin:0 auto; padding:2.5rem 1.5rem 1.5rem; }
+    .hero-eyebrow { font-family:var(--font-mono); font-size:12px; font-weight:500; color:var(--ink4); letter-spacing:.06em; margin-bottom:.5rem; }
+    .hero-title { font-family:var(--font-serif); font-size:clamp(24px,4vw,38px); font-weight:600; line-height:1.2; color:var(--ink); margin-bottom:.5rem; }
+    .hero-title em { font-style:italic; color:var(--accent); }
+    .hero-sub { font-size:14px; color:var(--ink3); line-height:1.6; max-width:560px; }
+
+    /* LAYOUT */
+    .layout { max-width:1100px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:260px 1fr; gap:18px; align-items:start; }
+
+    /* SIDEBAR — igual aos subject-cards do notebook */
+    .sidebar { background:#fff; border:1.5px solid var(--rule); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); position:sticky; top:74px; }
+    .sidebar-head { padding:14px 16px 12px; border-bottom:1.5px solid var(--rule2); background:#fff; }
+    .sidebar-title { font-size:13px; font-weight:700; color:var(--ink); margin-bottom:2px; }
+    .sidebar-progress { font-size:11px; color:var(--ink4); font-family:var(--font-mono); }
+    .progress-bar { height:3px; background:var(--paper3); }
+    .progress-fill { height:100%; background:var(--accent3); transition:width .4s ease; }
+
+    .ex-item { display:flex; align-items:flex-start; gap:10px; padding:11px 16px; cursor:pointer; border-bottom:1px solid var(--rule2); transition:background .15s; background:#fff; }
+    .ex-item:last-child { border-bottom:none; }
+    .ex-item:hover { background:var(--paper2); }
+    .ex-item.active { background:var(--paper2); border-left:3px solid var(--accent2); padding-left:13px; }
+    .ex-item.active .ex-name { color:var(--accent2); }
+    .ex-num { width:24px; height:24px; border-radius:50%; background:var(--paper2); border:1.5px solid var(--rule); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:10px; font-weight:500; color:var(--ink4); flex-shrink:0; margin-top:1px; transition:all .2s; }
+    .ex-item.done .ex-num { background:#dcfce7; border-color:rgba(26,122,80,.3); color:#166534; }
+    .ex-name { font-size:12.5px; font-weight:700; color:var(--ink2); line-height:1.35; }
+    .ex-diff { font-size:10px; color:var(--ink4); margin-top:2px; }
+    .diff-tag { display:inline-block; font-size:10px; font-weight:700; padding:1px 7px; border-radius:20px; }
+    .diff-tag.iniciante { background:#dcfce7; color:#166534; }
+    .diff-tag.basico { background:#dbeafe; color:#1e40af; }
+    .diff-tag.intermediario { background:#fef9c3; color:#854d0e; }
+
+    /* EDITOR PANEL — mesmo padrão dos cards de aula */
+    .editor-panel { background:#fff; border:1.5px solid var(--rule); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+
+    .ed-topbar { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--paper2); border-bottom:1.5px solid var(--rule); }
+    .ed-file { display:flex; align-items:center; gap:8px; }
+    .ed-dot { width:8px; height:8px; border-radius:50%; background:var(--accent3); }
+    .ed-filename { font-family:var(--font-mono); font-size:12px; color:var(--ink3); }
+    .run-btn { display:flex; align-items:center; gap:7px; background:var(--accent3); color:#fff; border:none; border-radius:6px; padding:7px 18px; font-size:13px; font-weight:700; font-family:var(--font-body); cursor:pointer; transition:opacity .15s, transform .1s; }
+    .run-btn:hover { opacity:.85; }
+    .run-btn:active { transform:scale(.97); }
+    .run-btn:disabled { opacity:.40; cursor:not-allowed; }
+    .run-btn svg { flex-shrink:0; }
+
+    /* descrição — igual ao .pinned do notebook */
+    .ed-desc { padding:14px 18px; background:#fffbeb; border-bottom:1.5px solid rgba(180,140,20,.20); display:flex; gap:10px; align-items:flex-start; }
+    .ed-desc-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+    .ed-desc-title { font-size:13px; font-weight:700; color:#92400e; margin-bottom:3px; }
+    .ed-desc-text { font-size:12px; color:#a16207; line-height:1.65; }
+
+    /* área de código — fundo creme do notebook, não branco */
+    .code-wrap { position:relative; }
+    .line-nums { position:absolute; left:0; top:0; bottom:0; width:42px; background:var(--paper3); border-right:1.5px solid var(--rule); font-family:var(--font-mono); font-size:11px; color:var(--ink4); text-align:right; padding:14px 8px 14px 0; user-select:none; pointer-events:none; display:flex; flex-direction:column; }
+    .ln { height:20.4px; display:flex; align-items:center; justify-content:flex-end; }
+    textarea.code-editor {
+      width:100%; min-height:210px; padding:14px 16px 14px 58px;
+      font-family:var(--font-mono); font-size:13px; line-height:1.57;
+      border:none; outline:none; resize:vertical;
+      background:var(--paper); color:var(--ink); tab-size:4;
+      display:block;
+    }
+
+    /* saída */
+    .output-section { border-top:1.5px solid var(--rule); }
+    .output-topbar { display:flex; align-items:center; justify-content:space-between; padding:8px 16px; background:var(--paper2); border-bottom:1px solid var(--rule2); }
+    .output-label { font-family:var(--font-mono); font-size:10px; font-weight:500; color:var(--ink4); letter-spacing:.08em; text-transform:uppercase; }
+    .output-actions { display:flex; gap:8px; align-items:center; }
+    .clear-btn { font-size:11px; font-weight:700; color:var(--ink4); background:none; border:none; cursor:pointer; font-family:var(--font-body); transition:color .15s; }
+    .clear-btn:hover { color:var(--ink); }
+    .output-body {
+      padding:14px 16px; min-height:90px; background:var(--paper);
+      font-family:var(--font-mono); font-size:12.5px; line-height:1.7;
+      color:var(--ink); white-space:pre-wrap; word-break:break-word;
+    }
+    .output-body.idle { color:var(--ink4); font-family:var(--font-body); font-size:13px; font-style:italic; background:var(--paper); }
+    .output-body.error { color:var(--accent); background:var(--paper); }
+    .output-body.success { color:var(--ink); background:var(--paper); }
+
+    /* SUCCESS TOAST */
+    .toast { position:fixed; bottom:2rem; right:2rem; background:var(--accent3); color:#fff; font-size:13px; font-weight:700; font-family:var(--font-body); padding:10px 18px; border-radius:8px; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .3s, transform .3s; z-index:200; display:flex; align-items:center; gap:8px; }
+    .toast.show { opacity:1; transform:translateY(0); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation:fadeUp .4s ease both; }
+
+    @media(max-width:700px) {
+      .layout { grid-template-columns:1fr; }
+      .sidebar { position:static; }
+      .nav-title { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <a href="../notebook.html#python" class="nav-back">← Python</a>
+  <span class="nav-title">Console <em>Python</em></span>
+  <span class="py-status" id="pyStatus">Carregando Python...</span>
+</nav>
+
+<header class="hero fade-up">
+  <p class="hero-eyebrow">// python/console.py</p>
+  <h1 class="hero-title">Console <em>Python</em></h1>
+  <p class="hero-sub">Pratique com exercícios progressivos. Escreva o código, execute e veja o resultado em tempo real — tudo no navegador.</p>
+</header>
+
+<div class="layout fade-up">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">Exercícios</div>
+      <div class="sidebar-progress" id="progressText">0 de 8 completos</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div id="exerciseList"></div>
+  </aside>
+
+  <!-- EDITOR -->
+  <div class="editor-panel">
+    <div class="ed-topbar">
+      <div class="ed-file">
+        <div class="ed-dot" id="edDot"></div>
+        <span class="ed-filename" id="edFilename">exercicio_01.py</span>
+      </div>
+      <button class="run-btn" id="runBtn" onclick="runCode()" disabled>
+        <svg width="11" height="11" viewBox="0 0 11 11"><polygon points="1,0.5 10.5,5.5 1,10.5" fill="white"/></svg>
+        Executar
+      </button>
+    </div>
+
+    <div class="ed-desc">
+      <span class="ed-desc-icon">📌</span>
+      <div>
+        <div class="ed-desc-title" id="edTitle">Variáveis e soma</div>
+        <div class="ed-desc-text" id="edDesc">Crie duas variáveis A e B com valores inteiros e calcule a soma delas. Exiba o resultado com print().</div>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="line-nums" id="lineNums"></div>
+      <textarea class="code-editor" id="codeEditor" spellcheck="false" oninput="updateLineNums()"></textarea>
+    </div>
+
+    <div class="output-section">
+      <div class="output-topbar">
+        <span class="output-label">▶ Saída</span>
+        <div class="output-actions">
+          <button class="clear-btn" onclick="clearOutput()">Limpar</button>
+        </div>
+      </div>
+      <div class="output-body idle" id="outputBody">Aguardando execução — clique em Executar ▶</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">✓ Exercício concluído!</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+<script>
+const exercises = [
+  {
+    id:1, name:"Variáveis e soma", diff:"iniciante", label:"Iniciante",
+    desc:"Crie duas variáveis A e B com valores inteiros e calcule a soma delas. Exiba o resultado com print().",
+    starter:""
+  },
+  {
+    id:2, name:"Área do retângulo", diff:"iniciante", label:"Iniciante",
+    desc:"Calcule a área de um retângulo com largura = 5 e altura = 3. Fórmula: area = largura * altura. Exiba com print().",
+    starter:"largura = 5\naltura = 3\n\n# Calcule a área\narea = largura * altura\nprint(area)"
+  },
+  {
+    id:3, name:"f-string com nome", diff:"iniciante", label:"Iniciante",
+    desc:"Crie uma variável com seu nome e exiba uma mensagem de boas-vindas usando f-string: Olá, [nome]! Bem-vindo(a).",
+    starter:'nome = "Lucilia"\n\n# Exiba a mensagem com f-string\nprint(f"Olá, {nome}! Bem-vindo(a).")'
+  },
+  {
+    id:4, name:"Par ou ímpar", diff:"basico", label:"Básico",
+    desc:"Dado n = 7, verifique se é par ou ímpar usando if/else. Exiba 'par' ou 'ímpar' com print().",
+    starter:"n = 7\n\n# Verifique se n é par ou ímpar\nif n % 2 == 0:\n    print('par')\nelse:\n    print('ímpar')"
+  },
+  {
+    id:5, name:"Loop de 1 a 10", diff:"basico", label:"Básico",
+    desc:"Use um for loop com range() para imprimir os números de 1 a 10, um por linha.",
+    starter:"# Use for loop com range()\nfor i in range(1, 11):\n    print(i)"
+  },
+  {
+    id:6, name:"Soma de lista", diff:"basico", label:"Básico",
+    desc:"Dada a lista abaixo, calcule e exiba a soma de todos os elementos usando sum().",
+    starter:"numeros = [4, 8, 15, 16, 23, 42]\n\n# Calcule a soma\ntotal = sum(numeros)\nprint(total)"
+  },
+  {
+    id:7, name:"Função de potência", diff:"intermediario", label:"Intermediário",
+    desc:"Crie uma função chamada potencia(base, exp) que retorna base elevado a exp. Teste com potencia(2, 8).",
+    starter:"def potencia(base, exp):\n    return base ** exp\n\nprint(potencia(2, 8))"
+  },
+  {
+    id:8, name:"Sequência Fibonacci", diff:"intermediario", label:"Intermediário",
+    desc:"Gere os primeiros 10 números da sequência de Fibonacci (0, 1, 1, 2, 3, 5...) e exiba cada um com print().",
+    starter:"a, b = 0, 1\nfor _ in range(10):\n    print(a)\n    a, b = b, a + b"
+  }
+];
+
+let pyodide = null;
+let done = new Set();
+let current = 0;
+
+function renderList() {
+  const el = document.getElementById('exerciseList');
+  el.innerHTML = exercises.map((ex, i) => `
+    <div class="ex-item ${i===current?'active':''} ${done.has(i)?'done':''}" onclick="selectEx(${i})">
+      <div class="ex-num">${done.has(i)?'✓':ex.id}</div>
+      <div>
+        <div class="ex-name">${ex.name}</div>
+        <div class="ex-diff"><span class="diff-tag ${ex.diff}">${ex.label}</span></div>
+      </div>
+    </div>
+  `).join('');
+  const pct = Math.round((done.size/exercises.length)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressText').textContent = `${done.size} de ${exercises.length} completos`;
+}
+
+function selectEx(i) {
+  current = i;
+  const ex = exercises[i];
+  document.getElementById('edTitle').textContent = ex.name;
+  document.getElementById('edDesc').textContent = ex.desc;
+  document.getElementById('edFilename').textContent = `exercicio_0${ex.id}.py`;
+  const ta = document.getElementById('codeEditor');
+  ta.value = ex.starter;
+  updateLineNums();
+  clearOutput();
+  renderList();
+}
+
+function updateLineNums() {
+  const ta = document.getElementById('codeEditor');
+  const lines = ta.value.split('\n').length;
+  const container = document.getElementById('lineNums');
+  container.innerHTML = Array.from({length:lines},(_,i)=>`<span class="ln">${i+1}</span>`).join('');
+}
+
+async function runCode() {
+  if (!pyodide) return;
+  const btn = document.getElementById('runBtn');
+  const out = document.getElementById('outputBody');
+  const code = document.getElementById('codeEditor').value;
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 11 11"><polygon points="1,0.5 10.5,5.5 1,10.5" fill="white"/></svg> Executando...';
+  out.className = 'output-body idle';
+  out.textContent = 'Executando...';
+
+  try {
+    pyodide.runPython(`import sys, io\n_cap = io.StringIO()\nsys.stdout = _cap`);
+    try {
+      pyodide.runPython(code);
+    } catch(e2) {
+      pyodide.runPython(`sys.stdout = sys.__stdout__`);
+      out.textContent = String(e2).replace(/^PythonError: /,'');
+      out.className = 'output-body error';
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 11 11"><polygon points="1,0.5 10.5,5.5 1,10.5" fill="white"/></svg> Executar';
+      return;
+    }
+    pyodide.runPython(`sys.stdout = sys.__stdout__`);
+    const result = pyodide.runPython(`_cap.getvalue()`);
+    out.textContent = result || '(nenhuma saída)';
+    out.className = 'output-body success';
+    if (result && result.trim() && !done.has(current)) {
+      done.add(current);
+      renderList();
+      showToast();
+    }
+  } catch(e) {
+    try { pyodide.runPython(`sys.stdout = sys.__stdout__`); } catch(_){}
+    out.textContent = String(e);
+    out.className = 'output-body error';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 11 11"><polygon points="1,0.5 10.5,5.5 1,10.5" fill="white"/></svg> Executar';
+}
+
+function clearOutput() {
+  const out = document.getElementById('outputBody');
+  out.textContent = 'Aguardando execução — clique em Executar ▶';
+  out.className = 'output-body idle';
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+async function initPy() {
+  const badge = document.getElementById('pyStatus');
+  try {
+    pyodide = await loadPyodide();
+    badge.textContent = 'Python pronto';
+    badge.classList.add('ready');
+    document.getElementById('runBtn').disabled = false;
+  } catch(e) {
+    badge.textContent = '✕ Erro ao carregar';
+    badge.classList.add('error');
+  }
+}
+
+// init
+selectEx(0);
+initPy();
+</script>
+</body>
+</html>
