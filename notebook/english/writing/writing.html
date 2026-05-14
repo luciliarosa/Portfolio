@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>"/>
+  <title>Writing in English — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <!-- docx export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+  <!-- html2pdf -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent-light:#fdecea;
+      --green:#16a34a;--green-light:#dcfce7;
+      --blue:#1d4ed8;--blue-light:#dbeafe;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;}
+ 
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);
+      border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+ 
+    /* PAGE */
+    .page{max-width:900px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-eng{background:var(--accent-light);color:#b71c1c;}.tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+ 
+    /* WRITING TYPE TABS */
+    .type-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;justify-content:center;}
+    .type-tab{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--radius);border:2px solid var(--rule);background:#fff;cursor:pointer;font-family:var(--font-body);font-size:13px;font-weight:700;color:var(--ink3);transition:all .2s;box-shadow:var(--shadow);}
+    .type-tab:hover{border-color:var(--accent);color:var(--ink);}
+    .type-tab.active{border-color:var(--accent);background:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(200,75,49,.25);}
+    .type-tab .tab-icon{font-size:18px;}
+    .type-tab .tab-label{display:flex;flex-direction:column;line-height:1.2;}
+    .type-tab .tab-sub{font-size:10px;font-weight:400;opacity:.8;}
+ 
+    /* TYPE INFO */
+    .type-info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 20px;margin-bottom:1.5rem;display:flex;gap:16px;align-items:flex-start;}
+    .type-info-icon{font-size:28px;flex-shrink:0;}
+    .type-info h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .type-info p{font-size:13px;color:var(--ink3);line-height:1.6;}
+    .type-info .tips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .tip-chip{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--accent-light);color:#b71c1c;font-weight:600;}
+ 
+    /* EDITOR */
+    .editor-shell{background:#fff;border:2px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden;}
+ 
+    /* TOOLBAR */
+    .editor-toolbar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1.5px solid var(--rule);background:var(--paper2);flex-wrap:wrap;}
+    .tb-group{display:flex;align-items:center;gap:3px;}
+    .tb-sep{width:1px;height:22px;background:var(--rule);margin:0 4px;}
+    .tb-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;border:1.5px solid transparent;background:transparent;cursor:pointer;font-size:14px;color:var(--ink3);transition:all .15s;font-family:var(--font-body);}
+    .tb-btn:hover{background:var(--paper3);border-color:var(--rule);color:var(--ink);}
+    .tb-btn.active{background:var(--ink);color:#fff;}
+    .tb-select{font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--ink2);background:var(--paper);border:1.5px solid var(--rule);border-radius:6px;padding:4px 8px;cursor:pointer;height:30px;}
+ 
+    /* TEXTAREA */
+    .editor-area{min-height:280px;padding:20px 24px;outline:none;font-size:16px;line-height:1.8;color:var(--ink);caret-color:var(--accent);border:none;width:100%;resize:vertical;font-family:'Lora',serif;}
+    .editor-area:focus{background:#fffef9;}
+    .editor-area[contenteditable="true"]{display:block;}
+ 
+    /* WORD COUNT */
+    .editor-footer{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-top:1px solid var(--rule2);background:var(--paper2);}
+    .word-count{font-family:var(--font-mono);font-size:11px;color:var(--ink4);}
+    .char-limit{font-family:var(--font-mono);font-size:11px;color:var(--ink4);}
+ 
+    /* ACTIONS */
+    .actions-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap;}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:var(--radius);font-family:var(--font-body);font-size:13px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:all .2s;text-decoration:none;}
+    .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .btn-primary:hover{background:#b03d26;transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,75,49,.3);}
+    .btn-secondary{background:#fff;color:var(--ink);border-color:var(--rule);}
+    .btn-secondary:hover{background:var(--paper3);border-color:var(--ink4);}
+    .btn-green{background:var(--green);color:#fff;border-color:var(--green);}
+    .btn-green:hover{background:#15803d;transform:translateY(-1px);}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+    .btn-sm{padding:7px 14px;font-size:12px;}
+ 
+    /* LOADING */
+    .ai-loading{display:flex;align-items:center;gap:10px;padding:16px;color:var(--ink3);font-size:13px;}
+    .spinner{width:18px;height:18px;border:2px solid var(--rule);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+ 
+    /* CORRECTION PANEL */
+    .correction-panel{margin-top:1.5rem;display:none;}
+    .correction-panel.visible{display:block;}
+    .panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .panel-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;gap:8px;}
+ 
+    /* SCORE */
+    .score-row{display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;}
+    .score-card{flex:1;min-width:100px;background:#fff;border:2px solid var(--rule);border-radius:var(--radius);padding:12px 16px;text-align:center;box-shadow:var(--shadow);}
+    .score-num{font-family:var(--font-serif);font-size:32px;font-weight:600;line-height:1;}
+    .score-num.good{color:var(--green);}
+    .score-num.ok{color:#d97706;}
+    .score-num.bad{color:var(--accent);}
+    .score-label{font-size:11px;color:var(--ink4);margin-top:4px;font-weight:600;}
+ 
+    /* ERRORS */
+    .errors-list{display:flex;flex-direction:column;gap:10px;margin-bottom:1.2rem;}
+    .error-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+    .error-card.type-grammar{border-left:4px solid var(--accent);}
+    .error-card.type-vocab{border-left:4px solid #d97706;}
+    .error-card.type-style{border-left:4px solid var(--blue);}
+    .error-card.type-spelling{border-left:4px solid #7c3aed;}
+    .error-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+    .error-type{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;}
+    .et-grammar{background:var(--accent-light);color:#b71c1c;}
+    .et-vocab{background:#fef3c7;color:#92400e;}
+    .et-style{background:var(--blue-light);color:#1e3a8a;}
+    .et-spelling{background:#ede9fe;color:#4c1d95;}
+    .error-original{font-family:var(--font-serif);font-size:14px;color:var(--ink3);text-decoration:line-through;margin-bottom:4px;}
+    .error-fix{font-family:var(--font-serif);font-size:14px;color:var(--green);font-weight:600;margin-bottom:6px;}
+    .error-fix::before{content:'→ ';}
+    .error-explain{font-size:12px;color:var(--ink3);line-height:1.6;}
+ 
+    /* HIGHLIGHTS */
+    .highlights-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.2rem;}
+    .highlight-card{background:var(--green-light);border:1.5px solid rgba(22,163,74,.2);border-left:4px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;}
+    .highlight-text{font-family:var(--font-serif);font-size:14px;font-style:italic;color:#14532d;margin-bottom:4px;}
+    .highlight-why{font-size:12px;color:#166534;}
+ 
+    /* CORRECTED TEXT */
+    .corrected-box{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1.2rem;box-shadow:var(--shadow);}
+    .corrected-box .corrected-text{font-family:var(--font-serif);font-size:15px;line-height:1.8;color:var(--ink);}
+    .corrected-box .corrected-text mark{background:rgba(22,163,74,.15);border-radius:3px;padding:0 2px;}
+ 
+    /* OVERALL FEEDBACK */
+    .overall-box{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 20px;}
+    .overall-box p{font-size:13px;color:var(--ink2);line-height:1.7;}
+ 
+    /* WARNING BANNER */
+    .warning-banner{display:flex;align-items:flex-start;gap:10px;background:#fffbeb;border:1.5px solid #fbbf24;border-radius:var(--radius);padding:12px 16px;margin-bottom:1rem;}
+    .warning-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+    .warning-text{font-size:12px;color:#78350f;line-height:1.6;}
+    .warning-text strong{font-weight:700;}
+ 
+    /* EXPORT */
+    .export-section{background:#fff;border:2px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-top:1.5rem;box-shadow:var(--shadow);}
+    .export-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .export-sub{font-size:12px;color:var(--ink3);margin-bottom:14px;}
+    .export-btns{display:flex;gap:10px;flex-wrap:wrap;}
+ 
+    /* TIPS PANEL */
+    .tips-panel{background:var(--accent-light);border:1.5px solid rgba(200,75,49,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1.5rem;}
+    .tips-panel h4{font-size:12px;font-weight:700;color:#7f1d1d;margin-bottom:8px;}
+    .tips-panel ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .tips-panel li{font-size:12px;color:#7f1d1d;line-height:1.6;display:flex;gap:6px;}
+    .tips-panel li::before{content:'→';font-weight:700;flex-shrink:0;}
+ 
+    /* THEME PICKER */
+    .theme-picker-shell{background:#fff;border:2px solid var(--rule);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:1.5rem;display:flex;flex-direction:column;gap:14px;}
+    .theme-mode-toggle{display:flex;gap:4px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;width:fit-content;margin:0 auto;}
+    .theme-mode-btn{font-family:var(--font-body);font-size:12px;font-weight:700;padding:6px 14px;border-radius:6px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:all .18s;}
+    .theme-mode-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .btn-roll{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--ink);color:#fff;border:none;border-radius:var(--radius);font-family:var(--font-body);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);}
+    .btn-roll:hover{background:#44403c;transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+    .btn-roll:active .dice-icon{animation:rollDice .4s ease;}
+    .dice-icon{font-size:20px;display:inline-block;}
+    @keyframes rollDice{0%{transform:rotate(0)}25%{transform:rotate(90deg)}50%{transform:rotate(180deg)}75%{transform:rotate(270deg)}100%{transform:rotate(360deg)}}
+    .cat-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+    .cat-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:1.5px solid var(--rule);background:var(--paper2);font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--ink3);cursor:pointer;transition:all .18s;}
+    .cat-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+    .cat-btn.active{border-color:var(--accent);background:var(--accent);color:#fff;}
+    .theme-result{margin-top:4px;}
+    .theme-result-inner{background:linear-gradient(135deg,var(--accent-light),#fff 60%);border:2px solid rgba(200,75,49,.2);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden;}
+    .theme-result-inner::before{content:'✍️';position:absolute;right:16px;bottom:10px;font-size:48px;opacity:.07;pointer-events:none;}
+    .theme-result-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .theme-cat-badge{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;background:var(--accent);color:#fff;letter-spacing:.04em;}
+    .theme-reroll{font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--ink4);background:transparent;border:1.5px solid var(--rule);border-radius:6px;padding:4px 10px;cursor:pointer;transition:all .15s;}
+    .theme-reroll:hover{color:var(--accent);border-color:var(--accent);}
+    .theme-prompt{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:8px;}
+    .theme-hint{font-size:12px;color:var(--ink3);line-height:1.6;font-style:italic;}
+    @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .theme-result.anim .theme-result-inner{animation:slideIn .3s ease both;}
+ 
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+ 
+    @media(max-width:600px){
+      .nav{padding:0 1rem;gap:6px;}
+      .page{padding:0 1rem 4rem;}
+      .type-tabs{gap:6px;}
+      .type-tab{padding:8px 12px;}
+      .actions-row{flex-direction:column;}
+      .score-row{flex-wrap:wrap;}
+    }
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../notebook.html#english" class="nav-link">Grammar</a>
+    <a href="writing.html" class="nav-link active">Writing</a>
+  </div>
+</nav>
+
+<div class="page">
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// English Skills · Writing Practice</p>
+    <h1 class="article-title">Writing in English<br><span style="font-size:.6em;color:var(--ink3);font-style:italic">Pratique e receba correção com IA</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-eng">English Writing</span>
+      <span class="tag tag-gray">Todos os níveis</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">email · essay · formal · informal · storytelling</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- WARNING -->
+  <div class="warning-banner fade">
+    <span class="warning-icon">⚠️</span>
+    <div class="warning-text">
+      <strong>Atenção: ao atualizar ou fechar a página, todo o texto escrito será perdido.</strong><br>
+      Baixe o arquivo Word ou PDF antes de sair para guardar seu texto e a correção da IA.
+    </div>
+  </div>
+
+  <!-- TYPE TABS -->
+  <section class="fade">
+    <p class="sec-title">Escolha o tipo de escrita</p>
+    <div class="type-tabs" id="typeTabs">
+      <button class="type-tab active" data-type="email" onclick="selectType(this)">
+        <span class="tab-icon"></span>
+        <span class="tab-label">E-mail<span class="tab-sub">Profissional ou pessoal</span></span>
+      </button>
+      <button class="type-tab" data-type="essay" onclick="selectType(this)">
+        <span class="tab-icon"></span>
+        <span class="tab-label">Essay / Redação<span class="tab-sub">Opinião e argumentação</span></span>
+      </button>
+      <button class="type-tab" data-type="formal" onclick="selectType(this)">
+        <span class="tab-icon"></span>
+        <span class="tab-label">Formal Writing<span class="tab-sub">Relatório, carta formal</span></span>
+      </button>
+      <button class="type-tab" data-type="informal" onclick="selectType(this)">
+        <span class="tab-icon"></span>
+        <span class="tab-label">Informal / Chat<span class="tab-sub">Mensagens e conversas</span></span>
+      </button>
+      <button class="type-tab" data-type="story" onclick="selectType(this)">
+        <span class="tab-icon"></span>
+        <span class="tab-label">Storytelling<span class="tab-sub">Narrativa criativa</span></span>
+      </button>
+      <button class="type-tab" data-type="description" onclick="selectType(this)">
+        <span class="tab-icon"></span>
+        <span class="tab-label">Description<span class="tab-sub">Descreva pessoas e lugares</span></span>
+      </button>
+    </div>
+
+    <!-- TYPE INFO -->
+    <div class="type-info" id="typeInfo">
+      <span class="type-info-icon"></span>
+      <div>
+        <h3 id="typeInfoTitle">E-mail Writing</h3>
+        <p id="typeInfoDesc">Pratique a escrita de e-mails em inglês — profissionais ou informais. Foque em saudações, corpo do e-mail e despedidas adequadas ao contexto.</p>
+        <div class="tips" id="typeInfoTips"></div>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="tips-panel" id="tipPanel">
+      <h4> Dicas para este tipo de escrita</h4>
+      <ul id="tipList"></ul>
+    </div>
+  </section>
+
+  <!-- THEME PICKER -->
+  <section class="fade">
+    <p class="sec-title">Precisa de inspiração?</p>
+    <div class="theme-picker-shell">
+      <!-- MODE TOGGLE -->
+      <div class="theme-mode-toggle">
+        <button class="theme-mode-btn active" id="modeSurprise" onclick="setThemeMode('surprise')">
+          Tema surpresa
+        </button>
+        <button class="theme-mode-btn" id="modeChoose" onclick="setThemeMode('choose')">
+          Escolher categoria
+        </button>
+      </div>
+
+      <!-- SURPRISE MODE -->
+      <div id="surpriseMode">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <button class="btn-roll" id="btnRoll" onclick="rollTheme()">
+            <span class="dice-icon" id="diceIcon"></span>
+            <span>Sortear tema aleatório</span>
+          </button>
+          <span style="font-size:12px;color:var(--ink4)">— ou escolha uma categoria →</span>
+        </div>
+      </div>
+
+      <!-- CATEGORY MODE -->
+      <div id="chooseMode" style="display:none;">
+        <div class="cat-grid" id="catGrid"></div>
+      </div>
+
+      <!-- THEME RESULT CARD -->
+      <div class="theme-result" id="themeResult" style="display:none;">
+        <div class="theme-result-inner">
+          <div class="theme-result-top">
+            <span class="theme-cat-badge" id="themeCatBadge"></span>
+            <button class="theme-reroll" onclick="rerollSameCategory()" title="Outro tema desta categoria">↺ outro</button>
+          </div>
+          <div class="theme-prompt" id="themePrompt"></div>
+          <div class="theme-hint" id="themeHint"></div>
+          <button class="btn btn-primary" style="margin-top:12px;font-size:12px;padding:8px 16px;" onclick="useTheme()">
+            Usar este tema
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITOR -->
+  <section class="fade">
+    <p class="sec-title">Seu texto</p>
+
+    <div class="editor-shell">
+      <!-- TOOLBAR -->
+      <div class="editor-toolbar">
+        <div class="tb-group">
+          <select class="tb-select" id="fontFamily" onchange="applyFormat('fontName',this.value)">
+            <option value="Lora">Lora (Serif)</option>
+            <option value="Nunito">Nunito</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Arial">Arial</option>
+            <option value="'Courier New'">Courier New</option>
+          </select>
+        </div>
+        <div class="tb-sep"></div>
+        <div class="tb-group">
+          <select class="tb-select" id="fontSize" onchange="applyFontSize(this.value)">
+            <option value="3">14px</option>
+            <option value="4" selected>16px</option>
+            <option value="5">18px</option>
+            <option value="6">22px</option>
+            <option value="7">26px</option>
+          </select>
+        </div>
+        <div class="tb-sep"></div>
+        <div class="tb-group">
+          <button class="tb-btn" title="Negrito" onclick="applyFormat('bold')"><b>B</b></button>
+          <button class="tb-btn" title="Itálico" onclick="applyFormat('italic')"><i>I</i></button>
+          <button class="tb-btn" title="Sublinhado" onclick="applyFormat('underline')"><u>U</u></button>
+        </div>
+        <div class="tb-sep"></div>
+        <div class="tb-group">
+          <button class="tb-btn" title="Alinhar à esquerda" onclick="applyFormat('justifyLeft')">⬅</button>
+          <button class="tb-btn" title="Centralizar" onclick="applyFormat('justifyCenter')">☰</button>
+          <button class="tb-btn" title="Alinhar à direita" onclick="applyFormat('justifyRight')">➡</button>
+        </div>
+        <div class="tb-sep"></div>
+        <div class="tb-group" style="align-items:center;gap:6px;">
+          <span style="font-size:11px;color:var(--ink4)">Cor:</span>
+          <input type="color" id="textColor" value="#1c1917" onchange="applyFormat('foreColor',this.value)"
+            style="width:28px;height:28px;border:1.5px solid var(--rule);border-radius:5px;cursor:pointer;padding:1px;background:transparent;">
+          <span style="font-size:11px;color:var(--ink4)">Marca:</span>
+          <input type="color" id="bgColor" value="#fdecea" onchange="applyFormat('hiliteColor',this.value)"
+            style="width:28px;height:28px;border:1.5px solid var(--rule);border-radius:5px;cursor:pointer;padding:1px;background:transparent;">
+        </div>
+        <div class="tb-sep"></div>
+        <button class="tb-btn" title="Desfazer" onclick="document.execCommand('undo')">↩</button>
+        <button class="tb-btn" title="Refazer" onclick="document.execCommand('redo')">↪</button>
+        <button class="tb-btn" title="Limpar formatação" onclick="clearEditor()" style="margin-left:auto;font-size:11px;width:auto;padding:0 8px;color:var(--accent);">✕ Limpar</button>
+      </div>
+
+      <!-- CONTENT EDITABLE -->
+      <div class="editor-area" id="editor" contenteditable="true"
+        data-placeholder="Escreva seu texto aqui em inglês..."
+        oninput="updateCount()"
+        style="min-height:260px;outline:none;"></div>
+
+      <div class="editor-footer">
+        <span class="word-count" id="wordCount">0 palavras · 0 caracteres</span>
+        <span class="char-limit" id="typeLabel">E-mail</span>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions-row">
+      <button class="btn btn-primary" id="btnCorrect" onclick="correctText()">
+        Corrigir com IA
+      </button>
+      <button class="btn btn-secondary" onclick="clearEditor()">
+        Limpar texto
+      </button>
+    </div>
+  </section>
+
+  <!-- CORRECTION PANEL -->
+  <div class="correction-panel" id="correctionPanel">
+    <hr/>
+    <div class="panel-header">
+      <p class="panel-title">📊 Resultado da correção</p>
+      <button class="btn btn-secondary btn-sm" onclick="resetCorrection()">Nova correção</button>
+    </div>
+
+    <!-- SCORE -->
+    <div class="score-row" id="scoreRow"></div>
+
+    <!-- OVERALL FEEDBACK -->
+    <p class="sec-title">Avaliação geral</p>
+    <div class="overall-box" id="overallBox"></div>
+
+    <hr style="margin:1.2rem 0"/>
+
+    <!-- HIGHLIGHTS -->
+    <div id="highlightsSection" style="display:none">
+      <p class="sec-title">✅ O que você acertou</p>
+      <div class="highlights-list" id="highlightsList"></div>
+    </div>
+
+    <!-- ERRORS -->
+    <div id="errorsSection" style="display:none">
+      <p class="sec-title">⚠️ O que precisa de atenção</p>
+      <div class="errors-list" id="errorsList"></div>
+    </div>
+
+    <!-- CORRECTED TEXT -->
+    <p class="sec-title">📄 Texto corrigido</p>
+    <div class="corrected-box">
+      <div class="corrected-text" id="correctedText"></div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="export-section">
+      <div class="export-title">💾 Salvar antes de sair</div>
+      <div class="export-sub">⚠️ Ao atualizar a página tudo será perdido — baixe agora para guardar seu texto e a correção.</div>
+      <div class="export-btns">
+        <button class="btn btn-green" onclick="exportPDF()">⬇️ Baixar PDF</button>
+        <button class="btn btn-secondary" onclick="exportDOCX()">📄 Baixar Word (.docx)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── TYPE DATA ───────────────────────────────────────────────
+const typeData = {
+  email: {
+    icon:'', title:'E-mail Writing',
+    desc:'Pratique a escrita de e-mails em inglês — profissionais ou informais. Foque em saudações, corpo do e-mail e despedidas adequadas ao contexto.',
+    chips:['Dear / Hi','Subject line','Regards / Best','CC / BCC'],
+    tips:['Comece com uma saudação: "Dear Mr. Smith," (formal) ou "Hi Sarah," (informal).','Use parágrafos curtos — um por ideia.','Termine com uma despedida: "Best regards," / "Kind regards," / "Cheers,".','Seja direto: diga o propósito do e-mail na primeira frase.']
+  },
+  essay: {
+    icon:'', title:'Essay / Redação',
+    desc:'Exercite a argumentação em inglês. Estruture sua redação em introdução, desenvolvimento e conclusão com argumentos bem conectados.',
+    chips:['Introduction','Body paragraphs','Conclusion','Connectors'],
+    tips:['Comece com uma tese clara na introdução.','Use conectores: "Furthermore, However, On the other hand, Therefore".','Cada parágrafo deve ter uma ideia central.','A conclusão deve retomar a tese, não introduzir ideias novas.']
+  },
+  formal: {
+    icon:'', title:'Formal Writing',
+    desc:'Relatórios, cartas formais, memorandos e documentos profissionais. Linguagem neutra, objetiva e estruturada.',
+    chips:['Passive voice','Formal vocab','No contractions','Objective tone'],
+    tips:['Evite contrações: use "it is" em vez de "it\'s".','Prefira voz passiva: "The report was submitted..." em vez de "I submitted..."','Use vocabulário formal: "commence" em vez de "start".','Estruture com seções claras e numeradas se necessário.']
+  },
+  informal: {
+    icon:'', title:'Informal / Chat',
+    desc:'Mensagens de texto, conversas casuais e comunicação do dia a dia. Linguagem natural e descontraída.',
+    chips:['Contractions','Slang','Casual tone','Short sentences'],
+    tips:['Contrações são bem-vindas: "I\'m", "You\'re", "Let\'s".','Use expressões coloquiais: "gonna", "wanna", "kinda".','Frases curtas e diretas são o padrão.','Emojis e pontuação informal são aceitáveis no contexto.']
+  },
+  story: {
+    icon:'', title:'Storytelling',
+    desc:'Narrativas criativas e ficção. Pratique usar tempos verbais, descrever cenas e desenvolver personagens em inglês.',
+    chips:['Past tenses','Descriptive lang','Dialogue','Plot structure'],
+    tips:['Misture Simple Past e Past Continuous para criar ritmo.','Descreva os cenários com adjetivos sensoriais.','Use diálogos para dar vida aos personagens.','Crie tensão com frases curtas nos momentos de ação.']
+  },
+  description: {
+    icon:'', title:'Description Writing',
+    desc:'Descreva pessoas, lugares, objetos ou situações com riqueza de detalhes. Ótimo para ampliar vocabulário.',
+    chips:['Adjectives','Sensory details','Spatial order','Metaphors'],
+    tips:['Use os 5 sentidos: o que você vê, ouve, cheira, sente e toca?','Organize espacialmente: de cima para baixo, de longe para perto.','Metáforas e comparações (similes) enriquecem a descrição.','Prefira adjetivos específicos: "scarlet" em vez de "red".']
+  }
+};
+
+let currentType = 'email';
+
+function selectType(btn) {
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentType = btn.dataset.type;
+  renderTypeInfo();
+  resetCorrection();
+}
+
+function renderTypeInfo() {
+  const d = typeData[currentType];
+  document.getElementById('typeInfoTitle').textContent = d.title;
+  document.getElementById('typeInfoDesc').textContent = d.desc;
+  document.querySelector('.type-info-icon').textContent = d.icon;
+  document.getElementById('typeLabel').textContent = d.title;
+  const tips = document.getElementById('tipList');
+  tips.innerHTML = d.tips.map(t=>`<li>${t}</li>`).join('');
+  const chips = document.getElementById('typeInfoTips');
+  chips.innerHTML = d.chips.map(c=>`<span class="tip-chip">${c}</span>`).join('');
+}
+
+// ─── EDITOR ──────────────────────────────────────────────────
+const editor = document.getElementById('editor');
+
+editor.addEventListener('focus', () => {
+  if (!editor.textContent.trim()) editor.innerHTML = '';
+});
+
+function applyFormat(cmd, val) {
+  editor.focus();
+  document.execCommand(cmd, false, val || null);
+}
+
+function applyFontSize(val) {
+  editor.focus();
+  document.execCommand('fontSize', false, val);
+}
+
+function clearEditor() {
+  if (editor.textContent.trim() && !confirm('Limpar todo o texto?')) return;
+  editor.innerHTML = '';
+  updateCount();
+  resetCorrection();
+}
+
+function updateCount() {
+  const text = editor.innerText || '';
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  document.getElementById('wordCount').textContent = `${words} palavras · ${text.length} caracteres`;
+}
+
+// placeholder
+editor.addEventListener('focus', function() { this.classList.add('focused'); });
+editor.addEventListener('blur', function() { this.classList.remove('focused'); });
+
+const style = document.createElement('style');
+style.textContent = `.editor-area:empty:not(.focused)::before{content:attr(data-placeholder);color:var(--ink4);pointer-events:none;font-style:italic;}`;
+document.head.appendChild(style);
+
+// ─── AI CORRECTION ───────────────────────────────────────────
+let correctionResult = null;
+
+async function correctText() {
+  const text = editor.innerText.trim();
+  if (!text || text.length < 10) {
+    alert('Escreva pelo menos algumas frases antes de corrigir! ✍️');
+    return;
+  }
+
+  const btn = document.getElementById('btnCorrect');
+  btn.disabled = true;
+  btn.textContent = '⏳ Analisando...';
+
+  const panel = document.getElementById('correctionPanel');
+  panel.classList.add('visible');
+  panel.innerHTML = `<hr/><div class="ai-loading"><div class="spinner"></div><span>A IA está analisando seu texto... aguarde alguns segundos ✨</span></div>`;
+
+  const typeInfo = typeData[currentType];
+
+  const prompt = `You are an English writing teacher. Analyze this ${typeInfo.title} written by a Portuguese-speaking student learning English.
+
+Text to analyze:
+"""
+${text}
+"""
+
+Respond ONLY with a valid JSON object (no markdown, no extra text) with this exact structure:
+{
+  "scores": {
+    "grammar": 0-10,
+    "vocabulary": 0-10,
+    "structure": 0-10,
+    "overall": 0-10
+  },
+  "overallFeedback": "2-3 sentences of encouraging overall feedback in Portuguese",
+  "errors": [
+    {
+      "type": "grammar|vocabulary|style|spelling",
+      "original": "the wrong phrase or word",
+      "correction": "the correct version",
+      "explanation": "brief explanation in Portuguese, max 2 sentences"
+    }
+  ],
+  "highlights": [
+    {
+      "text": "something the student did well (a phrase or sentence)",
+      "reason": "why this is good, in Portuguese"
+    }
+  ],
+  "correctedText": "The full text rewritten with all corrections applied. Wrap improved parts in <mark> tags."
+}
+
+Rules:
+- errors array: max 6 items, focus on the most important
+- highlights array: max 3 items, be specific
+- correctedText: keep the student's voice, only fix actual errors
+- Be encouraging and pedagogical in explanations`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    correctionResult = JSON.parse(clean);
+    renderCorrection(correctionResult, text);
+  } catch(e) {
+    panel.innerHTML = `<hr/><div style="padding:16px;color:var(--accent);font-size:13px;">❌ Erro ao conectar com a IA. Verifique sua conexão e tente novamente.<br><small style="color:var(--ink4)">${e.message}</small></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✨ Corrigir com IA';
+  }
+}
+
+function scoreClass(n) {
+  if (n >= 8) return 'good';
+  if (n >= 5) return 'ok';
+  return 'bad';
+}
+
+function renderCorrection(r, originalText) {
+  const panel = document.getElementById('correctionPanel');
+
+  // Score cards
+  const scoreLabels = { grammar:'Gramática', vocabulary:'Vocabulário', structure:'Estrutura', overall:'Nota Geral' };
+  const scoreHTML = Object.entries(r.scores).map(([k,v]) => `
+    <div class="score-card">
+      <div class="score-num ${scoreClass(v)}">${v}<span style="font-size:16px;color:var(--ink4)">/10</span></div>
+      <div class="score-label">${scoreLabels[k]||k}</div>
+    </div>`).join('');
+
+  // Highlights
+  let highlightsHTML = '';
+  if (r.highlights && r.highlights.length) {
+    highlightsHTML = `
+      <div id="highlightsSection">
+        <p class="sec-title">✅ O que você acertou</p>
+        <div class="highlights-list">
+          ${r.highlights.map(h=>`
+            <div class="highlight-card">
+              <div class="highlight-text">"${h.text}"</div>
+              <div class="highlight-why">${h.reason}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  // Errors
+  const typeClass = { grammar:'type-grammar et-grammar', vocabulary:'type-vocab et-vocab', style:'type-style et-style', spelling:'type-spelling et-spelling' };
+  const typeLabel = { grammar:'Gramática', vocabulary:'Vocabulário', style:'Estilo', spelling:'Ortografia' };
+  let errorsHTML = '';
+  if (r.errors && r.errors.length) {
+    errorsHTML = `
+      <div id="errorsSection">
+        <p class="sec-title">⚠️ O que precisa de atenção</p>
+        <div class="errors-list">
+          ${r.errors.map(e=>{
+            const [cardClass, tagClass] = (typeClass[e.type]||'type-grammar et-grammar').split(' ');
+            return `
+            <div class="error-card ${cardClass}">
+              <div class="error-top">
+                <span class="error-type ${tagClass}">${typeLabel[e.type]||e.type}</span>
+              </div>
+              <div class="error-original">${e.original}</div>
+              <div class="error-fix">${e.correction}</div>
+              <div class="error-explain">${e.explanation}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }
+
+  panel.innerHTML = `
+    <hr/>
+    <div class="panel-header">
+      <p class="panel-title">📊 Resultado da correção</p>
+      <button class="btn btn-secondary btn-sm" onclick="resetCorrection()">Nova correção</button>
+    </div>
+    <div class="score-row">${scoreHTML}</div>
+    <p class="sec-title">Avaliação geral</p>
+    <div class="overall-box"><p>${r.overallFeedback}</p></div>
+    <hr style="margin:1.2rem 0"/>
+    ${highlightsHTML}
+    ${errorsHTML}
+    <p class="sec-title">📄 Texto corrigido</p>
+    <div class="corrected-box">
+      <div class="corrected-text">${r.correctedText}</div>
+    </div>
+    <div class="export-section">
+      <div class="export-title">💾 Salvar antes de sair</div>
+      <div class="export-sub">⚠️ Ao atualizar a página tudo será perdido — baixe agora para guardar seu texto e a correção.</div>
+      <div class="export-btns">
+        <button class="btn btn-green" onclick="exportPDF()">⬇️ Baixar PDF</button>
+        <button class="btn btn-secondary" onclick="exportDOCX()">📄 Baixar Word (.docx)</button>
+      </div>
+    </div>`;
+}
+
+function resetCorrection() {
+  const panel = document.getElementById('correctionPanel');
+  panel.classList.remove('visible');
+  panel.innerHTML = '';
+  correctionResult = null;
+}
+
+// ─── EXPORT ──────────────────────────────────────────────────
+function getExportContent() {
+  const type = typeData[currentType].title;
+  const original = editor.innerHTML || editor.innerText || '';
+  const corrected = document.querySelector('.corrected-text')?.innerHTML || '(sem correção)';
+  const overall = document.querySelector('.overall-box p')?.textContent || '';
+  const scores = document.querySelectorAll('.score-card');
+  let scoresText = '';
+  scores.forEach(s => {
+    const num = s.querySelector('.score-num')?.textContent || '';
+    const label = s.querySelector('.score-label')?.textContent || '';
+    scoresText += `${label}: ${num}  `;
+  });
+  return { type, original, corrected, overall, scoresText };
+}
+
+function exportPDF() {
+  const { type, original, corrected, overall, scoresText } = getExportContent();
+  const html = `
+    <div style="font-family:'Georgia',serif;max-width:700px;margin:0 auto;padding:40px 30px;color:#1c1917;">
+      <h1 style="font-size:24px;color:#c84b31;margin-bottom:4px;">Lucilia's Notebook — Writing Practice</h1>
+      <p style="font-size:12px;color:#78716c;margin-bottom:24px;">${type} · ${new Date().toLocaleDateString('pt-BR')}</p>
+      <h2 style="font-size:15px;border-bottom:2px solid #ede8df;padding-bottom:6px;margin-bottom:12px;">📝 Meu Texto</h2>
+      <div style="font-size:14px;line-height:1.8;margin-bottom:24px;">${original}</div>
+      ${scoresText ? `<div style="background:#f3efe8;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;"><strong>Notas:</strong> ${scoresText}</div>` : ''}
+      ${overall ? `<div style="background:#fdecea;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#7f1d1d;"><strong>Avaliação:</strong> ${overall}</div>` : ''}
+      <h2 style="font-size:15px;border-bottom:2px solid #ede8df;padding-bottom:6px;margin-bottom:12px;">✅ Texto Corrigido</h2>
+      <div style="font-size:14px;line-height:1.8;">${corrected.replace(/<mark>/g,'<mark style="background:rgba(22,163,74,.2);border-radius:3px;">') }</div>
+    </div>`;
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  document.body.appendChild(el);
+  html2pdf().set({
+    margin: 0,
+    filename: `writing-practice-${currentType}.pdf`,
+    image: { type:'jpeg', quality:0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit:'mm', format:'a4', orientation:'portrait' }
+  }).from(el).save().then(() => document.body.removeChild(el));
+}
+
+function exportDOCX() {
+  const { type, original, corrected, overall, scoresText } = getExportContent();
+  // Strip HTML for DOCX plain text
+  const strip = html => html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+
+  const { Document, Packer, Paragraph, TextRun, HeadingLevel } = docx;
+
+  const doc = new Document({
+    sections: [{
+      properties: {},
+      children: [
+        new Paragraph({ text: "Lucilia's Notebook — Writing Practice", heading: HeadingLevel.HEADING_1 }),
+        new Paragraph({ children: [new TextRun({ text: `${type} · ${new Date().toLocaleDateString('pt-BR')}`, color:'78716c', size:20 })] }),
+        new Paragraph(''),
+        new Paragraph({ text: '📝 Meu Texto', heading: HeadingLevel.HEADING_2 }),
+        new Paragraph({ children: [new TextRun({ text: strip(original), size:24 })] }),
+        new Paragraph(''),
+        ...(scoresText ? [
+          new Paragraph({ children: [new TextRun({ text: `Notas: ${scoresText}`, bold:true, size:22 })] }),
+          new Paragraph('')
+        ] : []),
+        ...(overall ? [
+          new Paragraph({ children: [new TextRun({ text: `Avaliação: ${overall}`, italics:true, size:22, color:'7f1d1d' })] }),
+          new Paragraph('')
+        ] : []),
+        new Paragraph({ text: '✅ Texto Corrigido', heading: HeadingLevel.HEADING_2 }),
+        new Paragraph({ children: [new TextRun({ text: strip(corrected), size:24 })] }),
+      ]
+    }]
+  });
+
+  Packer.toBlob(doc).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `writing-practice-${currentType}.docx`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+// ─── THEME PICKER ─────────────────────────────────────────────
+const themes = {
+
+  technology: {
+    label:'Technology', color:'#1d4ed8',
+    prompts:[
+      // Apps & Phones
+      { p:'Describe your favorite app and explain why you use it every day.', h:'What does it do? Is it for fun, work, or learning? How would your day be different without it?' },
+      { p:'Your phone battery died in the middle of an important day. What happened?', h:'Tell the story. What did you miss? How did you manage without it? Use past tense.' },
+      { p:'Write a text message to a friend recommending a new app you discovered.', h:'Keep it casual and short. Tell them what the app does and why they would like it.' },
+      { p:'Smartphones: helpful tool or the biggest distraction of our time?', h:'Give your honest opinion. Think about work, school, relationships, and mental health.' },
+      { p:'Describe how you use your phone differently now compared to 5 years ago.', h:'Have new apps changed your habits? Do you use it more or less? For different things?' },
+      // AI
+      { p:'Do you think Artificial Intelligence will replace human jobs? Give your view.', h:'Think about repetitive tasks vs creative work. Use "on one hand... on the other hand..."' },
+      { p:'Write an email to your company asking them to adopt an AI tool to save time.', h:'Name a real or fictional tool. Explain what problem it solves and what time it would save.' },
+      { p:'If you had a personal AI assistant for one week, what would you ask it to do?', h:'Be specific and creative. Think about work, learning, home, fun. Describe a typical day.' },
+      { p:'Is it fair to use AI to help write essays at school? Argue for or against.', h:'Consider learning, honesty, creativity, and the purpose of assignments.' },
+      { p:'Describe a future where AI makes most decisions in daily life. Is it good or scary?', h:'Think about traffic, hospitals, schools, courts. What would humans still control?' },
+      // Internet & Social Media
+      { p:'Write a short guide for a grandparent who is using the internet for the first time.', h:'Keep it simple and friendly. Cover: turning it on, searching, staying safe online.' },
+      { p:'Should children under 13 be allowed on social media? Give your opinion.', h:'Think about safety, mental health, peer pressure, and parental control.' },
+      { p:'Describe what your life would look like with no internet for one month.', h:'How would you work, study, stay in touch with people, and entertain yourself?' },
+      { p:'Write a story: someone posts something online and deeply regrets it the next day.', h:'What did they post? Why? What were the consequences? Did it get resolved?' },
+      { p:'Write a message to a friend explaining why you decided to delete your Instagram.', h:'Be honest and casual. Tell them how you feel and what you plan to do instead.' },
+      // Computers & Tech at Work
+      { p:'Write an email to your IT support team because your computer will not turn on.', h:'Describe the problem clearly: when it started, what you already tried, why it is urgent.' },
+      { p:'You received a suspicious email that looks like a scam. Write a warning to your team.', h:'Describe what the email said, why it looks fake, and what everyone should do (or NOT do).' },
+      { p:'Compare working on a laptop versus on a tablet. Which do you prefer and why?', h:'Think about screen size, keyboard, apps, portability. Use "while", "whereas", "however".' },
+      { p:'Technology at work: does it make us more productive or just more stressed?', h:'Use examples from real life. Think about emails, notifications, meetings, deadlines.' },
+      // Fun & Surprise
+      { p:'You just discovered a tech gadget that does not exist yet. Describe it!', h:'What does it look like? What problem does it solve? How does it work? Would people buy it?' },
+      { p:'Write a review for a robot assistant that you "bought" — but it keeps making mistakes.', h:'Be funny but honest. What was it supposed to do? What went wrong? Would you return it?' },
+      { p:'If you could delete one social media platform forever, which one and why?', h:'Be direct and persuasive. Back up your choice with real reasons.' },
+    ]
+  },
+
+  everyday: {
+    label:'Everyday Life', color:'#b45309',
+    prompts:[
+      { p:'Describe your morning routine from the moment you wake up.', h:'Use present simple. Include details: what you eat, how long things take, how you feel.' },
+      { p:'Write a shopping list message to a family member asking them to buy things at the supermarket.', h:'Use clear, natural language. Add quantities and any important details ("the big one", "low sugar").' },
+      { p:'You arrived late to an important meeting. Write an apology message to your boss.', h:'Be sincere, explain briefly what happened, and say how you will avoid it next time.' },
+      { p:'Describe your neighborhood — what you like about it and what you would change.', h:'Use descriptive language. Think about noise, safety, shops, neighbors, green spaces.' },
+      { p:'Write a message to your landlord reporting a problem in your apartment.', h:'Be polite but clear. Describe the problem, when it started, and ask for a repair.' },
+      { p:'What is the most useful thing you own? Describe it and explain why you could not live without it.', h:'It can be anything — not just technology. Think about what makes your daily life easier.' },
+      { p:'Describe a typical Saturday for you. What do you do and how do you feel?', h:'Use present simple for habits. Include morning, afternoon, and evening.' },
+      { p:'Write a friendly note to your neighbor asking them to keep the noise down at night.', h:'Be polite, not aggressive. Explain how it is affecting you and suggest a solution.' },
+      { p:'Tell the story of a day when everything went wrong from the start.', h:'Use past tense. Be specific and descriptive. You can make it funny or dramatic!' },
+      { p:'You found a wallet on the street. Write about what you decided to do and why.', h:'What was inside? What did you think? What would most people do? What did YOU do?' },
+      { p:'Describe your home — the rooms, the atmosphere, and what makes it feel like yours.', h:'Use sensory details. Think about colours, smells, sounds, favourite corners.' },
+      { p:'Write a message to a friend cancelling plans you had for the weekend.', h:'Give a reason, apologize sincerely, and suggest another time to meet.' },
+    ]
+  },
+
+  travel: {
+    label:'Travel', color:'#0369a1',
+    prompts:[
+      { p:'Describe the most beautiful place you have ever visited.', h:'Use sensory details — what you saw, heard, smelled. Why was it special to you?' },
+      { p:'Write an email booking a hotel room for 3 nights.', h:'Include: your name, dates, room type, any special requests, and ask about breakfast.' },
+      { p:'Your flight was cancelled. Write a complaint email to the airline.', h:'Be firm but polite. Explain the inconvenience and what you expect as a solution.' },
+      { p:'Would you prefer to travel alone or with friends? Explain your choice.', h:'Think about freedom, safety, sharing experiences. Use "I prefer... because..."' },
+      { p:'Write a story about a tourist who gets completely lost in a foreign city.', h:'How do they feel? Who helps them? What unexpected thing do they discover?' },
+      { p:'Describe your dream vacation destination in detail.', h:'Where is it? What would you do there? Who would you take? When would you go?' },
+      { p:'Write a travel review for a restaurant you visited on vacation.', h:'Describe the food, service, atmosphere, price. Give a star rating and say if you would return.' },
+      { p:'Is it better to stay in a hotel or rent an apartment when traveling? Give your view.', h:'Think about comfort, price, kitchen access, local experience. Use comparison language.' },
+      { p:'Write a postcard to a friend describing where you are right now (real or imaginary!).', h:'Keep it short and vivid. Mention the weather, something you ate, one thing you saw.' },
+      { p:'What is the worst travel experience you have had (or can imagine)? Tell the story.', h:'Delayed flights, bad hotels, getting sick... Use past tense and descriptive language.' },
+    ]
+  },
+
+  fun: {
+    label:'Fun & Random', color:'#7c3aed',
+    prompts:[
+      { p:'If you could have dinner with any person in history, who would it be and what would you ask?', h:'Choose anyone — real, historical, fictional. Describe the conversation you would have.' },
+      { p:'You woke up and discovered you could speak every language in the world. What do you do first?', h:'Think about travel, communication, jobs, relationships. Be creative and specific.' },
+      { p:'Write a product review for something totally imaginary — like "invisible shoes" or "dream recorder".', h:'Treat it seriously, like a real review. Star rating, pros, cons, would you recommend it?' },
+      { p:'Describe your perfect day with no responsibilities, no budget, and no limits.', h:'Where are you? What time do you wake up? What do you eat? Who is with you?' },
+      { p:'Write a "How to survive Mondays" guide for someone who really hates them.', h:'Make it funny or practical. Use imperative verbs: "Wake up", "Avoid", "Remember..."' },
+      { p:'If your pet could talk for one day, what do you think it would say?', h:'Write as your pet or describe the conversation you would have. Be funny and creative!' },
+      { p:'You are the last person on Earth who still reads physical books. Write a letter defending why.', h:'Why do books matter? What does reading feel like? What would be lost without them?' },
+      { p:'Invent a new holiday and explain how people celebrate it.', h:'Give it a name, a date, a reason for existing, and describe the traditions. Make it fun!' },
+      { p:'Write a short story that begins with: "She opened the box and could not believe what was inside."', h:'You decide what is in the box and what happens next. Use past tense and keep it vivid.' },
+      { p:'Describe the most interesting or bizarre dream you have ever had.', h:'Use past tense. Set the scene, describe what happened, and explain how you felt when you woke up.' },
+      { p:'Write a "wanted" poster for something that keeps going missing in your house.', h:'It can be your keys, one sock, motivation... Be creative and funny. Describe it clearly.' },
+      { p:'If you could change one rule at your school or workplace, what would it be and why?', h:'Be specific. What is the rule? Why is it unfair or useless? What would your rule be instead?' },
+    ]
+  },
+
+  food: {
+    label:'Food', color:'#c84b31',
+    prompts:[
+      { p:'Describe your all-time favorite meal — what it is, how it smells, and why you love it.', h:'Use adjectives like "crispy", "savory", "comforting". Share a memory connected to this food.' },
+      { p:'Write a recipe email to a friend who asked how to make a dish you love.', h:'List the ingredients and give step-by-step instructions. Use imperative verbs: Add, Mix, Bake.' },
+      { p:'Review a restaurant you have been to recently.', h:'Talk about the food, service, prices, and atmosphere. Would you go back? Would you recommend it?' },
+      { p:'Write a story about a chef who creates one perfect dish for the last time.', h:'Why is it the last time? What memories does the dish hold? Describe the smells and tastes.' },
+      { p:'Do you think people eat better or worse than they did 30 years ago? Explain.', h:'Think about processed food, fast food, organic trends, cooking habits. Use examples.' },
+      { p:'Describe the street food scene in your city or country.', h:'What is popular? How much does it cost? Where do people eat it? What makes it special?' },
+      { p:'Write a message to your friend about a restaurant that completely disappointed you.', h:'What did you order? What was wrong with it? How was the service? Will you go back?' },
+      { p:'If you had to eat only one cuisine for the rest of your life, which would it be and why?', h:'Describe the food you love from that cuisine. What would you miss from others? Be persuasive.' },
+    ]
+  },
+
+  work: {
+    label:'Work & Career', color:'#6b21a8',
+    prompts:[
+      { p:'Write a professional email applying for a job you really want.', h:'Introduce yourself, mention your skills, explain why you want THIS job, and close politely.' },
+      { p:'Describe your dream job and what a typical day would look like.', h:'Use present simple for routines. Be specific about the tasks, the people, and the environment.' },
+      { p:'Is it better to work from home or at the office? Give your opinion.', h:'Think about focus, communication, loneliness, flexibility. Use contrast connectors.' },
+      { p:'Write a thank-you email after a job interview.', h:'Thank them for their time, mention one thing from the interview, express your enthusiasm.' },
+      { p:'Your colleague did not do their part of a team project. Write them a message.', h:'Be professional, not aggressive. State the problem, the impact, and what you need from them.' },
+      { p:'Describe the best boss or manager you have ever had (real or imaginary).', h:'What made them good? How did they treat the team? Give specific examples of what they did.' },
+      { p:'Write a story about someone who left a stable job to start their own business.', h:'What was the risk? What did they give up? How did it go? Use past tense.' },
+      { p:'You are starting a new job on Monday. Write about how you feel and what you expect.', h:'Are you nervous or excited? What are your fears? What are your goals for the first month?' },
+    ]
+  },
+
+  education: {
+    label:'Education', color:'#0f766e',
+    prompts:[
+      { p:'Describe the best teacher you ever had and what made them so special.', h:'Give specific examples — things they said or did. How did they change the way you think?' },
+      { p:'Write an email to a teacher asking for help understanding something difficult in class.', h:'Be polite and specific. Say what you did not understand and when you are available to talk.' },
+      { p:'Should students be allowed to use their phones in class? Give your view.', h:'Think about distraction, research tools, emergencies, and teacher control.' },
+      { p:'Write a story about a student who almost fails, but finds a reason to keep going.', h:'What was the struggle? Who helped? What changed? Give the story a satisfying ending.' },
+      { p:'How has learning changed for you since childhood? What is easier or harder now?', h:'Compare then and now. Think about motivation, methods, technology, responsibilities.' },
+      { p:'Write a message to your classmates encouraging them before a big exam.', h:'Be warm and motivating. Remind them of their strengths. Keep it genuine, not generic.' },
+      { p:'Do you think learning a foreign language should be required at school? Argue your view.', h:'Think about culture, career, brain benefits, and time spent on other subjects.' },
+      { p:'Describe the place where you study best and explain why it works for you.', h:'Is it quiet or with noise? At home or outside? Morning or night? Describe it in detail.' },
+    ]
+  },
+
+  health: {
+    label:'Health', color:'#be185d',
+    prompts:[
+      { p:'Describe your daily routine and honestly say how healthy it really is.', h:'Talk about sleep, food, exercise, screen time, stress. What would you change if you could?' },
+      { p:'Write an email to a doctor\'s office asking to schedule an appointment.', h:'Say your name, your symptoms, when they started, and ask about available times.' },
+      { p:'Do you think mental health should be taught as a subject in schools? Explain.', h:'Consider awareness, reducing stigma, practical tools for young people. Argue your position.' },
+      { p:'Write a story about a person who decides to change their lifestyle completely after a bad checkup.', h:'What was the wake-up call? What did they give up? What did they gain? Use past tense.' },
+      { p:'Is social media making people more anxious? Give your opinion with examples.', h:'Think about comparison, FOMO, cyberbullying, and also positive communities. Be balanced.' },
+      { p:'Describe your ideal healthy day — from morning to night.', h:'Be specific: wake-up time, meals, movement, rest. What habits would this version of you have?' },
+      { p:'Write a message to a friend who has been working too hard and not taking care of themselves.', h:'Be caring but honest. Tell them what you notice and gently suggest what they should do.' },
+      { p:'Do you think people today are more or less stressed than 20 years ago? Why?', h:'Think about technology, work pace, social pressure, cost of living. Use examples.' },
+    ]
+  },
+
+};
+
+
+
+// Flatten all for random
+function getAllPrompts() {
+  return Object.entries(themes)
+    .flatMap(([cat, d]) => d.prompts.map(p => ({ ...p, cat, catLabel: d.label, catColor: d.color })));
+}
+
+let themeMode = 'surprise';
+let currentCat = null;
+let lastPromptIndex = -1;
+
+function setThemeMode(mode) {
+  themeMode = mode;
+  document.getElementById('modeSurprise').classList.toggle('active', mode === 'surprise');
+  document.getElementById('modeChoose').classList.toggle('active', mode === 'choose');
+  document.getElementById('surpriseMode').style.display = mode === 'surprise' ? 'block' : 'none';
+  document.getElementById('chooseMode').style.display = mode === 'choose' ? 'block' : 'none';
+  document.getElementById('themeResult').style.display = 'none';
+  currentCat = null;
+}
+
+function buildCatGrid() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = Object.entries(themes)
+    .map(([k, d]) => `<button class="cat-btn" data-cat="${k}" onclick="pickCategory(this,'${k}')">${d.label}</button>`)
+    .join('');
+}
+
+function pickCategory(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = cat;
+  lastPromptIndex = -1;
+  showRandomFromCat(cat);
+}
+
+function rollTheme() {
+  const dice = document.getElementById('diceIcon');
+  dice.style.animation = 'none';
+  void dice.offsetWidth;
+  dice.style.animation = 'rollDice .4s ease';
+  const all = getAllPrompts();
+  let idx;
+  do { idx = Math.floor(Math.random() * all.length); } while (idx === lastPromptIndex && all.length > 1);
+  lastPromptIndex = idx;
+  const item = all[idx];
+  currentCat = item.cat;
+  showTheme(item.p, item.h, item.catLabel, item.catColor);
+}
+
+function showRandomFromCat(cat) {
+  const list = themes[cat].prompts;
+  let idx;
+  do { idx = Math.floor(Math.random() * list.length); } while (idx === lastPromptIndex && list.length > 1);
+  lastPromptIndex = idx;
+  showTheme(list[idx].p, list[idx].h, themes[cat].label, themes[cat].color);
+}
+
+function rerollSameCategory() {
+  if (currentCat) showRandomFromCat(currentCat);
+  else rollTheme();
+}
+
+function showTheme(prompt, hint, catLabel, catColor) {
+  const result = document.getElementById('themeResult');
+  result.style.display = 'block';
+  result.classList.remove('anim');
+  void result.offsetWidth;
+  result.classList.add('anim');
+  document.getElementById('themeCatBadge').textContent = catLabel;
+  document.getElementById('themeCatBadge').style.background = catColor;
+  document.getElementById('themePrompt').textContent = prompt;
+  document.getElementById('themeHint').textContent = '💡 ' + hint;
+}
+
+function useTheme() {
+  const prompt = document.getElementById('themePrompt').textContent;
+  const hint = document.getElementById('themeHint').textContent;
+  const editor = document.getElementById('editor');
+  if (editor.textContent.trim() && !confirm('Isso vai substituir o texto atual. Continuar?')) return;
+  editor.innerHTML = '';
+  editor.focus();
+  document.execCommand('insertText', false, `[Topic: ${prompt}]\n\n`);
+  updateCount();
+  editor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+renderTypeInfo();
+updateCount();
+buildCatGrid();
+</script>
+</body>
+</html>
