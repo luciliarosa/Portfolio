@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✍️</text></svg>"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>"/>
   <title>Writing in English — Lucilia's Notebook</title>
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
   <!-- docx export -->
@@ -419,7 +419,7 @@
   <div class="correction-panel" id="correctionPanel">
     <hr/>
     <div class="panel-header">
-      <p class="panel-title">📊 Resultado da correção</p>
+      <p class="panel-title">Resultado da correção</p>
       <button class="btn btn-secondary btn-sm" onclick="resetCorrection()">Nova correção</button>
     </div>
 
@@ -434,29 +434,29 @@
 
     <!-- HIGHLIGHTS -->
     <div id="highlightsSection" style="display:none">
-      <p class="sec-title">✅ O que você acertou</p>
+      <p class="sec-title">O que você acertou</p>
       <div class="highlights-list" id="highlightsList"></div>
     </div>
 
     <!-- ERRORS -->
     <div id="errorsSection" style="display:none">
-      <p class="sec-title">⚠️ O que precisa de atenção</p>
+      <p class="sec-title">O que precisa de atenção</p>
       <div class="errors-list" id="errorsList"></div>
     </div>
 
     <!-- CORRECTED TEXT -->
-    <p class="sec-title">📄 Texto corrigido</p>
+    <p class="sec-title">Texto corrigido</p>
     <div class="corrected-box">
       <div class="corrected-text" id="correctedText"></div>
     </div>
 
     <!-- EXPORT -->
     <div class="export-section">
-      <div class="export-title">💾 Salvar antes de sair</div>
-      <div class="export-sub">⚠️ Ao atualizar a página tudo será perdido — baixe agora para guardar seu texto e a correção.</div>
+      <div class="export-title">Salvar antes de sair</div>
+      <div class="export-sub">Ao atualizar a página tudo será perdido — baixe agora para guardar seu texto e a correção.</div>
       <div class="export-btns">
-        <button class="btn btn-green" onclick="exportPDF()">⬇️ Baixar PDF</button>
-        <button class="btn btn-secondary" onclick="exportDOCX()">📄 Baixar Word (.docx)</button>
+        <button class="btn btn-green" onclick="exportPDF()">⬇Baixar PDF</button>
+        <button class="btn btn-secondary" onclick="exportDOCX()">Baixar Word (.docx)</button>
       </div>
     </div>
   </div>
@@ -569,7 +569,7 @@ let correctionResult = null;
 async function correctText() {
   const text = editor.innerText.trim();
   if (!text || text.length < 10) {
-    alert('Escreva pelo menos algumas frases antes de corrigir! ✍️');
+    alert('Escreva pelo menos algumas frases antes de corrigir!');
     return;
   }
 
@@ -668,7 +668,7 @@ function renderCorrection(r, originalText) {
   if (r.highlights && r.highlights.length) {
     highlightsHTML = `
       <div id="highlightsSection">
-        <p class="sec-title">✅ O que você acertou</p>
+        <p class="sec-title">O que você acertou</p>
         <div class="highlights-list">
           ${r.highlights.map(h=>`
             <div class="highlight-card">
@@ -686,7 +686,7 @@ function renderCorrection(r, originalText) {
   if (r.errors && r.errors.length) {
     errorsHTML = `
       <div id="errorsSection">
-        <p class="sec-title">⚠️ O que precisa de atenção</p>
+        <p class="sec-title">O que precisa de atenção</p>
         <div class="errors-list">
           ${r.errors.map(e=>{
             const [cardClass, tagClass] = (typeClass[e.type]||'type-grammar et-grammar').split(' ');
@@ -707,7 +707,7 @@ function renderCorrection(r, originalText) {
   panel.innerHTML = `
     <hr/>
     <div class="panel-header">
-      <p class="panel-title">📊 Resultado da correção</p>
+      <p class="panel-title">Resultado da correção</p>
       <button class="btn btn-secondary btn-sm" onclick="resetCorrection()">Nova correção</button>
     </div>
     <div class="score-row">${scoreHTML}</div>
@@ -716,16 +716,16 @@ function renderCorrection(r, originalText) {
     <hr style="margin:1.2rem 0"/>
     ${highlightsHTML}
     ${errorsHTML}
-    <p class="sec-title">📄 Texto corrigido</p>
+    <p class="sec-title">Texto corrigido</p>
     <div class="corrected-box">
       <div class="corrected-text">${r.correctedText}</div>
     </div>
     <div class="export-section">
-      <div class="export-title">💾 Salvar antes de sair</div>
-      <div class="export-sub">⚠️ Ao atualizar a página tudo será perdido — baixe agora para guardar seu texto e a correção.</div>
+      <div class="export-title">Salvar antes de sair</div>
+      <div class="export-sub">Ao atualizar a página tudo será perdido — baixe agora para guardar seu texto e a correção.</div>
       <div class="export-btns">
-        <button class="btn btn-green" onclick="exportPDF()">⬇️ Baixar PDF</button>
-        <button class="btn btn-secondary" onclick="exportDOCX()">📄 Baixar Word (.docx)</button>
+        <button class="btn btn-green" onclick="exportPDF()">Baixar PDF</button>
+        <button class="btn btn-secondary" onclick="exportDOCX()">Baixar Word (.docx)</button>
       </div>
     </div>`;
 }
@@ -759,11 +759,11 @@ function exportPDF() {
     <div style="font-family:'Georgia',serif;max-width:700px;margin:0 auto;padding:40px 30px;color:#1c1917;">
       <h1 style="font-size:24px;color:#c84b31;margin-bottom:4px;">Lucilia's Notebook — Writing Practice</h1>
       <p style="font-size:12px;color:#78716c;margin-bottom:24px;">${type} · ${new Date().toLocaleDateString('pt-BR')}</p>
-      <h2 style="font-size:15px;border-bottom:2px solid #ede8df;padding-bottom:6px;margin-bottom:12px;">📝 Meu Texto</h2>
+      <h2 style="font-size:15px;border-bottom:2px solid #ede8df;padding-bottom:6px;margin-bottom:12px;">Meu Texto</h2>
       <div style="font-size:14px;line-height:1.8;margin-bottom:24px;">${original}</div>
       ${scoresText ? `<div style="background:#f3efe8;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;"><strong>Notas:</strong> ${scoresText}</div>` : ''}
       ${overall ? `<div style="background:#fdecea;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#7f1d1d;"><strong>Avaliação:</strong> ${overall}</div>` : ''}
-      <h2 style="font-size:15px;border-bottom:2px solid #ede8df;padding-bottom:6px;margin-bottom:12px;">✅ Texto Corrigido</h2>
+      <h2 style="font-size:15px;border-bottom:2px solid #ede8df;padding-bottom:6px;margin-bottom:12px;">Texto Corrigido</h2>
       <div style="font-size:14px;line-height:1.8;">${corrected.replace(/<mark>/g,'<mark style="background:rgba(22,163,74,.2);border-radius:3px;">') }</div>
     </div>`;
   const el = document.createElement('div');
@@ -792,7 +792,7 @@ function exportDOCX() {
         new Paragraph({ text: "Lucilia's Notebook — Writing Practice", heading: HeadingLevel.HEADING_1 }),
         new Paragraph({ children: [new TextRun({ text: `${type} · ${new Date().toLocaleDateString('pt-BR')}`, color:'78716c', size:20 })] }),
         new Paragraph(''),
-        new Paragraph({ text: '📝 Meu Texto', heading: HeadingLevel.HEADING_2 }),
+        new Paragraph({ text: 'Meu Texto', heading: HeadingLevel.HEADING_2 }),
         new Paragraph({ children: [new TextRun({ text: strip(original), size:24 })] }),
         new Paragraph(''),
         ...(scoresText ? [
@@ -803,7 +803,7 @@ function exportDOCX() {
           new Paragraph({ children: [new TextRun({ text: `Avaliação: ${overall}`, italics:true, size:22, color:'7f1d1d' })] }),
           new Paragraph('')
         ] : []),
-        new Paragraph({ text: '✅ Texto Corrigido', heading: HeadingLevel.HEADING_2 }),
+        new Paragraph({ text: 'Texto Corrigido', heading: HeadingLevel.HEADING_2 }),
         new Paragraph({ children: [new TextRun({ text: strip(corrected), size:24 })] }),
       ]
     }]
