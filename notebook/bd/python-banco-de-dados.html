@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>"/>
+  <title>Python + PostgreSQL — Banco de Dados — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+      --pg:#336791;--py:#3572A5;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+
+    /* PAGE */
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-py{background:#dbeafe;color:#1e40af;}
+    .tag-pg{background:#e3edf7;color:#1a4f73;}
+    .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+
+    /* SECTION TITLE */
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+    /* INFO BOXES */
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+
+    /* WARNING / TIP BOXES */
+    .tip{background:#f0fdf4;border:1.5px solid rgba(22,163,74,.2);border-left:4px solid #16a34a;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip h4{font-size:12px;font-weight:700;color:#15803d;margin-bottom:4px;}
+    .tip p{font-size:12.5px;color:#166534;line-height:1.65;}
+    .warn{background:#fffbeb;border:1.5px solid rgba(217,119,6,.2);border-left:4px solid #d97706;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .warn h4{font-size:12px;font-weight:700;color:#92400e;margin-bottom:4px;}
+    .warn p{font-size:12.5px;color:#a16207;line-height:1.65;}
+
+    /* CODE BLOCKS */
+    .code-block{background:#1c1917;border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .code-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#292524;border-bottom:1px solid rgba(255,255,255,.06);}
+    .code-lang{font-family:var(--font-mono);font-size:11px;font-weight:500;color:#a8a29e;display:flex;align-items:center;gap:6px;}
+    .code-dot{width:10px;height:10px;border-radius:50%;}
+    .dot-py{background:#3572A5;}.dot-pg{background:#336791;}.dot-sh{background:#89e051;}
+    .code-copy{font-family:var(--font-mono);font-size:11px;color:#a8a29e;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:background .15s,color .15s;}
+    .code-copy:hover{background:rgba(255,255,255,.08);color:#e7e5e4;}
+    pre{padding:18px 20px;overflow-x:auto;font-family:var(--font-mono);font-size:13px;line-height:1.75;color:#e7e5e4;}
+    pre::-webkit-scrollbar{height:4px;}
+    pre::-webkit-scrollbar-track{background:#292524;}
+    pre::-webkit-scrollbar-thumb{background:#57534e;border-radius:2px;}
+
+    /* SYNTAX HIGHLIGHT (manual, inline spans) */
+    .kw{color:#c4b5fd;}   /* keyword: import, from, def, class, with, as, if, for, return */
+    .fn{color:#60a5fa;}   /* function names */
+    .st{color:#86efac;}   /* strings */
+    .cm{color:#6b7280;font-style:italic;}  /* comments */
+    .nb{color:#fb923c;}   /* numbers / builtins */
+    .op{color:#f9a8d4;}   /* operators / punctuation highlight */
+
+    /* STEP CARDS */
+    .steps{display:flex;flex-direction:column;gap:0;}
+    .step{display:flex;gap:16px;position:relative;}
+    .step::before{content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--rule);z-index:0;}
+    .step:last-child::before{display:none;}
+    .step-num{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;margin-top:2px;}
+    .step-body{flex:1;padding-bottom:24px;}
+    .step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .step-desc{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+
+    /* METHOD TABLE */
+    .table-wrap{overflow-x:auto;margin-bottom:1rem;}
+    table{width:100%;border-collapse:collapse;font-size:12.5px;}
+    th{background:var(--paper3);font-weight:700;text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--rule);color:var(--ink2);font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
+    td{padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.6;}
+    tr:last-child td{border-bottom:none;}
+    td code,th code{font-family:var(--font-mono);font-size:11.5px;background:#fff;padding:1px 6px;border-radius:4px;border:1px solid var(--rule);}
+
+    /* CARDS GRID */
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem;}
+    .card-sm{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .card-sm h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+    .card-sm p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+
+    /* NAV PAGES */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+
+    /* TOC */
+    .toc{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:2rem;}
+    .toc h4{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;}
+    .toc ol{padding-left:18px;display:flex;flex-direction:column;gap:5px;}
+    .toc li{font-size:13px;color:var(--ink2);}
+    .toc a{color:var(--accent2);text-decoration:none;font-weight:600;}
+    .toc a:hover{text-decoration:underline;}
+
+    /* ANIMATIONS */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+
+    @media(max-width:600px){
+      .nav{padding:0 1rem;gap:6px;}
+      .page{padding:0 1rem 4rem;}
+      .g2{grid-template-columns:1fr;}
+      .nav-links{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="/notebook/notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="/notebook/notebook.html#banco" class="nav-link">Banco de Dados</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula · Python + PostgreSQL · Conectando o mundo Python ao banco</p>
+    <h1 class="article-title">Python e Banco de Dados<br>com PostgreSQL</h1>
+    <div class="article-meta">
+      <span class="tag tag-py">Python</span>
+      <span class="tag tag-pg">PostgreSQL</span>
+      <span class="tag gray">psycopg2 · SQLAlchemy</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Conexão · CRUD · ORM</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- SEÇÃO 1 — POR QUE -->
+  <section id="por-que" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Por que Python + PostgreSQL?</p>
+
+    <div class="info">
+      <h3>Uma dupla muito poderosa</h3>
+      <p>Python é a linguagem mais popular do mundo para desenvolvimento back-end, ciência de dados e automação. PostgreSQL é o banco de dados relacional open source mais robusto. Juntos, eles formam a base de sistemas usados por empresas como Instagram, Nubank e OpenAI.</p>
+    </div>
+
+    <div class="g2">
+      <div class="card-sm">
+        <h4>Conexão simples</h4>
+        <p>Python tem bibliotecas maduras e bem documentadas para se conectar ao PostgreSQL — tanto de baixo nível (psycopg2) quanto de alto nível (SQLAlchemy).</p>
+      </div>
+      <div class="card-sm">
+        <h4>Transações seguras</h4>
+        <p>O PostgreSQL garante ACID — operações atômicas, consistentes, isoladas e duráveis — que o Python consegue aproveitar com simples blocos <code>with</code>.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Dados ricos</h4>
+        <p>PostgreSQL suporta JSON, arrays, tipos geográficos e vetores. O Python consegue trabalhar com todos esses tipos de forma nativa.</p>
+      </div>
+      <div class="card-sm">
+        <h4>ORM disponível</h4>
+        <p>Com SQLAlchemy, você pode trabalhar com o banco usando classes Python, sem escrever SQL diretamente — mas com total flexibilidade quando precisar.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SEÇÃO 2 — PSYCOPG2 -->
+  <section id="psycopg2" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Conectando com psycopg2</p>
+
+    <div class="info">
+      <h3>O que é o psycopg2?</h3>
+      <p>O <strong>psycopg2</strong> é o adaptador PostgreSQL mais popular para Python. Ele faz a "ponte" entre o código Python e o banco, traduzindo chamadas Python em protocolo PostgreSQL. É baixo nível — você escreve SQL diretamente, com total controle.</p>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Instalação</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-sh"></span> Terminal (bash)</span>
+      </div>
+      <pre><span class="cm"># Instale via pip</span>
+pip install psycopg2-binary
+
+<span class="cm"># Se quiser a versão compilada (mais performática em produção)</span>
+pip install psycopg2</pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Primeira conexão</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — conexao.py</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">import</span> psycopg2
+
+<span class="cm"># Conectando ao banco de dados</span>
+conn = psycopg2.<span class="fn">connect</span>(
+    host=<span class="st">"localhost"</span>,
+    port=<span class="nb">5432</span>,
+    database=<span class="st">"meu_banco"</span>,
+    user=<span class="st">"postgres"</span>,
+    password=<span class="st">"minha_senha"</span>
+)
+
+<span class="cm"># Criando um cursor (o objeto que executa comandos SQL)</span>
+cur = conn.<span class="fn">cursor</span>()
+
+<span class="cm"># Testando a conexão</span>
+cur.<span class="fn">execute</span>(<span class="st">"SELECT version();"</span>)
+versao = cur.<span class="fn">fetchone</span>()
+<span class="fn">print</span>(<span class="st">f"Conectado ao PostgreSQL: </span>{versao[<span class="nb">0</span>]}<span class="st">"</span>)
+
+<span class="cm"># Sempre feche o cursor e a conexão!</span>
+cur.<span class="fn">close</span>()
+conn.<span class="fn">close</span>()</pre>
+    </div>
+
+    <div class="tip">
+      <h4>Boa prática — use o gerenciador de contexto</h4>
+      <p>Em vez de fechar manualmente, use <code>with</code>. Se der erro, o rollback acontece automaticamente. Se tudo der certo, o commit é feito.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — usando with</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">import</span> psycopg2
+
+<span class="kw">with</span> psycopg2.<span class="fn">connect</span>(
+    host=<span class="st">"localhost"</span>,
+    database=<span class="st">"meu_banco"</span>,
+    user=<span class="st">"postgres"</span>,
+    password=<span class="st">"minha_senha"</span>
+) <span class="kw">as</span> conn:
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(<span class="st">"SELECT version();"</span>)
+        <span class="fn">print</span>(cur.<span class="fn">fetchone</span>())
+<span class="cm"># Conexão fechada automaticamente aqui!</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SEÇÃO 3 — CRUD -->
+  <section id="crud" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">CRUD com Python puro</p>
+
+    <div class="info">
+      <h3>O que é CRUD?</h3>
+      <p><strong>CRUD</strong> é o acrônimo das 4 operações básicas de qualquer sistema que trabalha com dados: <strong>C</strong>reate (criar), <strong>R</strong>ead (ler), <strong>U</strong>pdate (atualizar) e <strong>D</strong>elete (excluir). No SQL, essas operações são <code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code> e <code>DELETE</code>.</p>
+    </div>
+
+    <!-- CREATE TABLE -->
+    <p class="sec-title" style="margin-bottom:10px;">Criando a tabela</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — criar_tabela.py</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">import</span> psycopg2
+
+<span class="kw">def</span> <span class="fn">criar_tabela</span>(conn):
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(<span class="st">"""
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id         SERIAL PRIMARY KEY,
+                nome       VARCHAR(100) NOT NULL,
+                email      VARCHAR(150) UNIQUE NOT NULL,
+                idade      INTEGER,
+                criado_em  TIMESTAMP DEFAULT NOW()
+            );
+        """</span>)
+        conn.<span class="fn">commit</span>()
+        <span class="fn">print</span>(<span class="st">"Tabela criada com sucesso!"</span>)</pre>
+    </div>
+
+    <!-- INSERT -->
+    <p class="sec-title" style="margin-bottom:10px;">C — Create (INSERT)</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — inserir dados</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">def</span> <span class="fn">inserir_usuario</span>(conn, nome, email, idade):
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        <span class="cm"># SEMPRE use %s para evitar SQL Injection!</span>
+        cur.<span class="fn">execute</span>(
+            <span class="st">"INSERT INTO usuarios (nome, email, idade) VALUES (%s, %s, %s) RETURNING id;"</span>,
+            (nome, email, idade)
+        )
+        novo_id = cur.<span class="fn">fetchone</span>()[<span class="nb">0</span>]
+        conn.<span class="fn">commit</span>()
+        <span class="fn">print</span>(<span class="st">f"Usuário inserido com ID: </span>{novo_id}<span class="st">"</span>)
+        <span class="kw">return</span> novo_id
+
+<span class="cm"># Usando a função:</span>
+<span class="fn">inserir_usuario</span>(conn, <span class="st">"Lucilia Rosa"</span>, <span class="st">"lucilia@email.com"</span>, <span class="nb">25</span>)</pre>
+    </div>
+
+    <div class="warn">
+      <h4>Nunca faça interpolação de string no SQL!</h4>
+      <p>Nunca use <code>f"...WHERE nome = '{nome}'"</code> — isso abre brecha para SQL Injection. Sempre passe os valores como parâmetros com <code>%s</code> e uma tupla.</p>
+    </div>
+
+    <!-- SELECT -->
+    <p class="sec-title" style="margin-bottom:10px;">R — Read (SELECT)</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — buscar dados</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">def</span> <span class="fn">listar_usuarios</span>(conn):
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(<span class="st">"SELECT id, nome, email, idade FROM usuarios ORDER BY nome;"</span>)
+        usuarios = cur.<span class="fn">fetchall</span>()   <span class="cm"># retorna lista de tuplas</span>
+        <span class="kw">for</span> u <span class="kw">in</span> usuarios:
+            <span class="fn">print</span>(<span class="st">f"[{u[0]}] {u[1]} — {u[2]} ({u[3]} anos)"</span>)
+        <span class="kw">return</span> usuarios
+
+<span class="kw">def</span> <span class="fn">buscar_por_email</span>(conn, email):
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(
+            <span class="st">"SELECT * FROM usuarios WHERE email = %s;"</span>,
+            (email,)   <span class="cm"># note a vírgula — precisa ser tupla!</span>
+        )
+        <span class="kw">return</span> cur.<span class="fn">fetchone</span>()</pre>
+    </div>
+
+    <!-- UPDATE -->
+    <p class="sec-title" style="margin-bottom:10px;">U — Update (UPDATE)</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — atualizar dados</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">def</span> <span class="fn">atualizar_email</span>(conn, user_id, novo_email):
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(
+            <span class="st">"UPDATE usuarios SET email = %s WHERE id = %s;"</span>,
+            (novo_email, user_id)
+        )
+        conn.<span class="fn">commit</span>()
+        <span class="fn">print</span>(<span class="st">f"Email do usuário {user_id} atualizado!"</span>)</pre>
+    </div>
+
+    <!-- DELETE -->
+    <p class="sec-title" style="margin-bottom:10px;">D — Delete (DELETE)</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — excluir dados</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">def</span> <span class="fn">excluir_usuario</span>(conn, user_id):
+    <span class="kw">with</span> conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(
+            <span class="st">"DELETE FROM usuarios WHERE id = %s;"</span>,
+            (user_id,)
+        )
+        conn.<span class="fn">commit</span>()
+        <span class="fn">print</span>(<span class="st">f"Usuário {user_id} excluído."</span>)</pre>
+    </div>
+
+    <!-- MÉTODOS DO CURSOR -->
+    <p class="sec-title" style="margin-bottom:10px;">Métodos importantes do cursor</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Método</th><th>O que faz</th><th>Retorna</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>execute(sql, params)</code></td><td>Executa um comando SQL</td><td>None</td></tr>
+          <tr><td><code>fetchone()</code></td><td>Retorna a próxima linha do resultado</td><td>Tupla ou None</td></tr>
+          <tr><td><code>fetchall()</code></td><td>Retorna todas as linhas do resultado</td><td>Lista de tuplas</td></tr>
+          <tr><td><code>fetchmany(n)</code></td><td>Retorna as próximas n linhas</td><td>Lista de tuplas</td></tr>
+          <tr><td><code>executemany(sql, lista)</code></td><td>Executa o mesmo SQL para vários parâmetros</td><td>None</td></tr>
+          <tr><td><code>rowcount</code></td><td>Número de linhas afetadas pelo último comando</td><td>Inteiro</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SEÇÃO 4 — SQLALCHEMY -->
+  <section id="sqlalchemy" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">ORM com SQLAlchemy</p>
+
+    <div class="info">
+      <h3>O que é ORM?</h3>
+      <p><strong>ORM</strong> (Object-Relational Mapping) é uma técnica que mapeia tabelas do banco de dados para classes Python. Com SQLAlchemy, cada tabela vira uma classe e cada linha vira um objeto — você trabalha com Python, e ele gera o SQL por baixo.</p>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Instalação</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-sh"></span> Terminal</span>
+      </div>
+      <pre>pip install sqlalchemy psycopg2-binary</pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Definindo o modelo (a tabela como classe)</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — models.py</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">from</span> sqlalchemy <span class="kw">import</span> create_engine, Column, Integer, String, DateTime
+<span class="kw">from</span> sqlalchemy.orm <span class="kw">import</span> declarative_base, Session
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+
+<span class="cm"># URL de conexão: dialect+driver://user:password@host/dbname</span>
+DATABASE_URL = <span class="st">"postgresql+psycopg2://postgres:minha_senha@localhost/meu_banco"</span>
+
+engine = <span class="fn">create_engine</span>(DATABASE_URL, echo=<span class="nb">True</span>)
+Base = declarative_base()
+
+<span class="cm"># Cada classe = uma tabela no banco</span>
+<span class="kw">class</span> <span class="fn">Usuario</span>(Base):
+    __tablename__ = <span class="st">"usuarios"</span>
+
+    id        = <span class="fn">Column</span>(<span class="fn">Integer</span>, primary_key=<span class="nb">True</span>)
+    nome      = <span class="fn">Column</span>(<span class="fn">String</span>(<span class="nb">100</span>), nullable=<span class="nb">False</span>)
+    email     = <span class="fn">Column</span>(<span class="fn">String</span>(<span class="nb">150</span>), unique=<span class="nb">True</span>, nullable=<span class="nb">False</span>)
+    idade     = <span class="fn">Column</span>(<span class="fn">Integer</span>)
+    criado_em = <span class="fn">Column</span>(<span class="fn">DateTime</span>, default=datetime.<span class="fn">now</span>)
+
+    <span class="kw">def</span> <span class="fn">__repr__</span>(self):
+        <span class="kw">return</span> <span class="st">f"&lt;Usuario {self.nome} ({self.email})&gt;"</span>
+
+<span class="cm"># Cria as tabelas no banco se não existirem</span>
+Base.metadata.<span class="fn">create_all</span>(engine)</pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">CRUD com SQLAlchemy</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — crud_orm.py</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">from</span> sqlalchemy.orm <span class="kw">import</span> Session
+<span class="kw">from</span> models <span class="kw">import</span> engine, Usuario
+
+<span class="cm"># ── CREATE ─────────────────────────────────────────</span>
+<span class="kw">with</span> <span class="fn">Session</span>(engine) <span class="kw">as</span> session:
+    novo = <span class="fn">Usuario</span>(nome=<span class="st">"Lucilia Rosa"</span>, email=<span class="st">"lucilia@email.com"</span>, idade=<span class="nb">25</span>)
+    session.<span class="fn">add</span>(novo)
+    session.<span class="fn">commit</span>()
+    <span class="fn">print</span>(<span class="st">f"Criado: {novo}"</span>)
+
+<span class="cm"># ── READ ───────────────────────────────────────────</span>
+<span class="kw">with</span> <span class="fn">Session</span>(engine) <span class="kw">as</span> session:
+    todos = session.<span class="fn">query</span>(Usuario).<span class="fn">all</span>()
+    <span class="kw">for</span> u <span class="kw">in</span> todos:
+        <span class="fn">print</span>(u)
+
+    <span class="cm"># Busca por filtro</span>
+    lucilia = session.<span class="fn">query</span>(Usuario).<span class="fn">filter_by</span>(nome=<span class="st">"Lucilia Rosa"</span>).<span class="fn">first</span>()
+
+<span class="cm"># ── UPDATE ─────────────────────────────────────────</span>
+<span class="kw">with</span> <span class="fn">Session</span>(engine) <span class="kw">as</span> session:
+    u = session.<span class="fn">get</span>(Usuario, <span class="nb">1</span>)  <span class="cm"># busca pelo ID</span>
+    <span class="kw">if</span> u:
+        u.email = <span class="st">"novo@email.com"</span>
+        session.<span class="fn">commit</span>()
+
+<span class="cm"># ── DELETE ─────────────────────────────────────────</span>
+<span class="kw">with</span> <span class="fn">Session</span>(engine) <span class="kw">as</span> session:
+    u = session.<span class="fn">get</span>(Usuario, <span class="nb">1</span>)
+    <span class="kw">if</span> u:
+        session.<span class="fn">delete</span>(u)
+        session.<span class="fn">commit</span>()</pre>
+    </div>
+
+    <!-- COMPARAÇÃO -->
+    <p class="sec-title" style="margin-bottom:10px;">psycopg2 vs SQLAlchemy — quando usar cada um?</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Critério</th><th>psycopg2</th><th>SQLAlchemy ORM</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nível de abstração</td><td>Baixo — você escreve SQL</td><td>Alto — você usa classes Python</td></tr>
+          <tr><td>Controle</td><td>Total — qualquer SQL funciona</td><td>Bom — SQL bruto também disponível</td></tr>
+          <tr><td>Curva de aprendizado</td><td>Baixa</td><td>Média</td></tr>
+          <tr><td>Produtividade</td><td>Média</td><td>Alta para CRUD padrão</td></tr>
+          <tr><td>Ideal para</td><td>Scripts, queries complexas</td><td>APIs, sistemas maiores</td></tr>
+          <tr><td>Migrations</td><td>Manual</td><td>Alembic (automático)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SEÇÃO 5 — BOAS PRÁTICAS -->
+  <section id="boas-praticas" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Boas práticas e segurança</p>
+
+    <div class="tip">
+      <h4>Use variáveis de ambiente para credenciais</h4>
+      <p>Nunca coloque senha no código! Use a biblioteca <code>python-dotenv</code> e um arquivo <code>.env</code> (que vai no <code>.gitignore</code>).</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-sh"></span> .env</span>
+      </div>
+      <pre>DB_HOST=localhost
+DB_NAME=meu_banco
+DB_USER=postgres
+DB_PASSWORD=minha_senha_secreta
+DB_PORT=5432</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang"><span class="code-dot dot-py"></span> Python — usando .env</span>
+        <button class="code-copy" onclick="copyCode(this)">copiar</button>
+      </div>
+      <pre><span class="kw">import</span> os
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+<span class="kw">import</span> psycopg2
+
+<span class="fn">load_dotenv</span>()   <span class="cm"># carrega o arquivo .env</span>
+
+conn = psycopg2.<span class="fn">connect</span>(
+    host=os.<span class="fn">getenv</span>(<span class="st">"DB_HOST"</span>),
+    database=os.<span class="fn">getenv</span>(<span class="st">"DB_NAME"</span>),
+    user=os.<span class="fn">getenv</span>(<span class="st">"DB_USER"</span>),
+    password=os.<span class="fn">getenv</span>(<span class="st">"DB_PASSWORD"</span>),
+    port=os.<span class="fn">getenv</span>(<span class="st">"DB_PORT"</span>, <span class="st">"5432"</span>)
+)</pre>
+    </div>
+
+    <div class="g2">
+      <div class="card-sm">
+        <h4>Parâmetros, não f-strings</h4>
+        <p>Sempre use <code>%s</code> com tupla no psycopg2. Nunca formate SQL com f-string ou <code>.format()</code>.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Sempre faça commit</h4>
+        <p>INSERT, UPDATE e DELETE precisam de <code>conn.commit()</code> para persistir. Sem commit, as mudanças são descartadas.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Trate erros com try/except</h4>
+        <p>Envolva operações em <code>try/except</code> e faça <code>conn.rollback()</code> em caso de erro para não deixar o banco num estado inconsistente.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Use connection pool</h4>
+        <p>Em aplicações web, use pool de conexões (<code>psycopg2.pool</code> ou o pool do SQLAlchemy) para não abrir e fechar conexão a cada requisição.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SEÇÃO 6 — MINI PROJETO -->
+  <section id="projeto" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Mini projeto — Agenda de Contatos</p>
+
+    <div class="info">
+      <h3>O que vamos construir</h3>
+      <p>Uma agenda de contatos simples pelo terminal — você pode adicionar, listar, buscar e excluir contatos, com tudo salvo no PostgreSQL.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Estrutura do projeto</div>
+          <div class="step-desc">Organize os arquivos assim:</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Estrutura</span></div>
+            <pre>agenda/
+├── .env              <span class="cm"># credenciais (não sobe pro git!)</span>
+├── .gitignore        <span class="cm"># inclui .env</span>
+├── database.py       <span class="cm"># conexão com o banco</span>
+├── models.py         <span class="cm"># criação da tabela</span>
+├── agenda.py         <span class="cm"># funções CRUD</span>
+└── main.py           <span class="cm"># menu interativo</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">database.py — conexão reutilizável</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> database.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="kw">import</span> os
+<span class="kw">import</span> psycopg2
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+<span class="fn">load_dotenv</span>()
+
+<span class="kw">def</span> <span class="fn">get_connection</span>():
+    <span class="kw">return</span> psycopg2.<span class="fn">connect</span>(
+        host=os.<span class="fn">getenv</span>(<span class="st">"DB_HOST"</span>, <span class="st">"localhost"</span>),
+        database=os.<span class="fn">getenv</span>(<span class="st">"DB_NAME"</span>, <span class="st">"agenda_db"</span>),
+        user=os.<span class="fn">getenv</span>(<span class="st">"DB_USER"</span>, <span class="st">"postgres"</span>),
+        password=os.<span class="fn">getenv</span>(<span class="st">"DB_PASSWORD"</span>),
+        port=os.<span class="fn">getenv</span>(<span class="st">"DB_PORT"</span>, <span class="st">"5432"</span>)
+    )</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">agenda.py — funções CRUD completas</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> agenda.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="kw">from</span> database <span class="kw">import</span> get_connection
+
+<span class="kw">def</span> <span class="fn">inicializar</span>():
+    <span class="kw">with</span> <span class="fn">get_connection</span>() <span class="kw">as</span> conn, conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(<span class="st">"""
+            CREATE TABLE IF NOT EXISTS contatos (
+                id       SERIAL PRIMARY KEY,
+                nome     VARCHAR(100) NOT NULL,
+                telefone VARCHAR(20),
+                email    VARCHAR(150)
+            );
+        """</span>)
+        conn.<span class="fn">commit</span>()
+
+<span class="kw">def</span> <span class="fn">adicionar</span>(nome, telefone, email):
+    <span class="kw">with</span> <span class="fn">get_connection</span>() <span class="kw">as</span> conn, conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(
+            <span class="st">"INSERT INTO contatos (nome, telefone, email) VALUES (%s, %s, %s);"</span>,
+            (nome, telefone, email)
+        )
+        conn.<span class="fn">commit</span>()
+        <span class="fn">print</span>(<span class="st">f"✅ {nome} adicionado(a) à agenda!"</span>)
+
+<span class="kw">def</span> <span class="fn">listar</span>():
+    <span class="kw">with</span> <span class="fn">get_connection</span>() <span class="kw">as</span> conn, conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(<span class="st">"SELECT id, nome, telefone, email FROM contatos ORDER BY nome;"</span>)
+        contatos = cur.<span class="fn">fetchall</span>()
+        <span class="kw">if not</span> contatos:
+            <span class="fn">print</span>(<span class="st">"Agenda vazia."</span>)
+            <span class="kw">return</span>
+        <span class="fn">print</span>(<span class="st">"\n── Sua Agenda ──────────────────"</span>)
+        <span class="kw">for</span> c <span class="kw">in</span> contatos:
+            <span class="fn">print</span>(<span class="st">f"[{c[0]}] {c[1]} | 📞 {c[2]} | ✉ {c[3]}"</span>)
+        <span class="fn">print</span>(<span class="st">"────────────────────────────────\n"</span>)
+
+<span class="kw">def</span> <span class="fn">buscar</span>(nome):
+    <span class="kw">with</span> <span class="fn">get_connection</span>() <span class="kw">as</span> conn, conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(
+            <span class="st">"SELECT * FROM contatos WHERE nome ILIKE %s;"</span>,
+            (<span class="st">f"%{nome}%"</span>,)
+        )
+        <span class="kw">return</span> cur.<span class="fn">fetchall</span>()
+
+<span class="kw">def</span> <span class="fn">excluir</span>(contato_id):
+    <span class="kw">with</span> <span class="fn">get_connection</span>() <span class="kw">as</span> conn, conn.<span class="fn">cursor</span>() <span class="kw">as</span> cur:
+        cur.<span class="fn">execute</span>(<span class="st">"DELETE FROM contatos WHERE id = %s;"</span>, (contato_id,))
+        conn.<span class="fn">commit</span>()
+        <span class="fn">print</span>(<span class="st">f"🗑️ Contato {contato_id} removido."</span>)</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">main.py — menu interativo</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> main.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="kw">from</span> agenda <span class="kw">import</span> inicializar, adicionar, listar, buscar, excluir
+
+<span class="fn">inicializar</span>()
+
+<span class="kw">while</span> <span class="nb">True</span>:
+    <span class="fn">print</span>(<span class="st">"\n📓 Agenda de Contatos"</span>)
+    <span class="fn">print</span>(<span class="st">"1 — Adicionar contato"</span>)
+    <span class="fn">print</span>(<span class="st">"2 — Listar contatos"</span>)
+    <span class="fn">print</span>(<span class="st">"3 — Buscar por nome"</span>)
+    <span class="fn">print</span>(<span class="st">"4 — Excluir contato"</span>)
+    <span class="fn">print</span>(<span class="st">"0 — Sair"</span>)
+    opcao = <span class="fn">input</span>(<span class="st">"\nEscolha: "</span>)
+
+    <span class="kw">if</span> opcao == <span class="st">"1"</span>:
+        nome     = <span class="fn">input</span>(<span class="st">"Nome: "</span>)
+        telefone = <span class="fn">input</span>(<span class="st">"Telefone: "</span>)
+        email    = <span class="fn">input</span>(<span class="st">"E-mail: "</span>)
+        <span class="fn">adicionar</span>(nome, telefone, email)
+    <span class="kw">elif</span> opcao == <span class="st">"2"</span>:
+        <span class="fn">listar</span>()
+    <span class="kw">elif</span> opcao == <span class="st">"3"</span>:
+        termo = <span class="fn">input</span>(<span class="st">"Buscar por nome: "</span>)
+        resultados = <span class="fn">buscar</span>(termo)
+        <span class="kw">for</span> c <span class="kw">in</span> resultados:
+            <span class="fn">print</span>(c)
+    <span class="kw">elif</span> opcao == <span class="st">"4"</span>:
+        cid = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"ID do contato a excluir: "</span>))
+        <span class="fn">excluir</span>(cid)
+    <span class="kw">elif</span> opcao == <span class="st">"0"</span>:
+        <span class="fn">print</span>(<span class="st">"Até mais! 👋"</span>)
+        <span class="kw">break</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- NAV PAGES -->
+  <div class="nav-pages fade">
+    <a href="/notebook/notebook.html#banco" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Banco de Dados — Notebook</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'copiado!';
+    setTimeout(() => btn.textContent = 'copiar', 2000);
+  });
+}
+</script>
+</body>
+</html>
