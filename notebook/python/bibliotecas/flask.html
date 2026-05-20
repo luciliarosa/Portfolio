@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>"/>
+  <title>Flask — Python — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot-meta{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-py{background:#dbeafe;color:#1e40af;}
+    .tag-flask{background:#f1f5f9;color:#0f172a;border:1px solid #cbd5e1;}
+    .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info p+p{margin-top:8px;}
+
+    .tip{background:#f0fdf4;border:1.5px solid rgba(22,163,74,.2);border-left:4px solid #16a34a;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip h4{font-size:12px;font-weight:700;color:#15803d;margin-bottom:4px;}
+    .tip p{font-size:12.5px;color:#166534;line-height:1.65;}
+    .warn{background:#fffbeb;border:1.5px solid rgba(217,119,6,.2);border-left:4px solid #d97706;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .warn h4{font-size:12px;font-weight:700;color:#92400e;margin-bottom:4px;}
+    .warn p{font-size:12.5px;color:#a16207;line-height:1.65;}
+    .nota{background:#eff6ff;border:1.5px solid rgba(37,99,168,.15);border-left:4px solid #2563a8;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .nota h4{font-size:12px;font-weight:700;color:#1e40af;margin-bottom:4px;}
+    .nota p{font-size:12.5px;color:#1e3a8a;line-height:1.65;}
+
+    .code-block{background:#1c1917;border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .code-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#292524;border-bottom:1px solid rgba(255,255,255,.06);}
+    .code-lang{font-family:var(--font-mono);font-size:11px;font-weight:500;color:#a8a29e;display:flex;align-items:center;gap:6px;}
+    .code-dot{width:10px;height:10px;border-radius:50%;}
+    .dot-py{background:#3572A5;}.dot-sh{background:#89e051;}.dot-html{background:#e34c26;}
+    .code-copy{font-family:var(--font-mono);font-size:11px;color:#a8a29e;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:background .15s,color .15s;}
+    .code-copy:hover{background:rgba(255,255,255,.08);color:#e7e5e4;}
+    pre{padding:18px 20px;overflow-x:auto;font-family:var(--font-mono);font-size:13px;line-height:1.75;color:#e7e5e4;}
+    pre::-webkit-scrollbar{height:4px;}
+    pre::-webkit-scrollbar-track{background:#292524;}
+    pre::-webkit-scrollbar-thumb{background:#57534e;border-radius:2px;}
+
+    .kw{color:#c4b5fd;}
+    .fn{color:#60a5fa;}
+    .st{color:#86efac;}
+    .cm{color:#6b7280;font-style:italic;}
+    .nb{color:#fb923c;}
+    .dc{color:#f9a8d4;}
+    .tg{color:#fcd34d;}
+    .at{color:#7dd3fc;}
+
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem;}
+    .card-sm{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .card-sm h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .card-sm p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+
+    /* ANALOGIA VISUAL */
+    .analogia{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .analogia-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;}
+    .analogia-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;gap:4px;}
+    .analogia-box{background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:10px 14px;text-align:center;flex:1;min-width:100px;}
+    .analogia-box .ab-icon{font-size:22px;margin-bottom:4px;}
+    .analogia-box .ab-label{font-size:11px;font-weight:700;color:var(--ink);display:block;}
+    .analogia-box .ab-sub{font-size:10px;color:var(--ink4);display:block;margin-top:2px;}
+    .analogia-arrow{font-size:18px;color:var(--ink4);flex-shrink:0;}
+
+    /* FLUXO REQUEST */
+    .fluxo{display:flex;flex-direction:column;gap:0;margin-bottom:1rem;}
+    .fluxo-item{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--rule2);}
+    .fluxo-item:last-child{border-bottom:none;}
+    .fluxo-num{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .fluxo-text strong{font-size:13px;font-weight:700;color:var(--ink);display:block;margin-bottom:3px;}
+    .fluxo-text span{font-size:12.5px;color:var(--ink2);line-height:1.6;}
+
+    .steps{display:flex;flex-direction:column;gap:0;}
+    .step{display:flex;gap:16px;position:relative;}
+    .step::before{content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--rule);z-index:0;}
+    .step:last-child::before{display:none;}
+    .step-num{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;margin-top:2px;}
+    .step-body{flex:1;padding-bottom:24px;}
+    .step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .step-desc{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+
+    .table-wrap{overflow-x:auto;margin-bottom:1rem;}
+    table{width:100%;border-collapse:collapse;font-size:12.5px;}
+    th{background:var(--paper3);font-weight:700;text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--rule);color:var(--ink2);font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
+    td{padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.6;}
+    tr:last-child td{border-bottom:none;}
+    td code,th code{font-family:var(--font-mono);font-size:11.5px;background:#fff;padding:1px 6px;border-radius:4px;border:1px solid var(--rule);}
+
+    .toc{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:2rem;}
+    .toc h4{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;}
+    .toc ol{padding-left:18px;display:flex;flex-direction:column;gap:5px;}
+    .toc li{font-size:13px;color:var(--ink2);}
+    .toc a{color:var(--accent2);text-decoration:none;font-weight:600;}
+    .toc a:hover{text-decoration:underline;}
+
+    .route-pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin:2px;}
+    .get{background:#dcfce7;color:#166534;}
+    .post{background:#dbeafe;color:#1e40af;}
+    .put{background:#fef9c3;color:#854d0e;}
+    .rdelete{background:#fce7f3;color:#9d174d;}
+
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2{grid-template-columns:1fr;}.analogia-flow{flex-direction:column;}.analogia-arrow{transform:rotate(90deg);}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="/notebook/notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="/notebook/notebook.html#python" class="nav-link">Python</a>
+    <a href="flask.html" class="nav-link active">Flask</a>
+    <a href="django.html" class="nav-link">Django</a>
+    <a href="py-bibliotecas.html" class="nav-link">Outras Bibliotecas</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 1 · Python · Web com Flask</p>
+    <h1 class="article-title">Flask — criando sua<br>primeira aplicação web</h1>
+    <div class="article-meta">
+      <span class="tag tag-py">Python</span>
+      <span class="tag tag-flask">Flask</span>
+      <span class="tag gray">Rotas · Templates · API</span>
+      <span class="dot-meta"></span>
+      <span style="font-size:12px;color:var(--ink4)">Micro-framework · Web · Back-end</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- 1 — INTERNET -->
+  <section id="internet" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Como a internet funciona — o básico que você precisa saber</p>
+
+    <div class="info">
+      <h3>O que acontece quando você abre um site?</h3>
+      <p>Quando você digita um endereço no navegador e aperta Enter, o navegador envia uma <strong>requisição</strong> para um computador em algum lugar do mundo — chamado de <strong>servidor</strong>. Esse servidor recebe o pedido, processa, e devolve uma <strong>resposta</strong> — geralmente uma página HTML que o navegador exibe pra você.</p>
+      <p>Isso é a web inteira. Todo site, toda API, todo sistema online funciona assim: <strong>cliente pede, servidor responde</strong>. O Flask é a ferramenta que te permite criar esse servidor usando Python.</p>
+    </div>
+
+    <div class="analogia">
+      <div class="analogia-title">Analogia — o Flask é como uma pizzaria</div>
+      <div class="analogia-flow">
+        <div class="analogia-box">
+          <div class="ab-icon">🧑‍💻</div>
+          <span class="ab-label">Navegador</span>
+          <span class="ab-sub">Cliente — faz o pedido</span>
+        </div>
+        <div class="analogia-arrow">→</div>
+        <div class="analogia-box">
+          <div class="ab-icon">📋</div>
+          <span class="ab-label">Requisição HTTP</span>
+          <span class="ab-sub">"Quero a página /cardapio"</span>
+        </div>
+        <div class="analogia-arrow">→</div>
+        <div class="analogia-box">
+          <div class="ab-icon">🌶️</div>
+          <span class="ab-label">Flask</span>
+          <span class="ab-sub">Recebe, processa e responde</span>
+        </div>
+        <div class="analogia-arrow">→</div>
+        <div class="analogia-box">
+          <div class="ab-icon">📄</div>
+          <span class="ab-label">Resposta HTTP</span>
+          <span class="ab-sub">HTML, JSON ou arquivo</span>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink3);margin-top:14px;line-height:1.65;">O navegador é o cliente que faz o pedido. O Flask é a cozinha que recebe o pedido, prepara a resposta certa e manda de volta. Você, programando em Python, decide o que acontece em cada pedido.</p>
+    </div>
+
+    <div class="info">
+      <h3>O que é HTTP?</h3>
+      <p><strong>HTTP</strong> (HyperText Transfer Protocol) é o idioma que navegadores e servidores usam para se comunicar. Toda requisição HTTP diz duas coisas principais: <strong>qual URL</strong> está sendo acessada e <strong>qual método</strong> está sendo usado.</p>
+      <p>Os métodos mais importantes são <strong>GET</strong> (quero buscar alguma coisa) e <strong>POST</strong> (quero enviar dados). Quando você abre uma página, é um GET. Quando você faz login ou envia um formulário, é um POST.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 2 — O QUE É FLASK -->
+  <section id="o-que-e" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é Flask e por que ele existe</p>
+
+    <div class="info">
+      <h3>Um micro-framework para web em Python</h3>
+      <p>Flask é uma biblioteca Python que transforma seu código em um servidor web real. Sem ele, você teria que lidar manualmente com sockets de rede, parsear requisições HTTP, formatar respostas — coisas extremamente complexas. O Flask cuida de tudo isso, e deixa você focar só na lógica do seu sistema.</p>
+      <p>Ele é chamado de <strong>micro-framework</strong> não porque é fraco, mas porque começa pequeno e sem opinião — ele não te obriga a usar banco de dados X, template Y ou estrutura Z. Você escolhe o que precisa e adiciona aos poucos.</p>
+    </div>
+
+    <div class="nota">
+      <h4>Um pouco de história</h4>
+      <p>Flask foi criado por Armin Ronacher em 2010. Começou como uma piada de 1º de abril — um "framework em um arquivo só". As pessoas gostaram tanto que ele virou um projeto sério. Hoje é um dos frameworks Python mais populares do mundo, mantido por uma comunidade ativa.</p>
+    </div>
+
+    <div class="g2">
+      <div class="card-sm">
+        <h4>Leve e legível</h4>
+        <p>Uma aplicação Flask básica cabe em 10 linhas de Python. Perfeito para aprender como a web funciona sem ter que entender um sistema gigante antes de escrever a primeira linha.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Extensível do seu jeito</h4>
+        <p>O que não vem por padrão, você adiciona com extensões: Flask-SQLAlchemy para banco de dados, Flask-Login para autenticação, Flask-Mail para e-mails. Cada uma quando você precisar.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Usado em produção de verdade</h4>
+        <p>Netflix, LinkedIn e Pinterest já usaram Flask em partes dos seus sistemas. Ele é simples de aprender, mas é robusto o suficiente para produção.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Ideal para APIs</h4>
+        <p>Flask é uma das escolhas mais populares para construir APIs REST em Python. Rápido de escrever, fácil de testar, e se encaixa perfeitamente com front-ends em React ou Vue.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Flask</th><th>Django</th></tr></thead>
+        <tbody>
+          <tr><td>Micro-framework — você monta o que precisa</td><td>Framework completo — vem com tudo incluso</td></tr>
+          <tr><td>Curva de aprendizado baixa — ideal para começar</td><td>Curva de aprendizado maior — mais conceitos de uma vez</td></tr>
+          <tr><td>Você escolhe banco, ORM, autenticação</td><td>Já vem com ORM, admin, autenticação prontos</td></tr>
+          <tr><td>Ideal para APIs, projetos pequenos e médios</td><td>Ideal para sistemas grandes com muitas funcionalidades</td></tr>
+          <tr><td>Estrutura livre — você organiza como quiser</td><td>Estrutura rígida e definida pelo framework</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 3 — COMO FUNCIONA POR DENTRO -->
+  <section id="como-funciona" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Como o Flask funciona por dentro</p>
+
+    <div class="info">
+      <h3>O ciclo de vida de uma requisição</h3>
+      <p>Toda vez que alguém acessa uma URL da sua aplicação Flask, um ciclo acontece: o Flask <strong>recebe</strong> a requisição HTTP, <strong>identifica</strong> qual função Python deve tratar aquela URL, <strong>executa</strong> essa função, e <strong>devolve</strong> a resposta para o navegador. Esse ciclo inteiro acontece em milissegundos.</p>
+    </div>
+
+    <div class="analogia">
+      <div class="analogia-title">O ciclo completo de uma requisição Flask</div>
+      <div class="fluxo">
+        <div class="fluxo-item">
+          <div class="fluxo-num">1</div>
+          <div class="fluxo-text">
+            <strong>Navegador envia a requisição</strong>
+            <span>Você digita <code>localhost:5000/produtos</code> e aperta Enter. O navegador monta uma requisição HTTP GET e envia para o servidor Flask.</span>
+          </div>
+        </div>
+        <div class="fluxo-item">
+          <div class="fluxo-num">2</div>
+          <div class="fluxo-text">
+            <strong>Flask recebe e analisa a URL</strong>
+            <span>O servidor Flask, rodando em Python, recebe a requisição. Ele olha para a URL (<code>/produtos</code>) e para o método (GET) e procura uma rota registrada que combine.</span>
+          </div>
+        </div>
+        <div class="fluxo-item">
+          <div class="fluxo-num">3</div>
+          <div class="fluxo-text">
+            <strong>Flask executa a função correspondente</strong>
+            <span>Achou a rota! Ele chama a função Python que foi registrada com <code>@app.route("/produtos")</code>. Pode buscar dados no banco, processar lógica — o que você programar.</span>
+          </div>
+        </div>
+        <div class="fluxo-item">
+          <div class="fluxo-num">4</div>
+          <div class="fluxo-text">
+            <strong>A função retorna uma resposta</strong>
+            <span>A função Python retorna algo — uma string HTML, um JSON, um redirecionamento. O Flask empacota isso em uma resposta HTTP com o código de status correto (200, 404, etc.).</span>
+          </div>
+        </div>
+        <div class="fluxo-item">
+          <div class="fluxo-num">5</div>
+          <div class="fluxo-text">
+            <strong>Navegador recebe e exibe</strong>
+            <span>O navegador recebe a resposta, interpreta o HTML (ou JSON) e exibe para o usuário. O ciclo se completa — pronto para a próxima requisição.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      <h3>Os três pilares do Flask</h3>
+      <p><strong>1. Werkzeug</strong> — é a biblioteca que fica embaixo do Flask e cuida de tudo relacionado ao HTTP: receber requisições, parsear formulários, lidar com cookies e muito mais. Você raramente vai interagir com ela diretamente, mas ela está sempre trabalhando.</p>
+      <p><strong>2. Jinja2</strong> — é o motor de templates. Ele permite que você escreva HTML com variáveis, condicionais e laços dentro, misturando Python com HTML de forma limpa e segura. Quando você chama <code>render_template()</code>, é o Jinja2 que entra em ação.</p>
+      <p><strong>3. O roteador</strong> — é o coração do Flask. Quando você escreve <code>@app.route("/sobre")</code>, você está dizendo ao roteador: "registre que a URL <code>/sobre</code> deve chamar essa função". O roteador guarda essa tabela e consulta a cada requisição.</p>
+    </div>
+
+    <div class="nota">
+      <h4>💡 O que significa "servidor de desenvolvimento"?</h4>
+      <p>Quando você roda <code>flask run</code> ou <code>app.run(debug=True)</code>, o Flask inicia um servidor embutido que é ótimo para desenvolver e testar. Mas ele não é feito para produção. Em produção, o Flask fica por trás de servidores como Gunicorn ou uWSGI, que são muito mais robustos e seguros.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 4 — INSTALAÇÃO -->
+  <section id="instalacao" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Instalação e primeira rota</p>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal</span></div>
+      <pre><span class="cm"># 1. Crie uma pasta para o projeto</span>
+mkdir meu_projeto && cd meu_projeto
+
+<span class="cm"># 2. Crie e ative o ambiente virtual</span>
+python -m venv venv
+source venv/bin/activate        <span class="cm"># Linux / Mac</span>
+venv\Scripts\activate           <span class="cm"># Windows</span>
+
+<span class="cm"># 3. Instale o Flask</span>
+pip install flask</pre>
+    </div>
+
+    <div class="tip">
+      <h4>✅ Sempre use ambiente virtual</h4>
+      <p>O <code>venv</code> cria um Python isolado para cada projeto. Assim as dependências de um projeto não conflitam com as de outro. É uma boa prática que todo desenvolvedor Python segue.</p>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">O menor app Flask possível</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — app.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask
+
+<span class="cm"># Cria a aplicação. __name__ diz ao Flask onde estão os arquivos do projeto.</span>
+app = <span class="fn">Flask</span>(__name__)
+
+<span class="cm"># @app.route é um decorador — ele registra a URL "/" nessa função.</span>
+<span class="dc">@app.route</span>(<span class="st">"/"</span>)
+<span class="kw">def</span> <span class="fn">index</span>():
+    <span class="kw">return</span> <span class="st">"Olá, mundo! 🌍"</span>   <span class="cm"># isso vira a resposta HTTP</span>
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
+    app.<span class="fn">run</span>(debug=<span class="nb">True</span>)   <span class="cm"># debug=True reinicia ao salvar e mostra erros detalhados</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — rodando</span></div>
+      <pre>python app.py
+
+<span class="cm"># * Running on http://127.0.0.1:5000
+# Abra esse endereço no navegador!</span></pre>
+    </div>
+
+    <div class="info">
+      <h3>Linha por linha — entendendo o código</h3>
+      <p><code>Flask(__name__)</code> — cria o objeto da aplicação. O <code>__name__</code> é uma variável especial do Python que contém o nome do arquivo atual. O Flask usa isso para saber onde procurar templates e arquivos estáticos.</p>
+      <p><code>@app.route("/")</code> — este é um <strong>decorador</strong>. Ele "envolve" a função de baixo e a registra no roteador do Flask, ligando a URL <code>/</code> a essa função. Quando alguém acessar <code>/</code>, o Flask vai chamar <code>index()</code>.</p>
+      <p><code>return "Olá, mundo!"</code> — tudo que a função retornar vira o corpo da resposta HTTP. Pode ser texto simples, HTML completo, ou JSON.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 5 — ROTAS -->
+  <section id="rotas" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Rotas e métodos HTTP</p>
+
+    <div class="info">
+      <h3>O que é uma rota?</h3>
+      <p>Uma <strong>rota</strong> é a combinação de uma URL com uma função Python. É o Flask dizendo: "se alguém acessar <em>essa URL</em>, execute <em>essa função</em> e devolva o que ela retornar". Você pode ter quantas rotas quiser, cada uma tratando um endereço diferente da sua aplicação.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — rotas variadas</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask
+
+app = <span class="fn">Flask</span>(__name__)
+
+<span class="dc">@app.route</span>(<span class="st">"/"</span>)
+<span class="kw">def</span> <span class="fn">index</span>():
+    <span class="kw">return</span> <span class="st">"Página inicial"</span>
+
+<span class="dc">@app.route</span>(<span class="st">"/sobre"</span>)
+<span class="kw">def</span> <span class="fn">sobre</span>():
+    <span class="kw">return</span> <span class="st">"Sobre mim"</span>
+
+<span class="cm"># &lt;nome&gt; captura qualquer texto na URL e passa para a função</span>
+<span class="dc">@app.route</span>(<span class="st">"/usuario/&lt;nome&gt;"</span>)
+<span class="kw">def</span> <span class="fn">perfil</span>(nome):
+    <span class="kw">return</span> <span class="st">f"Perfil de {nome}"</span>   <span class="cm"># /usuario/lucilia → "Perfil de lucilia"</span>
+
+<span class="cm"># &lt;int:id&gt; garante que o parâmetro seja um número inteiro</span>
+<span class="dc">@app.route</span>(<span class="st">"/produto/&lt;int:id&gt;"</span>)
+<span class="kw">def</span> <span class="fn">produto</span>(id):
+    <span class="kw">return</span> <span class="st">f"Produto número {id}"</span></pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Métodos HTTP — GET e POST</p>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1rem;">
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span class="route-pill get">GET</span>
+        <span style="font-size:13px;color:var(--ink2);line-height:1.6;padding-top:3px;">Busca ou lê informação. É o método padrão — toda vez que você digita uma URL no navegador, está fazendo um GET. Não envia dados no corpo da requisição.</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span class="route-pill post">POST</span>
+        <span style="font-size:13px;color:var(--ink2);line-height:1.6;padding-top:3px;">Envia dados para o servidor. Formulários de login, cadastro e busca usam POST. Os dados vão no corpo da requisição, não aparecem na URL.</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span class="route-pill put">PUT</span>
+        <span style="font-size:13px;color:var(--ink2);line-height:1.6;padding-top:3px;">Atualiza um recurso existente. Muito usado em APIs REST para editar dados.</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <span class="route-pill rdelete">DELETE</span>
+        <span style="font-size:13px;color:var(--ink2);line-height:1.6;padding-top:3px;">Remove um recurso. Também mais comum em APIs — o HTML padrão não suporta DELETE em formulários.</span>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — rota com GET e POST</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask, request
+
+app = <span class="fn">Flask</span>(__name__)
+
+<span class="cm"># methods define quais métodos HTTP essa rota aceita</span>
+<span class="dc">@app.route</span>(<span class="st">"/contato"</span>, methods=[<span class="st">"GET"</span>, <span class="st">"POST"</span>])
+<span class="kw">def</span> <span class="fn">contato</span>():
+    <span class="kw">if</span> request.method == <span class="st">"POST"</span>:
+        <span class="cm"># request.form acessa os dados enviados pelo formulário</span>
+        nome = request.form.<span class="fn">get</span>(<span class="st">"nome"</span>)
+        <span class="kw">return</span> <span class="st">f"Olá, {nome}! Mensagem recebida."</span>
+    <span class="cm"># Se for GET, exibe o formulário</span>
+    <span class="kw">return</span> <span class="st">"&lt;form method='POST'&gt;&lt;input name='nome'&gt;&lt;button&gt;Enviar&lt;/button&gt;&lt;/form&gt;"</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 6 — TEMPLATES -->
+  <section id="templates" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Templates com Jinja2</p>
+
+    <div class="info">
+      <h3>Por que separar HTML do Python?</h3>
+      <p>Retornar HTML dentro de strings Python funciona para exemplos simples, mas vira um pesadelo em páginas reais. Templates resolvem isso: você escreve o HTML em arquivos separados, e o Jinja2 permite inserir variáveis Python dentro desse HTML de forma limpa.</p>
+      <p>É a separação entre <strong>lógica</strong> (Python) e <strong>apresentação</strong> (HTML). O Python decide os dados, o template decide como exibi-los.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Estrutura de pastas</span></div>
+      <pre>meu_projeto/
+├── app.py
+├── templates/         <span class="cm"># Flask procura templates aqui automaticamente</span>
+│   ├── base.html      <span class="cm"># layout base (herança de template)</span>
+│   ├── index.html
+│   └── perfil.html
+└── static/            <span class="cm"># CSS, JS e imagens ficam aqui</span>
+    └── style.css</pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Template base — herança de layout</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-html"></span> templates/base.html</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="tg">&lt;!DOCTYPE html&gt;</span>
+<span class="tg">&lt;html&gt;</span>
+<span class="tg">&lt;head&gt;</span>
+  <span class="tg">&lt;title&gt;</span>{% block title %}Meu Site{% endblock %}<span class="tg">&lt;/title&gt;</span>
+  <span class="tg">&lt;link</span> <span class="at">rel</span>=<span class="st">"stylesheet"</span> <span class="at">href</span>=<span class="st">"{{ url_for('static', filename='style.css') }}"</span><span class="tg">&gt;</span>
+<span class="tg">&lt;/head&gt;</span>
+<span class="tg">&lt;body&gt;</span>
+  <span class="tg">&lt;nav&gt;</span>
+    <span class="tg">&lt;a</span> <span class="at">href</span>=<span class="st">"{{ url_for('index') }}"</span><span class="tg">&gt;</span>Início<span class="tg">&lt;/a&gt;</span>
+  <span class="tg">&lt;/nav&gt;</span>
+  <span class="tg">&lt;main&gt;</span>
+    {% block conteudo %}{% endblock %}
+  <span class="tg">&lt;/main&gt;</span>
+<span class="tg">&lt;/body&gt;</span>
+<span class="tg">&lt;/html&gt;</span></pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Template filho — herdando o base</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-html"></span> templates/index.html</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre>{% extends "base.html" %}         <span class="cm">{# herda tudo do base.html #}</span>
+
+{% block title %}Início{% endblock %}
+
+{% block conteudo %}
+  <span class="tg">&lt;h1&gt;</span>Olá, {{ nome }}!<span class="tg">&lt;/h1&gt;</span>
+
+  {% if tarefas %}
+    <span class="tg">&lt;ul&gt;</span>
+      {% for t in tarefas %}
+        <span class="tg">&lt;li&gt;</span>{{ t.titulo }}<span class="tg">&lt;/li&gt;</span>
+      {% endfor %}
+    <span class="tg">&lt;/ul&gt;</span>
+  {% else %}
+    <span class="tg">&lt;p&gt;</span>Nenhuma tarefa ainda.<span class="tg">&lt;/p&gt;</span>
+  {% endif %}
+{% endblock %}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — passando dados para o template</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask, render_template
+
+app = <span class="fn">Flask</span>(__name__)
+
+<span class="dc">@app.route</span>(<span class="st">"/"</span>)
+<span class="kw">def</span> <span class="fn">index</span>():
+    tarefas = [
+        {<span class="st">"titulo"</span>: <span class="st">"Estudar Flask"</span>},
+        {<span class="st">"titulo"</span>: <span class="st">"Fazer o projeto"</span>},
+    ]
+    <span class="cm"># Tudo que você passar como argumento vira variável no template</span>
+    <span class="kw">return</span> <span class="fn">render_template</span>(<span class="st">"index.html"</span>, nome=<span class="st">"Lucilia"</span>, tarefas=tarefas)</pre>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sintaxe Jinja2</th><th>O que faz</th></tr></thead>
+        <tbody>
+          <tr><td><code>{{ variavel }}</code></td><td>Exibe o valor de uma variável Python</td></tr>
+          <tr><td><code>{% if ... %} {% endif %}</code></td><td>Condicional — bloco aparece só se a condição for verdadeira</td></tr>
+          <tr><td><code>{% for x in lista %} {% endfor %}</code></td><td>Laço — repete o bloco para cada item da lista</td></tr>
+          <tr><td><code>{% extends "base.html" %}</code></td><td>Herda o layout de outro template</td></tr>
+          <tr><td><code>{% block nome %} {% endblock %}</code></td><td>Define um espaço que o template filho pode preencher</td></tr>
+          <tr><td><code>{{ url_for('nome_da_funcao') }}</code></td><td>Gera a URL de uma rota pelo nome da função</td></tr>
+          <tr><td><code>{# comentário #}</code></td><td>Comentário — não aparece no HTML final</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 7 — FORMULÁRIOS -->
+  <section id="formularios" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Recebendo dados de formulários</p>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-html"></span> templates/form.html</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="tg">&lt;form</span> <span class="at">action</span>=<span class="st">"/adicionar"</span> <span class="at">method</span>=<span class="st">"POST"</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;input</span> <span class="at">type</span>=<span class="st">"text"</span> <span class="at">name</span>=<span class="st">"titulo"</span> <span class="at">placeholder</span>=<span class="st">"Nova tarefa"</span> <span class="at">required</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;button</span> <span class="at">type</span>=<span class="st">"submit"</span><span class="tg">&gt;</span>Adicionar<span class="tg">&lt;/button&gt;</span>
+<span class="tg">&lt;/form&gt;</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — recebendo o formulário</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask, request, redirect, url_for
+
+app = <span class="fn">Flask</span>(__name__)
+tarefas = []
+
+<span class="dc">@app.route</span>(<span class="st">"/adicionar"</span>, methods=[<span class="st">"POST"</span>])
+<span class="kw">def</span> <span class="fn">adicionar</span>():
+    <span class="cm"># request.form é um dicionário com os campos do formulário</span>
+    titulo = request.form.<span class="fn">get</span>(<span class="st">"titulo"</span>)   <span class="cm"># "titulo" = atributo name do input</span>
+    <span class="kw">if</span> titulo:
+        tarefas.<span class="fn">append</span>({<span class="st">"titulo"</span>: titulo})
+    <span class="cm"># Após POST, sempre redirecione — padrão Post/Redirect/Get</span>
+    <span class="kw">return</span> <span class="fn">redirect</span>(<span class="fn">url_for</span>(<span class="st">"index"</span>))</pre>
+    </div>
+
+    <div class="tip">
+      <h4>✅ Post/Redirect/Get — por que redirecionar após o POST?</h4>
+      <p>Se você retornar HTML direto após um POST e o usuário atualizar a página (F5), o navegador pergunta se quer "reenviar o formulário" — e o dado pode ser duplicado. Redirecionando para um GET com <code>redirect(url_for(...))</code>, o problema some. Esse padrão tem nome: <strong>Post/Redirect/Get (PRG)</strong>.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 8 — API JSON -->
+  <section id="api" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Criando uma API JSON</p>
+
+    <div class="info">
+      <h3>Flask como back-end de API</h3>
+      <p>Além de servir páginas HTML, o Flask é excelente para criar APIs. Em vez de retornar HTML, suas rotas retornam <strong>JSON</strong> — o formato de dados que front-ends React, Vue, apps mobile e qualquer cliente moderno sabem consumir. O Flask tem a função <code>jsonify()</code> que converte dicionários Python em JSON automaticamente.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — api.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask, jsonify, request
+
+app = <span class="fn">Flask</span>(__name__)
+
+usuarios = [
+    {<span class="st">"id"</span>: <span class="nb">1</span>, <span class="st">"nome"</span>: <span class="st">"Lucilia"</span>, <span class="st">"email"</span>: <span class="st">"lucilia@email.com"</span>},
+    {<span class="st">"id"</span>: <span class="nb">2</span>, <span class="st">"nome"</span>: <span class="st">"Ana"</span>,    <span class="st">"email"</span>: <span class="st">"ana@email.com"</span>},
+]
+
+<span class="cm"># GET /api/usuarios — retorna todos os usuários em JSON</span>
+<span class="dc">@app.route</span>(<span class="st">"/api/usuarios"</span>)
+<span class="kw">def</span> <span class="fn">listar_usuarios</span>():
+    <span class="kw">return</span> <span class="fn">jsonify</span>(usuarios)   <span class="cm"># converte a lista Python em JSON</span>
+
+<span class="cm"># GET /api/usuarios/1 — retorna um usuário específico</span>
+<span class="dc">@app.route</span>(<span class="st">"/api/usuarios/&lt;int:uid&gt;"</span>)
+<span class="kw">def</span> <span class="fn">get_usuario</span>(uid):
+    u = <span class="fn">next</span>((u <span class="kw">for</span> u <span class="kw">in</span> usuarios <span class="kw">if</span> u[<span class="st">"id"</span>] == uid), <span class="nb">None</span>)
+    <span class="kw">if not</span> u:
+        <span class="kw">return</span> <span class="fn">jsonify</span>({<span class="st">"erro"</span>: <span class="st">"não encontrado"</span>}), <span class="nb">404</span>   <span class="cm"># segundo valor = status HTTP</span>
+    <span class="kw">return</span> <span class="fn">jsonify</span>(u)
+
+<span class="cm"># POST /api/usuarios — cria um novo usuário</span>
+<span class="dc">@app.route</span>(<span class="st">"/api/usuarios"</span>, methods=[<span class="st">"POST"</span>])
+<span class="kw">def</span> <span class="fn">criar_usuario</span>():
+    dados = request.<span class="fn">get_json</span>()   <span class="cm"># lê o corpo JSON da requisição</span>
+    novo = {
+        <span class="st">"id"</span>: <span class="fn">len</span>(usuarios) + <span class="nb">1</span>,
+        <span class="st">"nome"</span>: dados[<span class="st">"nome"</span>],
+        <span class="st">"email"</span>: dados[<span class="st">"email"</span>]
+    }
+    usuarios.<span class="fn">append</span>(novo)
+    <span class="kw">return</span> <span class="fn">jsonify</span>(novo), <span class="nb">201</span>   <span class="cm"># 201 Created — recurso criado com sucesso</span></pre>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Código HTTP</th><th>Significado</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td><code>200 OK</code></td><td>Tudo certo</td><td>Resposta padrão de sucesso (Flask usa por padrão)</td></tr>
+          <tr><td><code>201 Created</code></td><td>Criado com sucesso</td><td>Após um POST que cria um novo recurso</td></tr>
+          <tr><td><code>400 Bad Request</code></td><td>Requisição inválida</td><td>Dados enviados pelo cliente estão errados</td></tr>
+          <tr><td><code>404 Not Found</code></td><td>Não encontrado</td><td>Recurso não existe no servidor</td></tr>
+          <tr><td><code>500 Internal Server Error</code></td><td>Erro no servidor</td><td>Algo deu errado no código do servidor</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 9 — MINI PROJETO -->
+  <section id="projeto" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Mini projeto — Lista de Tarefas</p>
+
+    <div class="info">
+      <h3>📝 O que vamos construir</h3>
+      <p>Uma lista de tarefas funcional no navegador — você adiciona e remove tarefas, com tudo processado pelo Flask. Os dados ficam em memória para focar no Flask puro, sem banco de dados ainda.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Estrutura do projeto</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Estrutura</span></div>
+            <pre>tarefas_app/
+├── app.py
+└── templates/
+    └── index.html</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">app.py — toda a lógica</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> app.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="kw">from</span> flask <span class="kw">import</span> Flask, render_template, request, redirect, url_for
+
+app = <span class="fn">Flask</span>(__name__)
+
+tarefas = []
+proximo_id = <span class="nb">1</span>
+
+<span class="dc">@app.route</span>(<span class="st">"/"</span>)
+<span class="kw">def</span> <span class="fn">index</span>():
+    <span class="kw">return</span> <span class="fn">render_template</span>(<span class="st">"index.html"</span>, tarefas=tarefas)
+
+<span class="dc">@app.route</span>(<span class="st">"/adicionar"</span>, methods=[<span class="st">"POST"</span>])
+<span class="kw">def</span> <span class="fn">adicionar</span>():
+    <span class="kw">global</span> proximo_id
+    titulo = request.form.<span class="fn">get</span>(<span class="st">"titulo"</span>, <span class="st">""</span>).<span class="fn">strip</span>()
+    <span class="kw">if</span> titulo:
+        tarefas.<span class="fn">append</span>({<span class="st">"id"</span>: proximo_id, <span class="st">"titulo"</span>: titulo})
+        proximo_id += <span class="nb">1</span>
+    <span class="kw">return</span> <span class="fn">redirect</span>(<span class="fn">url_for</span>(<span class="st">"index"</span>))
+
+<span class="dc">@app.route</span>(<span class="st">"/remover/&lt;int:tid&gt;"</span>)
+<span class="kw">def</span> <span class="fn">remover</span>(tid):
+    <span class="kw">global</span> tarefas
+    tarefas = [t <span class="kw">for</span> t <span class="kw">in</span> tarefas <span class="kw">if</span> t[<span class="st">"id"</span>] != tid]
+    <span class="kw">return</span> <span class="fn">redirect</span>(<span class="fn">url_for</span>(<span class="st">"index"</span>))
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
+    app.<span class="fn">run</span>(debug=<span class="nb">True</span>)</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">templates/index.html</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-html"></span> templates/index.html</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="tg">&lt;!DOCTYPE html&gt;</span>
+<span class="tg">&lt;html</span> <span class="at">lang</span>=<span class="st">"pt-BR"</span><span class="tg">&gt;</span>
+<span class="tg">&lt;head&gt;&lt;title&gt;</span>Tarefas<span class="tg">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tg">&lt;body&gt;</span>
+  <span class="tg">&lt;h1&gt;</span>📝 Minhas Tarefas<span class="tg">&lt;/h1&gt;</span>
+
+  <span class="tg">&lt;form</span> <span class="at">action</span>=<span class="st">"/adicionar"</span> <span class="at">method</span>=<span class="st">"POST"</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;input</span> <span class="at">type</span>=<span class="st">"text"</span> <span class="at">name</span>=<span class="st">"titulo"</span> <span class="at">placeholder</span>=<span class="st">"Nova tarefa..."</span> <span class="at">required</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;button&gt;</span>Adicionar<span class="tg">&lt;/button&gt;</span>
+  <span class="tg">&lt;/form&gt;</span>
+
+  {% if tarefas %}
+    <span class="tg">&lt;ul&gt;</span>
+      {% for t in tarefas %}
+        <span class="tg">&lt;li&gt;</span>
+          {{ t.titulo }}
+          <span class="tg">&lt;a</span> <span class="at">href</span>=<span class="st">"/remover/{{ t.id }}"</span><span class="tg">&gt;</span>❌<span class="tg">&lt;/a&gt;</span>
+        <span class="tg">&lt;/li&gt;</span>
+      {% endfor %}
+    <span class="tg">&lt;/ul&gt;</span>
+  {% else %}
+    <span class="tg">&lt;p&gt;</span>Nenhuma tarefa ainda!<span class="tg">&lt;/p&gt;</span>
+  {% endif %}
+<span class="tg">&lt;/body&gt;</span>
+<span class="tg">&lt;/html&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="warn">
+      <h4>Próximos passos naturais</h4>
+      <p>As tarefas somem ao reiniciar o servidor pois ficam em memória. O próximo passo é conectar ao PostgreSQL com psycopg2 ou SQLAlchemy para persistir os dados. Ou dar um salto maior e conhecer o Django — que já vem com banco de dados integrado desde o início.</p>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="/notebook/notebook.html#python" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Python — Notebook</span>
+    </a>
+    <a href="django.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Django — o framework completo</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'copiado!';
+    setTimeout(() => btn.textContent = 'copiar', 2000);
+  });
+}
+</script>
+</body>
+</html>

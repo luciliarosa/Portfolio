@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bibliotecas Python — Lucilia's Notebook</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:0;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+
+    /* PAGE */
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+    /* INFO BOX */
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+
+    /* LIBRARY CARD */
+    .lib-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .lib-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+    .lib-icon{font-size:28px;flex-shrink:0;line-height:1;}
+    .lib-title-wrap{flex:1;}
+    .lib-name{font-family:var(--font-mono);font-size:18px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+    .lib-tagline{font-size:12px;color:var(--ink3);font-style:italic;font-family:var(--font-serif);}
+    .lib-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+    .badge{font-family:var(--font-mono);font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;}
+    .b-ds{background:#dbeafe;color:#1e40af;}
+    .b-web{background:#fce7f3;color:#9d174d;}
+    .b-ml{background:#f3e8ff;color:#6b21a8;}
+    .b-auto{background:#fef9c3;color:#854d0e;}
+    .b-devops{background:#d1fae5;color:#065f46;}
+    .b-viz{background:#ffe4e6;color:#9f1239;}
+    .b-util{background:#e0f2fe;color:#0369a1;}
+    .b-sci{background:#ecfdf5;color:#065f46;}
+    .lib-desc{font-size:13px;color:var(--ink2);line-height:1.75;margin-bottom:14px;}
+    .lib-what{font-size:12px;font-weight:700;color:var(--ink4);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;}
+    .lib-uses{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+    .use-chip{font-size:12px;background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:3px 10px;color:var(--ink3);}
+
+    /* CODE BLOCK */
+    .code-block{background:#1c1917;border-radius:8px;padding:16px 18px;overflow-x:auto;position:relative;}
+    .code-label{font-family:var(--font-mono);font-size:10px;color:#78716c;margin-bottom:8px;letter-spacing:.05em;}
+    .code-block pre{font-family:var(--font-mono);font-size:12px;line-height:1.8;color:#d6d3d1;white-space:pre;}
+    .c-kw{color:#fb923c;}   /* keyword */
+    .c-fn{color:#60a5fa;}   /* function/method */
+    .c-str{color:#86efac;}  /* string */
+    .c-cm{color:#6b7280;}   /* comment */
+    .c-num{color:#f9a8d4;}  /* number */
+    .c-imp{color:#fde68a;}  /* import */
+    .c-cls{color:#a78bfa;}  /* class/type */
+    .c-op{color:#94a3b8;}   /* operator */
+    .c-out{color:#34d399;}  /* output */
+
+    /* INSTALL */
+    .install{display:inline-flex;align-items:center;gap:8px;background:var(--paper3);border:1px solid var(--rule);border-radius:6px;padding:5px 12px;font-family:var(--font-mono);font-size:11px;color:var(--ink3);margin-bottom:14px;}
+    .install::before{content:'$';color:var(--ink4);}
+
+    /* CATEGORY HEADER */
+    .cat-header{display:flex;align-items:center;gap:12px;margin:2.5rem 0 1rem;}
+    .cat-icon{font-size:22px;}
+    .cat-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--ink);}
+    .cat-desc{font-size:13px;color:var(--ink3);margin-top:2px;}
+
+    /* TOC */
+    .toc{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:2rem;}
+    .toc h3{font-size:12px;font-weight:700;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+    .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;}
+    .toc-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);text-decoration:none;padding:7px 10px;border-radius:6px;border:1px solid transparent;transition:background .15s,border-color .15s;}
+    .toc-item:hover{background:#fff;border-color:var(--rule);}
+    .toc-item span:first-child{font-size:16px;}
+
+    /* SUMMARY */
+    .summary{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-top:2rem;}
+    .summary h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+    .summary ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .summary li{font-size:13px;color:var(--ink2);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+    .summary li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+    /* NAV PAGES */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    .fade-2{animation:fadeUp .45s ease .1s both;}
+    .fade-3{animation:fadeUp .45s ease .2s both;}
+
+    @media(max-width:600px){
+      .nav{padding:0 1rem;}
+      .page{padding:0 1rem 4rem;}
+      .lib-header{flex-direction:column;gap:8px;}
+      .toc-grid{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../notebook.html#python" class="nav-link">Python</a>
+    <a href="flask.html" class="nav-link">Flask</a>
+    <a href="django.html" class="nav-link">Django</a>
+    <a href="py-bibliotecas.html" class="nav-link active">Outras Bibliotecas</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 03 · Python · Ecossistema</p>
+    <h1 class="article-title">As Bibliotecas do Python —<br>O segredo por trás do poder da linguagem</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span>
+      <span class="tag gray">Bibliotecas</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Baseado em <a href="https://pypi.org" target="_blank" style="color:var(--accent2)">PyPI</a> &amp; documentações oficiais</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- INTRO -->
+  <section class="fade-2" style="margin-bottom:2rem;">
+    <div class="info" style="border-left:4px solid var(--accent2);">
+      <h3>O que é uma biblioteca (library)?</h3>
+      <p>Uma <strong>biblioteca</strong> é um conjunto de código pronto que você pode importar e usar no seu programa, sem precisar escrever tudo do zero. É como usar uma caixa de ferramentas: você não fabrica o martelo, só usa. Em Python, as bibliotecas ficam no <strong>PyPI</strong> (Python Package Index) — o repositório oficial com mais de 500 mil pacotes.</p>
+    </div>
+    <div class="info" style="border-left:4px solid var(--accent);">
+      <h3>Como instalar qualquer biblioteca</h3>
+      <p>Use o <code>pip</code>, o gerenciador de pacotes do Python. No terminal:</p>
+      <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;">
+        <div class="install">pip install nome-da-biblioteca</div>
+        <div class="install">pip install pandas numpy matplotlib  <span style="color:#6b7280"># várias de uma vez</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <section class="fade-2" style="margin-bottom:2rem;">
+    <div class="toc">
+      <h3>Categorias nessa aula</h3>
+      <div class="toc-grid">
+        <a href="#dados" class="toc-item"><span>📊</span><span>Dados &amp; Análise</span></a>
+        <a href="#viz" class="toc-item"><span>📈</span><span>Visualização</span></a>
+        <a href="#ml" class="toc-item"><span>🤖</span><span>Machine Learning</span></a>
+        <a href="#web" class="toc-item"><span>🌐</span><span>Web &amp; APIs</span></a>
+        <a href="#auto" class="toc-item"><span>⚙️</span><span>Automação</span></a>
+        <a href="#util" class="toc-item"><span>🧰</span><span>Utilitários</span></a>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= DADOS ========================= -->
+  <section id="dados" class="fade-3">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Dados &amp; Análise</div>
+        <div class="cat-desc">As bibliotecas que tornaram Python a linguagem da ciência de dados</div>
+      </div>
+    </div>
+
+    <!-- NUMPY -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">NumPy</div>
+          <div class="lib-tagline">Numerical Python — a base de quase tudo em ciência de dados</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-ds">Dados</span>
+        <span class="badge b-sci">Científico</span>
+      </div>
+      <div class="install">pip install numpy</div>
+      <p class="lib-desc">NumPy é a biblioteca fundamental para computação numérica em Python. Ela introduz o <strong>ndarray</strong> — um array multidimensional extremamente eficiente — e operações matemáticas que rodam em C por baixo dos panos, sendo dezenas de vezes mais rápidas que listas Python puras.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Matrizes e vetores</span>
+        <span class="use-chip">Álgebra linear</span>
+        <span class="use-chip">Operações matemáticas em massa</span>
+        <span class="use-chip">Base do Pandas e TensorFlow</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">import</span> numpy <span class="c-imp">as</span> np
+
+<span class="c-cm"># Criar um array com 5 elementos</span>
+notas = np.<span class="c-fn">array</span>([<span class="c-num">7.5</span>, <span class="c-num">8.0</span>, <span class="c-num">9.2</span>, <span class="c-num">6.8</span>, <span class="c-num">10.0</span>])
+
+<span class="c-cm"># Operações em todos os elementos de uma vez</span>
+<span class="c-fn">print</span>(notas.<span class="c-fn">mean</span>())   <span class="c-cm"># → 8.3  (média)</span>
+<span class="c-fn">print</span>(notas.<span class="c-fn">max</span>())    <span class="c-cm"># → 10.0 (maior nota)</span>
+<span class="c-fn">print</span>(notas * <span class="c-num">1.1</span>)    <span class="c-cm"># → aumenta todas em 10%</span>
+<span class="c-cm"># [8.25 8.8 10.12 7.48 11.0]</span>
+
+<span class="c-cm"># Filtrar quem tirou acima de 8</span>
+aprovados = notas[notas > <span class="c-num">8.0</span>]
+<span class="c-fn">print</span>(aprovados)       <span class="c-cm"># → [8.  9.2 10. ]</span></pre>
+      </div>
+    </div>
+
+    <!-- PANDAS -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Pandas</div>
+          <div class="lib-tagline">Panel Data — manipulação de dados tabulares como planilhas</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-ds">Dados</span>
+        <span class="badge b-sci">Análise</span>
+      </div>
+      <div class="install">pip install pandas</div>
+      <p class="lib-desc">Pandas traz o <strong>DataFrame</strong> — uma estrutura de dados em tabela (linhas × colunas) parecida com uma planilha Excel, mas programável. É a ferramenta mais usada para limpar, transformar e explorar dados antes de qualquer análise.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Leitura de CSV, Excel, SQL</span>
+        <span class="use-chip">Filtragem e agrupamento</span>
+        <span class="use-chip">Limpeza de dados</span>
+        <span class="use-chip">Análise exploratória</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">import</span> pandas <span class="c-imp">as</span> pd
+
+<span class="c-cm"># Criar uma tabela de alunos</span>
+df = pd.<span class="c-cls">DataFrame</span>({
+    <span class="c-str">'nome'</span>:  [<span class="c-str">'Ana'</span>, <span class="c-str">'Bia'</span>, <span class="c-str">'Carlos'</span>, <span class="c-str">'Diego'</span>],
+    <span class="c-str">'nota'</span>:  [<span class="c-num">9.5</span>, <span class="c-num">7.2</span>, <span class="c-num">8.8</span>, <span class="c-num">6.1</span>],
+    <span class="c-str">'turma'</span>: [<span class="c-str">'A'</span>, <span class="c-str">'B'</span>, <span class="c-str">'A'</span>, <span class="c-str">'B'</span>]
+})
+
+<span class="c-cm"># Filtrar alunos aprovados (nota ≥ 7)</span>
+aprovados = df[df[<span class="c-str">'nota'</span>] >= <span class="c-num">7.0</span>]
+<span class="c-fn">print</span>(aprovados)
+<span class="c-cm">#     nome  nota turma</span>
+<span class="c-cm"># 0    Ana   9.5     A</span>
+<span class="c-cm"># 1    Bia   7.2     B</span>
+<span class="c-cm"># 2  Carlos  8.8     A</span>
+
+<span class="c-cm"># Média por turma</span>
+<span class="c-fn">print</span>(df.<span class="c-fn">groupby</span>(<span class="c-str">'turma'</span>)[<span class="c-str">'nota'</span>].<span class="c-fn">mean</span>())
+<span class="c-cm"># turma A → 9.15  |  turma B → 6.65</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= VISUALIZAÇÃO ========================= -->
+  <section id="viz">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Visualização de Dados</div>
+        <div class="cat-desc">Transformar números em gráficos que contam histórias</div>
+      </div>
+    </div>
+
+    <!-- MATPLOTLIB -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Matplotlib</div>
+          <div class="lib-tagline">A biblioteca-mãe de visualização — controle total sobre cada detalhe</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-viz">Visualização</span>
+        <span class="badge b-sci">Científico</span>
+      </div>
+      <div class="install">pip install matplotlib</div>
+      <p class="lib-desc">Matplotlib é a biblioteca de visualização mais antiga e completa do Python. Inspirada no MATLAB, ela dá controle total sobre cada elemento de um gráfico. É verbose, mas extremamente poderosa para gráficos científicos e publicações.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Gráficos de linha e barra</span>
+        <span class="use-chip">Histogramas</span>
+        <span class="use-chip">Gráficos científicos</span>
+        <span class="use-chip">Subplots (múltiplos gráficos)</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">import</span> matplotlib.pyplot <span class="c-imp">as</span> plt
+
+meses  = [<span class="c-str">'Jan'</span>, <span class="c-str">'Fev'</span>, <span class="c-str">'Mar'</span>, <span class="c-str">'Abr'</span>]
+vendas = [<span class="c-num">120</span>, <span class="c-num">98</span>, <span class="c-num">145</span>, <span class="c-num">162</span>]
+
+plt.<span class="c-fn">plot</span>(meses, vendas, marker=<span class="c-str">'o'</span>, color=<span class="c-str">'steelblue'</span>)
+plt.<span class="c-fn">title</span>(<span class="c-str">'Vendas por mês'</span>)
+plt.<span class="c-fn">xlabel</span>(<span class="c-str">'Mês'</span>)
+plt.<span class="c-fn">ylabel</span>(<span class="c-str">'Unidades'</span>)
+plt.<span class="c-fn">grid</span>(alpha=<span class="c-num">0.3</span>)
+plt.<span class="c-fn">show</span>()  <span class="c-cm"># abre a janela com o gráfico</span></pre>
+      </div>
+    </div>
+
+    <!-- SEABORN -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Seaborn</div>
+          <div class="lib-tagline">Gráficos estatísticos bonitos com poucas linhas de código</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-viz">Visualização</span>
+        <span class="badge b-ds">Estatística</span>
+      </div>
+      <div class="install">pip install seaborn</div>
+      <p class="lib-desc">Seaborn é construído em cima do Matplotlib e simplifica a criação de gráficos estatísticos elegantes. Integra nativamente com DataFrames do Pandas e gera gráficos com temas bonitos por padrão.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Heatmaps de correlação</span>
+        <span class="use-chip">Box plots</span>
+        <span class="use-chip">Distribuições</span>
+        <span class="use-chip">Gráficos por categoria</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">import</span> seaborn <span class="c-imp">as</span> sns
+<span class="c-imp">import</span> pandas <span class="c-imp">as</span> pd
+
+df = pd.<span class="c-cls">DataFrame</span>({
+    <span class="c-str">'turma'</span>: [<span class="c-str">'A'</span>,<span class="c-str">'A'</span>,<span class="c-str">'B'</span>,<span class="c-str">'B'</span>,<span class="c-str">'A'</span>,<span class="c-str">'B'</span>],
+    <span class="c-str">'nota'</span>:  [<span class="c-num">8</span>, <span class="c-num">9</span>, <span class="c-num">6</span>, <span class="c-num">7</span>, <span class="c-num">10</span>, <span class="c-num">5</span>]
+})
+
+<span class="c-cm"># Gráfico de caixa por turma — 1 linha!</span>
+sns.<span class="c-fn">boxplot</span>(data=df, x=<span class="c-str">'turma'</span>, y=<span class="c-str">'nota'</span>)
+
+<span class="c-cm"># Gráfico de barras com média automática</span>
+sns.<span class="c-fn">barplot</span>(data=df, x=<span class="c-str">'turma'</span>, y=<span class="c-str">'nota'</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= MACHINE LEARNING ========================= -->
+  <section id="ml">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Machine Learning &amp; IA</div>
+        <div class="cat-desc">O motivo pelo qual Python domina a inteligência artificial</div>
+      </div>
+    </div>
+
+    <!-- SCIKIT-LEARN -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">scikit-learn</div>
+          <div class="lib-tagline">Machine learning clássico — simples, documentado e poderoso</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-ml">Machine Learning</span>
+        <span class="badge b-sci">Científico</span>
+      </div>
+      <div class="install">pip install scikit-learn</div>
+      <p class="lib-desc">scikit-learn é a biblioteca de machine learning mais usada do mundo para algoritmos clássicos. Oferece regressão, classificação, clustering, validação e pré-processamento com uma API consistente e intuitiva.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Classificação (spam, diagnósticos)</span>
+        <span class="use-chip">Regressão (previsão de preços)</span>
+        <span class="use-chip">Clustering (agrupamento)</span>
+        <span class="use-chip">Avaliação de modelos</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py — prever se vai chover</div>
+        <pre><span class="c-imp">from</span> sklearn.tree <span class="c-imp">import</span> <span class="c-cls">DecisionTreeClassifier</span>
+
+<span class="c-cm"># Dados: [temperatura, umidade]  → vai chover? 0=não, 1=sim</span>
+X = [[<span class="c-num">30</span>, <span class="c-num">20</span>], [<span class="c-num">25</span>, <span class="c-num">80</span>], [<span class="c-num">20</span>, <span class="c-num">90</span>], [<span class="c-num">35</span>, <span class="c-num">10</span>]]
+y = [<span class="c-num">0</span>, <span class="c-num">1</span>, <span class="c-num">1</span>, <span class="c-num">0</span>]
+
+modelo = <span class="c-cls">DecisionTreeClassifier</span>()
+modelo.<span class="c-fn">fit</span>(X, y)           <span class="c-cm"># treinar</span>
+
+previsao = modelo.<span class="c-fn">predict</span>([[<span class="c-num">22</span>, <span class="c-num">85</span>]])
+<span class="c-fn">print</span>(previsao)            <span class="c-cm"># → [1]  vai chover!</span></pre>
+      </div>
+    </div>
+
+    <!-- TENSORFLOW / KERAS -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">TensorFlow / Keras</div>
+          <div class="lib-tagline">Deep learning em escala — da pesquisa à produção no Google</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-ml">Deep Learning</span>
+        <span class="badge b-ml">Redes Neurais</span>
+      </div>
+      <div class="install">pip install tensorflow</div>
+      <p class="lib-desc">TensorFlow é o framework de deep learning do Google. O Keras é a interface de alto nível que facilita a criação de redes neurais. Juntos, permitem criar desde redes simples até modelos de visão computacional e NLP de última geração.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Redes neurais</span>
+        <span class="use-chip">Reconhecimento de imagem</span>
+        <span class="use-chip">Processamento de linguagem</span>
+        <span class="use-chip">Modelos de produção</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py — rede neural simples</div>
+        <pre><span class="c-imp">import</span> tensorflow <span class="c-imp">as</span> tf
+
+<span class="c-cm"># Rede neural com 3 camadas</span>
+modelo = tf.keras.<span class="c-cls">Sequential</span>([
+    tf.keras.layers.<span class="c-cls">Dense</span>(<span class="c-num">64</span>, activation=<span class="c-str">'relu'</span>, input_shape=(<span class="c-num">10</span>,)),
+    tf.keras.layers.<span class="c-cls">Dense</span>(<span class="c-num">32</span>, activation=<span class="c-str">'relu'</span>),
+    tf.keras.layers.<span class="c-cls">Dense</span>(<span class="c-num">1</span>,  activation=<span class="c-str">'sigmoid'</span>)
+])
+
+modelo.<span class="c-fn">compile</span>(optimizer=<span class="c-str">'adam'</span>, loss=<span class="c-str">'binary_crossentropy'</span>)
+<span class="c-cm"># modelo.fit(X_train, y_train, epochs=10)</span>
+<span class="c-fn">print</span>(modelo.<span class="c-fn">summary</span>())  <span class="c-cm"># exibe a arquitetura</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= WEB ========================= -->
+  <section id="web">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Web &amp; APIs</div>
+        <div class="cat-desc">Construir servidores, consumir APIs e fazer scraping</div>
+      </div>
+    </div>
+
+    <!-- REQUESTS -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Requests</div>
+          <div class="lib-tagline">"HTTP for Humans" — consumir APIs nunca foi tão simples</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-web">Web</span>
+        <span class="badge b-util">HTTP</span>
+      </div>
+      <div class="install">pip install requests</div>
+      <p class="lib-desc">Requests abstrai toda a complexidade do protocolo HTTP. Com poucas linhas você faz chamadas GET, POST, passa headers, autenticação e trata respostas JSON. Uma das bibliotecas mais baixadas de toda a história do PyPI.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Consumir APIs REST</span>
+        <span class="use-chip">Fazer login em sites</span>
+        <span class="use-chip">Download de arquivos</span>
+        <span class="use-chip">Web scraping básico</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py — buscando um fato sobre gatos 🐱</div>
+        <pre><span class="c-imp">import</span> requests
+
+resposta = requests.<span class="c-fn">get</span>(<span class="c-str">'https://catfact.ninja/fact'</span>)
+
+<span class="c-kw">if</span> resposta.status_code == <span class="c-num">200</span>:
+    dado = resposta.<span class="c-fn">json</span>()
+    <span class="c-fn">print</span>(dado[<span class="c-str">'fact'</span>])
+    <span class="c-cm"># → "Cats sleep 13-14 hours a day."</span>
+<span class="c-kw">else</span>:
+    <span class="c-fn">print</span>(<span class="c-str">'Erro na requisição'</span>)</pre>
+      </div>
+    </div>
+
+    <!-- FLASK -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Flask</div>
+          <div class="lib-tagline">Micro-framework web — construa APIs e sites do zero sem complicação</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-web">Web</span>
+        <span class="badge b-web">API</span>
+      </div>
+      <div class="install">pip install flask</div>
+      <p class="lib-desc">Flask é um micro-framework web minimalista — você começa com o mínimo e adiciona apenas o que precisa. Perfeito para criar APIs, protótipos e aplicações web pequenas a médias. Muito usado para colocar modelos de ML em produção.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">APIs REST</span>
+        <span class="use-chip">Sites dinâmicos</span>
+        <span class="use-chip">Servir modelos de ML</span>
+        <span class="use-chip">Protótipos rápidos</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py — servidor que responde "Olá!"</div>
+        <pre><span class="c-imp">from</span> flask <span class="c-imp">import</span> Flask, jsonify
+
+app = <span class="c-cls">Flask</span>(__name__)
+
+<span class="c-fn">@app.route</span>(<span class="c-str">'/ola'</span>)
+<span class="c-kw">def</span> <span class="c-fn">ola</span>():
+    <span class="c-kw">return</span> <span class="c-fn">jsonify</span>({<span class="c-str">'mensagem'</span>: <span class="c-str">'Olá, mundo!'</span>, <span class="c-str">'status'</span>: <span class="c-str">'ok'</span>})
+
+<span class="c-kw">if</span> __name__ == <span class="c-str">'__main__'</span>:
+    app.<span class="c-fn">run</span>(debug=<span class="c-kw">True</span>)
+<span class="c-cm"># Acesse http://localhost:5000/ola no navegador</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= AUTOMAÇÃO ========================= -->
+  <section id="auto">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Automação</div>
+        <div class="cat-desc">Fazer o computador trabalhar por você</div>
+      </div>
+    </div>
+
+    <!-- SELENIUM / PLAYWRIGHT -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Playwright</div>
+          <div class="lib-tagline">Automatize navegadores — clique, preencha, extraia como um humano</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-auto">Automação</span>
+        <span class="badge b-web">Web Scraping</span>
+      </div>
+      <div class="install">pip install playwright</div>
+      <p class="lib-desc">Playwright controla navegadores reais (Chrome, Firefox, Safari) por código. É usado para testar aplicações web, fazer scraping de sites dinâmicos (com JavaScript) e automatizar tarefas repetitivas no navegador.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Testes automatizados</span>
+        <span class="use-chip">Scraping de SPAs</span>
+        <span class="use-chip">Automação de formulários</span>
+        <span class="use-chip">Screenshots e PDFs</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py — tirar screenshot de um site</div>
+        <pre><span class="c-imp">from</span> playwright.sync_api <span class="c-imp">import</span> sync_playwright
+
+<span class="c-kw">with</span> <span class="c-fn">sync_playwright</span>() <span class="c-kw">as</span> pw:
+    browser = pw.chromium.<span class="c-fn">launch</span>()
+    page = browser.<span class="c-fn">new_page</span>()
+
+    page.<span class="c-fn">goto</span>(<span class="c-str">'https://python.org'</span>)
+    page.<span class="c-fn">screenshot</span>(path=<span class="c-str">'python.png'</span>)
+
+    browser.<span class="c-fn">close</span>()
+<span class="c-cm"># Salva a imagem python.png no disco</span></pre>
+      </div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">schedule</div>
+          <div class="lib-tagline">Agendar tarefas para rodar automaticamente no tempo certo</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-auto">Automação</span>
+        <span class="badge b-util">Utilitário</span>
+      </div>
+      <div class="install">pip install schedule</div>
+      <p class="lib-desc">schedule é uma biblioteca minimalista para agendar funções em Python com uma sintaxe quase de linguagem natural. Ótima para rodar relatórios, enviar notificações ou fazer backups automaticamente.</p>
+      <div class="lib-what">Usado para</div>
+      <div class="lib-uses">
+        <span class="use-chip">Relatórios automáticos</span>
+        <span class="use-chip">Notificações agendadas</span>
+        <span class="use-chip">Scripts periódicos</span>
+      </div>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">import</span> schedule, time
+
+<span class="c-kw">def</span> <span class="c-fn">bom_dia</span>():
+    <span class="c-fn">print</span>(<span class="c-str">'Bom dia! Hora de começar!'</span>)
+
+<span class="c-kw">def</span> <span class="c-fn">fazer_backup</span>():
+    <span class="c-fn">print</span>(<span class="c-str">'Backup realizado!'</span>)
+
+schedule.<span class="c-fn">every</span>().day.at(<span class="c-str">"08:00"</span>).<span class="c-fn">do</span>(bom_dia)
+schedule.<span class="c-fn">every</span>().<span class="c-fn">hour</span>.<span class="c-fn">do</span>(fazer_backup)
+
+<span class="c-kw">while</span> <span class="c-kw">True</span>:
+    schedule.<span class="c-fn">run_pending</span>()
+    time.<span class="c-fn">sleep</span>(<span class="c-num">60</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= UTILITÁRIOS ========================= -->
+  <section id="util">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Utilitários Essenciais</div>
+        <div class="cat-desc">Bibliotecas que todo programador Python acaba usando</div>
+      </div>
+    </div>
+
+    <!-- PATHLIB / OS -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">pathlib</div>
+          <div class="lib-tagline">Manipulação de caminhos e arquivos — já vem com Python!</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-util">Utilitário</span>
+        <span class="badge b-devops">Stdlib</span>
+      </div>
+      <div class="info" style="margin-bottom:12px;padding:8px 14px;">
+        <p>✅ <strong>Já incluída no Python</strong> — não precisa de pip install</p>
+      </div>
+      <p class="lib-desc">pathlib é a biblioteca moderna para trabalhar com arquivos e diretórios. Substitui o antigo <code>os.path</code> com uma interface orientada a objetos mais intuitiva e legível.</p>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">from</span> pathlib <span class="c-imp">import</span> <span class="c-cls">Path</span>
+
+pasta = <span class="c-cls">Path</span>(<span class="c-str">'meus_arquivos'</span>)
+pasta.<span class="c-fn">mkdir</span>(exist_ok=<span class="c-kw">True</span>)  <span class="c-cm"># criar pasta</span>
+
+arquivo = pasta / <span class="c-str">'notas.txt'</span>  <span class="c-cm"># / concatena caminhos!</span>
+arquivo.<span class="c-fn">write_text</span>(<span class="c-str">'Nota: 9.5\n'</span>)
+
+<span class="c-fn">print</span>(arquivo.<span class="c-fn">read_text</span>())   <span class="c-cm"># → Nota: 9.5</span>
+<span class="c-fn">print</span>(arquivo.suffix)        <span class="c-cm"># → .txt</span>
+<span class="c-fn">print</span>(arquivo.stem)          <span class="c-cm"># → notas</span></pre>
+      </div>
+    </div>
+
+    <!-- RICH -->
+    <div class="lib-card">
+      <div class="lib-header">
+        <div class="lib-icon"></div>
+        <div class="lib-title-wrap">
+          <div class="lib-name">Rich</div>
+          <div class="lib-tagline">Deixar o terminal bonito com cores, tabelas e barras de progresso</div>
+        </div>
+      </div>
+      <div class="lib-badges">
+        <span class="badge b-util">Terminal</span>
+        <span class="badge b-util">Utilitário</span>
+      </div>
+      <div class="install">pip install rich</div>
+      <p class="lib-desc">Rich transforma o terminal em algo visualmente rico. Com ela você imprime texto colorido, tabelas formatadas, barras de progresso, logs com ícones e muito mais — tudo sem complicação.</p>
+      <div class="code-block">
+        <div class="code-label">▸ mini_exemplo.py</div>
+        <pre><span class="c-imp">from</span> rich <span class="c-imp">import</span> print
+<span class="c-imp">from</span> rich.table <span class="c-imp">import</span> <span class="c-cls">Table</span>
+
+<span class="c-cm"># Texto com formatação</span>
+<span class="c-fn">print</span>(<span class="c-str">"[bold green]✅ Sucesso![/bold green] Arquivo salvo."</span>)
+<span class="c-fn">print</span>(<span class="c-str">"[bold red]❌ Erro![/bold red] Verifique o arquivo."</span>)
+
+<span class="c-cm"># Tabela bonita no terminal</span>
+tabela = <span class="c-cls">Table</span>(title=<span class="c-str">"Alunos"</span>)
+tabela.<span class="c-fn">add_column</span>(<span class="c-str">"Nome"</span>)
+tabela.<span class="c-fn">add_column</span>(<span class="c-str">"Nota"</span>, style=<span class="c-str">"cyan"</span>)
+tabela.<span class="c-fn">add_row</span>(<span class="c-str">"Ana"</span>,  <span class="c-str">"9.5"</span>)
+tabela.<span class="c-fn">add_row</span>(<span class="c-str">"Bia"</span>,  <span class="c-str">"7.2"</span>)
+<span class="c-fn">print</span>(tabela)</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- NAV PAGES -->
+  <div class="nav-pages fade">
+    <a href="django.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Django — o framework completo</span>
+    </a>
+    <a href="/notebook/notebook.html#python" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Python — Notebook</span>
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

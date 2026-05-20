@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎸</text></svg>"/>
+  <title>Django — Python — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+      --dj:#092e20;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot-meta{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-py{background:#dbeafe;color:#1e40af;}
+    .tag-dj{background:#d4edda;color:#155724;border:1px solid #c3e6cb;}
+    .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info p+p{margin-top:8px;}
+
+    .tip{background:#f0fdf4;border:1.5px solid rgba(22,163,74,.2);border-left:4px solid #16a34a;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip h4{font-size:12px;font-weight:700;color:#15803d;margin-bottom:4px;}
+    .tip p{font-size:12.5px;color:#166534;line-height:1.65;}
+    .warn{background:#fffbeb;border:1.5px solid rgba(217,119,6,.2);border-left:4px solid #d97706;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .warn h4{font-size:12px;font-weight:700;color:#92400e;margin-bottom:4px;}
+    .warn p{font-size:12.5px;color:#a16207;line-height:1.65;}
+    .nota{background:#eff6ff;border:1.5px solid rgba(37,99,168,.15);border-left:4px solid #2563a8;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .nota h4{font-size:12px;font-weight:700;color:#1e40af;margin-bottom:4px;}
+    .nota p{font-size:12.5px;color:#1e3a8a;line-height:1.65;}
+
+    .code-block{background:#1c1917;border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .code-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#292524;border-bottom:1px solid rgba(255,255,255,.06);}
+    .code-lang{font-family:var(--font-mono);font-size:11px;font-weight:500;color:#a8a29e;display:flex;align-items:center;gap:6px;}
+    .code-dot{width:10px;height:10px;border-radius:50%;}
+    .dot-py{background:#3572A5;}.dot-sh{background:#89e051;}.dot-html{background:#e34c26;}
+    .code-copy{font-family:var(--font-mono);font-size:11px;color:#a8a29e;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:background .15s,color .15s;}
+    .code-copy:hover{background:rgba(255,255,255,.08);color:#e7e5e4;}
+    pre{padding:18px 20px;overflow-x:auto;font-family:var(--font-mono);font-size:13px;line-height:1.75;color:#e7e5e4;}
+    pre::-webkit-scrollbar{height:4px;}
+    pre::-webkit-scrollbar-track{background:#292524;}
+    pre::-webkit-scrollbar-thumb{background:#57534e;border-radius:2px;}
+
+    .kw{color:#c4b5fd;}
+    .fn{color:#60a5fa;}
+    .st{color:#86efac;}
+    .cm{color:#6b7280;font-style:italic;}
+    .nb{color:#fb923c;}
+    .dc{color:#f9a8d4;}
+    .tg{color:#fcd34d;}
+    .at{color:#7dd3fc;}
+
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem;}
+    .card-sm{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .card-sm h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .card-sm p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+
+    /* BLOCO MTV */
+    .mtv{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1rem;}
+    .mtv-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);text-align:center;}
+    .mtv-letter{font-family:var(--font-serif);font-size:36px;font-weight:600;line-height:1;margin-bottom:6px;}
+    .mtv-letter.m{color:#2563a8;}
+    .mtv-letter.t{color:#c84b31;}
+    .mtv-letter.v{color:#1a7a50;}
+    .mtv-word{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .mtv-desc{font-size:11.5px;color:var(--ink3);line-height:1.5;}
+
+    /* FLUXO REQUEST */
+    .fluxo{display:flex;flex-direction:column;gap:0;margin-bottom:1rem;}
+    .fluxo-item{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--rule2);}
+    .fluxo-item:last-child{border-bottom:none;}
+    .fluxo-num{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .fluxo-text strong{font-size:13px;font-weight:700;color:var(--ink);display:block;margin-bottom:3px;}
+    .fluxo-text span{font-size:12.5px;color:var(--ink2);line-height:1.6;}
+
+    .steps{display:flex;flex-direction:column;gap:0;}
+    .step{display:flex;gap:16px;position:relative;}
+    .step::before{content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--rule);z-index:0;}
+    .step:last-child::before{display:none;}
+    .step-num{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;margin-top:2px;}
+    .step-body{flex:1;padding-bottom:24px;}
+    .step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .step-desc{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+
+    .table-wrap{overflow-x:auto;margin-bottom:1rem;}
+    table{width:100%;border-collapse:collapse;font-size:12.5px;}
+    th{background:var(--paper3);font-weight:700;text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--rule);color:var(--ink2);font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
+    td{padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.6;}
+    tr:last-child td{border-bottom:none;}
+    td code{font-family:var(--font-mono);font-size:11.5px;background:#fff;padding:1px 6px;border-radius:4px;border:1px solid var(--rule);}
+
+    .toc{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:2rem;}
+    .toc h4{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;}
+    .toc ol{padding-left:18px;display:flex;flex-direction:column;gap:5px;}
+    .toc li{font-size:13px;color:var(--ink2);}
+    .toc a{color:var(--accent2);text-decoration:none;font-weight:600;}
+    .toc a:hover{text-decoration:underline;}
+
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.mtv{grid-template-columns:1fr;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="/notebook/notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="/notebook/notebook.html#python" class="nav-link">Python</a>
+    <a href="flask.html" class="nav-link">Flask</a>
+    <a href="django.html" class="nav-link active">Django</a>
+    <a href="py-bibliotecas.html" class="nav-link">Outras Bibliotecas</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 2 · Python · Web com Django</p>
+    <h1 class="article-title">Django — o framework<br>que vem com tudo</h1>
+    <div class="article-meta">
+      <span class="tag tag-py">Python</span>
+      <span class="tag tag-dj">Django</span>
+      <span class="tag gray">MTV · ORM · Admin</span>
+      <span class="dot-meta"></span>
+      <span style="font-size:12px;color:var(--ink4)">Full-stack · Back-end · Web</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- 1 — O QUE É -->
+  <section id="o-que-e" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é Django e por que ele existe</p>
+
+    <div class="info">
+      <h3>"The web framework for perfectionists with deadlines"</h3>
+      <p>Esse é o slogan oficial do Django — e ele resume muito bem o espírito do framework: feito para quem quer construir sistemas web sérios, com qualidade, sem perder tempo reinventando a roda. Django já vem com tudo que você precisa para uma aplicação web completa: sistema de banco de dados, autenticação de usuários, painel administrativo, sistema de templates, proteção contra os ataques mais comuns da web e muito mais.</p>
+      <p>Enquanto o Flask te dá uma caixa de ferramentas e diz "monta do seu jeito", o Django te entrega uma casa mobiliada e diz "pode morar — e personalizar o que precisar".</p>
+    </div>
+
+    <div class="nota">
+      <h4>Um pouco de história</h4>
+      <p>Django foi criado em 2003 por Adrian Holovaty e Simon Willison no jornal Lawrence Journal-World, no Kansas (EUA). Eles precisavam publicar notícias rápido, com prazo apertado — e criaram um framework que permitia isso. Em 2005 foi lançado como open source. O nome é uma homenagem ao guitarrista de jazz Django Reinhardt. Hoje é mantido pela Django Software Foundation e tem uma comunidade enorme no mundo inteiro.</p>
+    </div>
+
+    <div class="g2">
+      <div class="card-sm">
+        <h4>Batteries included</h4>
+        <p>"Baterias incluídas" é como a comunidade descreve o Django. ORM, admin, autenticação, formulários, segurança — tudo já está lá, configurado e funcionando.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Rápido para desenvolver</h4>
+        <p>Você consegue criar um sistema com cadastro de usuários, banco de dados e painel admin em minutos — coisas que levariam dias construindo do zero.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Seguro por padrão</h4>
+        <p>Django já protege contra SQL Injection, XSS, CSRF e clickjacking por padrão. Segurança não é algo que você adiciona depois — já está no framework.</p>
+      </div>
+      <div class="card-sm">
+        <h4>Escalável de verdade</h4>
+        <p>Instagram, Pinterest, Disqus e Mozilla usam ou usaram Django. O framework que começou num jornal pequeno hoje sustenta plataformas com bilhões de usuários.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 2 — MTV -->
+  <section id="mtv" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">A arquitetura MTV — como Django organiza tudo</p>
+
+    <div class="info">
+      <h3>Separando responsabilidades em três camadas</h3>
+      <p>Django segue o padrão arquitetural <strong>MTV</strong> — Model, Template, View. É uma variação do famoso MVC (Model-View-Controller) que você encontra em muitos outros frameworks. A ideia central é sempre a mesma: <strong>separar os dados, a lógica e a apresentação</strong>. Cada parte tem uma responsabilidade bem definida e não deve invadir o espaço da outra.</p>
+    </div>
+
+    <div class="mtv">
+      <div class="mtv-card">
+        <div class="mtv-letter m">M</div>
+        <div class="mtv-word">Model</div>
+        <div class="mtv-desc">Define a estrutura dos dados e cuida de tudo que envolve o banco de dados. É a sua "verdade" — os dados do sistema.</div>
+      </div>
+      <div class="mtv-card">
+        <div class="mtv-letter t">T</div>
+        <div class="mtv-word">Template</div>
+        <div class="mtv-desc">É o HTML da página — a camada de apresentação. Recebe os dados da View e os exibe para o usuário de forma visual.</div>
+      </div>
+      <div class="mtv-card">
+        <div class="mtv-letter v">V</div>
+        <div class="mtv-word">View</div>
+        <div class="mtv-desc">É o cérebro. Recebe a requisição, conversa com o Model para buscar dados, e passa esses dados para o Template renderizar.</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <h3>Como as três camadas conversam</h3>
+      <p>Imagine um blog. A <strong>Model</strong> é a tabela <code>Post</code> no banco de dados — com campos de título, conteúdo, data e autor. A <strong>View</strong> é a função que recebe a requisição de "listar posts", vai ao banco buscar os posts e passa a lista para o template. O <strong>Template</strong> é o HTML que formata e exibe esses posts numa página bonita para o usuário.</p>
+      <p>O <strong>Django</strong> é o maestro que coordena esse fluxo — conectando URLs às Views, Views aos Models, e Models ao banco de dados.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 3 — COMO FUNCIONA -->
+  <section id="como-funciona" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Como Django funciona por dentro — o ciclo de uma requisição</p>
+
+    <div class="fluxo">
+      <div class="fluxo-item">
+        <div class="fluxo-num">1</div>
+        <div class="fluxo-text">
+          <strong>Navegador envia a requisição</strong>
+          <span>O usuário acessa <code>/blog/</code>. O navegador manda uma requisição HTTP GET para o servidor Django.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">2</div>
+        <div class="fluxo-text">
+          <strong>Django consulta o URLconf</strong>
+          <span>O Django olha para o arquivo <code>urls.py</code> — uma tabela que mapeia URLs para Views. Achou a URL <code>/blog/</code>? Chama a View correspondente.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">3</div>
+        <div class="fluxo-text">
+          <strong>A View processa a requisição</strong>
+          <span>A View recebe o objeto <code>request</code> com tudo sobre a requisição. Ela decide o que fazer — normalmente busca dados no banco via Model.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">4</div>
+        <div class="fluxo-text">
+          <strong>Model busca os dados no banco</strong>
+          <span>O ORM do Django traduz a consulta Python para SQL e busca os dados no banco. Você nunca precisou escrever SQL — o Django fez por você.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">5</div>
+        <div class="fluxo-text">
+          <strong>Template renderiza o HTML</strong>
+          <span>A View passa os dados para o template. O sistema de templates do Django monta o HTML final com as variáveis preenchidas.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">6</div>
+        <div class="fluxo-text">
+          <strong>Resposta HTTP volta ao navegador</strong>
+          <span>O HTML pronto é embrulhado numa resposta HTTP e enviado de volta. O navegador exibe a página para o usuário.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 4 — INSTALAÇÃO -->
+  <section id="instalacao" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Instalação e primeiro projeto</p>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal</span></div>
+      <pre><span class="cm"># 1. Crie e ative o ambiente virtual</span>
+python -m venv venv
+source venv/bin/activate    <span class="cm"># Linux/Mac</span>
+venv\Scripts\activate       <span class="cm"># Windows</span>
+
+<span class="cm"># 2. Instale o Django</span>
+pip install django
+
+<span class="cm"># 3. Crie o projeto Django</span>
+django-admin startproject meublog .
+<span class="cm"># O ponto (.) cria na pasta atual — evita pasta duplicada</span>
+
+<span class="cm"># 4. Rode o servidor de desenvolvimento</span>
+python manage.py runserver</pre>
+    </div>
+
+    <div class="tip">
+      <h4>Abra http://127.0.0.1:8000 no navegador</h4>
+      <p>Você vai ver a página de boas-vindas do Django com um foguete — significa que está tudo funcionando! O <code>manage.py</code> é o canivete suíço do Django: com ele você cria apps, aplica migrações, cria superusuários e muito mais.</p>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Estrutura do projeto criado</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Estrutura gerada pelo django-admin</span></div>
+      <pre>meublog/
+├── manage.py              <span class="cm"># comando principal do Django</span>
+└── meublog/               <span class="cm"># pacote de configuração do projeto</span>
+    ├── __init__.py
+    ├── settings.py        <span class="cm"># todas as configurações do projeto</span>
+    ├── urls.py            <span class="cm"># URLs raiz do projeto</span>
+    ├── asgi.py            <span class="cm"># ponto de entrada para servidores async</span>
+    └── wsgi.py            <span class="cm"># ponto de entrada para servidores tradicionais</span></pre>
+    </div>
+
+    <div class="info">
+      <h3>O que é cada arquivo?</h3>
+      <p><strong>manage.py</strong> — você vai usar esse arquivo o tempo todo. <code>python manage.py runserver</code>, <code>python manage.py migrate</code>, <code>python manage.py createsuperuser</code> — tudo passa por ele.</p>
+      <p><strong>settings.py</strong> — o coração das configurações. Banco de dados, apps instalados, idioma, fuso horário, chave secreta, arquivos estáticos — tudo aqui.</p>
+      <p><strong>urls.py</strong> — a entrada de URLs do projeto. As URLs de cada app serão "incluídas" aqui.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 5 — APPS -->
+  <section id="apps" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Apps — a modularidade do Django</p>
+
+    <div class="info">
+      <h3>Um projeto Django é feito de Apps</h3>
+      <p>No Django, um <strong>projeto</strong> é o todo — as configurações gerais, as URLs raiz, o banco de dados. Dentro do projeto, você cria <strong>apps</strong> — módulos independentes, cada um responsável por uma funcionalidade específica. Um app de blog, um app de autenticação, um app de comentários. Cada um pode até ser reutilizado em outros projetos.</p>
+      <p>Essa separação mantém o código organizado, cada app com sua própria pasta, seus próprios models, views e URLs.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — criando um app</span></div>
+      <pre>python manage.py startapp posts
+
+<span class="cm"># Estrutura criada automaticamente:</span>
+posts/
+├── __init__.py
+├── admin.py       <span class="cm"># registra models no painel admin</span>
+├── apps.py        <span class="cm"># configuração do app</span>
+├── migrations/    <span class="cm"># histórico de mudanças no banco</span>
+├── models.py      <span class="cm"># define as tabelas do banco</span>
+├── tests.py       <span class="cm"># testes automatizados</span>
+└── views.py       <span class="cm"># lógica das requisições</span></pre>
+    </div>
+
+    <div class="warn">
+      <h4>Não esqueça de registrar o app no settings.py</h4>
+      <p>Depois de criar um app, você precisa adicioná-lo à lista <code>INSTALLED_APPS</code> no <code>settings.py</code>. Sem isso, o Django não reconhece o app e nada funciona.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> meublog/settings.py — registrando o app</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre>INSTALLED_APPS = [
+    <span class="st">"django.contrib.admin"</span>,
+    <span class="st">"django.contrib.auth"</span>,
+    <span class="st">"django.contrib.contenttypes"</span>,
+    <span class="st">"django.contrib.sessions"</span>,
+    <span class="st">"django.contrib.messages"</span>,
+    <span class="st">"django.contrib.staticfiles"</span>,
+    <span class="st">"posts"</span>,   <span class="cm"># ← seu app aqui</span>
+]</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 6 — MODELS -->
+  <section id="models" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Models e ORM — banco de dados sem escrever SQL</p>
+
+    <div class="info">
+      <h3>O que é um Model?</h3>
+      <p>Um <strong>Model</strong> é uma classe Python que representa uma tabela no banco de dados. Cada atributo da classe vira uma coluna da tabela. Você escreve Python — o Django cria e gerencia o SQL por você. Isso é o ORM do Django em ação.</p>
+      <p>E não é só criar tabelas: com o ORM você faz consultas, filtros, ordenações, joins — tudo em Python, sem nunca tocar em SQL diretamente.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> posts/models.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> django.db <span class="kw">import</span> models
+
+<span class="kw">class</span> <span class="fn">Post</span>(models.Model):
+    titulo     = models.<span class="fn">CharField</span>(max_length=<span class="nb">200</span>)          <span class="cm"># texto curto</span>
+    conteudo   = models.<span class="fn">TextField</span>()                         <span class="cm"># texto longo</span>
+    publicado  = models.<span class="fn">BooleanField</span>(default=<span class="nb">False</span>)        <span class="cm"># verdadeiro/falso</span>
+    criado_em  = models.<span class="fn">DateTimeField</span>(auto_now_add=<span class="nb">True</span>)   <span class="cm"># data automática ao criar</span>
+    atualizado = models.<span class="fn">DateTimeField</span>(auto_now=<span class="nb">True</span>)       <span class="cm"># data automática ao salvar</span>
+
+    <span class="kw">class</span> <span class="fn">Meta</span>:
+        ordering = [<span class="st">"-criado_em"</span>]   <span class="cm"># mais recentes primeiro por padrão</span>
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> self.titulo          <span class="cm"># como o objeto aparece no admin e no shell</span></pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Criando as tabelas no banco — Migrations</p>
+
+    <div class="info">
+      <h3>O que são Migrations?</h3>
+      <p><strong>Migrations</strong> são o sistema que o Django usa para manter o banco de dados em sincronia com seus Models. Toda vez que você cria ou altera um Model, gera uma migration — um arquivo Python que descreve o que mudou. Depois você aplica essa migration ao banco. É como um histórico versionado do seu banco de dados.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — migrations</span></div>
+      <pre><span class="cm"># 1. Gera o arquivo de migration baseado nos seus Models</span>
+python manage.py makemigrations
+
+<span class="cm"># 2. Aplica as migrations ao banco de dados</span>
+python manage.py migrate
+
+<span class="cm"># Sempre nessa ordem: makemigrations → migrate</span></pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Consultando dados com o ORM</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> Python — ORM em ação</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> posts.models <span class="kw">import</span> Post
+
+<span class="cm"># CREATE — criando um post</span>
+post = Post.<span class="fn">objects</span>.<span class="fn">create</span>(titulo=<span class="st">"Meu primeiro post"</span>, conteudo=<span class="st">"Olá!"</span>)
+
+<span class="cm"># READ — buscando todos os posts</span>
+todos = Post.objects.<span class="fn">all</span>()
+
+<span class="cm"># READ — filtrando publicados, ordenados por data</span>
+publicados = Post.objects.<span class="fn">filter</span>(publicado=<span class="nb">True</span>).<span class="fn">order_by</span>(<span class="st">"-criado_em"</span>)
+
+<span class="cm"># READ — buscando um post pelo ID (lança exceção se não encontrar)</span>
+post = Post.objects.<span class="fn">get</span>(id=<span class="nb">1</span>)
+
+<span class="cm"># UPDATE — atualizando um campo</span>
+post.titulo = <span class="st">"Título atualizado"</span>
+post.<span class="fn">save</span>()
+
+<span class="cm"># DELETE — excluindo</span>
+post.<span class="fn">delete</span>()
+
+<span class="cm"># PESQUISA — título contendo "Django" (case-insensitive)</span>
+resultados = Post.objects.<span class="fn">filter</span>(titulo__icontains=<span class="st">"django"</span>)</pre>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo de campo</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td><code>CharField(max_length=n)</code></td><td>Texto curto — nome, título, slug</td></tr>
+          <tr><td><code>TextField()</code></td><td>Texto longo — conteúdo, descrição</td></tr>
+          <tr><td><code>IntegerField()</code></td><td>Número inteiro</td></tr>
+          <tr><td><code>FloatField()</code></td><td>Número decimal</td></tr>
+          <tr><td><code>BooleanField()</code></td><td>Verdadeiro ou falso</td></tr>
+          <tr><td><code>DateTimeField()</code></td><td>Data e hora</td></tr>
+          <tr><td><code>EmailField()</code></td><td>E-mail — valida o formato automaticamente</td></tr>
+          <tr><td><code>ImageField()</code></td><td>Imagem — salva o arquivo e guarda o caminho</td></tr>
+          <tr><td><code>ForeignKey(Model, ...)</code></td><td>Relacionamento muitos-para-um</td></tr>
+          <tr><td><code>ManyToManyField(Model)</code></td><td>Relacionamento muitos-para-muitos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 7 — VIEWS -->
+  <section id="views" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Views — processando as requisições</p>
+
+    <div class="info">
+      <h3>A View é o cérebro da operação</h3>
+      <p>Uma <strong>View</strong> no Django é uma função (ou classe) Python que recebe uma requisição HTTP e retorna uma resposta HTTP. É nela que toda a lógica acontece: buscar dados, validar formulários, chamar serviços externos, decidir qual template renderizar.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> posts/views.py — views baseadas em função</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> django.shortcuts <span class="kw">import</span> render, get_object_or_404, redirect
+<span class="kw">from</span> .models <span class="kw">import</span> Post
+
+<span class="cm"># Lista todos os posts publicados</span>
+<span class="kw">def</span> <span class="fn">lista_posts</span>(request):
+    posts = Post.objects.<span class="fn">filter</span>(publicado=<span class="nb">True</span>)
+    <span class="cm"># render() = shortcut para render_template() do Django</span>
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="st">"posts/lista.html"</span>, {<span class="st">"posts"</span>: posts})
+
+<span class="cm"># Detalhe de um post específico</span>
+<span class="kw">def</span> <span class="fn">detalhe_post</span>(request, pk):
+    <span class="cm"># get_object_or_404 busca pelo ID e retorna 404 se não existir</span>
+    post = <span class="fn">get_object_or_404</span>(Post, pk=pk, publicado=<span class="nb">True</span>)
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="st">"posts/detalhe.html"</span>, {<span class="st">"post"</span>: post})
+
+<span class="cm"># Criar um novo post via formulário</span>
+<span class="kw">def</span> <span class="fn">criar_post</span>(request):
+    <span class="kw">if</span> request.method == <span class="st">"POST"</span>:
+        titulo   = request.POST.<span class="fn">get</span>(<span class="st">"titulo"</span>)
+        conteudo = request.POST.<span class="fn">get</span>(<span class="st">"conteudo"</span>)
+        Post.objects.<span class="fn">create</span>(titulo=titulo, conteudo=conteudo, publicado=<span class="nb">True</span>)
+        <span class="kw">return</span> <span class="fn">redirect</span>(<span class="st">"lista_posts"</span>)   <span class="cm"># redireciona pelo nome da URL</span>
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="st">"posts/form.html"</span>)</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 8 — TEMPLATES -->
+  <section id="templates" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Templates Django</p>
+
+    <div class="info">
+      <h3>Igual ao Jinja2, mas com algumas diferenças</h3>
+      <p>O sistema de templates do Django é muito parecido com o Jinja2 do Flask — herança de templates, variáveis com <code>{{ }}</code>, blocos de lógica com <code>{% %}</code>. A principal diferença é que as <strong>tags de template</strong> do Django têm algumas restrições por segurança — por exemplo, você não pode chamar qualquer função Python dentro dos templates.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Estrutura de templates no app</span></div>
+      <pre>posts/
+└── templates/
+    └── posts/        <span class="cm"># pasta com o nome do app (convenção Django)</span>
+        ├── lista.html
+        ├── detalhe.html
+        └── form.html</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-html"></span> posts/templates/posts/lista.html</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre>{% extends "base.html" %}
+
+{% block titulo %}Posts{% endblock %}
+
+{% block conteudo %}
+  <span class="tg">&lt;h1&gt;</span>Todos os Posts<span class="tg">&lt;/h1&gt;</span>
+
+  {% for post in posts %}
+    <span class="tg">&lt;article&gt;</span>
+      <span class="tg">&lt;h2&gt;&lt;a</span> <span class="at">href</span>=<span class="st">"{% url 'detalhe_post' post.pk %}"</span><span class="tg">&gt;</span>{{ post.titulo }}<span class="tg">&lt;/a&gt;&lt;/h2&gt;</span>
+      <span class="tg">&lt;p&gt;</span>{{ post.criado_em|date:"d/m/Y" }}<span class="tg">&lt;/p&gt;</span>
+      <span class="tg">&lt;p&gt;</span>{{ post.conteudo|truncatewords:30 }}<span class="tg">&lt;/p&gt;</span>
+    <span class="tg">&lt;/article&gt;</span>
+  {% empty %}
+    <span class="tg">&lt;p&gt;</span>Nenhum post ainda.<span class="tg">&lt;/p&gt;</span>
+  {% endfor %}
+{% endblock %}</pre>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Filtro Django</th><th>O que faz</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td><code>date:"d/m/Y"</code></td><td>Formata data</td><td><code>{{ data|date:"d/m/Y" }}</code></td></tr>
+          <tr><td><code>truncatewords:n</code></td><td>Corta após n palavras</td><td><code>{{ texto|truncatewords:20 }}</code></td></tr>
+          <tr><td><code>upper</code></td><td>Maiúsculas</td><td><code>{{ nome|upper }}</code></td></tr>
+          <tr><td><code>lower</code></td><td>Minúsculas</td><td><code>{{ nome|lower }}</code></td></tr>
+          <tr><td><code>length</code></td><td>Tamanho de lista ou string</td><td><code>{{ lista|length }}</code></td></tr>
+          <tr><td><code>default:"texto"</code></td><td>Valor se variável for vazia</td><td><code>{{ nome|default:"Anônimo" }}</code></td></tr>
+          <tr><td><code>safe</code></td><td>Renderiza HTML sem escapar</td><td><code>{{ conteudo|safe }}</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 9 — URLS -->
+  <section id="urls" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">URLs — conectando tudo</p>
+
+    <div class="info">
+      <h3>URLconf — a tabela de rotas do Django</h3>
+      <p>O Django usa um sistema de URLs declarativo. Você cria um arquivo <code>urls.py</code> em cada app com as rotas daquele app, e depois inclui esse arquivo no <code>urls.py</code> principal do projeto. Assim cada app gerencia suas próprias URLs — tudo modular e organizado.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> posts/urls.py — URLs do app</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> django.urls <span class="kw">import</span> path
+<span class="kw">from</span> . <span class="kw">import</span> views
+
+<span class="cm"># app_name permite usar namespace nas URLs: {% url 'posts:lista' %}</span>
+app_name = <span class="st">"posts"</span>
+
+urlpatterns = [
+    path(<span class="st">""</span>,           views.lista_posts,  name=<span class="st">"lista_posts"</span>),
+    path(<span class="st">"&lt;int:pk&gt;/"</span>,  views.detalhe_post, name=<span class="st">"detalhe_post"</span>),
+    path(<span class="st">"novo/"</span>,       views.criar_post,   name=<span class="st">"criar_post"</span>),
+]</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> meublog/urls.py — URLs raiz do projeto</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> django.contrib <span class="kw">import</span> admin
+<span class="kw">from</span> django.urls <span class="kw">import</span> path, include
+
+urlpatterns = [
+    path(<span class="st">"admin/"</span>, admin.site.urls),
+    <span class="cm"># inclui todas as URLs do app posts no prefixo /posts/</span>
+    path(<span class="st">"posts/"</span>, <span class="fn">include</span>(<span class="st">"posts.urls"</span>)),
+]</pre>
+    </div>
+
+    <div class="tip">
+      <h4>✅ Sempre nomeie suas URLs</h4>
+      <p>Com o parâmetro <code>name</code>, você pode referenciar uma URL pelo nome em vez de escrever o caminho fixo. Assim, se a URL mudar, você só muda em um lugar. No template use <code>{"% url 'lista_posts' %"}</code>; na view use <code>redirect('lista_posts')</code>.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 10 — ADMIN -->
+  <section id="admin" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Admin — o painel que vem de graça</p>
+
+    <div class="info">
+      <h3>Um painel de administração completo sem escrever nada</h3>
+      <p>Essa é uma das funcionalidades mais impressionantes do Django. Com pouquíssimas linhas de código, você ganha um painel administrativo completo — interface para criar, editar, excluir e pesquisar registros de qualquer Model do seu sistema. É algo que em outros frameworks levaria dias de trabalho.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — criando o superusuário</span></div>
+      <pre>python manage.py createsuperuser
+<span class="cm"># Vai pedir: username, email, password</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> posts/admin.py — registrando no admin</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre><span class="kw">from</span> django.contrib <span class="kw">import</span> admin
+<span class="kw">from</span> .models <span class="kw">import</span> Post
+
+<span class="cm"># Versão básica — apenas registra o Model</span>
+admin.site.<span class="fn">register</span>(Post)
+
+<span class="cm"># Versão personalizada — controla como aparece no admin</span>
+<span class="dc">@admin.register</span>(Post)
+<span class="kw">class</span> <span class="fn">PostAdmin</span>(admin.ModelAdmin):
+    list_display   = [<span class="st">"titulo"</span>, <span class="st">"publicado"</span>, <span class="st">"criado_em"</span>]  <span class="cm"># colunas na lista</span>
+    list_filter    = [<span class="st">"publicado"</span>]                          <span class="cm"># filtros na lateral</span>
+    search_fields  = [<span class="st">"titulo"</span>, <span class="st">"conteudo"</span>]                 <span class="cm"># campo de busca</span>
+    list_editable  = [<span class="st">"publicado"</span>]                          <span class="cm"># edita inline na lista</span></pre>
+    </div>
+
+    <div class="tip">
+      <h4>Acesse http://127.0.0.1:8000/admin</h4>
+      <p>Login com o superusuário que você criou. Você vai ver o painel completo com seus Models listados, podendo criar e editar posts direto pela interface — sem escrever nenhum HTML de formulário.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 11 — MINI PROJETO -->
+  <section id="projeto" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Mini projeto — Blog simples</p>
+
+    <div class="info">
+      <h3>O que vamos construir</h3>
+      <p>Um blog funcional com listagem e detalhe de posts, criação via formulário e painel admin completo. Tudo isso com Django do zero.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Estrutura final do projeto</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Estrutura</span></div>
+            <pre>meublog/
+├── manage.py
+├── meublog/
+│   ├── settings.py
+│   └── urls.py
+└── posts/
+    ├── admin.py
+    ├── models.py
+    ├── views.py
+    ├── urls.py
+    └── templates/
+        └── posts/
+            ├── lista.html
+            ├── detalhe.html
+            └── form.html</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">posts/models.py</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> models.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="kw">from</span> django.db <span class="kw">import</span> models
+
+<span class="kw">class</span> <span class="fn">Post</span>(models.Model):
+    titulo    = models.<span class="fn">CharField</span>(max_length=<span class="nb">200</span>)
+    conteudo  = models.<span class="fn">TextField</span>()
+    publicado = models.<span class="fn">BooleanField</span>(default=<span class="nb">True</span>)
+    criado_em = models.<span class="fn">DateTimeField</span>(auto_now_add=<span class="nb">True</span>)
+
+    <span class="kw">class</span> <span class="fn">Meta</span>:
+        ordering = [<span class="st">"-criado_em"</span>]
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(self):
+        <span class="kw">return</span> self.titulo</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">posts/views.py</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-py"></span> views.py</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="kw">from</span> django.shortcuts <span class="kw">import</span> render, get_object_or_404, redirect
+<span class="kw">from</span> .models <span class="kw">import</span> Post
+
+<span class="kw">def</span> <span class="fn">lista_posts</span>(request):
+    posts = Post.objects.<span class="fn">filter</span>(publicado=<span class="nb">True</span>)
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="st">"posts/lista.html"</span>, {<span class="st">"posts"</span>: posts})
+
+<span class="kw">def</span> <span class="fn">detalhe_post</span>(request, pk):
+    post = <span class="fn">get_object_or_404</span>(Post, pk=pk)
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="st">"posts/detalhe.html"</span>, {<span class="st">"post"</span>: post})
+
+<span class="kw">def</span> <span class="fn">criar_post</span>(request):
+    <span class="kw">if</span> request.method == <span class="st">"POST"</span>:
+        titulo   = request.POST.<span class="fn">get</span>(<span class="st">"titulo"</span>, <span class="st">""</span>).<span class="fn">strip</span>()
+        conteudo = request.POST.<span class="fn">get</span>(<span class="st">"conteudo"</span>, <span class="st">""</span>).<span class="fn">strip</span>()
+        <span class="kw">if</span> titulo <span class="kw">and</span> conteudo:
+            Post.objects.<span class="fn">create</span>(titulo=titulo, conteudo=conteudo)
+            <span class="kw">return</span> <span class="fn">redirect</span>(<span class="st">"posts:lista_posts"</span>)
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="st">"posts/form.html"</span>)</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">posts/templates/posts/lista.html</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-html"></span> lista.html</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+            <pre><span class="tg">&lt;!DOCTYPE html&gt;</span>
+<span class="tg">&lt;html</span> <span class="at">lang</span>=<span class="st">"pt-BR"</span><span class="tg">&gt;</span>
+<span class="tg">&lt;head&gt;&lt;title&gt;</span>Blog<span class="tg">&lt;/title&gt;&lt;/head&gt;</span>
+<span class="tg">&lt;body&gt;</span>
+  <span class="tg">&lt;h1&gt;</span>📝 Blog<span class="tg">&lt;/h1&gt;</span>
+  <span class="tg">&lt;a</span> <span class="at">href</span>=<span class="st">"{% url 'posts:criar_post' %}"</span><span class="tg">&gt;</span>+ Novo Post<span class="tg">&lt;/a&gt;</span>
+
+  {% for post in posts %}
+    <span class="tg">&lt;article&gt;</span>
+      <span class="tg">&lt;h2&gt;&lt;a</span> <span class="at">href</span>=<span class="st">"{% url 'posts:detalhe_post' post.pk %}"</span><span class="tg">&gt;</span>{{ post.titulo }}<span class="tg">&lt;/a&gt;&lt;/h2&gt;</span>
+      <span class="tg">&lt;small&gt;</span>{{ post.criado_em|date:"d/m/Y H:i" }}<span class="tg">&lt;/small&gt;</span>
+      <span class="tg">&lt;p&gt;</span>{{ post.conteudo|truncatewords:25 }}<span class="tg">&lt;/p&gt;</span>
+    <span class="tg">&lt;/article&gt;</span>
+    <span class="tg">&lt;hr&gt;</span>
+  {% empty %}
+    <span class="tg">&lt;p&gt;</span>Nenhum post publicado ainda.<span class="tg">&lt;/p&gt;</span>
+  {% endfor %}
+<span class="tg">&lt;/body&gt;</span>
+<span class="tg">&lt;/html&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Aplicar migrations e rodar</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — finalizando</span></div>
+            <pre>python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+<span class="cm"># Acesse:
+# http://127.0.0.1:8000/posts/       → lista de posts
+# http://127.0.0.1:8000/posts/novo/  → criar post
+# http://127.0.0.1:8000/admin/       → painel admin</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="flask.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">Flask — micro-framework web</span>
+    </a>
+    <a href="py-bibliotecas.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">As Bibliotecas do Python</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'copiado!';
+    setTimeout(() => btn.textContent = 'copiar', 2000);
+  });
+}
+</script>
+</body>
+</html>
