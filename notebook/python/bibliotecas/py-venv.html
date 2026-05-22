@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>"/>
+  <title>Ambiente Virtual — Python — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;
+      --font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot-meta{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-py{background:#dbeafe;color:#1e40af;}
+    .tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info p+p{margin-top:8px;}
+
+    .tip{background:#f0fdf4;border:1.5px solid rgba(22,163,74,.2);border-left:4px solid #16a34a;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .tip h4{font-size:12px;font-weight:700;color:#15803d;margin-bottom:4px;}
+    .tip p{font-size:12.5px;color:#166534;line-height:1.65;}
+    .warn{background:#fffbeb;border:1.5px solid rgba(217,119,6,.2);border-left:4px solid #d97706;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .warn h4{font-size:12px;font-weight:700;color:#92400e;margin-bottom:4px;}
+    .warn p{font-size:12.5px;color:#a16207;line-height:1.65;}
+    .nota{background:#eff6ff;border:1.5px solid rgba(37,99,168,.15);border-left:4px solid #2563a8;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .nota h4{font-size:12px;font-weight:700;color:#1e40af;margin-bottom:4px;}
+    .nota p{font-size:12.5px;color:#1e3a8a;line-height:1.65;}
+    .perigo{background:#fff1f2;border:1.5px solid rgba(225,29,72,.15);border-left:4px solid #e11d48;border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;}
+    .perigo h4{font-size:12px;font-weight:700;color:#be123c;margin-bottom:4px;}
+    .perigo p{font-size:12.5px;color:#9f1239;line-height:1.65;}
+
+    .code-block{background:#1c1917;border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .code-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#292524;border-bottom:1px solid rgba(255,255,255,.06);}
+    .code-lang{font-family:var(--font-mono);font-size:11px;font-weight:500;color:#a8a29e;display:flex;align-items:center;gap:6px;}
+    .code-dot{width:10px;height:10px;border-radius:50%;}
+    .dot-sh{background:#89e051;}.dot-py{background:#3572A5;}.dot-txt{background:#a8a29e;}
+    .code-copy{font-family:var(--font-mono);font-size:11px;color:#a8a29e;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:background .15s,color .15s;}
+    .code-copy:hover{background:rgba(255,255,255,.08);color:#e7e5e4;}
+    pre{padding:18px 20px;overflow-x:auto;font-family:var(--font-mono);font-size:13px;line-height:1.75;color:#e7e5e4;}
+    pre::-webkit-scrollbar{height:4px;}
+    pre::-webkit-scrollbar-track{background:#292524;}
+    pre::-webkit-scrollbar-thumb{background:#57534e;border-radius:2px;}
+    .kw{color:#c4b5fd;}.fn{color:#60a5fa;}.st{color:#86efac;}.cm{color:#6b7280;font-style:italic;}.nb{color:#fb923c;}.hi{color:#fcd34d;}
+
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem;}
+    .card-sm{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .card-sm h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .card-sm p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+
+    /* ANALOGIA VISUAL */
+    .analogia{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .analogia-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);margin-bottom:16px;}
+    .analogia-body{font-size:13px;color:var(--ink2);line-height:1.7;}
+
+    /* COMPARAÇÃO VISUAL: global vs venv */
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem;}
+    .compare-box{border-radius:var(--radius);padding:16px;border:1.5px solid var(--rule);}
+    .compare-box.ruim{background:#fff1f2;border-color:rgba(225,29,72,.2);}
+    .compare-box.bom{background:#f0fdf4;border-color:rgba(22,163,74,.2);}
+    .compare-label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px;}
+    .compare-label.ruim{color:#be123c;}
+    .compare-label.bom{color:#15803d;}
+    .compare-item{font-size:12.5px;color:var(--ink2);line-height:1.6;display:flex;gap:7px;margin-bottom:5px;}
+    .compare-item:last-child{margin-bottom:0;}
+    .ci-icon{flex-shrink:0;margin-top:1px;}
+
+    /* FLUXO */
+    .fluxo{display:flex;flex-direction:column;gap:0;margin-bottom:1rem;}
+    .fluxo-item{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--rule2);}
+    .fluxo-item:last-child{border-bottom:none;}
+    .fluxo-num{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .fluxo-text strong{font-size:13px;font-weight:700;color:var(--ink);display:block;margin-bottom:3px;}
+    .fluxo-text span{font-size:12.5px;color:var(--ink2);line-height:1.6;}
+
+    /* DIRETÓRIO VISUAL */
+    .dir-tree{background:#1c1917;border-radius:var(--radius);padding:18px 20px;font-family:var(--font-mono);font-size:13px;line-height:1.9;color:#e7e5e4;margin-bottom:1rem;box-shadow:var(--shadow);}
+    .dir-folder{color:#fcd34d;}
+    .dir-file{color:#a8a29e;}
+    .dir-highlight{color:#86efac;font-weight:600;}
+    .dir-comment{color:#6b7280;font-style:italic;}
+
+    .steps{display:flex;flex-direction:column;gap:0;}
+    .step{display:flex;gap:16px;position:relative;}
+    .step::before{content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--rule);z-index:0;}
+    .step:last-child::before{display:none;}
+    .step-num{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;margin-top:2px;}
+    .step-body{flex:1;padding-bottom:24px;}
+    .step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .step-desc{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:10px;}
+
+    .table-wrap{overflow-x:auto;margin-bottom:1rem;}
+    table{width:100%;border-collapse:collapse;font-size:12.5px;}
+    th{background:var(--paper3);font-weight:700;text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--rule);color:var(--ink2);font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
+    td{padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.6;}
+    tr:last-child td{border-bottom:none;}
+    td code{font-family:var(--font-mono);font-size:11.5px;background:#fff;padding:1px 6px;border-radius:4px;border:1px solid var(--rule);}
+
+    .toc{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:2rem;}
+    .toc h4{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;}
+    .toc ol{padding-left:18px;display:flex;flex-direction:column;gap:5px;}
+    .toc li{font-size:13px;color:var(--ink2);}
+    .toc a{color:var(--accent2);text-decoration:none;font-weight:600;}
+    .toc a:hover{text-decoration:underline;}
+
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.compare{grid-template-columns:1fr;}.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/index.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="/notebook/notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="/notebook/notebook.html#python" class="nav-link">Python</a>
+    <a href="py-venv.html" class="nav-link active">Ambiente Virtual</a>
+    <a href="flask.html" class="nav-link">Flask</a>
+    <a href="django.html" class="nav-link">Django</a>
+    <a href="py-bibliotecas.html" class="nav-link">Outras Bibliotecas</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula · Python · Boas práticas</p>
+    <h1 class="article-title">Ambiente Virtual —<br>organizando seus projetos Python</h1>
+    <div class="article-meta">
+      <span class="tag tag-py">Python</span>
+      <span class="tag gray">venv · pip · requirements.txt</span>
+      <span class="dot-meta"></span>
+      <span style="font-size:12px;color:var(--ink4)">Isolamento · Dependências · Boas práticas</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- 1 — O PROBLEMA -->
+  <section id="problema" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O problema que o ambiente virtual resolve</p>
+
+    <div class="info">
+      <h3>Imagine essa situação</h3>
+      <p>Você tem dois projetos no computador. O <strong>Projeto A</strong> usa Flask na versão 2.0. O <strong>Projeto B</strong> usa Flask na versão 3.0 — porque precisa de um recurso novo que só existe nessa versão. Se você instalar os dois no mesmo Python do seu computador, um vai sobrescrever o outro. Um dos projetos vai quebrar.</p>
+      <p>Agora imagina que você tem 10 projetos, cada um com versões diferentes de bibliotecas diferentes. Seria um caos total. É exatamente esse problema que o <strong>ambiente virtual</strong> resolve.</p>
+    </div>
+
+    <div class="analogia">
+      <div class="analogia-title">Analogia — cada projeto é uma cozinha separada</div>
+      <div class="analogia-body">
+        <p>Pensa assim: o Python instalado no seu computador é como um supermercado. As bibliotecas são os ingredientes. Sem ambiente virtual, todos os seus projetos compartilham a mesma despensa — e quando você muda um ingrediente para um projeto, pode estragar a receita de outro.</p>
+        <br/>
+        <p>O <strong>ambiente virtual</strong> é como dar para cada projeto a sua própria cozinha, com a sua própria despensa. O Projeto A tem a sua versão do Flask. O Projeto B tem a dele. Nenhum interfere no outro. Cada cozinha é independente — mesmo que todas usem ingredientes vindos do mesmo supermercado.</p>
+      </div>
+    </div>
+
+    <div class="compare">
+      <div class="compare-box ruim">
+        <div class="compare-label ruim">❌ Sem ambiente virtual</div>
+        <div class="compare-item"><span class="ci-icon">💥</span><span>Projetos compartilham as mesmas bibliotecas</span></div>
+        <div class="compare-item"><span class="ci-icon">💥</span><span>Atualizar uma lib pode quebrar outro projeto</span></div>
+        <div class="compare-item"><span class="ci-icon">💥</span><span>Impossível ter versões diferentes da mesma lib</span></div>
+        <div class="compare-item"><span class="ci-icon">💥</span><span>Difícil saber quais libs o projeto realmente usa</span></div>
+        <div class="compare-item"><span class="ci-icon">💥</span><span>"Funciona na minha máquina" — mas não na do colega</span></div>
+      </div>
+      <div class="compare-box bom">
+        <div class="compare-label bom">✅ Com ambiente virtual</div>
+        <div class="compare-item"><span class="ci-icon">✅</span><span>Cada projeto tem seu próprio espaço isolado</span></div>
+        <div class="compare-item"><span class="ci-icon">✅</span><span>Atualizar libs de um projeto não afeta os outros</span></div>
+        <div class="compare-item"><span class="ci-icon">✅</span><span>Versões diferentes da mesma lib em projetos diferentes</span></div>
+        <div class="compare-item"><span class="ci-icon">✅</span><span>Lista exata de dependências fácil de exportar</span></div>
+        <div class="compare-item"><span class="ci-icon">✅</span><span>Qualquer pessoa reproduz o mesmo ambiente</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 2 — O QUE É -->
+  <section id="o-que-e" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é um ambiente virtual?</p>
+
+    <div class="info">
+      <h3>Uma cópia isolada do Python para o seu projeto</h3>
+      <p>Um <strong>ambiente virtual</strong> (virtual environment, ou <em>venv</em>) é uma pasta que contém uma cópia funcional do Python e um espaço isolado para instalar bibliotecas. Quando você "ativa" o ambiente, o sistema passa a usar o Python dessa pasta — e todas as instalações com <code>pip install</code> vão para dentro dela, não para o Python global do computador.</p>
+      <p>Quando você desativa, tudo volta ao normal. O Python global não sabe nem que o ambiente virtual existe.</p>
+    </div>
+
+    <div class="info">
+      <h3>O que tem dentro de um venv?</h3>
+      <p>Ao criar um ambiente virtual, o Python gera uma estrutura de pastas assim:</p>
+    </div>
+
+    <div class="dir-tree">
+      <span class="dir-folder">venv/</span><br/>
+      ├── <span class="dir-folder">bin/</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← Linux/Mac</span><br/>
+      │&nbsp;&nbsp; ├── <span class="dir-highlight">python</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;← link para o Python do venv</span><br/>
+      │&nbsp;&nbsp; ├── <span class="dir-highlight">pip</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← pip do venv (instala aqui dentro)</span><br/>
+      │&nbsp;&nbsp; └── <span class="dir-highlight">activate</span> <span class="dir-comment">&nbsp;&nbsp;← script que ativa o ambiente</span><br/>
+      ├── <span class="dir-folder">Scripts/</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;← Windows (equivalente ao bin/)</span><br/>
+      ├── <span class="dir-folder">lib/</span><br/>
+      │&nbsp;&nbsp; └── <span class="dir-folder">python3.x/</span><br/>
+      │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └── <span class="dir-folder">site-packages/</span> <span class="dir-comment">← suas libs instaladas ficam aqui</span><br/>
+      └── <span class="dir-file">pyvenv.cfg</span> <span class="dir-comment">&nbsp;&nbsp;← configuração do venv</span>
+    </div>
+
+    <div class="nota">
+      <h4>Você nunca edita esses arquivos manualmente</h4>
+      <p>A pasta <code>venv/</code> é gerada e gerenciada automaticamente. Você não precisa mexer dentro dela. Basta criar, ativar, instalar libs com pip e trabalhar normalmente.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 3 — COMO FUNCIONA -->
+  <section id="como-funciona" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Como funciona por dentro</p>
+
+    <div class="info">
+      <h3>O que muda quando você ativa o venv?</h3>
+      <p>Quando você executa o script <code>activate</code>, ele faz uma coisa simples mas poderosa: <strong>modifica temporariamente as variáveis de ambiente do seu terminal</strong>, especialmente o <code>PATH</code>. O PATH é a lista de pastas onde o sistema operacional procura comandos. O activate coloca a pasta <code>bin/</code> do seu venv no início dessa lista.</p>
+      <p>A partir daí, quando você digita <code>python</code> ou <code>pip</code>, o sistema encontra primeiro o Python e o pip do seu venv — não os globais. É só isso. Uma mudança de PATH. Quando você desativa (<code>deactivate</code>), o PATH volta ao normal.</p>
+    </div>
+
+    <div class="fluxo">
+      <div class="fluxo-item">
+        <div class="fluxo-num">1</div>
+        <div class="fluxo-text">
+          <strong>Antes de ativar — Python global</strong>
+          <span>O terminal usa o Python instalado no sistema. <code>which python</code> retorna algo como <code>/usr/bin/python3</code>. O pip instala libs no Python global.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">2</div>
+        <div class="fluxo-text">
+          <strong>Você roda: <code>source venv/bin/activate</code></strong>
+          <span>O script modifica o PATH do terminal, colocando <code>venv/bin/</code> na frente. O nome do ambiente aparece entre parênteses no prompt: <code>(venv) $</code>.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">3</div>
+        <div class="fluxo-text">
+          <strong>Agora — Python isolado</strong>
+          <span><code>which python</code> retorna <code>./venv/bin/python</code>. Qualquer <code>pip install</code> instala dentro de <code>venv/lib/site-packages/</code>. Nada vai para o Python global.</span>
+        </div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-num">4</div>
+        <div class="fluxo-text">
+          <strong>Você roda: <code>deactivate</code></strong>
+          <span>O PATH volta ao estado original. O prompt some o <code>(venv)</code>. O Python global volta a ser o padrão. O venv continua existindo na pasta — só foi "desligado".</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <h4>✅ O venv não some quando você desativa</h4>
+      <p>Desativar não apaga nada. As libs que você instalou continuam lá dentro. Da próxima vez que quiser usar o projeto, é só ativar de novo. O venv só some se você apagar a pasta manualmente.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 4 — PIP -->
+  <section id="pip" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">pip — o instalador de pacotes Python</p>
+
+    <div class="info">
+      <h3>O que é o pip?</h3>
+      <p>O <strong>pip</strong> é o gerenciador de pacotes oficial do Python. Ele se conecta ao <strong>PyPI</strong> (Python Package Index — o repositório público de bibliotecas Python) e baixa, instala, atualiza e remove pacotes para você. Com um único comando você instala qualquer uma das centenas de milhares de bibliotecas disponíveis.</p>
+      <p>Com o venv ativo, o pip instala tudo dentro do ambiente isolado. Sem venv ativo, ele instala no Python global — o que geralmente não é o que você quer.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — comandos essenciais do pip</span></div>
+      <pre><span class="cm"># Instalar uma biblioteca</span>
+pip install flask
+
+<span class="cm"># Instalar uma versão específica</span>
+pip install flask==3.0.0
+
+<span class="cm"># Instalar a versão mínima</span>
+pip install flask>=2.0
+
+<span class="cm"># Atualizar uma biblioteca para a versão mais recente</span>
+pip install --upgrade flask
+
+<span class="cm"># Desinstalar</span>
+pip uninstall flask
+
+<span class="cm"># Listar tudo que está instalado no ambiente atual</span>
+pip list
+
+<span class="cm"># Ver detalhes de uma biblioteca específica</span>
+pip show flask
+
+<span class="cm"># Ver se há atualizações disponíveis</span>
+pip list --outdated</pre>
+    </div>
+
+    <div class="nota">
+      <h4>O que é o PyPI?</h4>
+      <p>O PyPI (pypi.org) é o repositório central de bibliotecas Python — pensa nele como uma loja de apps, mas para código Python. Qualquer desenvolvedor pode publicar uma lib lá. O pip baixa de lá por padrão. Quando você faz <code>pip install flask</code>, o pip vai ao PyPI, encontra o pacote flask, baixa e instala no seu ambiente.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 5 — CRIANDO NA PRÁTICA -->
+  <section id="criando" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Criando e usando um venv na prática</p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Crie a pasta do projeto e entre nela</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal</span></div>
+            <pre>mkdir meu_projeto
+cd meu_projeto</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Crie o ambiente virtual</div>
+          <div class="step-desc">O comando abaixo cria uma pasta chamada <code>venv</code> dentro do projeto com o Python e o pip isolados. Você pode nomear a pasta do jeito que quiser, mas <code>venv</code> é a convenção da comunidade.</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal</span></div>
+            <pre><span class="cm"># Cria o ambiente virtual na pasta "venv"</span>
+python -m venv venv
+
+<span class="cm"># O "-m venv" chama o módulo venv que já vem com o Python 3</span>
+<span class="cm"># Não precisa instalar nada!</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Ative o ambiente virtual</div>
+          <div class="step-desc">O comando é diferente dependendo do sistema operacional e do terminal. Após ativar, o nome <code>(venv)</code> aparece no início do prompt — esse é o sinal de que está ativo.</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Ativando — escolha o seu sistema</span></div>
+            <pre><span class="cm"># Linux e Mac (bash/zsh)</span>
+source venv/bin/activate
+
+<span class="cm"># Windows — Prompt de Comando (cmd)</span>
+venv\Scripts\activate.bat
+
+<span class="cm"># Windows — PowerShell</span>
+venv\Scripts\Activate.ps1
+
+<span class="cm"># Após ativar, o prompt muda para:</span>
+<span class="hi">(venv)</span> $   <span class="cm"># Linux/Mac</span>
+<span class="hi">(venv)</span> C:\meu_projeto>   <span class="cm"># Windows</span></pre>
+          </div>
+
+          <div class="warn">
+            <h4>⚠️ Erro no PowerShell? Política de execução</h4>
+            <p>Se o Windows bloquear o script com erro de "política de execução", rode este comando no PowerShell como administrador e tente ativar novamente: <code>Set-ExecutionPolicy RemoteSigned</code></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Confirme que está no ambiente certo</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — verificando</span></div>
+            <pre><span class="cm"># Mostra qual Python está sendo usado</span>
+which python       <span class="cm"># Linux/Mac</span>
+where python       <span class="cm"># Windows</span>
+
+<span class="cm"># Deve mostrar o caminho dentro do venv:</span>
+<span class="cm"># /home/usuario/meu_projeto/venv/bin/python</span>
+
+<span class="cm"># Confirme a versão</span>
+python --version</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Instale as bibliotecas do projeto</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — com o venv ativo</span></div>
+            <pre">pip install flask
+pip install requests
+pip install sqlalchemy
+
+<span class="cm"># Tudo vai para venv/lib/site-packages/ — não para o Python global</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Desative quando terminar</div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal</span></div>
+            <pre">deactivate
+
+<span class="cm"># O (venv) some do prompt — voltou ao Python global</span></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip">
+      <h4>✅ Resumo rápido para usar todo dia</h4>
+      <p>Criar: <code>python -m venv venv</code> — só uma vez por projeto.<br/>
+      Ativar: <code>source venv/bin/activate</code> — toda vez que abrir o terminal para trabalhar no projeto.<br/>
+      Instalar: <code>pip install nome-da-lib</code> — com o venv ativo.<br/>
+      Desativar: <code>deactivate</code> — quando terminar.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 6 — REQUIREMENTS -->
+  <section id="requirements" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">requirements.txt — compartilhando dependências</p>
+
+    <div class="info">
+      <h3>Como contar para os outros o que seu projeto precisa?</h3>
+      <p>A pasta <code>venv/</code> não vai para o Git — ela é grande, gerada automaticamente e específica para cada máquina. Mas e quando outra pessoa quiser rodar seu projeto? Como ela vai saber quais bibliotecas instalar, e em quais versões?</p>
+      <p>A resposta é o arquivo <strong>requirements.txt</strong>. Ele é uma lista simples com o nome e a versão de cada biblioteca que o projeto usa. Com ele, qualquer pessoa consegue recriar exatamente o mesmo ambiente com um único comando.</p>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Gerando o requirements.txt</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — com o venv ativo</span></div>
+      <pre"><span class="cm"># Gera o arquivo com todas as libs instaladas e suas versões exatas</span>
+pip freeze > requirements.txt
+
+<span class="cm"># Veja o que foi gerado:</span>
+cat requirements.txt</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-txt"></span> requirements.txt — exemplo de conteúdo</span></div>
+      <pre">blinker==1.8.2
+click==8.1.7
+Flask==3.0.3
+itsdangerous==2.2.0
+Jinja2==3.1.4
+MarkupSafe==2.1.5
+Werkzeug==3.0.3</pre>
+    </div>
+
+    <p class="sec-title" style="margin-bottom:10px;">Instalando a partir do requirements.txt</p>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — em uma máquina nova</span></div>
+      <pre"><span class="cm"># 1. Clone o projeto (ou receba os arquivos)</span>
+<span class="cm"># 2. Crie e ative o venv</span>
+python -m venv venv
+source venv/bin/activate
+
+<span class="cm"># 3. Instale tudo de uma vez a partir do arquivo</span>
+pip install -r requirements.txt
+
+<span class="cm"># Pronto! O ambiente está idêntico ao original.</span></pre>
+    </div>
+
+    <div class="tip">
+      <h4>✅ Atualize o requirements.txt sempre que instalar algo novo</h4>
+      <p>Toda vez que instalar uma biblioteca nova no projeto, rode <code>pip freeze > requirements.txt</code> de novo para manter o arquivo atualizado. É um hábito simples que evita muita dor de cabeça no futuro.</p>
+    </div>
+
+    <div class="g2">
+      <div class="card-sm">
+        <h4>🔒 Com versões fixas (<code>==</code>)</h4>
+        <p>O <code>pip freeze</code> usa <code>==</code> para fixar a versão exata. É mais seguro — garante que todos usem exatamente o mesmo ambiente.</p>
+      </div>
+      <div class="card-sm">
+        <h4>🔓 Com versões flexíveis (<code>>=</code>)</h4>
+        <p>Você pode editar o arquivo manualmente e usar <code>flask>=2.0</code> para aceitar qualquer versão 2.0+. Útil em bibliotecas que você quer manter atualizadas.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 7 — GITIGNORE -->
+  <section id="gitignore" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">.gitignore — o que não deve ir para o Git</p>
+
+    <div class="info">
+      <h3>Por que não subir a pasta venv/ para o repositório?</h3>
+      <p>A pasta <code>venv/</code> pode ter centenas de megabytes e contém arquivos binários gerados especificamente para o sistema operacional e a versão do Python da sua máquina. Ela não funciona na máquina de outra pessoa se for copiada. E é completamente desnecessário — qualquer um pode recriar com <code>pip install -r requirements.txt</code>.</p>
+      <p>Por isso, a pasta <code>venv/</code> vai no <code>.gitignore</code>: um arquivo que diz ao Git quais arquivos e pastas ignorar completamente.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-txt"></span> .gitignore — mínimo para projetos Python</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre"># Ambiente virtual — nunca sobe para o Git
+venv/
+.venv/
+env/
+
+# Arquivos compilados Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Variáveis de ambiente e segredos
+.env
+*.env
+
+# Configurações de editores
+.vscode/
+.idea/
+*.DS_Store
+
+# Logs e bancos de dados locais
+*.log
+*.sqlite3
+db.sqlite3</pre>
+    </div>
+
+    <div class="perigo">
+      <h4>Nunca suba o arquivo .env para o Git</h4>
+      <p>O arquivo <code>.env</code> contém senhas, chaves de API e dados sensíveis. Se for para o GitHub, qualquer pessoa no mundo pode ver. Sempre coloque <code>.env</code> no <code>.gitignore</code>. Para compartilhar quais variáveis existem (sem os valores), crie um <code>.env.example</code> com valores fictícios — esse sim pode ir para o repositório.</p>
+    </div>
+
+    <div class="info">
+      <h3>Como fica a estrutura ideal de um projeto</h3>
+    </div>
+
+    <div class="dir-tree">
+      <span class="dir-folder">meu_projeto/</span><br/>
+      ├── <span class="dir-highlight">venv/</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← NÃO vai pro Git</span><br/>
+      ├── <span class="dir-highlight">.env</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← NÃO vai pro Git (senhas!)</span><br/>
+      ├── <span class="dir-file">.env.example</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← vai pro Git (valores fictícios)</span><br/>
+      ├── <span class="dir-file">.gitignore</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← vai pro Git</span><br/>
+      ├── <span class="dir-file">requirements.txt</span> <span class="dir-comment">&nbsp;← vai pro Git</span><br/>
+      ├── <span class="dir-file">app.py</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← vai pro Git</span><br/>
+      └── <span class="dir-folder">templates/</span> <span class="dir-comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;← vai pro Git</span>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 8 — FLUXO COMPLETO -->
+  <section id="fluxo" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Fluxo completo — do zero ao projeto funcionando</p>
+
+    <div class="info">
+      <h3>O ritual que você vai repetir em todo projeto Python</h3>
+      <p>Com o tempo, criar e configurar um ambiente virtual vai se tornar automático — como escovar os dentes. Aqui está o fluxo completo que você deve seguir em todo projeto novo.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — fluxo completo de um projeto novo</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre"><span class="cm"># ── CRIANDO O PROJETO ────────────────────────────────────</span>
+mkdir meu_projeto && cd meu_projeto
+
+<span class="cm"># Criar o venv</span>
+python -m venv venv
+
+<span class="cm"># Ativar (Linux/Mac)</span>
+source venv/bin/activate
+
+<span class="cm"># Criar o .gitignore imediatamente</span>
+echo "venv/" > .gitignore
+echo ".env"  >> .gitignore
+echo "__pycache__/" >> .gitignore
+
+<span class="cm"># Criar o .env para variáveis de ambiente</span>
+touch .env
+
+<span class="cm"># ── INSTALANDO DEPENDÊNCIAS ──────────────────────────────</span>
+pip install flask
+pip install python-dotenv
+
+<span class="cm"># Salvar as dependências</span>
+pip freeze > requirements.txt
+
+<span class="cm"># ── TRABALHANDO NO PROJETO ──────────────────────────────</span>
+<span class="cm"># (escreva seu código aqui)</span>
+
+<span class="cm"># ── SUBINDO PARA O GIT ──────────────────────────────────</span>
+git init
+git add .
+git commit -m "primeiro commit"
+
+<span class="cm"># venv/ e .env não vão — o .gitignore cuida disso</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang"><span class="code-dot dot-sh"></span> Terminal — fluxo de quem clonou o projeto</span><button class="code-copy" onclick="copyCode(this)">copiar</button></div>
+      <pre"><span class="cm"># Clonou o projeto do GitHub</span>
+git clone https://github.com/usuario/meu_projeto
+cd meu_projeto
+
+<span class="cm"># Criar o próprio venv local</span>
+python -m venv venv
+source venv/bin/activate
+
+<span class="cm"># Instalar todas as dependências de uma vez</span>
+pip install -r requirements.txt
+
+<span class="cm"># Copiar o .env.example e preencher com os valores reais</span>
+cp .env.example .env
+<span class="cm"># (edite o .env com suas credenciais)</span>
+
+<span class="cm"># Rodar o projeto</span>
+python app.py</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 9 — OUTRAS FERRAMENTAS -->
+  <section id="outros" style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Outras ferramentas — pipenv e poetry</p>
+
+    <div class="info">
+      <h3>O venv não é a única opção</h3>
+      <p>O <code>venv</code> + <code>pip</code> é a dupla padrão que vem com o Python e funciona muito bem. Mas existem ferramentas mais modernas que combinam a criação do ambiente, gerenciamento de dependências e outras funcionalidades numa coisa só.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ferramenta</th><th>O que faz diferente</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>venv + pip</code></td>
+            <td>Padrão — já vem com Python 3, sem instalação extra</td>
+            <td>Qualquer projeto — é o ponto de partida ideal</td>
+          </tr>
+          <tr>
+            <td><code>pipenv</code></td>
+            <td>Combina venv e pip. Usa <code>Pipfile</code> em vez de requirements.txt. Separa dependências de dev e produção automaticamente</td>
+            <td>Projetos pequenos/médios onde você quer mais conforto que o pip</td>
+          </tr>
+          <tr>
+            <td><code>poetry</code></td>
+            <td>Gerencia dependências, venv, versões e publicação de pacotes. Arquivo <code>pyproject.toml</code>. Mais moderno e poderoso</td>
+            <td>Projetos maiores, libs que você vai publicar no PyPI</td>
+          </tr>
+          <tr>
+            <td><code>conda</code></td>
+            <td>Gerenciador de ambientes da Anaconda. Suporte a Python e outras linguagens. Muito usado em ciência de dados</td>
+            <td>Data science, machine learning, quando você usa Jupyter Notebooks</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="nota">
+      <h4>Por onde começar?</h4>
+      <p>Aprenda bem o <code>venv</code> + <code>pip</code> primeiro. Eles são o padrão da comunidade, estão em todos os tutoriais e funcionam em qualquer ambiente. Quando você se sentir confortável, explore o <strong>Poetry</strong> — é a ferramenta mais moderna e adotada atualmente para projetos profissionais.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- REFERÊNCIA RÁPIDA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Referência rápida — comandos do dia a dia</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>O que fazer</th><th>Linux / Mac</th><th>Windows</th></tr></thead>
+        <tbody>
+          <tr><td>Criar venv</td><td><code>python -m venv venv</code></td><td><code>python -m venv venv</code></td></tr>
+          <tr><td>Ativar</td><td><code>source venv/bin/activate</code></td><td><code>venv\Scripts\activate</code></td></tr>
+          <tr><td>Desativar</td><td><code>deactivate</code></td><td><code>deactivate</code></td></tr>
+          <tr><td>Instalar lib</td><td><code>pip install flask</code></td><td><code>pip install flask</code></td></tr>
+          <tr><td>Listar libs</td><td><code>pip list</code></td><td><code>pip list</code></td></tr>
+          <tr><td>Exportar dependências</td><td><code>pip freeze > requirements.txt</code></td><td><code>pip freeze > requirements.txt</code></td></tr>
+          <tr><td>Instalar dependências</td><td><code>pip install -r requirements.txt</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+          <tr><td>Confirmar Python ativo</td><td><code>which python</code></td><td><code>where python</code></td></tr>
+          <tr><td>Apagar o venv</td><td><code>rm -rf venv/</code></td><td><code>rmdir /s venv</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="/notebook/notebook.html#python" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Python — Notebook</span>
+    </a>
+    <a href="flask.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Flask — criando sua primeira aplicação web</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'copiado!';
+    setTimeout(() => btn.textContent = 'copiar', 2000);
+  });
+}
+</script>
+</body>
+</html>
