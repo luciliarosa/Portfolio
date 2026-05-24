@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APIs com Python — Lucilia's Notebook</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;
+      background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);
+      background-attachment:fixed;}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:0;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+
+    /* PAGE */
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;}
+    .tag.gray{background:var(--paper3);color:var(--ink3);}
+    .tag.green{background:#dcfce7;color:#166534;}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+
+    /* INFO BOX */
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info p+p{margin-top:8px;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+
+    /* QUOTE */
+    .quote{border-left:4px solid var(--accent2);padding:14px 20px;background:var(--paper2);border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0;}
+    .quote p{font-family:var(--font-serif);font-style:italic;font-size:14px;color:var(--ink2);line-height:1.75;}
+    .quote cite{display:block;font-size:12px;font-style:normal;color:var(--ink4);margin-top:6px;font-weight:700;}
+
+    /* CODE BLOCK */
+    .code-block{background:#1c1917;border-radius:8px;padding:16px 18px;overflow-x:auto;position:relative;margin-top:12px;}
+    .code-label{font-family:var(--font-mono);font-size:10px;color:#78716c;margin-bottom:8px;letter-spacing:.05em;}
+    .code-block pre{font-family:var(--font-mono);font-size:12px;line-height:1.85;color:#d6d3d1;white-space:pre;}
+    .c-kw {color:#fb923c;}
+    .c-fn {color:#60a5fa;}
+    .c-str{color:#86efac;}
+    .c-cm {color:#6b7280;}
+    .c-num{color:#f9a8d4;}
+    .c-imp{color:#fde68a;}
+    .c-cls{color:#a78bfa;}
+    .c-op {color:#94a3b8;}
+    .c-key{color:#f87171;}
+    .c-val{color:#86efac;}
+
+    /* METHOD BADGE */
+    .method{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;margin-right:6px;}
+    .m-get   {background:#dcfce7;color:#166534;}
+    .m-post  {background:#dbeafe;color:#1e40af;}
+    .m-put   {background:#fef9c3;color:#854d0e;}
+    .m-patch {background:#fce7f3;color:#9d174d;}
+    .m-delete{background:#fee2e2;color:#991b1b;}
+
+    /* STATUS CODE */
+    .status{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;margin:2px;}
+    .s-2{background:#dcfce7;color:#166534;}
+    .s-3{background:#fef9c3;color:#854d0e;}
+    .s-4{background:#fee2e2;color:#991b1b;}
+    .s-5{background:#f3e8ff;color:#6b21a8;}
+
+    /* CONCEPT CARD */
+    .concept-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:1.25rem;}
+    .concept-card h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+    .concept-card p{font-size:13px;color:var(--ink2);line-height:1.75;}
+    .concept-card p+p{margin-top:8px;}
+    .concept-card code{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:1px 6px;border-radius:4px;}
+
+    /* SECTION HEADER */
+    .cat-header{display:flex;align-items:center;gap:12px;margin:2.5rem 0 1rem;}
+    .cat-icon{font-size:22px;}
+    .cat-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--ink);}
+    .cat-desc{font-size:13px;color:var(--ink3);margin-top:2px;}
+
+    /* TOC */
+    .toc{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:2rem;}
+    .toc h3{font-size:12px;font-weight:700;color:var(--ink4);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+    .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;}
+    .toc-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);text-decoration:none;padding:7px 10px;border-radius:6px;border:1px solid transparent;transition:background .15s,border-color .15s;}
+    .toc-item:hover{background:#fff;border-color:var(--rule);}
+
+    /* REST TABLE */
+    .rest-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px;}
+    .rest-table th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);border-bottom:1.5px solid var(--rule);padding:8px 12px;}
+    .rest-table td{padding:10px 12px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.6;}
+    .rest-table tr:last-child td{border-bottom:none;}
+    .rest-table tr:hover td{background:var(--paper2);}
+
+    /* FLOW DIAGRAM */
+    .flow{display:flex;align-items:center;gap:0;margin:1.5rem 0;flex-wrap:wrap;justify-content:center;}
+    .flow-box{background:#fff;border:1.5px solid var(--rule);border-radius:8px;padding:12px 16px;text-align:center;box-shadow:var(--shadow);min-width:110px;}
+    .flow-box .fb-icon{font-size:20px;margin-bottom:4px;}
+    .flow-box .fb-title{font-size:12px;font-weight:700;color:var(--ink);}
+    .flow-box .fb-sub{font-size:11px;color:var(--ink4);margin-top:2px;}
+    .flow-arrow{font-size:18px;color:var(--ink4);padding:0 8px;flex-shrink:0;}
+    .flow-box.highlight{border-color:var(--accent2);background:#eff6ff;}
+    .flow-box.highlight .fb-title{color:var(--accent2);}
+
+    /* SUMMARY */
+    .summary{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-top:2rem;}
+    .summary h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+    .summary ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .summary li{font-size:13px;color:var(--ink2);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+    .summary li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+    /* ALERT */
+    .alert{border-radius:var(--radius);padding:14px 18px;margin-bottom:1rem;font-size:13px;line-height:1.7;display:flex;gap:12px;align-items:flex-start;}
+    .alert-warn{background:#fef9c3;border:1.5px solid #fde68a;}
+    .alert-tip {background:#dcfce7;border:1.5px solid #bbf7d0;}
+    .alert-info{background:#dbeafe;border:1.5px solid #bfdbfe;}
+    .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+    .alert p{color:var(--ink2);}
+    .alert strong{color:var(--ink);}
+    .alert code{font-family:var(--font-mono);font-size:11px;background:rgba(255,255,255,.7);padding:1px 6px;border-radius:4px;}
+
+    /* NAV PAGES */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade  {animation:fadeUp .45s ease both;}
+    .fade-2{animation:fadeUp .45s ease .1s both;}
+    .fade-3{animation:fadeUp .45s ease .2s both;}
+
+    @media(max-width:600px){
+      .nav{padding:0 1rem;}
+      .page{padding:0 1rem 4rem;}
+      .g2,.g3{grid-template-columns:1fr;}
+      .flow{gap:4px;}
+      .flow-arrow{display:none;}
+      .toc-grid{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../notebook.html#python" class="nav-link">Python</a>
+    <a href="py-venv.html" class="nav-link">Ambiente Virtual</a>
+    <a href="flask.html" class="nav-link">Flask</a>
+    <a href="django.html" class="nav-link">Django</a>
+    <a href="py-bibliotecas.html" class="nav-link">Outras Bibliotecas</a>
+    <a href="py-api.html" class="nav-link active">APIs</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 05 · Python · Web &amp; APIs</p>
+    <h1 class="article-title">APIs com Python —<br>Como programas conversam entre si</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span>
+      <span class="tag gray">API</span>
+      <span class="tag green">REST</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Usando <a href="https://docs.python-requests.org" target="_blank" style="color:var(--accent2)">Requests</a> &amp; <a href="https://flask.palletsprojects.com" target="_blank" style="color:var(--accent2)">Flask</a></span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- O QUE É API -->
+  <section class="fade-2" style="margin-bottom:2rem;">
+    <p class="sec-title">O que é uma API?</p>
+
+    <div class="quote">
+      <p>"Uma API é como um garçom num restaurante: você não precisa ir até a cozinha buscar sua comida. Você faz o pedido, o garçom leva até a cozinha e traz o resultado de volta."</p>
+      <cite>— Analogia clássica do mundo do desenvolvimento</cite>
+    </div>
+
+    <div class="info" style="border-left:4px solid var(--accent2);">
+      <h3>API — Application Programming Interface</h3>
+      <p><strong>API</strong> é uma <strong>interface que permite que dois programas se comuniquem</strong>. Ela define as regras de como fazer pedidos (requisições) e o que esperar em resposta. Você não precisa saber como o outro sistema funciona por dentro — só como chamá-lo corretamente.</p>
+      <p style="margin-top:8px;">Exemplos do dia a dia que usam APIs: o app do clima buscando a temperatura, o login com Google, o mapa no Uber, o pagamento pelo Stripe.</p>
+    </div>
+
+    <!-- FLUXO VISUAL -->
+    <div class="flow">
+      <div class="flow-box">
+        <div class="fb-icon">💻</div>
+        <div class="fb-title">Seu código</div>
+        <div class="fb-sub">Python</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box highlight">
+        <div class="fb-icon">📤</div>
+        <div class="fb-title">Requisição</div>
+        <div class="fb-sub">GET / POST…</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="fb-icon">🌐</div>
+        <div class="fb-title">API</div>
+        <div class="fb-sub">Servidor</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box highlight">
+        <div class="fb-icon">📥</div>
+        <div class="fb-title">Resposta</div>
+        <div class="fb-sub">JSON / XML…</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">
+        <div class="fb-icon">🖥️</div>
+        <div class="fb-title">Seu app</div>
+        <div class="fb-sub">usa o dado</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= REST & HTTP ========================= -->
+  <section id="rest">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">REST &amp; Métodos HTTP</div>
+        <div class="cat-desc">O "idioma" mais usado para APIs na web</div>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <h3>O que é REST?</h3>
+      <p><strong>REST</strong> (Representational State Transfer) é um estilo de arquitetura para APIs web. Uma API REST usa os métodos do protocolo HTTP e retorna dados em formato JSON. Ela é <strong>stateless</strong> — cada requisição é independente, o servidor não guarda memória da anterior.</p>
+      <p>Quase toda API que você vai usar (GitHub, OpenAI, Spotify, ViaCEP…) é REST.</p>
+    </div>
+
+    <div class="concept-card">
+      <h3>🔧 Os 5 métodos HTTP que você precisa conhecer</h3>
+      <div style="overflow-x:auto;margin-top:8px;">
+        <table class="rest-table">
+          <thead>
+            <tr>
+              <th>Método</th>
+              <th>O que faz</th>
+              <th>Analogia</th>
+              <th>Exemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="method m-get">GET</span></td>
+              <td>Busca dados</td>
+              <td>Ler um livro</td>
+              <td>Buscar perfil de usuário</td>
+            </tr>
+            <tr>
+              <td><span class="method m-post">POST</span></td>
+              <td>Envia / cria dados</td>
+              <td>Escrever uma carta</td>
+              <td>Criar um post novo</td>
+            </tr>
+            <tr>
+              <td><span class="method m-put">PUT</span></td>
+              <td>Substitui por completo</td>
+              <td>Trocar de livro</td>
+              <td>Atualizar perfil inteiro</td>
+            </tr>
+            <tr>
+              <td><span class="method m-patch">PATCH</span></td>
+              <td>Altera parcialmente</td>
+              <td>Corrigir uma frase</td>
+              <td>Mudar só o e-mail</td>
+            </tr>
+            <tr>
+              <td><span class="method m-delete">DELETE</span></td>
+              <td>Remove dados</td>
+              <td>Jogar fora</td>
+              <td>Deletar uma conta</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <h3>Anatomia de uma URL de API</h3>
+      <div class="code-block" style="margin-top:8px;">
+        <div class="code-label">▸ url_anatomia.txt</div>
+        <pre><span class="c-cm">https://api.exemplo.com/v1/usuarios/42/posts?limite=10&pagina=2</span>
+
+<span class="c-str">https://</span>         → protocolo (sempre HTTPS em produção)
+<span class="c-fn">api.exemplo.com</span>  → domínio do servidor da API
+<span class="c-imp">/v1/</span>             → versão da API (boa prática)
+<span class="c-cls">usuarios/42</span>      → recurso + identificador
+<span class="c-kw">/posts</span>           → sub-recurso (posts desse usuário)
+<span class="c-num">?limite=10</span>       → query param: filtros e opções
+<span class="c-num">&pagina=2</span>        → mais um query param</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= JSON ========================= -->
+  <section id="json">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">JSON — a língua das APIs</div>
+        <div class="cat-desc">O formato de dados mais usado em APIs REST</div>
+      </div>
+    </div>
+
+    <div class="info" style="border-left:4px solid var(--accent3);">
+      <h3>O que é JSON?</h3>
+      <p><strong>JSON</strong> (JavaScript Object Notation) é um formato de texto leve para troca de dados. Apesar do nome ter "JavaScript", é independente de linguagem e é o padrão universal das APIs REST. Em Python, parece muito com um dicionário.</p>
+    </div>
+
+    <div class="concept-card">
+      <h3>JSON ↔ Python — a conversão é automática</h3>
+      <div class="code-block">
+        <div class="code-label">▸ json_exemplo.py</div>
+        <pre><span class="c-imp">import</span> json
+
+<span class="c-cm"># JSON que vem de uma API (string de texto)</span>
+texto_json = <span class="c-str">'''
+{
+  "nome": "Ana",
+  "idade": 25,
+  "cursos": ["Python", "Data Science"],
+  "ativo": true
+}
+'''</span>
+
+<span class="c-cm"># json.loads → transforma JSON em dicionário Python</span>
+dados = json.<span class="c-fn">loads</span>(texto_json)
+<span class="c-fn">print</span>(dados[<span class="c-str">'nome'</span>])        <span class="c-cm"># → Ana</span>
+<span class="c-fn">print</span>(dados[<span class="c-str">'cursos'</span>][<span class="c-num">0</span>])   <span class="c-cm"># → Python</span>
+
+<span class="c-cm"># json.dumps → transforma dicionário Python em JSON</span>
+novo = {<span class="c-str">'produto'</span>: <span class="c-str">'café'</span>, <span class="c-str">'preco'</span>: <span class="c-num">12.50</span>}
+texto = json.<span class="c-fn">dumps</span>(novo, ensure_ascii=<span class="c-kw">False</span>, indent=<span class="c-num">2</span>)
+<span class="c-fn">print</span>(texto)
+<span class="c-cm"># {</span>
+<span class="c-cm">#   "produto": "café",</span>
+<span class="c-cm">#   "preco": 12.5</span>
+<span class="c-cm"># }</span></pre>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="info" style="margin-bottom:0;border-left:4px solid var(--accent2);">
+        <h3>Python → JSON</h3>
+        <ul>
+          <li><code>dict</code> → <code>{}</code> objeto JSON</li>
+          <li><code>list</code> → <code>[]</code> array JSON</li>
+          <li><code>str</code> → <code>"string"</code></li>
+          <li><code>int / float</code> → número</li>
+          <li><code>True / False</code> → <code>true / false</code></li>
+          <li><code>None</code> → <code>null</code></li>
+        </ul>
+      </div>
+      <div class="info" style="margin-bottom:0;border-left:4px solid var(--accent3);">
+        <h3>Dica com Requests</h3>
+        <p>Quando você usa <code>requests</code>, não precisa do módulo <code>json</code> manualmente:</p>
+        <ul>
+          <li><code>resposta.json()</code> já converte pra dict</li>
+          <li><code>requests.post(url, json=dados)</code> já serializa</li>
+          <li>Muito mais simples!</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= CONSUMIR APIs ========================= -->
+  <section id="consumir">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Consumindo APIs com Requests</div>
+        <div class="cat-desc">Fazer chamadas GET, POST, enviar dados e tratar respostas</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon"></span>
+      <p><strong>Instale a biblioteca:</strong> <code>pip install requests</code></p>
+    </div>
+
+    <!-- GET -->
+    <div class="concept-card">
+      <h3><span class="method m-get">GET</span> Buscando dados de uma API pública</h3>
+      <p>Vamos usar a API <strong>ViaCEP</strong> — gratuita, sem chave, retorna endereço a partir de um CEP.</p>
+      <div class="code-block">
+        <div class="code-label">▸ busca_cep.py</div>
+        <pre><span class="c-imp">import</span> requests
+
+cep = <span class="c-str">"01310100"</span>  <span class="c-cm"># Av. Paulista, SP</span>
+url = <span class="c-fn">f</span><span class="c-str">"https://viacep.com.br/ws/{cep}/json/"</span>
+
+resposta = requests.<span class="c-fn">get</span>(url)
+
+<span class="c-kw">if</span> resposta.status_code == <span class="c-num">200</span>:
+    endereco = resposta.<span class="c-fn">json</span>()
+    <span class="c-fn">print</span>(<span class="c-fn">f</span><span class="c-str">"Logradouro: {endereco['logradouro']}"</span>)
+    <span class="c-fn">print</span>(<span class="c-fn">f</span><span class="c-str">"Bairro:     {endereco['bairro']}"</span>)
+    <span class="c-fn">print</span>(<span class="c-fn">f</span><span class="c-str">"Cidade:     {endereco['localidade']} - {endereco['uf']}"</span>)
+<span class="c-kw">else</span>:
+    <span class="c-fn">print</span>(<span class="c-fn">f</span><span class="c-str">"Erro {resposta.status_code}"</span>)
+
+<span class="c-cm"># Saída:</span>
+<span class="c-cm"># Logradouro: Avenida Paulista</span>
+<span class="c-cm"># Bairro:     Bela Vista</span>
+<span class="c-cm"># Cidade:     São Paulo - SP</span></pre>
+      </div>
+    </div>
+
+    <!-- POST -->
+    <div class="concept-card">
+      <h3><span class="method m-post">POST</span> Enviando dados para uma API</h3>
+      <p>Usamos a <strong>JSONPlaceholder</strong> — uma API de testes que aceita qualquer dado.</p>
+      <div class="code-block">
+        <div class="code-label">▸ criar_post.py</div>
+        <pre><span class="c-imp">import</span> requests
+
+url = <span class="c-str">"https://jsonplaceholder.typicode.com/posts"</span>
+
+novo_post = {
+    <span class="c-str">"title"</span>:  <span class="c-str">"Minha primeira API com Python"</span>,
+    <span class="c-str">"body"</span>:   <span class="c-str">"Funcionou! Estou enviando dados para uma API."</span>,
+    <span class="c-str">"userId"</span>: <span class="c-num">1</span>
+}
+
+<span class="c-cm"># json= serializa o dicionário e seta o Content-Type automaticamente</span>
+resposta = requests.<span class="c-fn">post</span>(url, json=novo_post)
+
+<span class="c-fn">print</span>(resposta.status_code)     <span class="c-cm"># → 201 (Created)</span>
+<span class="c-fn">print</span>(resposta.<span class="c-fn">json</span>())          <span class="c-cm"># → {'id': 101, 'title': ...}</span></pre>
+      </div>
+    </div>
+
+    <!-- PARAMS & HEADERS -->
+    <div class="concept-card">
+      <h3>Query params, headers e timeout</h3>
+      <div class="code-block">
+        <div class="code-label">▸ requisicao_completa.py</div>
+        <pre><span class="c-imp">import</span> requests
+
+<span class="c-cm"># Query params como dicionário (requests monta a URL)</span>
+params = {<span class="c-str">'q'</span>: <span class="c-str">'python'</span>, <span class="c-str">'per_page'</span>: <span class="c-num">5</span>}
+
+<span class="c-cm"># Headers customizados (ex: User-Agent)</span>
+headers = {
+    <span class="c-str">'User-Agent'</span>:    <span class="c-str">'MeuApp/1.0'</span>,
+    <span class="c-str">'Accept'</span>:        <span class="c-str">'application/json'</span>,
+    <span class="c-str">'Authorization'</span>: <span class="c-str">'Bearer SEU_TOKEN_AQUI'</span>
+}
+
+resposta = requests.<span class="c-fn">get</span>(
+    <span class="c-str">"https://api.github.com/search/repositories"</span>,
+    params=params,
+    headers=headers,
+    timeout=<span class="c-num">10</span>   <span class="c-cm"># desiste após 10 segundos</span>
+)
+
+repos = resposta.<span class="c-fn">json</span>()[<span class="c-str">'items'</span>]
+<span class="c-kw">for</span> repo <span class="c-kw">in</span> repos:
+    <span class="c-fn">print</span>(<span class="c-fn">f</span><span class="c-str">"⭐ {repo['stargazers_count']:>6}  {repo['full_name']}"</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= AUTH ========================= -->
+  <section id="auth">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Autenticação</div>
+        <div class="cat-desc">Como provar ao servidor quem você é</div>
+      </div>
+    </div>
+
+    <div class="info" style="border-left:4px solid var(--accent);">
+      <h3>Por que precisamos nos autenticar?</h3>
+      <p>APIs públicas e gratuitas (como ViaCEP) não precisam de autenticação. Mas a maioria das APIs reais exige identificação para saber <strong>quem está fazendo a chamada</strong>, controlar limites de uso e proteger dados privados.</p>
+    </div>
+
+    <div class="g3">
+      <div class="concept-card" style="margin-bottom:0;">
+        <h3>API Key</h3>
+        <p>Um código secreto único por usuário. Enviado no header ou na URL. É o método mais simples e comum.</p>
+      </div>
+      <div class="concept-card" style="margin-bottom:0;">
+        <h3>Bearer Token</h3>
+        <p>Token gerado no login. Enviado no header <code>Authorization: Bearer ...</code>. Expira após um tempo.</p>
+      </div>
+      <div class="concept-card" style="margin-bottom:0;">
+        <h3>OAuth 2.0</h3>
+        <p>"Login com Google/GitHub". O usuário autoriza o app sem revelar a senha. Padrão de grandes plataformas.</p>
+      </div>
+    </div>
+
+    <div class="concept-card" style="margin-top:1.25rem;">
+      <h3>Exemplos práticos de autenticação</h3>
+      <div class="code-block">
+        <div class="code-label">▸ autenticacao.py</div>
+        <pre><span class="c-imp">import</span> requests
+
+<span class="c-cm"># ── 1. API Key no Header (ex: OpenWeather, NewsAPI) ──</span>
+headers = {<span class="c-str">'X-Api-Key'</span>: <span class="c-str">'sua_chave_aqui'</span>}
+requests.<span class="c-fn">get</span>(<span class="c-str">'https://api.exemplo.com/dados'</span>, headers=headers)
+
+<span class="c-cm"># ── 2. API Key na URL (menos seguro, evitar) ──</span>
+url = <span class="c-str">f'https://api.exemplo.com/dados?api_key=sua_chave'</span>
+requests.<span class="c-fn">get</span>(url)
+
+<span class="c-cm"># ── 3. Bearer Token (JWT — mais comum em APIs modernas) ──</span>
+headers = {<span class="c-str">'Authorization'</span>: <span class="c-str">'Bearer eyJhbGci...'</span>}
+requests.<span class="c-fn">get</span>(<span class="c-str">'https://api.exemplo.com/perfil'</span>, headers=headers)
+
+<span class="c-cm"># ── 4. Basic Auth (usuário + senha) ──</span>
+requests.<span class="c-fn">get</span>(<span class="c-str">'https://api.exemplo.com/dados'</span>,
+            auth=(<span class="c-str">'meu_usuario'</span>, <span class="c-str">'minha_senha'</span>))</pre>
+      </div>
+    </div>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <p><strong>Nunca coloque chaves de API direto no código!</strong> Use variáveis de ambiente ou um arquivo <code>.env</code> com a biblioteca <code>python-dotenv</code>. Chaves no código vão parar no GitHub e serão roubadas em minutos.</p>
+    </div>
+
+    <div class="concept-card">
+      <h3>Boas práticas com .env</h3>
+      <div class="code-block">
+        <div class="code-label">▸ .env  (nunca commitar este arquivo!)</div>
+        <pre><span class="c-key">OPENAI_API_KEY</span>=<span class="c-val">sk-proj-abc123...</span>
+<span class="c-key">WEATHER_KEY</span>=<span class="c-val">xyz789...</span></pre>
+      </div>
+      <div class="code-block" style="margin-top:8px;">
+        <div class="code-label">▸ app.py</div>
+        <pre><span class="c-imp">from</span> dotenv <span class="c-imp">import</span> load_dotenv
+<span class="c-imp">import</span> os, requests
+
+<span class="c-fn">load_dotenv</span>()  <span class="c-cm"># carrega o .env</span>
+
+api_key = os.<span class="c-fn">getenv</span>(<span class="c-str">'OPENAI_API_KEY'</span>)
+headers = {<span class="c-str">'Authorization'</span>: <span class="c-fn">f</span><span class="c-str">'Bearer {api_key}'</span>}
+
+<span class="c-cm"># pip install python-dotenv</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= CRIAR API ========================= -->
+  <section id="criar">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Criando sua própria API com Flask</div>
+        <div class="cat-desc">Do zero a uma API funcional em menos de 30 linhas</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon"></span>
+      <p><strong>Instale:</strong> <code>pip install flask</code></p>
+    </div>
+
+    <div class="concept-card">
+      <h3>API completa de gerenciamento de tarefas</h3>
+      <p>Um CRUD (Create, Read, Update, Delete) básico usando uma lista em memória.</p>
+      <div class="code-block">
+        <div class="code-label">▸ api_tarefas.py</div>
+        <pre><span class="c-imp">from</span> flask <span class="c-imp">import</span> Flask, jsonify, request
+
+app = <span class="c-cls">Flask</span>(__name__)
+
+<span class="c-cm"># "banco de dados" em memória</span>
+tarefas = [
+    {<span class="c-str">"id"</span>: <span class="c-num">1</span>, <span class="c-str">"titulo"</span>: <span class="c-str">"Estudar Python"</span>, <span class="c-str">"feita"</span>: <span class="c-kw">False</span>},
+    {<span class="c-str">"id"</span>: <span class="c-num">2</span>, <span class="c-str">"titulo"</span>: <span class="c-str">"Fazer APIs"</span>,    <span class="c-str">"feita"</span>: <span class="c-kw">False</span>},
+]
+
+<span class="c-cm"># GET /tarefas → lista todas</span>
+<span class="c-fn">@app.route</span>(<span class="c-str">"/tarefas"</span>, methods=[<span class="c-str">"GET"</span>])
+<span class="c-kw">def</span> <span class="c-fn">listar</span>():
+    <span class="c-kw">return</span> <span class="c-fn">jsonify</span>(tarefas)
+
+<span class="c-cm"># GET /tarefas/1 → busca uma por id</span>
+<span class="c-fn">@app.route</span>(<span class="c-str">"/tarefas/&lt;int:id&gt;"</span>, methods=[<span class="c-str">"GET"</span>])
+<span class="c-kw">def</span> <span class="c-fn">buscar</span>(id):
+    t = next((t <span class="c-kw">for</span> t <span class="c-kw">in</span> tarefas <span class="c-kw">if</span> t[<span class="c-str">"id"</span>] == id), <span class="c-kw">None</span>)
+    <span class="c-kw">if not</span> t:
+        <span class="c-kw">return</span> <span class="c-fn">jsonify</span>({<span class="c-str">"erro"</span>: <span class="c-str">"não encontrada"</span>}), <span class="c-num">404</span>
+    <span class="c-kw">return</span> <span class="c-fn">jsonify</span>(t)
+
+<span class="c-cm"># POST /tarefas → cria nova</span>
+<span class="c-fn">@app.route</span>(<span class="c-str">"/tarefas"</span>, methods=[<span class="c-str">"POST"</span>])
+<span class="c-kw">def</span> <span class="c-fn">criar</span>():
+    dados = request.<span class="c-fn">get_json</span>()
+    nova = {<span class="c-str">"id"</span>: len(tarefas) + <span class="c-num">1</span>, <span class="c-str">"titulo"</span>: dados[<span class="c-str">"titulo"</span>], <span class="c-str">"feita"</span>: <span class="c-kw">False</span>}
+    tarefas.<span class="c-fn">append</span>(nova)
+    <span class="c-kw">return</span> <span class="c-fn">jsonify</span>(nova), <span class="c-num">201</span>
+
+<span class="c-cm"># DELETE /tarefas/1 → remove</span>
+<span class="c-fn">@app.route</span>(<span class="c-str">"/tarefas/&lt;int:id&gt;"</span>, methods=[<span class="c-str">"DELETE"</span>])
+<span class="c-kw">def</span> <span class="c-fn">deletar</span>(id):
+    global tarefas
+    tarefas = [t <span class="c-kw">for</span> t <span class="c-kw">in</span> tarefas <span class="c-kw">if</span> t[<span class="c-str">"id"</span>] != id]
+    <span class="c-kw">return</span> <span class="c-fn">jsonify</span>({<span class="c-str">"mensagem"</span>: <span class="c-str">"deletada"</span>}), <span class="c-num">200</span>
+
+<span class="c-kw">if</span> __name__ == <span class="c-str">"__main__"</span>:
+    app.<span class="c-fn">run</span>(debug=<span class="c-kw">True</span>)</pre>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <h3>Testando a API — como chamar cada rota</h3>
+      <div class="code-block">
+        <div class="code-label">▸ testar_api.py  (rode em outro terminal)</div>
+        <pre><span class="c-imp">import</span> requests
+
+BASE = <span class="c-str">"http://localhost:5000"</span>
+
+<span class="c-cm"># Listar todas</span>
+<span class="c-fn">print</span>(requests.<span class="c-fn">get</span>(<span class="c-fn">f</span><span class="c-str">"{BASE}/tarefas"</span>).<span class="c-fn">json</span>())
+
+<span class="c-cm"># Criar nova tarefa</span>
+nova = requests.<span class="c-fn">post</span>(<span class="c-fn">f</span><span class="c-str">"{BASE}/tarefas"</span>, json={<span class="c-str">"titulo"</span>: <span class="c-str">"Dormir cedo"</span>})
+<span class="c-fn">print</span>(nova.status_code)   <span class="c-cm"># → 201</span>
+<span class="c-fn">print</span>(nova.<span class="c-fn">json</span>())        <span class="c-cm"># → {'id': 3, 'titulo': 'Dormir cedo', 'feita': False}</span>
+
+<span class="c-cm"># Buscar por ID</span>
+<span class="c-fn">print</span>(requests.<span class="c-fn">get</span>(<span class="c-fn">f</span><span class="c-str">"{BASE}/tarefas/1"</span>).<span class="c-fn">json</span>())
+
+<span class="c-cm"># Deletar</span>
+requests.<span class="c-fn">delete</span>(<span class="c-fn">f</span><span class="c-str">"{BASE}/tarefas/2"</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ========================= ERROS ========================= -->
+  <section id="erros">
+    <div class="cat-header">
+      <span class="cat-icon"></span>
+      <div>
+        <div class="cat-title">Status Codes &amp; Tratamento de Erros</div>
+        <div class="cat-desc">Entender o que deu certo ou errado em cada chamada</div>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <h3>Códigos de status HTTP</h3>
+      <div style="overflow-x:auto;margin-top:8px;">
+        <table class="rest-table">
+          <thead>
+            <tr><th>Código</th><th>Significado</th><th>Quando acontece</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="status s-2">200 OK</span></td><td>Sucesso</td><td>GET funcionou, dados retornados</td></tr>
+            <tr><td><span class="status s-2">201 Created</span></td><td>Criado</td><td>POST funcionou, recurso criado</td></tr>
+            <tr><td><span class="status s-2">204 No Content</span></td><td>Sem conteúdo</td><td>DELETE funcionou, nada a retornar</td></tr>
+            <tr><td><span class="status s-3">301 Redirect</span></td><td>Redirecionado</td><td>URL mudou, Requests segue automaticamente</td></tr>
+            <tr><td><span class="status s-4">400 Bad Request</span></td><td>Pedido inválido</td><td>Dados faltando ou formato errado</td></tr>
+            <tr><td><span class="status s-4">401 Unauthorized</span></td><td>Não autenticado</td><td>Token ausente ou expirado</td></tr>
+            <tr><td><span class="status s-4">403 Forbidden</span></td><td>Sem permissão</td><td>Autenticado, mas sem acesso</td></tr>
+            <tr><td><span class="status s-4">404 Not Found</span></td><td>Não encontrado</td><td>Recurso não existe</td></tr>
+            <tr><td><span class="status s-4">429 Too Many</span></td><td>Rate limit</td><td>Muitas requisições, espere</td></tr>
+            <tr><td><span class="status s-5">500 Server Error</span></td><td>Erro no servidor</td><td>Bug na API que você está chamando</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <h3>Tratamento de erros robusto</h3>
+      <div class="code-block">
+        <div class="code-label">▸ erros_robustos.py</div>
+        <pre><span class="c-imp">import</span> requests
+<span class="c-imp">from</span> requests.exceptions <span class="c-imp">import</span> <span class="c-cls">Timeout</span>, <span class="c-cls">ConnectionError</span>, <span class="c-cls">HTTPError</span>
+
+<span class="c-kw">def</span> <span class="c-fn">buscar_dados</span>(url):
+    <span class="c-kw">try</span>:
+        resposta = requests.<span class="c-fn">get</span>(url, timeout=<span class="c-num">8</span>)
+
+        <span class="c-cm"># Lança HTTPError p/ códigos 4xx e 5xx</span>
+        resposta.<span class="c-fn">raise_for_status</span>()
+
+        <span class="c-kw">return</span> resposta.<span class="c-fn">json</span>()
+
+    <span class="c-kw">except</span> <span class="c-cls">Timeout</span>:
+        <span class="c-fn">print</span>(<span class="c-str">"⏱️  Servidor demorou demais"</span>)
+    <span class="c-kw">except</span> <span class="c-cls">ConnectionError</span>:
+        <span class="c-fn">print</span>(<span class="c-str">"📡 Sem conexão com a internet"</span>)
+    <span class="c-kw">except</span> <span class="c-cls">HTTPError</span> <span class="c-kw">as</span> e:
+        codigo = e.response.status_code
+        <span class="c-kw">if</span> codigo == <span class="c-num">401</span>:
+            <span class="c-fn">print</span>(<span class="c-str">"🔑 Token inválido ou expirado"</span>)
+        <span class="c-kw">elif</span> codigo == <span class="c-num">404</span>:
+            <span class="c-fn">print</span>(<span class="c-str">"🔍 Recurso não encontrado"</span>)
+        <span class="c-kw">elif</span> codigo == <span class="c-num">429</span>:
+            <span class="c-fn">print</span>(<span class="c-str">"🚦 Rate limit — aguarde antes de tentar novamente"</span>)
+        <span class="c-kw">else</span>:
+            <span class="c-fn">print</span>(<span class="c-fn">f</span><span class="c-str">"❌ Erro HTTP {codigo}"</span>)
+    <span class="c-kw">return</span> <span class="c-kw">None</span>
+
+dados = <span class="c-fn">buscar_dados</span>(<span class="c-str">"https://viacep.com.br/ws/01310100/json/"</span>)
+<span class="c-kw">if</span> dados:
+    <span class="c-fn">print</span>(dados[<span class="c-str">'logradouro'</span>])</pre>
+      </div>
+    </div>
+
+    <div class="alert alert-tip">
+      <span class="alert-icon"></span>
+      <p><strong>Sempre use <code>timeout=</code>!</strong> Sem timeout, seu código pode ficar travado para sempre esperando um servidor que não vai responder. Um valor de 5 a 15 segundos é razoável para a maioria dos casos.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- NAV PAGES -->
+  <div class="nav-pages fade">
+    <a href="py-bibliotecas.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">Bibliotecas Python</span>
+    </a>
+    <a href="/notebook/notebook.html#python" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Python — Notebook</span>
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
