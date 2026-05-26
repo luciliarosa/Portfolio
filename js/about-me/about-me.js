@@ -88,7 +88,6 @@ function startCounters() {
   animateCounter('cnt-skills', 15, '+');
 }
 
-// Dispara após 800ms — tempo suficiente para o setLang inicial terminar
 setTimeout(startCounters, 800);
 
 // ── VOLTAR AO TOPO ──
@@ -134,63 +133,342 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ── GERADOR DE CV ──
+// ── GERADOR DE CV PDF ──
+
+function cvStyle() {
+  return `
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: #fff;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 42px 52px 42px 52px;
+    max-width: 100%;
+  }
+
+  .cv-header {
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 10px;
+    margin-bottom: 13px;
+  }
+
+  h1 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+    color: #1a1a1a;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 7px;
+  }
+
+  .contacts {
+    font-size: 10px;
+    color: #333;
+    line-height: 1.8;
+  }
+
+  .contacts span {
+    display: inline-block;
+    margin-right: 14px;
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 3px;
+    margin: 14px 0 8px;
+    page-break-after: avoid;
+  }
+
+  .summary {
+    font-size: 10.5px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .block {
+    margin-bottom: 9px;
+    page-break-inside: avoid;
+  }
+
+  .block-header {
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .block-period {
+    float: right;
+    font-size: 10px;
+    color: #555;
+    font-style: italic;
+    white-space: nowrap;
+    margin-left: 10px;
+    padding-top: 1px;
+  }
+
+  .block-left {
+    overflow: hidden;
+  }
+
+  .block-role {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+
+  .block-org {
+    font-size: 10.5px;
+    color: #555;
+    margin-top: 1px;
+  }
+
+  ul {
+    padding-left: 14px;
+    margin: 0;
+  }
+
+  li {
+    font-size: 10.5px;
+    color: #333;
+    line-height: 1.55;
+    margin-bottom: 2px;
+  }
+
+  table.sk-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+    table-layout: fixed;
+  }
+
+  table.sk-table td {
+    padding: 2px 0;
+    vertical-align: top;
+    font-size: 10.5px;
+  }
+
+  .sk-cat {
+    font-weight: 700;
+    color: #1a1a1a;
+    width: 90px;
+    padding-right: 10px !important;
+    white-space: nowrap;
+  }
+
+  .sk-val {
+    color: #333;
+  }
+</style>`;
+}
+
 function downloadCV(l) {
   var isPT = l === 'pt';
-  var html = isPT ? generateCVPT() : generateCVEN();
-  var blob = new Blob([html], {type:'text/html;charset=utf-8'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = isPT ? 'curriculo-lucilia-rosa-pt.html' : 'resume-lucilia-rosa-en.html';
-  a.click();
-  URL.revokeObjectURL(url);
+  var content = isPT ? generateCVPT() : generateCVEN();
+
+  var container = document.createElement('div');
+  container.innerHTML = content;
+
+  html2pdf()
+    .set({
+      margin: 0,
+      filename: isPT ? 'Lucilia_Rosa_Curriculo.pdf' : 'Lucilia_Rosa_Resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        letterRendering: true,
+        windowWidth: 750,
+        scrollX: 0,
+        scrollY: 0
+      },
+      jsPDF: {
+        unit: 'px',
+        format: [750, 1056],
+        orientation: 'portrait',
+        hotfixes: ['px_scaling']
+      },
+      pagebreak: { mode: ['css', 'legacy'], avoid: ['.block'] }
+    })
+    .from(container)
+    .save();
 }
 
 function generateCVPT() {
   var s = [];
   s.push('<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"/>');
-  s.push('<title>Curriculo Lucilia Rosa</title>');
-  s.push('<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;color:#1c1917;background:#fff;max-width:800px;margin:0 auto;padding:2rem;}h1{font-size:26px;font-weight:700;margin-bottom:4px;}.subtitle{font-size:14px;color:#78716c;margin-bottom:12px;}.contacts{font-size:12px;color:#44403c;display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;border-bottom:2px solid #1c1917;padding-bottom:12px;}h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #e7e5e4;padding-bottom:4px;margin:18px 0 10px;}.exp-block{margin-bottom:14px;}.exp-header{display:flex;justify-content:space-between;align-items:flex-start;}.exp-role{font-size:13.5px;font-weight:700;}.exp-co{font-size:12.5px;color:#2563a8;font-weight:600;}.exp-period{font-size:11px;color:#78716c;white-space:nowrap;}ul{list-style:disc;padding-left:18px;margin-top:6px;}li{font-size:12px;color:#44403c;line-height:1.6;margin-bottom:2px;}.skills-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}.skill{font-size:11px;background:#f3efe8;color:#44403c;padding:2px 8px;border-radius:4px;}.edu-row{display:flex;justify-content:space-between;margin-bottom:8px;}.edu-deg{font-size:13px;font-weight:700;}.edu-inst{font-size:12px;color:#2563a8;}.edu-per{font-size:11px;color:#78716c;}@media print{body{padding:1rem;}}</sty'+'le></head><body>');
-  s.push('<h1>Lucilia Rosa</h1><p class="subtitle">Fullstack &amp; Automation Developer &middot; São Paulo, Brasil</p>');
-  s.push('<div class="contacts"><span>lucilia.passos.rosa@outlook.com</span><span>linkedin.com/in/lucilia-rosa</span><span>github.com/luciliarosa</span><span>São Paulo, SP &mdash; Brasil</span></div>');
-  s.push('<h2>Resumo</h2><p style="font-size:12.5px;color:#44403c;line-height:1.7;">Desenvolvedora Fullstack &amp; Automation com mais de 5 anos de experiência em desenvolvimento de sistemas, automação e suporte técnico. Especialista em Python, SQL e Microsoft Power Platform.</p>');
+  s.push('<meta name="viewport" content="width=750"/>');
+  s.push('<title>Currículo — Lucilia Rosa</title>');
+  s.push(cvStyle());
+  s.push('</head><body>');
+
+  s.push('<div class="cv-header">');
+  s.push('<h1>Lucilia Rosa</h1>');
+  s.push('<p class="subtitle">Desenvolvedora Full Stack &amp; Automação</p>');
+  s.push('<div class="contacts">');
+  s.push('<span>lucilia.passos.rosa@outlook.com</span>');
+  s.push('<span>linkedin.com/in/lucilia-rosa</span>');
+  s.push('<span>github.com/luciliarosa</span>');
+  s.push('<span>São Paulo, SP — Brasil</span>');
+  s.push('</div></div>');
+
+  s.push('<h2>Resumo Profissional</h2>');
+  s.push('<p class="summary">Desenvolvedora Full Stack e Automação com mais de 5 anos de experiência em desenvolvimento de sistemas, automação de processos, análise de dados e suporte técnico. Atua com Python, SQL e Microsoft Power Platform na criação de soluções que aumentam a eficiência operacional e reduzem tarefas manuais. Experiência em ambientes corporativos com forte capacidade analítica e resolução de problemas.</p>');
+
   s.push('<h2>Experiência Profissional</h2>');
-  s.push('<div class="exp-block"><div class="exp-header"><div><p class="exp-role">Systems Developer</p><p class="exp-co">SENAI Brás &mdash; Full-time</p></div><p class="exp-period">Jul 2025 &ndash; Presente</p></div><ul><li>Automação Python que lê Excel, envia para IA analisar e encaminha por e-mail — 1 dia de trabalho para menos de 1 hora</li><li>Automação web com Playwright para download automático de pesquisas de satisfação para o Power BI</li><li>Desenvolvimento e manutenção de dashboards com Power BI</li><li>Criação de workflows com Power Automate</li><li>Modelagem e manipulação de dados com SQL</li></ul><div class="skills-row"><span class="skill">Python</span><span class="skill">SQL</span><span class="skill">Power BI</span><span class="skill">Power Automate</span><span class="skill">Playwright</span></div></div>');
-  s.push('<div class="exp-block"><div class="exp-header"><div><p class="exp-role">Application Support Analyst</p><p class="exp-co">Vertem &mdash; Full-time</p></div><p class="exp-period">Mar 2022 &ndash; Jul 2025</p></div><ul><li>Análise e resolução de problemas em plataforma de troca de pontos</li><li>Scripts Python para automação de relatórios diários e semanais</li><li>Ajustes de frontend com HTML, CSS e JavaScript</li><li>Documentação técnica e treinamentos</li><li>Participação em salas de crise para resolução de incidentes críticos</li></ul><div class="skills-row"><span class="skill">SQL</span><span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">JavaScript</span><span class="skill">Python</span></div></div>');
-  s.push('<div class="exp-block"><div class="exp-header"><div><p class="exp-role">Computer Network Technician</p><p class="exp-co">Telium Networks &mdash; Full-time</p></div><p class="exp-period">Abr 2018 &ndash; Mar 2022</p></div><ul><li>NOC com monitoramento de rádios wireless, backbones e telefonia</li><li>Suporte remoto a técnicos em campo para fibra ótica</li><li>Suporte técnico a clientes de internet dedicada</li></ul><div class="skills-row"><span class="skill">TCP/IP</span><span class="skill">Cisco</span><span class="skill">MikroTik</span><span class="skill">Fibra Óptica</span><span class="skill">NOC</span></div></div>');
-  s.push('<h2>Habilidades Técnicas</h2><div class="skills-row"><span class="skill">Python</span><span class="skill">JavaScript</span><span class="skill">React</span><span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">SQL Server</span><span class="skill">MySQL</span><span class="skill">Power BI</span><span class="skill">Power Automate</span><span class="skill">Power Apps</span><span class="skill">Git</span><span class="skill">GitHub</span><span class="skill">APIs REST</span><span class="skill">Playwright</span></div>');
+
+  s.push('<div class="block"><div class="block-header">');
+  s.push('<span class="block-period">Jul 2025 – Presente</span>');
+  s.push('<div class="block-left"><p class="block-role">Desenvolvedora de Sistemas</p><p class="block-org">SENAI Brás — São Paulo, SP</p></div>');
+  s.push('</div><ul>');
+  s.push('<li>Desenvolvi automação em Python para processar planilhas, integrar análises com IA e enviar relatórios por e-mail automaticamente, reduzindo um processo de 1 dia para menos de 1 hora.</li>');
+  s.push('<li>Criei automações web com Playwright para coleta automática de relatórios e integração com Power BI.</li>');
+  s.push('<li>Desenvolvi e mantive dashboards analíticos no Power BI para monitoramento de indicadores operacionais.</li>');
+  s.push('<li>Implementei workflows com Power Automate para otimização de processos internos.</li>');
+  s.push('<li>Realizei modelagem e manipulação de dados com SQL.</li>');
+  s.push('</ul></div>');
+
+  s.push('<div class="block"><div class="block-header">');
+  s.push('<span class="block-period">Mar 2022 – Jul 2025</span>');
+  s.push('<div class="block-left"><p class="block-role">Analista de Sustentação</p><p class="block-org">Vertem — São Paulo, SP</p></div>');
+  s.push('</div><ul>');
+  s.push('<li>Diagnostiquei e resolvi incidentes em plataformas corporativas de fidelidade e recompensas.</li>');
+  s.push('<li>Desenvolvi scripts Python para automatizar geração de relatórios operacionais diários e semanais.</li>');
+  s.push('<li>Realizei manutenção frontend com HTML, CSS e JavaScript.</li>');
+  s.push('<li>Participei de war rooms para diagnóstico e resolução de incidentes críticos em produção.</li>');
+  s.push('<li>Produzi documentação técnica e conduzi treinamentos para equipes internas e novos colaboradores.</li>');
+  s.push('</ul></div>');
+
+  s.push('<div class="block"><div class="block-header">');
+  s.push('<span class="block-period">Abr 2018 – Mar 2022</span>');
+  s.push('<div class="block-left"><p class="block-role">Técnica em Redes de Computadores</p><p class="block-org">Telium Networks — São Paulo, SP</p></div>');
+  s.push('</div><ul>');
+  s.push('<li>Atuei no NOC com monitoramento contínuo de rádios wireless, backbones e equipamentos de telefonia.</li>');
+  s.push('<li>Prestei suporte remoto a equipes de campo na identificação de falhas em fibra óptica.</li>');
+  s.push('<li>Realizei suporte técnico para clientes corporativos de internet dedicada.</li>');
+  s.push('</ul></div>');
+
+  s.push('<h2>Habilidades Técnicas</h2>');
+  s.push('<table class="sk-table"><tbody>');
+  s.push('<tr><td class="sk-cat">Linguagens</td><td class="sk-val">Python, JavaScript, HTML, CSS</td></tr>');
+  s.push('<tr><td class="sk-cat">Frameworks</td><td class="sk-val">React, Node.js, Playwright</td></tr>');
+  s.push('<tr><td class="sk-cat">Banco de Dados</td><td class="sk-val">SQL Server, MySQL</td></tr>');
+  s.push('<tr><td class="sk-cat">Plataformas</td><td class="sk-val">Power BI, Power Automate, Power Apps, SharePoint</td></tr>');
+  s.push('<tr><td class="sk-cat">Ferramentas</td><td class="sk-val">Git, GitHub, Postman, VS Code, Jira</td></tr>');
+  s.push('</tbody></table>');
+
   s.push('<h2>Formação Acadêmica</h2>');
-  s.push('<div class="edu-row"><div><p class="edu-deg">Pós-Graduação &mdash; Desenvolvimento Full Stack</p><p class="edu-inst">Descomplica</p></div><p class="edu-per">Mai 2023 &ndash; Out 2024</p></div>');
-  s.push('<div class="edu-row"><div><p class="edu-deg">Bacharelado em Análise e Desenvolvimento de Sistemas</p><p class="edu-inst">FATEC Carapicuíba</p></div><p class="edu-per">Fev 2022 &ndash; Dez 2024</p></div>');
-  s.push('<div class="edu-row"><div><p class="edu-deg">Bacharelado em Gestão da Tecnologia da Informação</p><p class="edu-inst">FATEC Barueri</p></div><p class="edu-per">Fev 2015 &ndash; Dez 2017</p></div>');
-  s.push('<div class="edu-row"><div><p class="edu-deg">Técnico em Redes de Computadores</p><p class="edu-inst">SENAI Jandira</p></div><p class="edu-per">Jul 2012 &ndash; Jul 2014</p></div>');
-  s.push('<h2>Idiomas</h2><div class="skills-row"><span class="skill">Português &mdash; Nativo</span><span class="skill">Inglês &mdash; Intermediário</span></div>');
-  s.push('</bo'+'dy></html>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Mai 2023 – Out 2024</span><div class="block-left"><p class="block-role">Pós-Graduação — Desenvolvimento Full Stack</p><p class="block-org">Descomplica</p></div></div></div>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Fev 2022 – Dez 2024</span><div class="block-left"><p class="block-role">Tecnólogo em Análise e Desenvolvimento de Sistemas</p><p class="block-org">FATEC Carapicuíba — São Paulo, SP</p></div></div></div>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Fev 2015 – Dez 2017</span><div class="block-left"><p class="block-role">Tecnólogo em Gestão da Tecnologia da Informação</p><p class="block-org">FATEC Barueri — São Paulo, SP</p></div></div></div>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Jul 2012 – Jul 2014</span><div class="block-left"><p class="block-role">Técnico em Redes de Computadores</p><p class="block-org">SENAI Jandira — São Paulo, SP</p></div></div></div>');
+
+  s.push('<h2>Idiomas</h2>');
+  s.push('<table class="sk-table"><tbody>');
+  s.push('<tr><td class="sk-cat">Português</td><td class="sk-val">Nativo</td></tr>');
+  s.push('<tr><td class="sk-cat">Inglês</td><td class="sk-val">Intermediário — Intercâmbio no SGIC, Vancouver, Canadá (2019)</td></tr>');
+  s.push('</tbody></table>');
+
+  s.push('</body></html>');
   return s.join('\n');
 }
 
 function generateCVEN() {
   var s = [];
   s.push('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>');
-  s.push('<title>Resume Lucilia Rosa</title>');
-  s.push('<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;color:#1c1917;background:#fff;max-width:800px;margin:0 auto;padding:2rem;}h1{font-size:26px;font-weight:700;margin-bottom:2px;}.subtitle{font-size:13px;color:#78716c;margin-bottom:4px;}.contacts{font-size:12px;color:#44403c;display:flex;flex-wrap:wrap;gap:12px;margin-bottom:6px;}.divider{border:none;border-top:2px solid #1c1917;margin:10px 0 16px;}h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid #e7e5e4;padding-bottom:3px;margin:16px 0 8px;}.summary{font-size:12.5px;color:#44403c;line-height:1.65;}.exp-block{margin-bottom:13px;}.exp-header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}.exp-role{font-size:13px;font-weight:700;}.exp-co{font-size:12px;color:#44403c;font-style:italic;}.exp-period{font-size:11px;color:#78716c;white-space:nowrap;flex-shrink:0;}ul{list-style:disc;padding-left:16px;margin-top:5px;}li{font-size:12px;color:#44403c;line-height:1.55;margin-bottom:2px;}.skills-section{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;margin-top:4px;}.skill-cat{font-size:12px;font-weight:700;}.skill-val{font-size:12px;color:#44403c;}.edu-block{margin-bottom:8px;}.edu-header{display:flex;justify-content:space-between;align-items:baseline;}.edu-deg{font-size:13px;font-weight:700;}.edu-inst{font-size:12px;color:#44403c;font-style:italic;}.edu-per{font-size:11px;color:#78716c;white-space:nowrap;}@media print{body{padding:1rem;}}</sty'+'le></head><body>');
-  s.push('<h1>Lucilia Rosa</h1><p class="subtitle">Fullstack &amp; Automation Developer</p>');
-  s.push('<div class="contacts"><span>lucilia.passos.rosa@outlook.com</span><span>linkedin.com/in/lucilia-rosa</span><span>github.com/luciliarosa</span><span>São Paulo, Brazil (Open to Canada)</span></div>');
-  s.push('<hr class="divider"/><h2>Professional Summary</h2>');
-  s.push('<p class="summary">Results-driven Fullstack &amp; Automation Developer with 5+ years of experience in systems development, process automation, and technical support. Proficient in Python, SQL, and Microsoft Power Platform. One automation reduced a full day of work to under one hour. Seeking opportunities in Canada.</p>');
+  s.push('<meta name="viewport" content="width=750"/>');
+  s.push('<title>Resume — Lucilia Rosa</title>');
+  s.push(cvStyle());
+  s.push('</head><body>');
+
+  s.push('<div class="cv-header">');
+  s.push('<h1>Lucilia Rosa</h1>');
+  s.push('<p class="subtitle">Full Stack &amp; Automation Developer</p>');
+  s.push('<div class="contacts">');
+  s.push('<span>lucilia.passos.rosa@outlook.com</span>');
+  s.push('<span>linkedin.com/in/lucilia-rosa</span>');
+  s.push('<span>github.com/luciliarosa</span>');
+  s.push('<span>São Paulo, Brazil &nbsp;|&nbsp; Open to relocation to Canada</span>');
+  s.push('</div></div>');
+
+  s.push('<h2>Professional Summary</h2>');
+  s.push('<p class="summary">Results-driven Full Stack and Automation Developer with 5+ years of experience in software development, process automation, data analysis, and technical support. Proven track record delivering Python-based automation workflows, Power BI dashboards, and operational tools that reduce manual work and improve efficiency. Experienced in both backend and frontend development, with strong analytical and collaborative skills in corporate environments.</p>');
+
   s.push('<h2>Work Experience</h2>');
-  s.push('<div class="exp-block"><div class="exp-header"><div><p class="exp-role">Systems Developer</p><p class="exp-co">SENAI Bras &middot; São Paulo, Brazil</p></div><p class="exp-period">Jul 2025 &ndash; Present</p></div><ul><li>Developed Python automation that reads Excel, sends to AI for analysis, emails results — reducing a full day to under 1 hour</li><li>Built Playwright web automation to download surveys and feed Power BI dashboards automatically</li><li>Designed and maintained Power BI dashboards for educational data monitoring</li><li>Created Power Automate workflows to streamline internal processes</li><li>Modeled and queried relational databases using SQL</li></ul></div>');
-  s.push('<div class="exp-block"><div class="exp-header"><div><p class="exp-role">Application Support Analyst</p><p class="exp-co">Vertem &middot; São Paulo, Brazil</p></div><p class="exp-period">Mar 2022 &ndash; Jul 2025</p></div><ul><li>Diagnosed and resolved platform issues for a loyalty and rewards system</li><li>Developed Python scripts to automate daily and weekly report generation</li><li>Performed frontend maintenance using HTML, CSS, and JavaScript</li><li>Participated in war rooms for critical incident response</li><li>Authored technical documentation and delivered training to teams</li></ul></div>');
-  s.push('<div class="exp-block"><div class="exp-header"><div><p class="exp-role">Computer Network Technician (NOC)</p><p class="exp-co">Telium Networks &middot; São Paulo, Brazil</p></div><p class="exp-period">Apr 2018 &ndash; Mar 2022</p></div><ul><li>Operated NOC monitoring wireless radios, backbones, and telephony equipment</li><li>Supported field technicians remotely in identifying fiber optic breaks</li><li>Provided technical support to dedicated internet clients</li></ul></div>');
-  s.push('<h2>Technical Skills</h2><div class="skills-section"><span class="skill-cat">Languages</span><span class="skill-val">Python, JavaScript, HTML, CSS</span><span class="skill-cat">Frameworks</span><span class="skill-val">React, Node.js, Playwright</span><span class="skill-cat">Databases</span><span class="skill-val">SQL Server, MySQL</span><span class="skill-cat">Platforms</span><span class="skill-val">Power BI, Power Automate, Power Apps, SharePoint</span><span class="skill-cat">Tools</span><span class="skill-val">Git, GitHub, Postman, VS Code, Jira</span></div>');
+
+  s.push('<div class="block"><div class="block-header">');
+  s.push('<span class="block-period">Jul 2025 – Present</span>');
+  s.push('<div class="block-left"><p class="block-role">Systems Developer</p><p class="block-org">SENAI Brás &middot; São Paulo, Brazil</p></div>');
+  s.push('</div><ul>');
+  s.push('<li>Developed a Python automation workflow to process Excel spreadsheets, integrate AI-generated insights, and deliver automated email reports — reducing a full day of manual work to under one hour.</li>');
+  s.push('<li>Built Playwright-based web automations to collect survey reports and feed data into Power BI dashboards, eliminating repetitive manual tasks.</li>');
+  s.push('<li>Designed and maintained Power BI dashboards to support operational decision-making and KPI monitoring.</li>');
+  s.push('<li>Created Power Automate workflows to streamline internal business processes.</li>');
+  s.push('<li>Modeled and queried relational databases using SQL.</li>');
+  s.push('</ul></div>');
+
+  s.push('<div class="block"><div class="block-header">');
+  s.push('<span class="block-period">Mar 2022 – Jul 2025</span>');
+  s.push('<div class="block-left"><p class="block-role">Application Support Analyst</p><p class="block-org">Vertem &middot; São Paulo, Brazil</p></div>');
+  s.push('</div><ul>');
+  s.push('<li>Diagnosed and resolved incidents affecting enterprise loyalty and rewards platforms.</li>');
+  s.push('<li>Developed Python scripts to automate daily and weekly operational report generation, reducing manual workload and minimizing errors.</li>');
+  s.push('<li>Performed frontend maintenance and enhancements using HTML, CSS, and JavaScript.</li>');
+  s.push('<li>Participated in production war rooms to troubleshoot and resolve critical incidents under pressure.</li>');
+  s.push('<li>Authored technical documentation and delivered training sessions for internal teams and new employees.</li>');
+  s.push('</ul></div>');
+
+  s.push('<div class="block"><div class="block-header">');
+  s.push('<span class="block-period">Apr 2018 – Mar 2022</span>');
+  s.push('<div class="block-left"><p class="block-role">Computer Network Technician (NOC)</p><p class="block-org">Telium Networks &middot; São Paulo, Brazil</p></div>');
+  s.push('</div><ul>');
+  s.push('<li>Monitored wireless radios, backbone infrastructure, and telephony equipment within the NOC environment.</li>');
+  s.push('<li>Provided remote support to field technicians for identifying and resolving fiber optic failures.</li>');
+  s.push('<li>Delivered technical support to dedicated internet corporate clients.</li>');
+  s.push('</ul></div>');
+
+  s.push('<h2>Technical Skills</h2>');
+  s.push('<table class="sk-table"><tbody>');
+  s.push('<tr><td class="sk-cat">Languages</td><td class="sk-val">Python, JavaScript, HTML, CSS</td></tr>');
+  s.push('<tr><td class="sk-cat">Frameworks</td><td class="sk-val">React, Node.js, Playwright</td></tr>');
+  s.push('<tr><td class="sk-cat">Databases</td><td class="sk-val">SQL Server, MySQL</td></tr>');
+  s.push('<tr><td class="sk-cat">Platforms</td><td class="sk-val">Power BI, Power Automate, Power Apps, SharePoint</td></tr>');
+  s.push('<tr><td class="sk-cat">Tools</td><td class="sk-val">Git, GitHub, Postman, VS Code, Jira</td></tr>');
+  s.push('</tbody></table>');
+
   s.push('<h2>Education</h2>');
-  s.push('<div class="edu-block"><div class="edu-header"><div><p class="edu-deg">Postgraduate Certificate &mdash; Full Stack Development</p><p class="edu-inst">Descomplica</p></div><p class="edu-per">May 2023 &ndash; Oct 2024</p></div></div>');
-  s.push('<div class="edu-block"><div class="edu-header"><div><p class="edu-deg">Bachelor\'s Degree &mdash; Systems Analysis and Development</p><p class="edu-inst">FATEC Carapicuiba (Public, selective entry)</p></div><p class="edu-per">Feb 2022 &ndash; Dec 2024</p></div></div>');
-  s.push('<div class="edu-block"><div class="edu-header"><div><p class="edu-deg">Bachelor\'s Degree &mdash; Information Technology Management</p><p class="edu-inst">FATEC Barueri (Public, selective entry)</p></div><p class="edu-per">Feb 2015 &ndash; Dec 2017</p></div></div>');
-  s.push('<div class="edu-block"><div class="edu-header"><div><p class="edu-deg">Technical Diploma &mdash; Computer Networks</p><p class="edu-inst">SENAI Jandira</p></div><p class="edu-per">Jul 2012 &ndash; Jul 2014</p></div></div>');
-  s.push('<h2>Languages</h2><div class="skills-section"><span class="skill-cat">Portuguese</span><span class="skill-val">Native</span><span class="skill-cat">English</span><span class="skill-val">Intermediate &middot; Exchange at SGIC, Vancouver, Canada (2019)</span></div>');
-  s.push('</bo'+'dy></html>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">May 2023 – Oct 2024</span><div class="block-left"><p class="block-role">Postgraduate Certificate — Full Stack Development</p><p class="block-org">Descomplica</p></div></div></div>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Feb 2022 – Dec 2024</span><div class="block-left"><p class="block-role">Associate Degree — Systems Analysis and Development</p><p class="block-org">FATEC Carapicuíba &middot; São Paulo, Brazil</p></div></div></div>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Feb 2015 – Dec 2017</span><div class="block-left"><p class="block-role">Associate Degree — Information Technology Management</p><p class="block-org">FATEC Barueri &middot; São Paulo, Brazil</p></div></div></div>');
+  s.push('<div class="block"><div class="block-header"><span class="block-period">Jul 2012 – Jul 2014</span><div class="block-left"><p class="block-role">Technical Diploma — Computer Networks</p><p class="block-org">SENAI Jandira &middot; São Paulo, Brazil</p></div></div></div>');
+
+  s.push('<h2>Languages</h2>');
+  s.push('<table class="sk-table"><tbody>');
+  s.push('<tr><td class="sk-cat">Portuguese</td><td class="sk-val">Native</td></tr>');
+  s.push('<tr><td class="sk-cat">English</td><td class="sk-val">Intermediate — Exchange program at St. George International College, Vancouver, Canada (2019)</td></tr>');
+  s.push('</tbody></table>');
+
+  s.push('</body></html>');
   return s.join('\n');
 }
 
@@ -281,7 +559,7 @@ var T = {
     exp2_li3:"Executei consultas, análises e manipulação de dados com SQL",
     exp2_li4:"Produzi e mantive documentação técnica de processos e sistemas",
     exp2_li5:"Treinei equipes internas e novos colaboradores em ferramentas e fluxos operacionais",
-    
+
     vertem_p1_title:"Documentação técnica e treinamentos",
     vertem_p1_desc:"Desenvolvi documentação técnica para ferramentas, processos internos e fluxos operacionais, além de conduzir treinamentos para novos colaboradores e equipes multidisciplinares, promovendo padronização e autonomia operacional.",
     vertem_p2_title:"Automação de relatórios",
@@ -303,6 +581,29 @@ var T = {
 
     btn_proj:"Ver projetos desenvolvidos",
 
+    edu1_deg:"Pós-Graduação — Desenvolvimento Full Stack",
+    edu1_per:"Mai 2023 – Out 2024",
+    edu1_focus_title:"Principais áreas de estudo",
+    edu1_desc:"Especialização prática em desenvolvimento full stack, abrangendo aplicações frontend com HTML, CSS, JavaScript e React, além de desenvolvimento backend com Node.js, APIs REST, bancos de dados relacionais e fundamentos de cloud computing na AWS.",
+    edu1_highlight:"<strong>Destaque:</strong> Formação orientada ao mercado com projetos práticos, microcertificações por módulo e experiência com ferramentas amplamente utilizadas na indústria de tecnologia.",
+
+    edu2_deg:"Tecnólogo em Análise e Desenvolvimento de Sistemas",
+    edu2_focus_title:"Principais áreas de estudo",
+    edu2_desc:"Graduação focada em engenharia de software, programação orientada a objetos, estruturas de dados, modelagem de banco de dados, desenvolvimento de sistemas, segurança da informação e arquitetura de software.",
+    edu2_highlight:"<strong>Destaque:</strong> Formação tecnológica com forte abordagem prática, voltada para desenvolvimento de software, resolução de problemas e aplicação de boas práticas de engenharia.",
+
+    edu3_deg:"Tecnólogo em Gestão da Tecnologia da Informação",
+    edu3_focus_title:"Principais áreas de estudo",
+    edu3_desc:"Graduação com foco em governança de TI, infraestrutura, sistemas corporativos, gestão de projetos, banco de dados, processos de negócio e planejamento estratégico aplicado à tecnologia.",
+    edu3_highlight:"<strong>Destaque:</strong> Formação que combinou visão técnica e gerencial, proporcionando experiência tanto em tecnologia quanto em gestão de ambientes corporativos.",
+
+    edu4_deg:"Técnico em Redes de Computadores",
+    edu4_focus_title:"Principais áreas de estudo",
+    edu4_desc:"Formação técnica voltada para infraestrutura de redes, conectividade, protocolos TCP/IP, cabeamento estruturado, fibra óptica, configuração de roteadores e switches, além de administração e suporte de ambientes de rede.",
+    edu4_highlight:"<strong>Destaque:</strong> Base técnica sólida em infraestrutura e telecomunicações, responsável pelo início da trajetória profissional na área de tecnologia.",
+
+    btn_edu:"Ver grade e ênfases",
+    btn_cert:"Baixar certificado",
     sec_skills:"Habilidades técnicas",
 
     sec_edu:"Formação acadêmica",
@@ -435,7 +736,31 @@ var T = {
 
     sec_skills:"Technical Skills",
 
+    edu1_deg:"Postgraduate Degree — Full Stack Development",
+    edu1_per:"May 2023 – Oct 2024",
+    edu1_focus_title:"Key areas of study",
+    edu1_desc:"Practical specialization in full stack development, covering frontend applications with HTML, CSS, JavaScript, and React, as well as backend development with Node.js, REST APIs, relational databases, and AWS cloud computing fundamentals.",
+    edu1_highlight:"<strong>Highlight:</strong> Market-oriented program focused on hands-on projects, micro-certifications, and experience with widely used industry tools and technologies.",
+
+    edu2_deg:"Associate Degree in Systems Analysis and Development",
+    edu2_focus_title:"Key areas of study",
+    edu2_desc:"Degree focused on software engineering, object-oriented programming, data structures, database modeling, systems development, information security, and software architecture.",
+    edu2_highlight:"<strong>Highlight:</strong> Technology-focused program with a strong practical approach to software development, problem-solving, and engineering best practices.",
+
+    edu3_deg:"Associate Degree in Information Technology Management",
+    edu3_focus_title:"Key areas of study",
+    edu3_desc:"Degree focused on IT governance, infrastructure, enterprise systems, project management, databases, business processes, and strategic technology planning.",
+    edu3_highlight:"<strong>Highlight:</strong> Academic background combining both technical and business perspectives, providing experience in technology and corporate management environments.",
+
+    edu4_deg:"Technical Program in Computer Networks",
+    edu4_focus_title:"Key areas of study",
+    edu4_desc:"Technical education focused on networking infrastructure, connectivity, TCP/IP protocols, structured cabling, fiber optics, router and switch configuration, and network administration and support.",
+    edu4_highlight:"<strong>Highlight:</strong> Strong technical foundation in infrastructure and telecommunications, marking the beginning of my professional career in technology.",
+
     sec_edu:"Education",
+
+    btn_edu:"View curriculum and focus areas",
+    btn_cert:"Download certificate",
 
     sec_exchange:"🇨🇦 Exchange Program in Vancouver",
 
