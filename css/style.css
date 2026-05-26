@@ -236,6 +236,56 @@
     .skill-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
     .skill-pill .sp-icon { font-size: 15px; }
 
+    /* EXPERIENCE */
+    .exp-summary {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--ink4);
+      margin-bottom: 18px;
+    }
+    .exp-summary::before { content: '// '; opacity: .5; }
+
+    .exp-table-wrap {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .exp-table { width: 100%; border-collapse: collapse; }
+
+    .exp-table thead tr {
+      background: var(--paper2);
+      border-bottom: 1.5px solid var(--rule);
+    }
+
+    .exp-table thead th {
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink4); padding: 10px 20px; text-align: left;
+    }
+
+    .exp-table tbody tr {
+      border-bottom: 1px solid var(--rule2);
+      transition: background .15s;
+    }
+    .exp-table tbody tr:last-child { border-bottom: none; }
+    .exp-table tbody tr:hover { background: var(--paper2); }
+
+    .exp-table tbody td { padding: 14px 20px; font-size: 13px; color: var(--ink2); vertical-align: middle; }
+
+    .td-role { font-family: var(--font-serif); font-size: 14px; font-weight: 600; color: var(--ink); }
+    .td-company { font-weight: 700; }
+    .td-focus { color: var(--ink3); }
+
+    .exp-dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--ink4);
+      margin-right: 8px; vertical-align: middle; opacity: .5;
+    }
+
     /* ── PROJECTS ── */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; }
     .project-card {
