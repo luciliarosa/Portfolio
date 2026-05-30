@@ -135,8 +135,8 @@ document.addEventListener('click', function(e) {
 
 function downloadCV(lang) {
   const files = {
-    pt: 'doc/CurriculoLuciliaRosa.pdf',
-    en: 'doc/lucilia-rosa-resume-en.pdf'
+    pt: '/doc/CurriculoLuciliaRosa.pdf',
+    en: '/doc/lucilia-rosa-resume-en.pdf'
   };
 
   const link = document.createElement('a');
