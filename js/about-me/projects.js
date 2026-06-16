@@ -4,9 +4,9 @@ var T = {
   pt:{
     nav_home:"Home", nav_about:"Sobre mim", nav_projects:"Projetos",
     nav_areas:"Frontend · Backend · Fullstack",
-    eyebrow:"// meus projetos",
+    eyebrow:"// Meus projetos",
     hero_title:"O que eu<br><em>construí</em>",
-    hero_sub:"Projetos reais, estudos e experimentos. Cada um representa uma etapa da jornada — do HTML puro até automações em Python e interfaces em React.",
+    hero_sub:"Projetos que demonstram experiência em desenvolvimento de software, automação de processos, integração de sistemas e desenvolvimento web, utilizando tecnologias como Python, SQL, JavaScript e APIs.",
     sec_stats:"Em números",stat_total:"Projetos",sec_projects:"Projetos",
     filter_all:"Todos",filter_all_status:"Todos os status",btn_view:"Ver projeto",
     status_live:"Live",status_wip:"Em andamento",status_study:"Estudo",
@@ -24,9 +24,9 @@ var T = {
   en:{
     nav_home:"Home", nav_about:"About me", nav_projects:"Projects",
     nav_areas:"Frontend · Backend · Fullstack",
-    eyebrow:"// my projects",
+    eyebrow:"// My projects",
     hero_title:"What I've<br><em>built</em>",
-    hero_sub:"Real projects, studies and experiments. Each one represents a step in the journey — from plain HTML to Python automation and React interfaces.",
+    hero_sub:"Projects showcasing experience in software development, process automation, systems integration, and web development using technologies such as Python, SQL, JavaScript, and APIs.",
     sec_stats:"By the numbers",stat_total:"Projects",sec_projects:"Projects",
     filter_all:"All",filter_all_status:"All statuses",btn_view:"View project",
     status_live:"Live",status_wip:"In progress",status_study:"Study",

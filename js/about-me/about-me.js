@@ -135,7 +135,7 @@ document.addEventListener('click', function(e) {
 
 function downloadCV(lang) {
   const files = {
-    pt: '/doc/CurriculoLuciliaRosa.pdf',
+    pt: '/doc/lucilia-rosa-resume-pt.pdf',
     en: '/doc/lucilia-rosa-resume-en.pdf'
   };
 
@@ -166,7 +166,7 @@ var T = {
     nav_dd_areas:"Frontend, Backend &amp; Fullstack",
     nav_dd_areas_desc:"O que é cada área e como se conectam",
 
-    hero_role:"Full Stack & Automation Developer · Python · SQL · Power Platform",
+    hero_role:"Python Automation • SQL Development • System Integration",
 
     tag_exp:"+5 anos de experiência",
     tag_wit:"Mulher na Tech",
@@ -182,11 +182,7 @@ var T = {
 
     sec_about:"Quem sou eu",
 
-    about_p1:'Desenvolvedora Full Stack e Automation Developer com experiência em desenvolvimento de sistemas, automação de processos, análise de dados e suporte técnico. Minha trajetória começou em infraestrutura e redes, evoluindo naturalmente para desenvolvimento de software e soluções orientadas à automação.',
-
-    about_p2:'Atualmente trabalho com Python, SQL, Power BI e Power Platform para desenvolver automações, dashboards e ferramentas internas que reduzem tarefas manuais e aumentam a eficiência operacional. Tenho experiência tanto em backend quanto frontend, além de forte capacidade analítica e resolução de problemas.',
-
-    about_p3:'Também possuo experiência em sustentação de sistemas, troubleshooting, documentação técnica e suporte a ambientes corporativos. Busco continuamente aprimorar minhas habilidades em desenvolvimento full stack, cloud e engenharia de software.',
+    about_p1:'Desenvolvedora de Software com experiência em automação utilizando Python, desenvolvimento SQL, integração de sistemas e otimização de processos de negócio. Atuo na criação de soluções que reduzem atividades manuais, aumentam a confiabilidade dos dados e melhoram a eficiência operacional. Tenho experiência no desenvolvimento de ferramentas internas, integrações entre plataformas e automações voltadas para processos corporativos. Além disso, possuo sólida base em infraestrutura, suporte técnico e ambientes corporativos, proporcionando uma visão abrangente dos sistemas e processos de tecnologia.',
 
     sec_timeline:"Trajetória",
     tl_present:"Presente",
@@ -215,11 +211,17 @@ var T = {
     exp1_role:"Atuação como Desenvolvedora de Sistemas",
     exp1_period:"Jul 2025 – Presente",
 
-    exp1_li1:"Desenvolvi e mantive dashboards analíticos utilizando Power BI",
-    exp1_li2:"Criei scripts de automação em Python para processamento e integração de dados",
-    exp1_li3:"Modelei e manipulei bases de dados utilizando SQL",
-    exp1_li4:"Implementei workflows automatizados com Power Automate",
-    exp1_li5:"Contribuí para iniciativas de cultura orientada a dados e otimização operacional",
+    exp1_li1:"Desenvolvi aplicações e automações em Python para eliminar processos manuais e aumentar a eficiência operacional.",
+    exp1_li2:"Elaborei consultas SQL para extração, validação e aplicação de regras de negócio.",
+    exp1_li3:"Realizei integrações entre sistemas internos, bancos de dados, ambientes SharePoint e serviços externos.",
+    exp1_li4:"Desenvolvi processos automatizados de geração de relatórios e notificações utilizando Python e tecnologias Microsoft.",
+    exp1_li5:"Atuei junto às áreas de negócio para transformar necessidades operacionais em soluções de software.",
+
+    sk_lang:"Linguagens & Frameworks",
+    sk_auto:"Automação & Plataformas",
+    sk_db:"Banco de Dados",
+    sk_tools:"Ferramentas",
+    sk_web:"Web & Sistemas",
 
     senai_p1_title:"Automação de análise com IA",
     senai_p1_desc:"Desenvolvi uma automação em Python para processar planilhas Excel, estruturar dados e enviar análises geradas por IA automaticamente por e-mail aos responsáveis. A solução reduziu um processo operacional de aproximadamente 1 dia para menos de 1 hora.",
@@ -243,7 +245,8 @@ var T = {
     vertem_p3_desc:"Participei ativamente de war rooms para resolução de incidentes críticos em produção, realizando troubleshooting, análise rápida de impacto e comunicação colaborativa entre equipes técnicas.",
 
     exp3_role:"Atuação como Técnica em Redes de Computadores",
-
+    exp3_period:"Abr 2018 – Mar 2022",
+    
     exp3_li1:"Diagnostiquei e resolvi problemas de infraestrutura de redes",
     exp3_li2:"Monitorei ativos de rede, incluindo rádios wireless, backbones e equipamentos de telefonia",
     exp3_li3:"Prestei suporte técnico para clientes corporativos e operadores em campo",
@@ -263,16 +266,19 @@ var T = {
     edu1_highlight:"<strong>Destaque:</strong> Formação orientada ao mercado com projetos práticos, microcertificações por módulo e experiência com ferramentas amplamente utilizadas na indústria de tecnologia.",
 
     edu2_deg:"Tecnólogo em Análise e Desenvolvimento de Sistemas",
+    edu2_per:"Fev 2022 – Dez 2024",
     edu2_focus_title:"Principais áreas de estudo",
     edu2_desc:"Graduação focada em engenharia de software, programação orientada a objetos, estruturas de dados, modelagem de banco de dados, desenvolvimento de sistemas, segurança da informação e arquitetura de software.",
     edu2_highlight:"<strong>Destaque:</strong> Formação tecnológica com forte abordagem prática, voltada para desenvolvimento de software, resolução de problemas e aplicação de boas práticas de engenharia.",
 
     edu3_deg:"Tecnólogo em Gestão da Tecnologia da Informação",
+    edu3_per:"Fev 2015 – Dez 2017",
     edu3_focus_title:"Principais áreas de estudo",
     edu3_desc:"Graduação com foco em governança de TI, infraestrutura, sistemas corporativos, gestão de projetos, banco de dados, processos de negócio e planejamento estratégico aplicado à tecnologia.",
     edu3_highlight:"<strong>Destaque:</strong> Formação que combinou visão técnica e gerencial, proporcionando experiência tanto em tecnologia quanto em gestão de ambientes corporativos.",
 
     edu4_deg:"Técnico em Redes de Computadores",
+    edu4_per:"Jul 2012 – Jul 2014",
     edu4_focus_title:"Principais áreas de estudo",
     edu4_desc:"Formação técnica voltada para infraestrutura de redes, conectividade, protocolos TCP/IP, cabeamento estruturado, fibra óptica, configuração de roteadores e switches, além de administração e suporte de ambientes de rede.",
     edu4_highlight:"<strong>Destaque:</strong> Base técnica sólida em infraestrutura e telecomunicações, responsável pelo início da trajetória profissional na área de tecnologia.",
@@ -319,7 +325,7 @@ var T = {
     nav_dd_areas:"Frontend, Backend &amp; Fullstack",
     nav_dd_areas_desc:"What each area is and how they connect",
 
-    hero_role:"Full Stack & Automation Developer · Python · SQL · Power Platform",
+    hero_role:"Python Automation • SQL Development • System Integration",
 
     tag_exp:"+5 years of experience",
     tag_wit:"Woman in Tech",
@@ -335,11 +341,7 @@ var T = {
 
     sec_about:"Who I am",
 
-    about_p1:'Full Stack and Automation Developer with experience in software development, process automation, data analysis, and technical support. My career started in infrastructure and networking and naturally evolved into software engineering and automation-focused solutions.',
-
-    about_p2:'Currently working with Python, SQL, Power BI, and Microsoft Power Platform to build automations, dashboards, and internal tools that reduce manual work and improve operational efficiency. Experienced in both backend and frontend development, with strong analytical and problem-solving skills.',
-
-    about_p3:'Also experienced in systems support, troubleshooting, technical documentation, and corporate environments. Continuously improving technical skills in full stack development, cloud technologies, and software engineering.',
+    about_p1:'Software Developer with experience in Python automation, SQL development, system integration, and business process optimization. Skilled in designing and implementing solutions that reduce manual work, improve data accuracy, and streamline operations. Experienced in building automation tools, integrating platforms through APIs, and developing internal applications to support business needs. Background in infrastructure, technical support, and software development, providing a broad understanding of enterprise systems and technology environments.',
 
     sec_timeline:"Career Timeline",
     tl_present:"Present",
@@ -365,14 +367,20 @@ var T = {
     tl4_title:"Technical Program in Computer Networks",
     tl4_desc:"Technical foundation in networking infrastructure, connectivity, fiber optics and network equipment administration.",
 
-    exp1_role:"Professional Experience as Systems Developer",
+    exp1_role:"Professional Experience as Software Developer",
     exp1_period:"Jul 2025 – Present",
 
-    exp1_li1:"Developed and maintained analytical dashboards using Power BI",
-    exp1_li2:"Built Python automation scripts for data processing and integration",
-    exp1_li3:"Modeled and manipulated data using SQL",
-    exp1_li4:"Implemented automated workflows with Power Automate",
-    exp1_li5:"Contributed to data-driven culture initiatives and operational optimization",
+    exp1_li1:"Developed Python applications and automation solutions to eliminate manual processes and improve operational efficiency.",
+    exp1_li2:"Designed and executed SQL queries for data extraction, validation, and business rule implementation.",
+    exp1_li3:"Integrated internal systems, databases, SharePoint environments, and external services to automate information flows.",
+    exp1_li4:"Developed automated reporting and notification processes using Python and Microsoft technologies.",
+    exp1_li5:"Collaborated with business teams to identify process improvement opportunities and translate requirements into software solutions.",
+
+    sk_lang:"Programming & Frameworks",
+    sk_auto:"Automation & Integration",
+    sk_db:"Database Management",
+    sk_tools:"Tools",
+    sk_web:"Web Development",
 
     senai_p1_title:"AI-Powered Analysis Automation",
     senai_p1_desc:"Developed a Python automation workflow to process Excel spreadsheets, structure data, and automatically deliver AI-generated analysis reports by email. The solution reduced an operational process from nearly one full day to less than one hour.",
@@ -396,6 +404,7 @@ var T = {
     vertem_p3_desc:"Actively participated in production war rooms to resolve critical incidents, performing troubleshooting, rapid impact analysis, and collaborative communication across technical teams.",
 
     exp3_role:"Professional Experience as Network Technician",
+    exp3_period:"Apr 2018 – Mar 2022",
 
     exp3_li1:"Diagnosed and resolved network infrastructure issues",
     exp3_li2:"Monitored network assets, including wireless radios, backbones, and telephony equipment",
@@ -418,16 +427,19 @@ var T = {
     edu1_highlight:"<strong>Highlight:</strong> Market-oriented program focused on hands-on projects, micro-certifications, and experience with widely used industry tools and technologies.",
 
     edu2_deg:"Associate Degree in Systems Analysis and Development",
+    edu2_per:"Feb 2022 – Dec 2024",
     edu2_focus_title:"Key areas of study",
     edu2_desc:"Degree focused on software engineering, object-oriented programming, data structures, database modeling, systems development, information security, and software architecture.",
     edu2_highlight:"<strong>Highlight:</strong> Technology-focused program with a strong practical approach to software development, problem-solving, and engineering best practices.",
 
     edu3_deg:"Associate Degree in Information Technology Management",
+    edu3_per:"Feb 2015 – Dec 2017",
     edu3_focus_title:"Key areas of study",
     edu3_desc:"Degree focused on IT governance, infrastructure, enterprise systems, project management, databases, business processes, and strategic technology planning.",
     edu3_highlight:"<strong>Highlight:</strong> Academic background combining both technical and business perspectives, providing experience in technology and corporate management environments.",
 
     edu4_deg:"Technical Program in Computer Networks",
+    edu4_per:"Jul 2012 – Jul 2014",
     edu4_focus_title:"Key areas of study",
     edu4_desc:"Technical education focused on networking infrastructure, connectivity, TCP/IP protocols, structured cabling, fiber optics, router and switch configuration, and network administration and support.",
     edu4_highlight:"<strong>Highlight:</strong> Strong technical foundation in infrastructure and telecommunications, marking the beginning of my professional career in technology.",

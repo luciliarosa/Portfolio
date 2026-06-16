@@ -119,7 +119,7 @@ const T = {
       sec_experience:"Experience",
       exp_summary:"Professional experience in software development, automation and technology solutions.",
       exp_th_role:"Role", exp_th_company:"Company", exp_th_focus:"Focus",
-      exp_role1:"Systems Developer",  exp_focus1:"Python, Automation & Data Solutions",
+      exp_role1:"Software Developer",  exp_focus1:"Python, Automation & Data Solutions",
       exp_role2:"Support Analyst",    exp_focus2:"SQL, Frontend & Systems Support",
       exp_role3:"Network Technician", exp_focus3:"Infrastructure & Network Monitoring",
       exp_btn:"View full experience →",

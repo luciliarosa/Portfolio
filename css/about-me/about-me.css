@@ -214,7 +214,7 @@ hr {
 .cv-btn-en:hover { background: var(--ink); }
 
 /* ── ABOUT TEXT ── */
-.about-text { font-size: 14px; color: var(--ink2); line-height: 1.85; }
+.about-text { font-size: 14px; color: var(--ink2); line-height: 1.85; text-align: justify; }
 .about-text p + p { margin-top: 1rem; }
 .about-text strong { color: var(--ink); font-weight: 700; }
 .about-text em { font-family: var(--font-serif); font-style: italic; color: var(--ink3); }
