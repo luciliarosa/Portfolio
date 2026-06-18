@@ -173,8 +173,8 @@
   <div class="pinned fade-up">
     <span class="pinned-icon">📌</span>
     <div>
-      <h4 data-i18n="pinned_title">Nota da Lucilia</h4>
-      <p data-i18n="pinned_text">Esse caderno é o meu jeito de revisar e fixar o conteúdo. Clique em qualquer matéria para ver os tópicos e acessar as aulas anotadas.</p>
+      <h4>Nota da Lucilia</h4>
+      <p>Esse caderno é o meu jeito de revisar e fixar o conteúdo. Clique em qualquer matéria para ver os tópicos e acessar as aulas anotadas.</p>
     </div>
   </div>
 
@@ -650,6 +650,7 @@
 
 <script>
 let lang = localStorage.getItem('nb_lang') || 'pt';
+document.body.classList.remove('lang-switching');
 
 function setLang(l) {
   lang = l;
