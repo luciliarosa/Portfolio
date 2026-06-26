@@ -21,6 +21,7 @@
     <span class="nav-sep"></span>
     <a href="about-me.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
     <a href="projects.html" class="nav-link active" data-i18n="nav_projects">Projetos</a>
+    <a href="dev-area.html" class="nav-link" data-i18n="nav_areas">Frontend · Backend · Fullstack</a>
   </div>
   <div class="lang-toggle">
     <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">🇧🇷 PT</button>
@@ -31,9 +32,9 @@
 <div class="page">
 
   <div class="hero fade">
-    <p class="hero-eyebrow" data-i18n="eyebrow">// Meus projetos</p>
+    <p class="hero-eyebrow" data-i18n="eyebrow">// meus projetos</p>
     <h1 class="hero-title" data-i18n="hero_title">O que eu<br><em>construí</em></h1>
-    <p class="hero-sub" data-i18n="hero_sub">Projetos que demonstram experiência em desenvolvimento de software, automação de processos, integração de sistemas e desenvolvimento web, utilizando tecnologias como Python, SQL, JavaScript e APIs.</p>
+    <p class="hero-sub" data-i18n="hero_sub">Projetos reais, estudos e experimentos. Cada um representa uma etapa da jornada — do HTML puro até automações em Python e interfaces em React.</p>
   </div>
 
   <hr/>
@@ -67,11 +68,11 @@
     <div class="filter-bar" style="margin-top:-12px;">
       <button class="filter-btn active" data-status="all" onclick="setStatusFilter(this)"><span data-i18n="filter_all_status">Todos os status</span></button>
       <button class="filter-btn" data-status="live" onclick="setStatusFilter(this)">
-        <span style="width:8px;height:8px;border-radius:50%;background:#1c1917;display:inline-block;"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#166534;display:inline-block;"></span>
         <span data-i18n="status_live">Live</span>
       </button>
       <button class="filter-btn" data-status="wip" onclick="setStatusFilter(this)">
-        <span style="width:8px;height:8px;border-radius:50%;background:#1c1917;display:inline-block;"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#854d0e;display:inline-block;"></span>
         <span data-i18n="status_wip">Em andamento</span>
       </button>
       <button class="filter-btn" data-status="study" onclick="setStatusFilter(this)">
@@ -154,14 +155,14 @@
       <!-- ═══════════════════════════════════════════════
            PROJETO 3 — Jogo da Velha (HTML & CSS) | status: Live
            ═══════════════════════════════════════════════ -->
-      <div class="project-card" data-cat="js" data-status="live">
-        <div class="card-bar bar-js"></div>
+      <div class="project-card" data-cat="html" data-status="live">
+        <div class="card-bar bar-html"></div>
         <div class="card-carousel" data-images='[
           "../img/project3-1.png",
           "../img/project3-2.png",
           "../img/project3-3.png",
           "../img/project3-4.png"
-        ]' data-badge="badge-js" data-badge-text="JavaScript">
+        ]' data-badge="badge-html" data-badge-text="HTML &amp; CSS">
         </div>
         <div class="card-body">
           <div class="card-header">
@@ -185,10 +186,10 @@
         </div>
       </div>
 
-      <!--═══════════════════════════════════════════════
+      <!-- ═══════════════════════════════════════════════
            PROJETO 4 — Automação de Relatórios (Python) | status: live
            ═══════════════════════════════════════════════ -->
-      <!-- <div class="project-card" data-cat="python" data-status="live">
+      <div class="project-card" data-cat="python" data-status="live">
         <div class="card-bar bar-python"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -209,12 +210,12 @@
           <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
           <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
         </div>
-      </div> -->
+      </div>
 
       <!-- ═══════════════════════════════════════════════
            PROJETO 5 — Task Manager App (JavaScript) | status: live
            ═══════════════════════════════════════════════ -->
-      <!-- <div class="project-card" data-cat="js" data-status="live">
+      <div class="project-card" data-cat="js" data-status="live">
         <div class="card-bar bar-js"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -235,12 +236,12 @@
           <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
           <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
         </div>
-      </div> -->
+      </div>
 
       <!-- ═══════════════════════════════════════════════
            PROJETO 6 — Weather App (JavaScript) | status: live
            ═══════════════════════════════════════════════ -->
-      <!-- <div class="project-card" data-cat="js" data-status="live">
+      <div class="project-card" data-cat="js" data-status="live">
         <div class="card-bar bar-js"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -261,12 +262,12 @@
           <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
           <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
         </div>
-      </div> -->
+      </div>
 
       <!-- ═══════════════════════════════════════════════
            PROJETO 7 — Finance Tracker (React) | status: wip
            ═══════════════════════════════════════════════ -->
-      <!-- <div class="project-card" data-cat="react" data-status="wip">
+      <div class="project-card" data-cat="react" data-status="wip">
         <div class="card-bar bar-react"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -287,12 +288,12 @@
           <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
           <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
         </div>
-      </div> -->
+      </div>
 
       <!-- ═══════════════════════════════════════════════
            PROJETO 8 — Kanban Board (React) | status: study
            ═══════════════════════════════════════════════ -->
-      <!-- <div class="project-card" data-cat="react" data-status="study">
+      <div class="project-card" data-cat="react" data-status="study">
         <div class="card-bar bar-react"></div>
         <div class="card-carousel" data-images='[
           "COLOQUE_A_URL_DA_IMAGEM_1_AQUI",
@@ -313,10 +314,10 @@
           <a class="card-link disabled" aria-disabled="true" data-i18n="btn_no_repo">Sem repositório</a>
           <a class="card-link primary disabled" aria-disabled="true" data-i18n="btn_soon">Em breve</a>
         </div>
-      </div> -->
+      </div>
 
       <div class="empty-state" id="emptyState">
-        <p data-i18n="empty_msg">Nenhum projeto encontrado nessa categoria ainda. </p>
+        <p data-i18n="empty_msg">Nenhum projeto encontrado nessa categoria ainda. 🌱</p>
       </div>
 
     </div>
