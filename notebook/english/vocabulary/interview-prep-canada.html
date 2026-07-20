@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Canadian Tech Interviews — Lucilia's Notebook</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;
+      --ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;
+      --rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);
+      --accent:#2563a8;--accent-light:#dbeafe;
+      --accent2:#b91c3c;--accent2-light:#fde3e8;
+      --shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);
+      --radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;}
+    .nav-links{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-right:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;}
+    .page{max-width:820px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-tech{background:var(--accent-light);color:#1e3a5f;}
+    .tag-red{background:var(--accent2-light);color:#7a1230;}
+    .tag-gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .tip{background:var(--accent-light);border:1.5px solid rgba(37,99,168,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:1.5rem;}
+    .tip p{font-size:13px;color:#1e3a5f;line-height:1.7;}
+    .tip.red{background:var(--accent2-light);border-color:rgba(185,28,60,.2);}
+    .tip.red p{color:#7a1230;}
+    /* category cards */
+    .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:1.5rem;}
+    .cat-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+    .cat-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+    .cat-card ul{list-style:none;display:flex;flex-direction:column;gap:4px;}
+    .cat-card li{font-size:12.5px;color:var(--ink2);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
+    .cat-card li::before{content:'›';color:var(--accent);font-weight:700;flex-shrink:0;}
+    /* question cards */
+    .q-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:10px;}
+    .q-en{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+    .q-en.red{color:var(--accent2);}
+    .q-pt{font-size:12px;color:var(--ink3);margin-bottom:8px;}
+    .q-ans-label{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);margin-bottom:4px;}
+    .q-ans{font-size:12.5px;font-style:italic;color:var(--ink2);border-left:3px solid var(--accent-light);padding-left:10px;line-height:1.6;}
+    .q-ans.red-border{border-left-color:var(--accent2-light);}
+    /* vocab table reused for STAR */
+    .star-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem;}
+    .star-table th{background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;padding:10px 14px;text-align:left;letter-spacing:.04em;}
+    .star-table td{font-size:12.5px;padding:10px 14px;border-bottom:1px solid var(--rule2);color:var(--ink2);vertical-align:top;line-height:1.6;}
+    .star-table tr:last-child td{border-bottom:none;}
+    .star-table tr:nth-child(even) td{background:var(--paper2);}
+    .star-letter{font-family:var(--font-mono);font-weight:700;color:var(--accent);}
+    /* phrase cards */
+    .phrase-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:10px;}
+    .phrase-card .phrase-en{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+    .phrase-card .phrase-pt{font-size:12px;color:var(--ink3);margin-bottom:6px;}
+    .phrase-card .phrase-ex{font-size:12px;font-style:italic;color:var(--ink4);border-left:3px solid var(--accent-light);padding-left:10px;}
+    /* summary */
+    .summary{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px 22px;margin-top:2rem;}
+    .summary h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+    .summary ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .summary li{font-size:13px;color:var(--ink2);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+    .summary li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.cat-grid{grid-template-columns:1fr;}.star-table{font-size:11px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../notebook.html#english" class="nav-link">English</a>
+    <a href="tech-vocab.html" class="nav-link">Tech Vocabulary</a>
+    <a href="travel-vocab.html" class="nav-link">Travel Vocabulary</a>
+    <a href="interview-prep-canada.html" class="nav-link active">Interview Prep 🇨🇦</a>
+  </div>
+</nav>
+
+<div class="page">
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// interview prep · English · Canadian Tech Job Market</p>
+    <h1 class="article-title">Canadian Tech Interviews<br><span style="font-size:.6em;color:var(--ink3);font-style:italic;">Guia de Entrevistas para Vagas de Tecnologia no Canadá</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-tech">HR Screening</span>
+      <span class="tag tag-red">Technical Interview</span>
+      <span class="tag tag-gray">Intermediário–Avançado</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">perguntas + minhas respostas + cultura de entrevista</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- COMO FUNCIONA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Como funciona uma entrevista tech no Canadá</p>
+    <div class="tip">
+      <p>Geralmente o processo tem 2–4 etapas: <strong>(1) HR / Recruiter screening</strong> (15–30min, foco em fit, salário, logística e legal status), <strong>(2) Technical screening</strong> com alguém de tech (pode ser call técnica, live coding ou take-home), <strong>(3) Hiring manager / team interview</strong> (mistura de comportamental + técnico) e às vezes <strong>(4) Panel / final round</strong> com várias pessoas ou culture fit com o time.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <h3>Recruiter / HR round</h3>
+        <ul>
+          <li>Fit cultural e motivação</li>
+          <li>Expectativa salarial</li>
+          <li>Work authorization / visto</li>
+          <li>Notice period / disponibilidade</li>
+          <li>Formato de trabalho (remote/hybrid)</li>
+        </ul>
+      </div>
+      <div class="cat-card">
+        <h3>Technical round</h3>
+        <ul>
+          <li>Sua experiência técnica</li>
+          <li>Problem-solving / lógica</li>
+          <li>Stack e ferramentas usadas</li>
+          <li>Decisões de arquitetura</li>
+          <li>Comportamento em incidentes/bugs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip red">
+      <p><strong>Cultura canadense:</strong> entrevistadores costumam ser bem educados, indiretos e conversam um pouco antes de começar ("small talk" sobre o clima, o fim de semana). Isso não é enrolação — é parte da cultura de "politeness". Seja cordial, mas não precisa ficar nervoso(a) com isso: é o momento de "quebrar o gelo".</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- HR / RECRUITER QUESTIONS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">HR / Recruiter Questions — perguntas comportamentais e de fit</p>
+
+    <div class="q-card">
+      <div class="q-en">"Tell me about yourself."</div>
+      <div class="q-pt">Fale sobre você.</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"Sure! I'm a software developer with [X years] of experience, mostly working with [stack, e.g. JavaScript and React]. Right now I'm at [company/role], where I focus on [what you do]. Before that, I [previous relevant background]. I'm looking for a new opportunity where I can [growth goal, e.g. work on larger-scale systems] and contribute to a team like yours."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"Why do you want to work here?"</div>
+      <div class="q-pt">Por que você quer trabalhar aqui?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"I've been following [company]'s work on [product/mission], and it aligns with what I care about professionally. I also like that the role focuses on [specific responsibility from the job post] — that's exactly the kind of work I want to grow in."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"Why are you leaving your current job? / Why did you leave your last job?"</div>
+      <div class="q-pt">Por que você está saindo/saiu do emprego atual?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"I've learned a lot in my current role, but I'm looking for a position with more [growth / ownership / a different tech stack]. I feel like I've reached a good point to take the next step in my career."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"What are your salary expectations?"</div>
+      <div class="q-pt">Qual sua pretensão salarial?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"Based on my research for this role in [city/province] and my experience level, I'm looking at a range of $[X] to $[Y] CAD, but I'm open to discussing the full compensation package, including benefits."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"Are you legally authorized to work in Canada? Do you require sponsorship?"</div>
+      <div class="q-pt">Você tem autorização legal para trabalhar no Canadá? Precisa de patrocínio de visto?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"Yes, I'm authorized to work in Canada under [PR / work permit / citizenship], so no sponsorship is needed." — <em>ou, se precisar:</em> "I currently hold a [visa type] and would need [sponsorship/support] to continue working long-term — happy to share more details."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"What's your availability / notice period?"</div>
+      <div class="q-pt">Qual seu período de aviso prévio / disponibilidade para começar?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"I'd need to give two weeks' notice at my current job, so I could start around [date]."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"Tell me about a time you had a conflict with a coworker and how you handled it."</div>
+      <div class="q-pt">Conte sobre uma vez que teve um conflito com um colega e como lidou com isso.</div>
+      <div class="q-ans-label">Minha resposta (exemplo — use STAR)</div>
+      <div class="q-ans">"On a past project, a teammate and I disagreed about which library to use for a feature. I asked to set up a short call to understand their concerns, we compared trade-offs together, and ended up combining both ideas into a solution that worked for the deadline and the codebase."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"Where do you see yourself in five years?"</div>
+      <div class="q-pt">Onde você se vê daqui a cinco anos?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"I'd like to keep growing technically, possibly moving into a more senior or specialized role, while continuing to work on products that have real impact for users."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"What are your strengths and weaknesses?"</div>
+      <div class="q-pt">Quais são seus pontos fortes e fracos?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"One of my strengths is breaking down complex problems into smaller steps — it helps the whole team move faster. Something I'm working on is delegating more instead of trying to solve everything myself; I've started doing that by pairing with teammates on tasks I'd normally take on alone."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"How do you handle tight deadlines or pressure?"</div>
+      <div class="q-pt">Como você lida com prazos apertados ou pressão?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans">"I try to break the work into priorities early and communicate blockers as soon as I see them, instead of waiting until the deadline is close. That way the team can adjust scope together if needed."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en">"Do you have any questions for us?"</div>
+      <div class="q-pt">Você tem alguma pergunta para nós?</div>
+      <div class="q-ans-label">Minha resposta (exemplo — sempre tenha perguntas!)</div>
+      <div class="q-ans">"Yes — what does success look like in this role after the first 90 days? And what's the team's current biggest challenge?"</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TECHNICAL RECRUITER / HIRING MANAGER QUESTIONS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Technical Recruiter / Hiring Manager Questions</p>
+    <div class="tip red">
+      <p>Essas perguntas costumam vir de alguém de tech (dev sênior, tech lead, engineering manager). Eles avaliam profundidade técnica, forma de pensar e comunicação — nem sempre esperam a resposta "perfeita", mas sim o seu raciocínio.</p>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"Walk me through your resume / your most recent project."</div>
+      <div class="q-pt">Me guie pelo seu currículo / seu projeto mais recente.</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"In my current role, I mainly work on [system/product]. My most recent project was [name], where I was responsible for [your part]. The biggest challenge was [X], and I solved it by [Y], which resulted in [measurable result if possible]."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"Tell me about a challenging technical problem you solved recently."</div>
+      <div class="q-pt">Conte sobre um problema técnico desafiador que você resolveu recentemente.</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"We had an issue where an API endpoint was timing out under load. I profiled the query, found it was doing a full table scan, added an index and introduced caching for repeated requests. Response time went from ~4s to under 300ms."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"Explain [a technical concept] as if I weren't technical."</div>
+      <div class="q-pt">Explique [um conceito técnico] como se eu não fosse da área técnica.</div>
+      <div class="q-ans-label">Minha resposta (exemplo — para "what is an API")</div>
+      <div class="q-ans red-border">"An API is like a waiter in a restaurant — you (the app) tell the waiter (the API) what you want, the waiter takes your order to the kitchen (the server), and brings back your food (the data)."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"What's your experience with [our stack, e.g. React, Node.js, AWS]?"</div>
+      <div class="q-pt">Qual sua experiência com [a stack da empresa]?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"I've worked with React for about [X years], building [type of apps]. I'm also comfortable with [related tools, e.g. Redux, TypeScript], and I've used AWS mainly for [Lambda / S3 / EC2, etc.] on past projects."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"How do you approach code review / giving feedback on someone's code?"</div>
+      <div class="q-pt">Como você aborda code review / dar feedback no código de alguém?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"I focus on the code, not the person — I try to explain the 'why' behind a suggestion and ask questions instead of just pointing out issues. I also make sure to call out what's done well, not just what needs to change."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"Tell me about a time you disagreed with a technical decision made by your team or manager."</div>
+      <div class="q-pt">Conte sobre uma vez que discordou de uma decisão técnica do time ou do gestor.</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"My team wanted to use a new framework for a small feature. I raised concerns about the learning curve given our timeline, we discussed trade-offs, and agreed to prototype it first before committing. It turned out to be a good fit, so I was glad we tested it."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"What's the difference between [X] and [Y]?" — ex: REST vs GraphQL, SQL vs NoSQL, let vs const</div>
+      <div class="q-pt">Qual a diferença entre X e Y?</div>
+      <div class="q-ans-label">Minha resposta (exemplo — REST vs GraphQL)</div>
+      <div class="q-ans red-border">"REST exposes fixed endpoints that return fixed data structures, so you sometimes over-fetch or under-fetch data. GraphQL lets the client ask for exactly the fields it needs in a single request, which is great for reducing over-fetching, but it adds complexity on the server side."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"How do you approach testing? What's your experience with unit/integration tests?"</div>
+      <div class="q-pt">Como você aborda testes? Qual sua experiência com testes unitários/integração?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"I write unit tests for core business logic as I go, and rely on integration tests for critical user flows. I try to keep test coverage meaningful rather than chasing a percentage — I'd rather have fewer, high-value tests than lots of shallow ones."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"Describe how you'd design [a simple system]." (mini system design)</div>
+      <div class="q-pt">Descreva como você projetaria [um sistema simples].</div>
+      <div class="q-ans-label">Minha resposta (exemplo — estrutura de resposta)</div>
+      <div class="q-ans red-border">"First I'd clarify requirements and scale — how many users, read vs write heavy. Then I'd sketch the main components: API layer, database, caching. I'd talk through trade-offs, like SQL vs NoSQL depending on data shape, and where I'd add caching or a queue if needed."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"How do you handle production incidents or urgent bugs?"</div>
+      <div class="q-pt">Como você lida com incidentes de produção ou bugs urgentes?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"First I check logs and monitoring to understand impact and scope. I communicate status to the team early, even before I have a fix, and focus on mitigating impact first — like a rollback — before doing a deeper root-cause fix."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"How do you stay up to date with new technologies?"</div>
+      <div class="q-pt">Como você se mantém atualizado(a) com novas tecnologias?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"I follow a few newsletters and blogs, and I like building small side projects to actually try new tools instead of just reading about them — it helps the knowledge stick."</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-en red">"Do you have questions about the tech stack or engineering culture?"</div>
+      <div class="q-pt">Você tem perguntas sobre a stack técnica ou a cultura de engenharia?</div>
+      <div class="q-ans-label">Minha resposta (exemplo)</div>
+      <div class="q-ans red-border">"How does the team handle code review and deployment — is it continuous deployment or scheduled releases? And how much autonomy does the team have in choosing tools?"</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- STAR METHOD -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O método STAR — como estruturar respostas comportamentais</p>
+    <div class="tip">
+      <p>No Canadá, respostas comportamentais ("Tell me about a time when...") quase sempre são avaliadas pela estrutura <strong>STAR</strong>. Isso mostra organização de pensamento — muito valorizado em entrevistas norte-americanas.</p>
+    </div>
+    <table class="star-table">
+      <thead><tr><th>Letra</th><th>Significado</th><th>O que incluir</th></tr></thead>
+      <tbody>
+        <tr><td><span class="star-letter">S</span></td><td>Situation</td><td>Contexto breve: onde, quando, qual era o cenário.</td></tr>
+        <tr><td><span class="star-letter">T</span></td><td>Task</td><td>Qual era seu objetivo ou responsabilidade específica.</td></tr>
+        <tr><td><span class="star-letter">A</span></td><td>Action</td><td>O que você fez, especificamente — use "I", não "we".</td></tr>
+        <tr><td><span class="star-letter">R</span></td><td>Result</td><td>O resultado, de preferência com números/impacto mensurável.</td></tr>
+      </tbody>
+    </table>
+    <div class="q-card">
+      <div class="q-en">Exemplo completo — "Tell me about a time you missed a deadline."</div>
+      <div class="q-ans" style="margin-top:6px">
+        <strong>S:</strong> "On a project last year, we were building a new checkout flow with a tight two-week deadline." <br/>
+        <strong>T:</strong> "I was responsible for integrating the payment API." <br/>
+        <strong>A:</strong> "Midway through, I realized the third-party docs were outdated, so I flagged it to my manager immediately, proposed an extra two days, and worked with the vendor's support team to unblock it faster." <br/>
+        <strong>R:</strong> "We shipped two days later than planned, but with zero payment bugs post-launch, and the team appreciated the early heads-up instead of a last-minute surprise."
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- USEFUL PHRASES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Expressões úteis para entrevistas (e para você usar também)</p>
+    <div class="phrase-card">
+      <div class="phrase-en">"I'm a quick learner / a fast learner."</div>
+      <div class="phrase-pt">Aprendo rápido.</div>
+      <div class="phrase-ex">"I'm a quick learner — I picked up Kubernetes on the job within a couple of months."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"I'm a team player."</div>
+      <div class="phrase-pt">Trabalho bem em equipe.</div>
+      <div class="phrase-ex">"I'm a team player — I enjoy pairing on hard problems."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"I like to wear many hats."</div>
+      <div class="phrase-pt">Gosto de acumular várias funções/responsabilidades.</div>
+      <div class="phrase-ex">"At a startup, I had to wear many hats — dev, QA, and support."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"I'd be able to hit the ground running."</div>
+      <div class="phrase-pt">Eu conseguiria começar produzindo rapidamente, sem muito período de adaptação.</div>
+      <div class="phrase-ex">"Since I've used this stack before, I'd be able to hit the ground running."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"Let's circle back to that."</div>
+      <div class="phrase-pt">Vamos retomar esse assunto depois.</div>
+      <div class="phrase-ex">"That's a great question — can we circle back to it after I finish this point?"</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"I really appreciate your time today."</div>
+      <div class="phrase-pt">Agradeço muito seu tempo hoje. (ótimo para fechar a entrevista)</div>
+      <div class="phrase-ex">"Thank you so much, I really appreciate your time today and I'm looking forward to hearing back."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">"Could you clarify what you mean by...?"</div>
+      <div class="phrase-pt">Pode esclarecer o que você quer dizer com...? (ótimo se não entender a pergunta)</div>
+      <div class="phrase-ex">"Could you clarify what you mean by 'scale' in this context — traffic or team size?"</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- CULTURAL NOTES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Notas culturais sobre entrevistas no Canadá</p>
+    <div class="summary">
+      <h3>O que esperar</h3>
+      <ul>
+        <li>Comunicação é indireta e educada — feedback difícil costuma vir "amenizado" ("that's an interesting approach, though I might consider...").</li>
+        <li>Small talk no início é comum e esperado ("How's your day going so far?", "Did you have a good weekend?").</li>
+        <li>Perguntas sobre idade, estado civil, religião, filhos ou planos de gravidez são ilegais no Canadá — se surgirem, é sinal de alerta sobre a empresa.</li>
+        <li>Em várias províncias (ex: Ontário, BC) a lei exige que a faixa salarial seja divulgada na vaga — use isso a seu favor na negociação.</li>
+        <li>Perguntas sobre remote/hybrid/in-office são normais logo no início — tenha sua preferência clara.</li>
+        <li>Pontualidade é levada a sério — entre na call/sala 2–3 minutos antes, nunca atrasado.</li>
+        <li>Um e-mail de agradecimento ("thank-you note") dentro de 24h após a entrevista é bem visto e comum.</li>
+        <li>Humildade + confiança: evite ser arrogante, mas também não minimize suas conquistas — equilíbrio é chave.</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr/>
+
+  <div class="nav-pages fade">
+    <a href="tech-vocab.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Tech Vocabulary</span>
+    </a>
+    <a href="../../notebook.html#english" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">notebook →</span>
+      <span class="np-title">Home</span>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
