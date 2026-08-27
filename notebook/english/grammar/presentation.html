@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <title>My English Journey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent-dark:#a83a24;--accent-light:#fdecea;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .page{max-width:640px;margin:0 auto;padding:1.4rem 1rem 3rem;}
+    .article-hero{padding:0 0 1rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:10.5px;color:var(--ink4);letter-spacing:.05em;margin-bottom:8px;}
+    .article-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;}
+    .tag-eng{background:var(--accent-light);color:#b71c1c;}.tag-gray{background:var(--paper3);color:var(--ink3);}
+    .hint-swipe{font-size:11.5px;color:var(--ink4);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+
+    /* ---------- DECK ---------- */
+    .deck-wrap{margin-top:4px;}
+    .deck-frame{position:relative;background:#fff;border:1.5px solid var(--rule);border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden;}
+    .spiral{position:absolute;left:0;top:0;bottom:0;width:18px;background-image:radial-gradient(circle at 9px 14px,var(--paper) 0 4px,transparent 4.1px);background-size:18px 28px;background-repeat:repeat-y;border-right:1.5px dashed var(--rule);z-index:2;}
+    .slide-viewport{position:relative;}
+    .slide{display:none;padding:24px 18px 24px 34px;min-height:60vh;}
+    .slide.active{display:flex;flex-direction:column;animation:slideIn .35s ease both;}
+    .slide.active.dir-back{animation:slideInBack .35s ease both;}
+    @keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes slideInBack{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+
+    .chapter-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--accent);background:var(--accent-light);padding:4px 10px;border-radius:20px;margin-bottom:10px;width:fit-content;}
+    .slide-icon{font-size:30px;line-height:1;margin-bottom:6px;}
+    .slide-title{font-family:var(--font-serif);font-size:clamp(21px,6.5vw,27px);font-weight:600;color:var(--ink);margin-bottom:2px;}
+    .slide-subtitle{font-size:12px;font-style:italic;color:var(--ink4);margin-bottom:14px;}
+    .slide-body p{font-size:15.5px;line-height:1.65;color:var(--ink2);margin-bottom:10px;}
+    .slide-body p:last-child{margin-bottom:0;}
+    .slide-body strong{color:var(--accent);}
+
+    /* illustration slots (hand-drawn SVG doodles) */
+    .img-slot{position:relative;border-radius:10px;overflow:hidden;margin:6px 0 14px;border:1.5px solid var(--rule);background:var(--paper2);height:150px;display:flex;align-items:center;justify-content:center;}
+    .img-slot svg{width:100%;height:100%;display:block;}
+    .img-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .img-row .img-slot{margin:6px 0 14px;height:120px;}
+
+    /* quote cards (reported speech) */
+    .quote-pair{background:var(--paper2);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px;margin-bottom:8px;}
+    .quote-pair .direct{font-family:var(--font-serif);font-style:italic;font-size:13.5px;color:var(--ink);}
+    .quote-pair .reported{font-size:12.5px;color:var(--ink3);margin-top:3px;}
+    .quote-pair .reported strong{color:var(--accent);font-weight:700;}
+
+    /* Title slide */
+    .title-slide{display:flex;flex-direction:column;justify-content:center;flex:1;}
+    .title-slide .badge{font-size:32px;margin-bottom:10px;}
+    .title-slide h1{font-family:var(--font-serif);font-size:clamp(24px,8vw,34px);font-weight:600;line-height:1.15;color:var(--ink);}
+    .title-slide h1 span{display:block;font-size:.46em;font-style:italic;color:var(--ink3);font-weight:400;margin-top:5px;}
+    .title-slide .lede{font-size:14px;color:var(--ink3);margin-top:12px;line-height:1.6;}
+    .title-slide .hint{margin-top:16px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink4);}
+
+    /* Closing slide */
+    .closing-slide{display:flex;flex-direction:column;justify-content:center;flex:1;}
+    .closing-slide h2{font-family:var(--font-serif);font-size:clamp(24px,7vw,30px);color:var(--ink);margin-bottom:8px;}
+
+    /* ---------- Controls ---------- */
+    .deck-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px;}
+    .arrow-btn{width:50px;height:50px;border-radius:50%;border:1.5px solid var(--rule);background:#fff;color:var(--ink);font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+    .arrow-btn:active:not(:disabled){background:var(--accent);color:#fff;border-color:var(--accent);}
+    .arrow-btn:disabled{opacity:.3;}
+    .dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:140px;}
+    .dot-btn{width:7px;height:7px;border-radius:50%;background:var(--rule);border:none;cursor:pointer;padding:0;}
+    .dot-btn.on{background:var(--accent);transform:scale(1.35);}
+    .deck-counter{text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--ink4);margin-top:6px;}
+
+    /* ---------- Your Turn: card game ---------- */
+    .prompt-banner{background:var(--accent-light);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start;}
+    .prompt-banner .ico{font-size:20px;}
+    .prompt-banner p{font-size:13px;color:#7f1d1d;line-height:1.55;}
+    .memory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+    .mem-card{position:relative;aspect-ratio:3/4;cursor:pointer;perspective:900px;}
+    .mem-card-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+    .mem-card.flipped .mem-card-inner{transform:rotateY(180deg);}
+    .mem-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5px;text-align:center;}
+    .mem-front{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);color:#fff;box-shadow:var(--shadow);}
+    .mem-front .num{font-family:var(--font-mono);font-size:8px;opacity:.85;}
+    .mem-front .q-ico{font-size:18px;margin-top:3px;}
+    .mem-back{background:#fff;border:1.5px solid var(--rule);transform:rotateY(180deg);box-shadow:var(--shadow);}
+    .mem-back.mem-prize{background:var(--accent-light);border-color:var(--accent);}
+    .mem-back .mic{font-size:13px;color:var(--accent);margin-bottom:3px;}
+    .mem-back .prize-ico{font-size:22px;margin-bottom:3px;}
+    .mem-back p{font-size:9.5px;line-height:1.35;color:var(--ink2);}
+    .mem-back .prize-text{font-size:10.5px;font-weight:700;color:var(--accent-dark);}
+    .mem-card.answered .mem-front{opacity:.5;}
+    .reset-btn{display:block;margin:0 auto;font-size:12px;font-weight:700;background:var(--ink);color:var(--paper);border:none;padding:8px 16px;border-radius:8px;cursor:pointer;}
+
+    @media(min-width:640px){
+      .page{max-width:720px;padding-top:2rem;}
+      .slide{padding:34px 30px 34px 56px;}
+      .spiral{width:26px;background-size:26px 32px;background-image:radial-gradient(circle at 13px 16px,var(--paper) 0 5.5px,transparent 5.6px);}
+      .img-slot{height:220px;}
+      .img-row .img-slot{height:170px;}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// an interactive story</p>
+    <div class="article-meta">
+      <span class="tag tag-eng">Personal Story</span>
+      <span class="tag tag-gray">Best Teacher: ROD</span>
+    </div>
+  </header>
+
+  <div class="deck-wrap fade">
+    <div class="deck-frame">
+      <div class="spiral" aria-hidden="true"></div>
+      <div class="slide-viewport" id="viewport">
+
+        <!-- SLIDE 1 — TITLE -->
+        <section class="slide active" data-slide="0">
+          <div class="title-slide">
+            <div class="badge">📓✈️</div>
+            <h1>My English Journey<span>a developer's story, one word at a time</span></h1>
+            <div class="img-slot">
+              <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="18" width="150" height="112" rx="6" fill="#fff" stroke="var(--ink3)" stroke-width="2"/>
+                <line x1="8" y1="34" x2="158" y2="34" stroke="var(--rule)" stroke-width="2"/>
+                <circle cx="8" cy="30" r="3.5" fill="var(--paper2)" stroke="var(--ink4)" stroke-width="1.4"/>
+                <circle cx="8" cy="46" r="3.5" fill="var(--paper2)" stroke="var(--ink4)" stroke-width="1.4"/>
+                <circle cx="8" cy="62" r="3.5" fill="var(--paper2)" stroke="var(--ink4)" stroke-width="1.4"/>
+                <circle cx="8" cy="78" r="3.5" fill="var(--paper2)" stroke="var(--ink4)" stroke-width="1.4"/>
+                <circle cx="8" cy="94" r="3.5" fill="var(--paper2)" stroke="var(--ink4)" stroke-width="1.4"/>
+                <circle cx="8" cy="110" r="3.5" fill="var(--paper2)" stroke="var(--ink4)" stroke-width="1.4"/>
+                <line x1="24" y1="52" x2="140" y2="52" stroke="var(--rule)" stroke-width="2"/>
+                <line x1="24" y1="66" x2="120" y2="66" stroke="var(--rule)" stroke-width="2"/>
+                <line x1="24" y1="80" x2="132" y2="80" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="24" y1="94" x2="100" y2="94" stroke="var(--rule)" stroke-width="2"/>
+                <line x1="24" y1="108" x2="115" y2="108" stroke="var(--rule)" stroke-width="2"/>
+                <path d="M170 96 Q 220 70 288 40" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-dasharray="4 5" stroke-linecap="round"/>
+                <g transform="translate(278,34) rotate(-24)">
+                  <path d="M0 0 L26 6 L0 12 L6 6 Z" fill="var(--accent)"/>
+                  <path d="M0 0 L26 6 L0 12" fill="none" stroke="var(--accent-dark)" stroke-width="1.2" stroke-linejoin="round"/>
+                </g>
+                <g transform="translate(196,110)">
+                  <path d="M4 6 Q4 -6 20 -6 Q36 -6 36 6 L36 30 Q36 34 32 34 L8 34 Q4 34 4 30 Z" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linejoin="round"/>
+                  <line x1="4" y1="16" x2="36" y2="16" stroke="var(--ink3)" stroke-width="1.6"/>
+                  <rect x="14" y="-10" width="12" height="6" rx="1.5" fill="none" stroke="var(--ink3)" stroke-width="1.8"/>
+                </g>
+                <path d="M204 8 q4 -6 8 0 q4 -6 8 0" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M240 20 q4 -6 8 0 q4 -6 8 0" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <p class="lede">A short story about English, code, and one big decision.</p>
+            <p class="hint">→ tap the arrows to begin</p>
+          </div>
+        </section>
+
+        <!-- SLIDE 2 — SCHOOL DAYS -->
+        <section class="slide" data-slide="1">
+          <span class="chapter-chip">📖 Chapter 1</span>
+          <div class="slide-icon">📚</div>
+          <h2 class="slide-title">School Days</h2>
+          <div class="slide-body">
+            <p>I did not love English class at school.</p>
+            <p>But I <strong>loved</strong> movies, music, and games in English.</p>
+            <p>Slowly, English became fun — not just homework.</p>
+          </div>
+          <div class="img-slot">
+            <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+              <rect x="60" y="18" width="150" height="86" rx="4" fill="#3d4a45" stroke="var(--ink3)" stroke-width="2"/>
+              <rect x="60" y="18" width="150" height="86" rx="4" fill="none" stroke="#2c3733" stroke-width="6"/>
+              <text x="80" y="55" font-family="'JetBrains Mono',monospace" font-size="22" fill="#fdf6ee" letter-spacing="4">ABC</text>
+              <path d="M84 68 q46 -14 92 4" fill="none" stroke="#fdf6ee" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+              <rect x="60" y="104" width="150" height="6" fill="var(--ink4)"/>
+              <g transform="translate(30,96)">
+                <rect x="0" y="18" width="44" height="10" rx="2" fill="var(--accent)"/>
+                <rect x="3" y="8" width="38" height="10" rx="2" fill="var(--ink3)"/>
+                <rect x="0" y="-2" width="44" height="10" rx="2" fill="var(--ink4)"/>
+              </g>
+              <g transform="translate(226,84)">
+                <circle cx="16" cy="16" r="15" fill="#e0574a"/>
+                <path d="M16 3 Q10 -6 4 1" fill="none" stroke="#5a7a3e" stroke-width="2.4" stroke-linecap="round"/>
+                <rect x="14" y="-3" width="3" height="7" rx="1.4" fill="#7a5230"/>
+              </g>
+              <path d="M20 30 q6 -8 12 0" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M250 30 q6 -8 12 0" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            
+          </div>
+          <a href="https://www.youtube.com/watch?v=O_6pOTCLSxA" target="_blank" rel="noopener"
+   style="position:relative;display:block;width:100%;border-radius:10px;overflow:hidden;margin:6px 0 14px;border:1.5px solid var(--rule);">
+  <img src="https://img.youtube.com/vi/O_6pOTCLSxA/hqdefault.jpg" style="width:100%;display:block;">
+  <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+    <span style="border-style:solid;border-width:10px 0 10px 16px;border-color:transparent transparent transparent #fff;margin-left:3px;"></span>
+  </span>
+</a>
+        </section>
+
+        <!-- SLIDE 3 — OLD HABITS (used to / would) -->
+        <section class="slide" data-slide="2">
+          <span class="chapter-chip">💻 Chapter 2</span>
+          <div class="slide-icon">💻</div>
+          <h2 class="slide-title">Old Habits</h2>
+          <div class="slide-body">
+            <p>As a developer, English is everywhere: code, docs, error messages.</p>
+            <p>I <strong>used to</strong> translate every word. It was slow and tiring.</p>
+            <p>I <strong>would</strong> stay up late, reading tutorials in English — again and again.</p>
+            <p>One day, I just stopped translating. I understood.</p>
+          </div>
+          <div class="img-row">
+            <div class="img-slot">
+              <svg viewBox="0 0 140 120" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="10" width="124" height="90" rx="6" fill="#2b2d31" stroke="var(--ink3)" stroke-width="2"/>
+                <rect x="8" y="10" width="124" height="16" rx="6" fill="#3a3d42"/>
+                <circle cx="18" cy="18" r="2.6" fill="#e0574a"/>
+                <circle cx="27" cy="18" r="2.6" fill="#e0b23a"/>
+                <circle cx="36" cy="18" r="2.6" fill="#5a9e5f"/>
+                <text x="18" y="44" font-family="'JetBrains Mono',monospace" font-size="9" fill="#c084fc">function</text>
+                <text x="62" y="44" font-family="'JetBrains Mono',monospace" font-size="9" fill="#f4b860">learn</text>
+                <text x="18" y="58" font-family="'JetBrains Mono',monospace" font-size="9" fill="#7fd3c7">  console</text>
+                <text x="62" y="58" font-family="'JetBrains Mono',monospace" font-size="9" fill="#e5e7eb">.log(</text>
+                <text x="18" y="72" font-family="'JetBrains Mono',monospace" font-size="9" fill="#e0574a">  "understood!"</text>
+                <text x="18" y="86" font-family="'JetBrains Mono',monospace" font-size="9" fill="#7fd3c7">}</text>
+                <path d="M20 108 q6 -8 12 0" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="img-slot">
+              <svg viewBox="0 0 140 120" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(28,12)">
+                  <path d="M4 4 h72 a6 6 0 0 1 6 6 v78 a6 6 0 0 0 -6 -6 h-72 a6 6 0 0 1 -6 -6 v-72 Z" fill="#fdf6ee" stroke="var(--ink3)" stroke-width="2" stroke-linejoin="round"/>
+                  <line x1="41" y1="4" x2="41" y2="88" stroke="var(--rule)" stroke-width="1.4"/>
+                  <line x1="14" y1="24" x2="34" y2="24" stroke="var(--ink4)" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="14" y1="34" x2="30" y2="34" stroke="var(--ink4)" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="14" y1="44" x2="32" y2="44" stroke="var(--ink4)" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M52 20 h20 M52 30 h16 M52 40 h20" stroke="var(--ink4)" stroke-width="2" stroke-linecap="round"/>
+                  <rect x="46" y="-4" width="10" height="20" fill="var(--accent)"/>
+                </g>
+                <path d="M108 96 q6 -8 12 0" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- SLIDE 4 — THE DECISION (past modals) -->
+        <section class="slide" data-slide="3">
+          <span class="chapter-chip">✈️ Chapter 3</span>
+          <div class="slide-icon">✈️</div>
+          <h2 class="slide-title">The Decision</h2>
+          <div class="slide-body">
+            <p>Why did I decide to come to Canada? Not just one reason.</p>
+            <p>Work <strong>must have been</strong> a big part of it.</p>
+            <p>But something else <strong>must have</strong> pushed me too.</p>
+            <p>It <strong>might have been</strong> a slow decision — built over many years.</p>
+          </div>
+          <div class="img-slot">
+            <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="26" cy="122" r="5" fill="var(--accent)"/>
+              <path d="M26 122 Q120 20 250 46" fill="none" stroke="var(--ink4)" stroke-width="1.6" stroke-dasharray="4 6" stroke-linecap="round"/>
+              <g transform="translate(236,36) rotate(18)">
+                <path d="M0 6 L28 0 L0 -6 L7 0 Z" fill="var(--accent)"/>
+              </g>
+              <path d="M200 130 L222 84 L236 106 L252 70 L268 130 Z" fill="var(--paper3)" stroke="var(--ink3)" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M215 100 l7 -12 l7 12 Z" fill="#fff" stroke="var(--ink3)" stroke-width="1.2"/>
+              <path d="M245 90 l7 -12 l7 12 Z" fill="#fff" stroke="var(--ink3)" stroke-width="1.2"/>
+              <rect x="196" y="130" width="76" height="10" fill="var(--ink2)"/>
+              <rect x="205" y="112" width="7" height="18" fill="var(--paper)" opacity=".8"/>
+              <rect x="220" y="118" width="7" height="12" fill="var(--paper)" opacity=".8"/>
+              <rect x="255" y="108" width="7" height="22" fill="var(--paper)" opacity=".8"/>
+              <g transform="translate(60,88)">
+                <path d="M4 8 Q4 -6 22 -6 Q40 -6 40 8 L40 40 Q40 44 36 44 L8 44 Q4 44 4 40 Z" fill="var(--paper2)" stroke="var(--ink3)" stroke-width="2" stroke-linejoin="round"/>
+                <line x1="4" y1="22" x2="40" y2="22" stroke="var(--ink3)" stroke-width="1.6"/>
+                <rect x="15" y="-10" width="14" height="7" rx="1.6" fill="none" stroke="var(--ink3)" stroke-width="1.8"/>
+                <rect x="16" y="30" width="12" height="10" rx="1.5" fill="var(--accent)"/>
+              </g>
+            </svg>
+          </div>
+        </section>
+
+        <!-- SLIDE 5 — WHAT PEOPLE SAID (reported speech) -->
+        <section class="slide" data-slide="4">
+          <span class="chapter-chip">🗣️ Chapter 4</span>
+          <div class="slide-icon">🗣️</div>
+          <h2 class="slide-title">What People Said</h2>
+          <p style="font-size:15.5px;color:var(--ink2);margin-bottom:12px;">Their words stayed with me.</p>
+          <div class="quote-pair">
+            <div class="direct">Manager: "This is a great opportunity."</div>
+            <div class="reported">→ My manager <strong>said</strong> it was a great opportunity.</div>
+          </div>
+          <div class="quote-pair">
+            <div class="direct">Friend: "You will love Vancouver."</div>
+            <div class="reported">→ My friend <strong>told me</strong> I would love Vancouver.</div>
+          </div>
+          <div class="quote-pair">
+            <div class="direct">Mom: "Are you sure about this?"</div>
+            <div class="reported">→ My mom <strong>asked me if</strong> I was sure.</div>
+          </div>
+        </section>
+
+        <!-- SLIDE 6 — MY PROGRESS -->
+        <section class="slide" data-slide="5">
+          <span class="chapter-chip">📈 Chapter 5</span>
+          <div class="slide-icon">📈</div>
+          <h2 class="slide-title">My Progress</h2>
+          <div class="slide-body">
+            <p>My listening improved a lot here in Vancouver.</p>
+            <p>My confidence is growing — I'm not afraid to speak anymore.</p>
+            <p>English is not a school subject. It's a tool I use <strong>every day</strong>.</p>
+          </div>
+          <div class="img-slot">
+            <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 96 L40 56 L60 78 L92 30 L118 96 Z" fill="var(--paper3)" opacity=".8"/>
+              <path d="M150 96 L182 44 L204 68 L236 20 L264 96 Z" fill="var(--paper3)" opacity=".55"/>
+              <line x1="0" y1="128" x2="300" y2="128" stroke="var(--rule)" stroke-width="2"/>
+              <rect x="34" y="98" width="26" height="30" rx="2" fill="var(--ink4)"/>
+              <rect x="76" y="80" width="26" height="48" rx="2" fill="var(--ink3)"/>
+              <rect x="118" y="60" width="26" height="68" rx="2" fill="var(--accent)"/>
+              <rect x="160" y="40" width="26" height="88" rx="2" fill="var(--accent-dark)"/>
+              <path d="M173 40 L173 22 M173 22 l-8 5 l8 5 Z" fill="none" stroke="var(--ink2)" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M173 22 L181 27 L173 32 Z" fill="var(--accent)"/>
+              <path d="M196 118 l6 8 l14 -20" fill="none" stroke="var(--ink2)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="212" cy="98" r="20" fill="none" stroke="var(--ink3)" stroke-width="2" opacity=".5"/>
+            </svg>
+          </div>
+        </section>
+
+        <!-- SLIDE 7 — YOUR TURN (card game) -->
+        <section class="slide" data-slide="6">
+          <span class="chapter-chip">🎤 Chapter 6</span>
+          <div class="slide-icon">🎤</div>
+          <h2 class="slide-title">Your Turn!</h2>
+          <div class="prompt-banner">
+            <span class="ico">🗣️</span>
+            <p>Pick a card. Read the question out loud. Answer it — no wrong answers! One card has a surprise 👀</p>
+          </div>
+          <div class="memory-grid" id="memoryGrid"></div>
+          <button class="reset-btn" id="resetBtn">🔄 Reset cards</button>
+        </section>
+
+        <!-- SLIDE 8 — CLOSING -->
+        <section class="slide" data-slide="7">
+          <div class="closing-slide">
+            <p class="article-eyebrow" style="margin-bottom:6px;">// the end (for now)</p>
+            <h2>Thank you!</h2>
+            <p style="font-size:14.5px;line-height:1.65;color:var(--ink2);">Keep going. Every small habit matters. 🌱</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="deck-controls">
+      <button class="arrow-btn" id="prevBtn" aria-label="Previous slide">←</button>
+      <div class="dots" id="dots"></div>
+      <button class="arrow-btn" id="nextBtn" aria-label="Next slide">→</button>
+    </div>
+    <p class="deck-counter" id="counter">1 / 8</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.from(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+  var dotsWrap = document.getElementById('dots');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var counter = document.getElementById('counter');
+
+  for (var i = 0; i < total; i++){
+    var b = document.createElement('button');
+    b.className = 'dot-btn' + (i === 0 ? ' on' : '');
+    b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    b.addEventListener('click', (function(idx){ return function(){ goTo(idx); }; })(i));
+    dotsWrap.appendChild(b);
+  }
+  var dots = Array.from(dotsWrap.children);
+
+  function render(direction){
+    slides.forEach(function(s, i){
+      s.classList.remove('active', 'dir-back');
+      if (i === current){
+        s.classList.add('active');
+        if (direction === 'back') s.classList.add('dir-back');
+      }
+    });
+    dots.forEach(function(d, i){ d.classList.toggle('on', i === current); });
+    counter.textContent = (current + 1) + ' / ' + total;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  function goTo(idx){
+    if (idx < 0 || idx >= total || idx === current) return;
+    var direction = idx < current ? 'back' : 'fwd';
+    current = idx;
+    render(direction);
+  }
+
+  prevBtn.addEventListener('click', function(){ goTo(current - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  var touchStartX = null;
+  var viewport = document.getElementById('viewport');
+  viewport.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX; }, {passive: true});
+  viewport.addEventListener('touchend', function(e){
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40){ dx < 0 ? goTo(current + 1) : goTo(current - 1); }
+    touchStartX = null;
+  }, {passive: true});
+
+  render();
+
+  // ---------- YOUR TURN: pick-a-card game ----------
+  var questions = [
+    { ico: '🌎', text: 'Why did you decide to learn English?' },
+    { ico: '📅', text: 'How do you usually study or practice English?' },
+    { ico: '🗺️', text: 'Have you ever thought about learning another language, besides English?' },
+    { ico: '🔮', text: 'Do you plan to learn a new language in the future? Which one?' },
+    { ico: '😅', text: 'What is the hardest part of learning English for you?' },
+    { ico: '🎬', text: 'What is your favorite way to practice English — movies, music, games, or something else?' },
+    { ico: '🍬', text: 'You win a candy!', prize: true }
+  ];
+
+  var grid = document.getElementById('memoryGrid');
+  var resetBtn = document.getElementById('resetBtn');
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function buildGrid(){
+    grid.innerHTML = '';
+    var deck = shuffle(questions);
+    deck.forEach(function(item, idx){
+      var card = document.createElement('div');
+      card.className = 'mem-card';
+      var backHtml = item.prize
+        ? '<span class="prize-ico">' + item.ico + '</span><p class="prize-text">' + item.text + '</p>'
+        : '<span class="mic">🎤</span><p>' + item.text + '</p>';
+      card.innerHTML =
+        '<div class="mem-card-inner">' +
+          '<div class="mem-face mem-front">' +
+            '<span class="num">CARD ' + (idx + 1) + '</span>' +
+            '<span class="q-ico">❓</span>' +
+          '</div>' +
+          '<div class="mem-face mem-back' + (item.prize ? ' mem-prize' : '') + '">' +
+            backHtml +
+          '</div>' +
+        '</div>';
+      card.addEventListener('click', function(){
+        card.classList.toggle('flipped');
+        card.classList.toggle('answered', card.classList.contains('flipped'));
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  resetBtn.addEventListener('click', buildGrid);
+  buildGrid();
+})();
+</script>
+</body>
+</html>
