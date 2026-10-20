@@ -438,37 +438,88 @@
   </div>
 
   <section style="margin-bottom:2rem" class="fade fade-d4">
-    <p class="sec-title" data-i18n="sec_lang">Idiomas</p>
-    <div class="lang-grid">
-      <div class="lang-card">
-        <div class="lang-flag">🇧🇷</div>
+  <p class="sec-title" data-i18n="sec_lang">Idiomas</p>
+
+  <div class="lang-grid lang-grid--stack">
+
+    <!-- PORTUGUÊS -->
+    <div class="lang-card lang-card--pt">
+      <div class="lang-flag">🇧🇷</div>
+      <div class="lang-text">
         <p class="lang-name" data-i18n="lang_pt_name">Português</p>
         <p class="lang-level" data-i18n="lang_pt_level">Nativo</p>
       </div>
-      <div class="lang-card">
+    </div>
+
+    <!-- INGLÊS -->
+    <div class="lang-card lang-card--en">
+      <div class="lang-head">
         <div class="lang-flag">🇨🇦</div>
-        <p class="lang-name" data-i18n="lang_en_name">Inglês</p>
-        <p class="lang-level" data-i18n="lang_en_level">Inglês Intermediário</p>
-        <p class="lang-note-text" data-i18n="lang_en_note">Intercâmbio no St. George International College, Vancouver, Canadá — July 2019 and August 2026</p>
-        <div style="margin-top:10px;padding:10px 12px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;">
-          <p style="font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;" data-i18n="lang_toeic_label">Teste oficial — TOEIC 2024</p>
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span style="font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--accent2);">430</span>
-            <div>
-              <p style="font-size:12px;font-weight:700;color:var(--ink);" data-i18n="lang_toeic_score">Pontos no TOEIC</p>
-              <p style="font-size:11px;color:var(--ink4);" data-i18n="lang_toeic_note">Em evolução constante</p>
-            </div>
-          </div>
-          <a href="../doc/English-Intermediate.pdf" download
-            style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;font-weight:700;color:#1c1917;background:#ffffff;border:1.5px solid #a8a29e;padding:5px 14px;border-radius:20px;text-decoration:none;transition:background .15s;"
-            onmouseover="this.style.background='#a8a29e'" onmouseout="this.style.background='#a8a29e'">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span data-i18n="lang_toeic_btn">Baixar certificado TOEIC</span>
-          </a>
+        <div class="lang-text">
+          <p class="lang-name" data-i18n="lang_en_name">Inglês</p>
+          <p class="lang-level" data-i18n="lang_en_level">Inglês Intermediário</p>
         </div>
       </div>
+      <p class="lang-note-text" data-i18n="lang_en_note">Evolução ao longo do tempo, com comprovantes oficiais</p>
+
+      <ol class="lang-timeline">
+
+  <!-- 2019 -->
+  <li class="tl-item">
+    <div class="tl-body">
+      <span class="tl-year">2019</span>
+      <p class="tl-title" data-i18n="tl_exchange_title">Intercâmbio de 1 mês — Inglês Intensivo</p>
+      <p class="tl-desc" data-i18n="tl_2019_desc">St. George International College, Vancouver — 2 a 26 de julho de 2019</p>
     </div>
-  </section>
+    <div class="tl-proof">
+      <span class="tl-score">4</span>
+      <p class="tl-proof-label" data-i18n="tl_level_label">Level (Inglês Intensivo)</p>
+    </div>
+    <a class="tl-btn" href="../doc/cert-english-canada-2019.pdf" download>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span data-i18n="tl_sgic_btn">Baixar certificado SGIC</span>
+    </a>
+  </li>
+
+  <!-- 2024 -->
+  <li class="tl-item">
+    <div class="tl-body">
+      <span class="tl-year">2024</span>
+      <p class="tl-title" data-i18n="lang_toeic_label">Teste oficial — TOEIC</p>
+      <p class="tl-desc" data-i18n="tl_2024_desc">Avaliação oficial de proficiência em inglês</p>
+    </div>
+    <div class="tl-proof">
+      <span class="tl-score">430</span>
+      <p class="tl-proof-label" data-i18n="lang_toeic_score">Pontos no TOEIC</p>
+    </div>
+    <a class="tl-btn" href="../doc/English-Intermediate.pdf" download>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span data-i18n="lang_toeic_btn">Baixar certificado TOEIC</span>
+    </a>
+  </li>
+
+  <!-- 2026 -->
+  <li class="tl-item tl-item--current">
+    <div class="tl-body">
+      <span class="tl-year">2026</span>
+      <p class="tl-title" data-i18n="tl_exchange_title">Intercâmbio de 1 mês — Inglês Intensivo</p>
+      <p class="tl-desc" data-i18n="tl_2026_desc">St. George International College, Vancouver — 4 a 28 de agosto de 2026</p>
+    </div>
+    <div class="tl-proof">
+      <span class="tl-score">6</span>
+      <p class="tl-proof-label" data-i18n="tl_level_label">Level (Inglês Intensivo)</p>
+    </div>
+    <a class="tl-btn" href="../doc/cert-english-canada.pdf" download>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span data-i18n="tl_sgic_btn">Baixar certificado SGIC</span>
+    </a>
+  </li>
+
+</ol>
+    </div>
+
+  </div>
+</section>
 </div>
 <footer class="footer">
     <span>© 2026 Lucilia Rosa. <span data-i18n="footer_rights">Todos os direitos reservados.</span></span>

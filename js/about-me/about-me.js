@@ -301,10 +301,16 @@ var T = {
 
     lang_en_note:"Intercâmbio no St. George International College, Vancouver, Canadá — Jul 2019",
 
-    lang_toeic_label:"Teste oficial — TOEIC 2024",
-    lang_toeic_score:"Pontos no TOEIC",
-    lang_toeic_note:"Em evolução constante",
-    lang_toeic_btn:"Baixar certificado TOEIC",
+    tl_exchange_title: 'Intercâmbio de 1 mês — Inglês Intensivo',
+    tl_2019_desc:      'St. George International College, Vancouver — 2 a 26 de julho de 2019',
+    tl_2024_desc:      'Avaliação oficial de proficiência em inglês',
+    tl_2026_desc:      'St. George International College, Vancouver — 4 a 28 de agosto de 2026',
+    tl_level_label:    'Level (Inglês Intensivo)',
+    tl_sgic_btn:       'Baixar certificado SGIC',
+    lang_en_note:      'Evolução ao longo do tempo, com comprovantes oficiais',
+    lang_toeic_label:  'Teste oficial — TOEIC',
+    lang_toeic_score:  'Pontos no TOEIC',
+    lang_toeic_btn:    'Baixar certificado TOEIC',
   },
 
   en: {
@@ -461,9 +467,15 @@ var T = {
 
     lang_en_note:"Exchange program at St. George International College, Vancouver, Canada — Jul 2019",
 
-    lang_toeic_label:"Official test — TOEIC 2024",
-    lang_toeic_score:"TOEIC score",
-    lang_toeic_note:"Continuously improving",
-    lang_toeic_btn:"Download TOEIC certificate",
+    tl_exchange_title: '1-month exchange — Intensive English',
+    tl_2019_desc:      'St. George International College, Vancouver — July 2–26, 2019',
+    tl_2024_desc:      'Official English proficiency test',
+    tl_2026_desc:      'St. George International College, Vancouver — August 4–28, 2026',
+    tl_level_label:    'Level (Intensive English)',
+    tl_sgic_btn:       'Download SGIC certificate',
+    lang_en_note:      'Progress over time, with official proof',
+    lang_toeic_label:  'Official test — TOEIC',
+    lang_toeic_score:  'TOEIC points',
+    lang_toeic_btn:    'Download TOEIC certificate',
   }
 }

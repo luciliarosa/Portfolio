@@ -520,6 +520,67 @@ hr {
 .lang-level { font-size: 12px; color: var(--ink3); }
 .lang-note-text { font-size: 11px; color: var(--ink4); margin-top: 4px; line-height: 1.4; }
 
+/* Layout empilhado: PT em faixa compacta, EN em largura total */
+.lang-grid.lang-grid--stack { display: grid; grid-template-columns: 1fr; }
+
+.lang-card--pt,
+.lang-head { display: flex; align-items: center; gap: 14px; }
+.lang-card--pt { padding-top: 16px; padding-bottom: 16px; }
+.lang-head { flex-wrap: wrap; margin-bottom: 4px; }
+
+.lang-card--pt .lang-flag,
+.lang-card--pt .lang-name,
+.lang-card--pt .lang-level,
+.lang-head .lang-flag,
+.lang-head .lang-name,
+.lang-head .lang-level { margin: 0; }
+
+.lang-text { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+
+/* Linha do tempo do inglês */
+.lang-timeline {
+  list-style: none; margin: 16px 0 0; padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 12px;
+}
+
+.lang-timeline .tl-item {
+  position: static;
+  margin: 0;                      /* anula o margin-bottom da Trajetória */
+  min-width: 0;
+  display: flex; flex-direction: column;
+  padding: 12px;
+  background: var(--paper2);
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+}
+.lang-timeline .tl-item--current { border-color: var(--accent2); }
+
+.lang-timeline .tl-body  { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.lang-timeline .tl-year  { display: block; font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--accent2); line-height: 1; margin-bottom: 6px; }
+.lang-timeline .tl-title { font-size: 12px; font-weight: 700; color: var(--ink); margin: 0 0 2px; }
+.lang-timeline .tl-desc  { font-size: 11px; color: var(--ink4); margin: 0; line-height: 1.5; }
+
+.lang-timeline .tl-proof { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+.lang-timeline .tl-score { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--accent2); }
+.lang-timeline .tl-proof-label { font-size: 11px; font-weight: 700; color: var(--ink); margin: 0; }
+
+.lang-timeline .tl-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  align-self: flex-start; margin-top: 12px;
+  font-size: 11px; font-weight: 700; color: #1c1917;
+  background: #fff; border: 1.5px solid #a8a29e;
+  padding: 5px 14px; border-radius: 20px;
+  text-decoration: none; transition: background .15s;
+}
+.lang-timeline .tl-btn:hover { background: #a8a29e; }
+
+@media (max-width: 720px) {
+  .lang-timeline { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+}
+
 /* ── BACK TO TOP ── */
 .back-to-top {
   position: fixed;
@@ -544,7 +605,7 @@ hr {
 .back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
 .back-to-top:hover { background: var(--ink2); }
 
-/* ── LIGHTBOX (mantido, pode ser reativado) ── */
+/* ── LIGHTBOX ── */
 .lightbox {
   display: none;
   position: fixed;
