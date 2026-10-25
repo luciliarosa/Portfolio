@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criando Classes e Objetos na Prática — Lucilia's Notebook</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --paper: #faf7f2;
+      --paper2: #f3efe8;
+      --paper3: #ede8df;
+      --ink: #1c1917;
+      --ink2: #44403c;
+      --ink3: #78716c;
+      --ink4: #a8a29e;
+      --rule: rgba(28, 25, 23, .10);
+      --rule2: rgba(28, 25, 23, .06);
+      --accent: #c84b31;
+      --accent2: #2563a8;
+      --accent3: #1a7a50;
+      --shadow: 0 2px 12px rgba(28, 25, 23, .08);
+      --shadow-lg: 0 8px 32px rgba(28, 25, 23, .13);
+      --radius: 10px;
+      --font-body: 'Nunito', sans-serif;
+      --font-serif: 'Lora', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image: repeating-linear-gradient(transparent, transparent 31px,
+          rgba(28, 25, 23, .045) 31px, rgba(28, 25, 23, .045) 32px);
+      background-attachment: fixed;
+    }
+
+    /* NAV */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 247, 242, .92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1.5px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      height: 56px;
+      gap: 0;
+    }
+
+    .nav-brand {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 2rem;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .nav-links::-webkit-scrollbar { display: none; }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink3);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background .15s, color .15s;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover { background: var(--paper3); color: var(--ink); }
+    .nav-link.active { background: var(--ink); color: var(--paper); }
+
+    .nav-sep {
+      width: 1px;
+      height: 18px;
+      background: var(--rule);
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink4);
+      padding: 16px 0 0;
+    }
+
+    .breadcrumb a { color: var(--ink3); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent2); }
+
+    /* PINNED */
+    .pinned {
+      background: #fffbeb;
+      border: 1.5px solid rgba(180, 140, 20, .25);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .pinned-icon { font-size: 20px; flex-shrink: 0; }
+    .pinned h4 { font-size: 13px; font-weight: 700; color: #92400e; margin-bottom: 3px; }
+    .pinned p { font-size: 12px; color: #a16207; line-height: 1.6; }
+
+    /* HERO */
+    .article-hero { padding: 2rem 0 2.5rem; }
+
+    .article-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink4);
+      letter-spacing: .06em;
+      margin-bottom: 10px;
+    }
+
+    .article-title {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .article-meta .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--ink4);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .tag.py { background: #dbeafe; color: #1e40af; }
+    .tag.gray { background: var(--paper3); color: var(--ink3); }
+
+    hr {
+      border: none;
+      border-top: 1.5px solid var(--rule2);
+      margin: 2rem 0;
+    }
+
+    /* SEC TITLE */
+    .sec-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink4);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sec-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule2);
+    }
+
+    /* CARDS */
+    .cards-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: var(--paper);
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+
+    .card.blue   { border-left: 4px solid #378ADD; }
+    .card.purple { border-left: 4px solid #7F77DD; }
+    .card.teal   { border-left: 4px solid #1D9E75; }
+    .card.amber  { border-left: 4px solid #BA7517; }
+    .card.coral  { border-left: 4px solid #D85A30; }
+    .card.green  { border-left: 4px solid #639922; }
+    .card.pink   { border-left: 4px solid #C2185B; }
+
+    .card h3 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .card p  { font-size: 12px; color: var(--ink2); line-height: 1.65; }
+
+    /* BADGE */
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    .badge.blue   { background: #E6F1FB; color: #0C447C; }
+    .badge.purple { background: #EEEDFE; color: #3C3489; }
+    .badge.teal   { background: #E1F5EE; color: #085041; }
+    .badge.amber  { background: #FAEEDA; color: #854F0B; }
+    .badge.coral  { background: #FAECE7; color: #993C1D; }
+    .badge.green  { background: #EAF3DE; color: #27500A; }
+    .badge.pink   { background: #FCE4EC; color: #880E4F; }
+
+    /* ANALOGY */
+    .analogy {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      box-shadow: var(--shadow);
+    }
+
+    .analogy-icon { font-size: 28px; flex-shrink: 0; padding-top: 1px; }
+    .analogy h3  { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .analogy p   { font-size: 12.5px; color: var(--ink2); line-height: 1.65; }
+    .analogy code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--paper2);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* PILLAR */
+    .pillar {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .pillar .num  { font-size: 11px; font-weight: 700; color: var(--ink4); margin-bottom: 5px; }
+    .pillar h3    { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
+    .pillar p     { font-size: 12.5px; color: var(--ink2); line-height: 1.65; }
+
+    /* CODE */
+    .code-wrap {
+      background: #1e1c1a;
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .code-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink4);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .code-wrap pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.85;
+      color: #e8e0d5;
+      white-space: pre;
+    }
+
+    .kw  { color: #89b4fa; }
+    .cm  { color: #6c7086; }
+    .str { color: #a6e3a1; }
+    .fn  { color: #cba6f7; }
+    .slf { color: #f38ba8; }
+    .vr  { color: #fab387; }
+    .nb  { color: #89dceb; }
+
+    /* STEP FLOW */
+    .step-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .step-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      width: 2px;
+      height: calc(100% - 16px);
+      background: var(--rule);
+    }
+
+    .step-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .step-body {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      flex: 1;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-body h4 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+    .step-body p  { font-size: 12px; color: var(--ink2); line-height: 1.65; }
+    .step-body code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--paper2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--ink2);
+    }
+
+    /* COMPARISON TABLE */
+    .comp-table {
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .comp-table-header {
+      background: #1e1c1a;
+      color: #fab387;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 18px;
+      letter-spacing: .04em;
+    }
+
+    .comp-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .comp-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink4);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid var(--rule);
+      background: var(--paper2);
+    }
+
+    .comp-table td {
+      padding: 9px 16px;
+      color: var(--ink2);
+      border-bottom: 1px solid var(--rule2);
+      vertical-align: middle;
+      line-height: 1.5;
+    }
+
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table tr:nth-child(even) td { background: var(--paper2); }
+
+    .comp-table td:first-child {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--ink);
+    }
+
+    /* OBJECT DIAGRAM */
+    .obj-diagram {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .obj-box {
+      flex: 1;
+      min-width: 180px;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .obj-box-header {
+      padding: 8px 14px;
+      font-weight: 700;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .obj-box-header.class-h  { background: #1e1c1a; color: #fab387; }
+    .obj-box-header.inst1-h  { background: #163055; color: #89b4fa; }
+    .obj-box-header.inst2-h  { background: #1a3820; color: #a6e3a1; }
+
+    .obj-box-body { padding: 10px 14px; }
+
+    .obj-row {
+      display: flex;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--ink2);
+      padding: 3px 0;
+      border-bottom: 1px solid var(--rule2);
+    }
+
+    .obj-row:last-child { border-bottom: none; }
+    .obj-row .attr-name { color: var(--ink4); min-width: 80px; }
+    .obj-row .attr-val  { color: var(--ink); font-weight: 700; }
+
+    .obj-arrow {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      color: var(--ink4);
+      padding: 0 4px;
+      align-self: center;
+    }
+
+    /* ALERT BOX */
+    .alert {
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .alert.info   { background: #EFF6FF; border: 1.5px solid #BFDBFE; }
+    .alert.warn   { background: #FFFBEB; border: 1.5px solid rgba(180,140,20,.25); }
+    .alert.error  { background: #FEF2F2; border: 1.5px solid #FECACA; }
+    .alert.ok     { background: #F0FDF4; border: 1.5px solid #BBF7D0; }
+
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .alert h4   { font-size: 12.5px; font-weight: 700; margin-bottom: 3px; }
+    .alert p    { font-size: 12px; line-height: 1.6; }
+
+    .alert.info  h4 { color: #1e40af; }
+    .alert.info  p  { color: #1d4ed8; }
+    .alert.warn  h4 { color: #92400e; }
+    .alert.warn  p  { color: #a16207; }
+    .alert.ok    h4 { color: #166534; }
+    .alert.ok    p  { color: #15803d; }
+
+    /* INLINE CODE */
+    code {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      background: var(--paper2);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--ink2);
+    }
+
+    /* NAV PAGES */
+    .nav-pages { display: flex; gap: 12px; margin-top: 2.5rem; flex-wrap: wrap; }
+
+    .nav-page {
+      flex: 1;
+      min-width: 200px;
+      background: #fff;
+      border: 1.5px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-page:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .nav-page .np-label  { font-size: 11px; color: var(--ink4); font-weight: 700; }
+    .nav-page .np-title  { font-size: 14px; font-weight: 700; color: var(--accent2); }
+
+    /* FADE */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px) }
+      to   { opacity: 1; transform: translateY(0) }
+    }
+
+    .fade { animation: fadeUp .45s ease both; }
+
+    @media(max-width:600px) {
+      .nav     { padding: 0 1rem; }
+      .page    { padding: 0 1rem 4rem; }
+      .cards-2 { grid-template-columns: 1fr; }
+      .cards-3 { grid-template-columns: 1fr; }
+      .cards-4 { grid-template-columns: repeat(2, 1fr); }
+      .obj-arrow { display: none; }
+    }
+
+    @media(max-width:380px) {
+      .cards-4 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../../../notebook.html" class="nav-brand">
+      <span>📓</span> Lucilia's Notebook
+    </a>
+    <div class="nav-links">
+      <a href="../../../notebook.html" class="nav-link">Home</a>
+      <span class="nav-sep"></span>
+      <a href="../../../notebook.html#python" class="nav-link">Python</a>
+      <a href="historia-poo.html" class="nav-link" data-i18n="nav_this">História da POO</a>
+      <a href="poo-conceitos.html" class="nav-link" data-i18n="nav_next_link">Classes e Objetos</a>
+      <a href="criando-classes-objetos.html" class="nav-link active" data-i18n="nav_next_link">Criando na prática</a>
+      <a href="poo-conta-bancaria.html" class="nav-link" data-i18n="nav_next_link">Conta Bancária</a>
+      <a href="rich-python.html" class="nav-link">Rich</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+
+    <!-- HERO -->
+    <header class="article-hero fade">
+      <p class="article-eyebrow">// aula 03 · Python · POO</p>
+      <h1 class="article-title">Criando Classes e<br>Objetos na Prática</h1>
+      <div class="article-meta">
+        <span class="tag py">Python</span>
+        <span class="tag gray">POO</span>
+        <span class="dot"></span>
+        <span>Baseado no Curso em Vídeo — Guanabara</span>
+      </div>
+    </header>
+
+    <hr />
+
+    <!-- INTRO / PINNED -->
+    <div class="pinned fade">
+      <span class="pinned-icon">📌</span>
+      <div>
+        <h4>Objetivo desta aula</h4>
+        <p>Sair da teoria e colocar a mão na massa: criar classes reais em Python, instanciar objetos, definir atributos e métodos, e entender como tudo se conecta dentro de um programa orientado a objetos.</p>
+      </div>
+    </div>
+
+    <!-- ANATOMIA DA CLASSE -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Anatomia de uma classe em Python</p>
+      <div class="analogy" style="margin-bottom: 14px;">
+        <div class="analogy-icon"></div>
+        <div>
+          <h3>Estrutura mínima de uma classe</h3>
+          <p>Em Python, toda classe começa com a palavra-chave <code>class</code> seguida do nome (em <strong>PascalCase</strong>) e dois pontos. O método especial <code>__init__</code> é o <strong>construtor</strong> — ele é chamado automaticamente toda vez que um objeto é criado.</p>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <pre><span class="kw">class</span> <span class="vr">NomeDaClasse</span>:                  <span class="cm"># 1. Declaração da classe</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, param1, param2): <span class="cm"># 2. Construtor</span>
+        <span class="slf">self</span>.atributo1 = param1          <span class="cm"># 3. Atributos de instância</span>
+        <span class="slf">self</span>.atributo2 = param2
+
+    <span class="kw">def</span> <span class="fn">meu_metodo</span>(<span class="slf">self</span>):               <span class="cm"># 4. Métodos</span>
+        <span class="fn">print</span>(<span class="slf">self</span>.atributo1)
+
+<span class="vr">obj</span> = <span class="fn">NomeDaClasse</span>(<span class="str">"valor1"</span>, <span class="str">"valor2"</span>)  <span class="cm"># 5. Instanciação</span>
+<span class="vr">obj</span>.<span class="fn">meu_metodo</span>()                          <span class="cm"># 6. Chamada de método</span></pre>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- O QUE É SELF -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">O papel do <code style="font-size:11px;background:var(--paper3);color:var(--ink2)">self</code></p>
+      <div class="cards-2">
+        <div class="analogy">
+          <div class="analogy-icon"></div>
+          <div>
+            <h3>self = "eu mesmo"</h3>
+            <p><code>self</code> é uma referência ao próprio objeto que está sendo criado ou usado. Quando você escreve <code>self.cor</code>, está dizendo: <em>"o atributo <strong>cor</strong> deste objeto aqui"</em>. É obrigatório como primeiro parâmetro de todo método.</p>
+          </div>
+        </div>
+        <div class="card blue">
+          <span class="badge blue">Atenção</span>
+          <h3>self não é uma palavra reservada</h3>
+          <p>Tecnicamente você poderia usar qualquer nome (ex: <code>this</code>, <code>eu</code>), mas <strong>self é a convenção universal</strong> do Python — nunca use outro nome. O interpretador passa o objeto automaticamente; você só precisa declarar o parâmetro.</p>
+          <div style="margin-top:10px;padding:8px 12px;background:var(--paper2);border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--ink3)">
+            obj.metodo()&nbsp;&nbsp;→ Python converte para<br>
+            Classe.metodo(obj)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- PASSO A PASSO -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Criando sua primeira classe — passo a passo</p>
+      <div class="step-flow">
+
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h4>Declare a classe com <code>class</code></h4>
+            <p>Use PascalCase para o nome. Uma classe simples pode começar apenas com <code>pass</code> (corpo vazio) — isso já é uma classe válida em Python.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h4>Defina o construtor <code>__init__</code></h4>
+            <p>Aqui você recebe os dados iniciais e os guarda em <code>self.atributo</code>. Tudo que o objeto vai <em>ter</em> desde o nascimento fica aqui.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h4>Adicione métodos (comportamentos)</h4>
+            <p>Funções definidas dentro da classe. Sempre recebem <code>self</code> como primeiro argumento. Elas acessam e modificam os atributos do objeto via <code>self.atributo</code>.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h4>Instancie o objeto</h4>
+            <p>Fora da classe, chame o nome dela como se fosse uma função: <code>meu_obj = MinhaClasse(args)</code>. Cada chamada cria um objeto <strong>independente</strong> na memória.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num">05</div>
+          <div class="step-body">
+            <h4>Acesse atributos e chame métodos</h4>
+            <p>Use a <strong>notação de ponto</strong>: <code>obj.atributo</code> para ler, <code>obj.atributo = valor</code> para alterar, <code>obj.metodo()</code> para executar um comportamento.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- EXEMPLO COMPLETO — PESSOA -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Exemplo completo — classe Pessoa</p>
+      <div class="alert info" style="margin-bottom:16px;">
+        <span class="alert-icon"></span>
+        <div>
+          <h4>Por que Pessoa?</h4>
+          <p>É o exemplo mais intuitivo do Guanabara para entender como os atributos descrevem características reais e os métodos representam ações que uma pessoa pode fazer.</p>
+        </div>
+      </div>
+      <div class="code-wrap" style="margin-bottom:16px;">
+        <pre><span class="kw">class</span> <span class="vr">Pessoa</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">nome</span>, <span class="vr">idade</span>, <span class="vr">peso</span>, <span class="vr">altura</span>):
+        <span class="slf">self</span>.nome   = <span class="vr">nome</span>
+        <span class="slf">self</span>.idade  = <span class="vr">idade</span>
+        <span class="slf">self</span>.peso   = <span class="vr">peso</span>
+        <span class="slf">self</span>.altura = <span class="vr">altura</span>
+
+    <span class="kw">def</span> <span class="fn">falar</span>(<span class="slf">self</span>, <span class="vr">msg</span>):
+        <span class="fn">print</span>(<span class="str">f"{</span><span class="slf">self</span>.nome<span class="str">} diz: '{</span><span class="vr">msg</span><span class="str">}'"</span>)
+
+    <span class="kw">def</span> <span class="fn">imc</span>(<span class="slf">self</span>):
+        resultado = <span class="slf">self</span>.peso / (<span class="slf">self</span>.altura ** <span class="nb">2</span>)
+        <span class="fn">print</span>(<span class="str">f"IMC de {</span><span class="slf">self</span>.nome<span class="str">}: {resultado:.2f}"</span>)
+
+    <span class="kw">def</span> <span class="fn">aniversario</span>(<span class="slf">self</span>):
+        <span class="slf">self</span>.idade += <span class="nb">1</span>
+        <span class="fn">print</span>(<span class="str">f"{</span><span class="slf">self</span>.nome<span class="str">} agora tem {</span><span class="slf">self</span>.idade<span class="str">} anos!"</span>)
+
+<span class="cm"># Criando objetos</span>
+<span class="vr">p1</span> = <span class="fn">Pessoa</span>(<span class="str">"João"</span>,  <span class="nb">22</span>, <span class="nb">78.5</span>, <span class="nb">1.80</span>)
+<span class="vr">p2</span> = <span class="fn">Pessoa</span>(<span class="str">"Maria"</span>, <span class="nb">30</span>, <span class="nb">62.0</span>, <span class="nb">1.65</span>)
+
+<span class="vr">p1</span>.<span class="fn">falar</span>(<span class="str">"Olá, tudo bem?"</span>)  <span class="cm"># → João diz: 'Olá, tudo bem?'</span>
+<span class="vr">p2</span>.<span class="fn">imc</span>()                   <span class="cm"># → IMC de Maria: 22.77</span>
+<span class="vr">p1</span>.<span class="fn">aniversario</span>()            <span class="cm"># → João agora tem 23 anos!</span></pre>
+      </div>
+
+      <!-- Diagrama de instâncias -->
+      <p class="sec-title" style="margin-top:1.5rem">Visualizando as instâncias na memória</p>
+      <div class="obj-diagram">
+        <div class="obj-box">
+          <div class="obj-box-header class-h">Classe: Pessoa</div>
+          <div class="obj-box-body">
+            <div class="obj-row"><span class="attr-name">nome</span><span class="attr-val">str</span></div>
+            <div class="obj-row"><span class="attr-name">idade</span><span class="attr-val">int</span></div>
+            <div class="obj-row"><span class="attr-name">peso</span><span class="attr-val">float</span></div>
+            <div class="obj-row"><span class="attr-name">altura</span><span class="attr-val">float</span></div>
+            <div class="obj-row" style="margin-top:6px;"><span class="attr-name" style="color:#7F77DD">falar()</span></div>
+            <div class="obj-row"><span class="attr-name" style="color:#7F77DD">imc()</span></div>
+            <div class="obj-row"><span class="attr-name" style="color:#7F77DD">aniversario()</span></div>
+          </div>
+        </div>
+        <div class="obj-arrow">→</div>
+        <div class="obj-box">
+          <div class="obj-box-header inst1-h">Objeto: p1</div>
+          <div class="obj-box-body">
+            <div class="obj-row"><span class="attr-name">nome</span><span class="attr-val">"João"</span></div>
+            <div class="obj-row"><span class="attr-name">idade</span><span class="attr-val">22</span></div>
+            <div class="obj-row"><span class="attr-name">peso</span><span class="attr-val">78.5</span></div>
+            <div class="obj-row"><span class="attr-name">altura</span><span class="attr-val">1.80</span></div>
+          </div>
+        </div>
+        <div class="obj-arrow">→</div>
+        <div class="obj-box">
+          <div class="obj-box-header inst2-h">Objeto: p2</div>
+          <div class="obj-box-body">
+            <div class="obj-row"><span class="attr-name">nome</span><span class="attr-val">"Maria"</span></div>
+            <div class="obj-row"><span class="attr-name">idade</span><span class="attr-val">30</span></div>
+            <div class="obj-row"><span class="attr-name">peso</span><span class="attr-val">62.0</span></div>
+            <div class="obj-row"><span class="attr-name">altura</span><span class="attr-val">1.65</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="alert ok" style="margin-top:12px; margin-bottom:0">
+        <span class="alert-icon"></span>
+        <div>
+          <h4>Cada objeto tem seus próprios valores</h4>
+          <p><code>p1</code> e <code>p2</code> compartilham a mesma estrutura (mesmos atributos e métodos) definida na classe, mas os <strong>valores são independentes</strong>. Mudar <code>p1.idade</code> não afeta <code>p2.idade</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ATRIBUTOS DE CLASSE VS INSTÂNCIA -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Atributo de classe vs. atributo de instância</p>
+      <div class="cards-2" style="margin-bottom:14px;">
+        <div class="card blue">
+          <span class="badge blue">De instância</span>
+          <h3>Pertence ao objeto</h3>
+          <p>Definido dentro do <code>__init__</code> com <code>self.atributo</code>. Cada objeto tem o seu próprio valor, independente dos outros.</p>
+          <div style="margin-top:10px;font-family:var(--font-mono);font-size:11px;color:var(--ink3);background:var(--paper2);padding:8px 10px;border-radius:6px;">self.nome = nome</div>
+        </div>
+        <div class="card purple">
+          <span class="badge purple">De classe</span>
+          <h3>Compartilhado por todos</h3>
+          <p>Definido diretamente no corpo da classe, fora do <code>__init__</code>. Todos os objetos daquela classe compartilham o mesmo valor.</p>
+          <div style="margin-top:10px;font-family:var(--font-mono);font-size:11px;color:var(--ink3);background:var(--paper2);padding:8px 10px;border-radius:6px;">especie = "Homo sapiens"</div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <pre><span class="kw">class</span> <span class="vr">Pessoa</span>:
+    especie = <span class="str">"Homo sapiens"</span>   <span class="cm"># atributo de CLASSE (compartilhado)</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">nome</span>):
+        <span class="slf">self</span>.nome = <span class="vr">nome</span>         <span class="cm"># atributo de INSTÂNCIA (único por objeto)</span>
+
+<span class="vr">p1</span> = <span class="fn">Pessoa</span>(<span class="str">"Ana"</span>)
+<span class="vr">p2</span> = <span class="fn">Pessoa</span>(<span class="str">"Beto"</span>)
+
+<span class="fn">print</span>(<span class="vr">p1</span>.especie)    <span class="cm"># → Homo sapiens</span>
+<span class="fn">print</span>(<span class="vr">p2</span>.especie)    <span class="cm"># → Homo sapiens  (mesmo valor)</span>
+<span class="fn">print</span>(<span class="vr">p1</span>.nome)       <span class="cm"># → Ana</span>
+<span class="fn">print</span>(<span class="vr">p2</span>.nome)       <span class="cm"># → Beto           (valores diferentes!)</span></pre>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- __STR__ E __REPR__ -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Métodos especiais — <code style="font-size:11px;background:var(--paper3);color:var(--ink2)">__str__</code> e representação do objeto</p>
+      <div class="analogy" style="margin-bottom:14px;">
+        <div class="analogy-icon"></div>
+        <div>
+          <h3>O que acontece quando você dá <code>print(obj)</code>?</h3>
+          <p>Sem o método <code>__str__</code>, Python exibe algo como <code>&lt;__main__.Pessoa object at 0x7f3a&gt;</code> — um endereço de memória sem utilidade. Definindo <code>__str__</code> você controla a mensagem exibida. É o método chamado automaticamente por <code>print()</code> e <code>str()</code>.</p>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <pre><span class="kw">class</span> <span class="vr">Pessoa</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="slf">self</span>, <span class="vr">nome</span>, <span class="vr">idade</span>):
+        <span class="slf">self</span>.nome  = <span class="vr">nome</span>
+        <span class="slf">self</span>.idade = <span class="vr">idade</span>
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="slf">self</span>):            <span class="cm"># chamado por print() e str()</span>
+        <span class="kw">return</span> <span class="str">f"Pessoa({</span><span class="slf">self</span>.nome<span class="str">}, {</span><span class="slf">self</span>.idade<span class="str">} anos)"</span>
+
+<span class="vr">p</span> = <span class="fn">Pessoa</span>(<span class="str">"Lucas"</span>, <span class="nb">25</span>)
+<span class="fn">print</span>(<span class="vr">p</span>)   <span class="cm"># → Pessoa(Lucas, 25 anos)</span></pre>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ERROS COMUNS -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Erros comuns para evitar</p>
+      <div class="cards-3">
+        <div class="card coral">
+          <span class="badge coral">Erro 1</span>
+          <h3>Esquecer o <code>self</code></h3>
+          <p>Todo método precisa de <code>self</code> como primeiro parâmetro. Sem ele, Python lança <strong>TypeError</strong> ao chamar o método.</p>
+          <div style="margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:#993C1D;background:#FAECE7;padding:7px 9px;border-radius:5px;">
+            ❌ def falar(msg)<br>
+            ✅ def falar(self, msg)
+          </div>
+        </div>
+        <div class="card amber">
+          <span class="badge amber">Erro 2</span>
+          <h3>Atributo sem <code>self</code></h3>
+          <p>Se você escreve só <code>nome = valor</code> dentro de um método, cria uma variável local — não um atributo do objeto. Ela some ao fim do método.</p>
+          <div style="margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:#854F0B;background:#FAEEDA;padding:7px 9px;border-radius:5px;">
+            ❌ nome = "João"<br>
+            ✅ self.nome = "João"
+          </div>
+        </div>
+        <div class="card purple">
+          <span class="badge purple">Erro 3</span>
+          <h3>Confundir classe e objeto</h3>
+          <p>A classe é o molde; o objeto é o que foi criado. Chamar métodos na classe sem instanciar causa <strong>TypeError</strong>.</p>
+          <div style="margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:#3C3489;background:#EEEDFE;padding:7px 9px;border-radius:5px;">
+            ❌ Pessoa.falar("oi")<br>
+            ✅ p1.falar("oi")
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- RESUMO RÁPIDO -->
+    <section style="margin-bottom:2rem" class="fade">
+      <p class="sec-title">Resumo — o que aprendemos</p>
+      <div class="comp-table">
+        <div class="comp-table-header">resumo — conceitos da aula 04</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Conceito</th>
+              <th>Palavra-chave / Sintaxe</th>
+              <th>O que faz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Declarar classe</td>
+              <td><code>class NomeClasse:</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Define o molde (tipo) para novos objetos</td>
+            </tr>
+            <tr>
+              <td>Construtor</td>
+              <td><code>def __init__(self, ...):</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Inicializa os atributos ao criar o objeto</td>
+            </tr>
+            <tr>
+              <td>Atributo de instância</td>
+              <td><code>self.nome = valor</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Dado único por objeto, definido no construtor</td>
+            </tr>
+            <tr>
+              <td>Atributo de classe</td>
+              <td><code>atrib = valor</code> (fora do init)</td>
+              <td style="font-size:12px;color:var(--ink2)">Dado compartilhado por todos os objetos</td>
+            </tr>
+            <tr>
+              <td>Método</td>
+              <td><code>def metodo(self):</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Comportamento/ação do objeto</td>
+            </tr>
+            <tr>
+              <td>Instanciar</td>
+              <td><code>obj = Classe(args)</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Cria um objeto a partir da classe</td>
+            </tr>
+            <tr>
+              <td>Acessar atributo</td>
+              <td><code>obj.atributo</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Lê o valor do atributo do objeto</td>
+            </tr>
+            <tr>
+              <td>Chamar método</td>
+              <td><code>obj.metodo()</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Executa o comportamento do objeto</td>
+            </tr>
+            <tr>
+              <td>__str__</td>
+              <td><code>def __str__(self):</code></td>
+              <td style="font-size:12px;color:var(--ink2)">Define como o objeto é exibido no print()</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PINNED FINAL -->
+    <div class="pinned fade" style="margin-bottom:0">
+      <span class="pinned-icon">🧠</span>
+      <div>
+        <h4>Dica de ouro do Guanabara</h4>
+        <p>Antes de escrever qualquer código, pense: <em>"O que meu objeto precisa TER (atributos) e o que ele precisa FAZER (métodos)?"</em> Essa pergunta simples é o segredo para criar boas classes.</p>
+      </div>
+    </div>
+
+    <!-- NAV PAGES -->
+    <div class="nav-pages fade">
+      <a href="poo-conceitos.html" class="nav-page" style="align-items:flex-start">
+        <span class="np-label">← aula anterior</span>
+        <span class="np-title">Classes, Objetos e os 4 Pilares</span>
+      </a>
+      <a href="poo-conta-bancaria.html" class="nav-page" style="align-items:flex-end">
+        <span class="np-label">próxima aula →</span>
+        <span class="np-title">Conta Bancária na Prática</span>
+      </a>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

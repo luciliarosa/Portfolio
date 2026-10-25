@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <title>Branches — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--git:#f05033;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.git{background:#fce7f3;color:#9d174d;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .cmd-block{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .cmd-block pre{font-family:var(--font-mono);font-size:13px;line-height:1.9;color:#e8e0d5;white-space:pre;}
+    .cm{color:#6c7086;}.str{color:#a6e3a1;}.vr{color:#fab387;}.flag{color:#cba6f7;}.git-cmd{color:#f38ba8;}
+    /* branch diagram */
+    .branch-diagram{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin:1.5rem 0;overflow-x:auto;}
+    .bd-row{display:flex;align-items:center;gap:0;margin-bottom:6px;}
+    .bd-node{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;font-weight:700;border:2px solid;flex-shrink:0;}
+    .bn-main{background:#EAF3DE;border-color:#639922;color:#27500A;}
+    .bn-feat{background:#E6F1FB;border-color:#378ADD;color:#0C447C;}
+    .bn-head{background:#1c1917;border-color:#1c1917;color:#faf7f2;}
+    .bd-line{height:2px;flex:1;min-width:16px;}
+    .bl-main{background:#639922;}
+    .bl-feat{background:#378ADD;}
+    .bl-dot{background:var(--rule);}
+    .bd-label{font-family:var(--font-mono);font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;margin-left:8px;white-space:nowrap;}
+    .bl-main-tag{background:#EAF3DE;color:#27500A;}
+    .bl-feat-tag{background:#E6F1FB;color:#0C447C;}
+    .bd-space{width:36px;flex-shrink:0;}
+    .bd-connect{width:36px;display:flex;align-items:center;justify-content:center;position:relative;}
+    /* naming card */
+    .name-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+    .name-card .nc-chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:6px;}
+    .nc-main{background:#EAF3DE;color:#27500A;}
+    .nc-feat{background:#E6F1FB;color:#0C447C;}
+    .nc-fix {background:#FAECE7;color:#993C1D;}
+    .nc-rel {background:#FAEEDA;color:#854F0B;}
+    .name-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .name-card p{font-size:12px;color:var(--ink3);line-height:1.6;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../../notebook.html#git" class="nav-link">GIT</a>
+    <a href="git-intro.html" class="nav-link">Introdução</a>
+    <a href="git-commits.html" class="nav-link">Commits</a>
+    <a href="git-branches.html" class="nav-link active">Branches</a>
+    <a href="git-merge.html" class="nav-link">Merge</a>
+    <a href="git-github.html" class="nav-link">GitHub &amp; PRs</a>
+  </div>
+</nav>
+<div class="page">
+  <nav class="breadcrumb fade">
+  </nav>
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 03 · Git &amp; GitHub</p>
+    <h1 class="article-title">Branches — Trabalhando<br>em paralelo</h1>
+    <div class="article-meta">
+      <span class="tag git">Git</span><span class="tag gray">Branches</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é uma branch?</p>
+    <div class="info">
+      <h3>Uma linha paralela de desenvolvimento</h3>
+      <p>O Guanabara explica branches como <strong>linhas do tempo paralelas</strong>. Você pode criar uma branch para desenvolver uma funcionalidade nova sem afetar o código principal. Se der errado, basta deletar a branch. Se der certo, você une as duas histórias com um merge.</p>
+    </div>
+    <!-- diagram -->
+    <div class="branch-diagram">
+      <p style="font-size:11px;color:var(--ink4);font-weight:700;margin-bottom:12px;font-family:var(--font-mono);">// Visualização de branches</p>
+      <div class="bd-row">
+        <div class="bd-node bn-main">c1</div>
+        <div class="bd-line bl-main"></div>
+        <div class="bd-node bn-main">c2</div>
+        <div class="bd-line bl-main"></div>
+        <div class="bd-node bn-main">c3</div>
+        <div class="bd-line bl-main"></div>
+        <div class="bd-node bn-main">c6</div>
+        <div class="bd-line bl-main"></div>
+        <div class="bd-node bn-main">c7</div>
+        <span class="bd-label bl-main-tag">main</span>
+      </div>
+      <div class="bd-row" style="margin-top:4px;">
+        <div class="bd-space"></div>
+        <div class="bd-line bl-dot"></div>
+        <div class="bd-space"></div>
+        <div class="bd-line bl-feat" style="height:2px;width:20px;"></div>
+        <div class="bd-node bn-feat">c4</div>
+        <div class="bd-line bl-feat"></div>
+        <div class="bd-node bn-feat">c5</div>
+        <div class="bd-line bl-dot"></div>
+        <div class="bd-space"></div>
+        <span class="bd-label bl-feat-tag">feature/login</span>
+      </div>
+      <p style="font-size:11px;color:var(--ink4);margin-top:12px;">c1→c2→c3: commits na main · c4→c5: commits na feature branch · c6: merge</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Criando e navegando entre branches</p>
+    <div class="cmd-block">
+      <pre><span class="cm"># Ver todas as branches locais</span>
+<span class="git-cmd">git branch</span>
+
+<span class="cm"># Ver branches locais E remotas</span>
+<span class="git-cmd">git branch</span> <span class="flag">-a</span>
+
+<span class="cm"># Criar uma nova branch</span>
+<span class="git-cmd">git branch</span> <span class="vr">feature/login</span>
+
+<span class="cm"># Mudar para outra branch</span>
+<span class="git-cmd">git checkout</span> <span class="vr">feature/login</span>
+
+<span class="cm"># Criar E já mudar para ela (atalho)</span>
+<span class="git-cmd">git checkout</span> <span class="flag">-b</span> <span class="vr">feature/login</span>
+
+<span class="cm"># Forma moderna (Git 2.23+)</span>
+<span class="git-cmd">git switch</span> <span class="flag">-c</span> <span class="vr">feature/login</span>
+<span class="git-cmd">git switch</span> <span class="vr">main</span>              <span class="cm"># trocar sem criar</span>
+
+<span class="cm"># Renomear branch atual</span>
+<span class="git-cmd">git branch</span> <span class="flag">-m</span> <span class="vr">novo-nome</span>
+
+<span class="cm"># Deletar branch (após merge)</span>
+<span class="git-cmd">git branch</span> <span class="flag">-d</span> <span class="vr">feature/login</span>
+<span class="git-cmd">git branch</span> <span class="flag">-D</span> <span class="vr">feature/login</span>   <span class="cm"># força deletar mesmo sem merge</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Convenções de nomenclatura</p>
+    <div class="g2">
+      <div class="name-card">
+        <span class="nc-chip nc-main">main / master</span>
+        <h3>Branch principal</h3>
+        <p>O código de produção. Sempre estável. Nunca se desenvolve diretamente aqui em times.</p>
+      </div>
+      <div class="name-card">
+        <span class="nc-chip nc-feat">feature/nome</span>
+        <h3>Nova funcionalidade</h3>
+        <p>Ex: <code>feature/sistema-login</code>, <code>feature/carrinho-compras</code></p>
+      </div>
+      <div class="name-card">
+        <span class="nc-chip nc-fix">fix/nome ou bugfix/nome</span>
+        <h3>Correção de bug</h3>
+        <p>Ex: <code>fix/botao-submit</code>, <code>bugfix/calculo-desconto</code></p>
+      </div>
+      <div class="name-card">
+        <span class="nc-chip nc-rel">release/versão</span>
+        <h3>Preparação de versão</h3>
+        <p>Ex: <code>release/v1.2.0</code> — branch de homologação antes de ir para main.</p>
+      </div>
+      <div class="name-card">
+        <span class="nc-chip nc-fix">hotfix/nome</span>
+        <h3>Correção urgente</h3>
+        <p>Saiu diretamente da main para corrigir um bug crítico em produção.</p>
+      </div>
+      <div class="name-card">
+        <span class="nc-chip" style="background:var(--paper2);color:var(--ink3);">docs/nome</span>
+        <h3>Documentação</h3>
+        <p>Ex: <code>docs/atualiza-readme</code> — mudanças apenas em arquivos de documentação.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O HEAD — onde você está agora</p>
+    <div class="info">
+      <h3>HEAD é um ponteiro para o commit atual</h3>
+      <p>O <code>HEAD</code> aponta para o último commit da branch em que você está. Quando você troca de branch com <code>git switch</code>, o HEAD muda junto. É por isso que seus arquivos "mudam" ao trocar de branch — o Git restaura o estado salvo naquela branch.</p>
+    </div>
+    <div class="cmd-block">
+      <pre><span class="cm"># Ver onde o HEAD aponta agora</span>
+<span class="git-cmd">cat</span> .git/HEAD
+
+<span class="cm"># HEAD~1 = um commit antes do atual</span>
+<span class="cm"># HEAD~2 = dois commits antes</span>
+<span class="git-cmd">git log</span> HEAD~3..HEAD <span class="flag">--oneline</span>   <span class="cm"># últimos 3 commits</span></pre>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="git-commits.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span><span class="np-title">Commits</span>
+    </a>
+    <a href="git-merge.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span><span class="np-title">Merge e Conflitos</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

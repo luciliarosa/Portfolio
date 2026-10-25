@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Introdução ao Git — Lucilia's Notebook</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--git:#f05033;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.git{background:#fce7f3;color:#9d174d;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    /* cmd block */
+    .cmd-block{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .cmd-block pre{font-family:var(--font-mono);font-size:13px;line-height:1.9;color:#e8e0d5;white-space:pre;}
+    .cm{color:#6c7086;}.str{color:#a6e3a1;}.kw{color:#89b4fa;}.vr{color:#fab387;}.flag{color:#cba6f7;}.git-cmd{color:#f38ba8;}
+    /* highlight card */
+    .hi-card{background:#fff;border:1.5px solid var(--rule);border-left:4px solid var(--git);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .hi-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .hi-card p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    /* 3-area flow */
+    .area-flow{display:flex;align-items:stretch;gap:0;margin:1.5rem 0;overflow-x:auto;}
+    .area-box{flex:1;min-width:120px;padding:16px 14px;text-align:center;border:1.5px solid var(--rule);}
+    .area-box:first-child{border-radius:var(--radius) 0 0 var(--radius);}
+    .area-box:last-child{border-radius:0 var(--radius) var(--radius) 0;}
+    .area-box .a-icon{font-size:22px;margin-bottom:6px;}
+    .area-box h4{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .area-box p{font-size:11px;color:var(--ink3);line-height:1.5;}
+    .area-box.a1{background:#E6F1FB;border-color:#378ADD;}
+    .area-box.a2{background:#FAEEDA;border-color:#BA7517;}
+    .area-box.a3{background:#EAF3DE;border-color:#639922;}
+    .area-arrow{display:flex;align-items:center;padding:0 4px;color:var(--ink4);font-size:18px;flex-shrink:0;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}.area-flow{flex-direction:column;}.area-box{border-radius:0!important;border-bottom:none;}.area-box:last-child{border-bottom:1.5px solid var(--rule);border-radius:0 0 var(--radius) var(--radius)!important;}.area-box:first-child{border-radius:var(--radius) var(--radius) 0 0!important;}.area-arrow{transform:rotate(90deg);justify-content:center;padding:4px 0;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../../notebook.html#git" class="nav-link">GIT</a>
+    <a href="git-intro.html" class="nav-link active">Introdução</a>
+    <a href="git-commits.html" class="nav-link">Commits</a>
+    <a href="git-branches.html" class="nav-link">Branches</a>
+    <a href="git-merge.html" class="nav-link">Merge</a>
+    <a href="git-github.html" class="nav-link">GitHub &amp; PRs</a>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 01 · Git &amp; GitHub · Curso em Vídeo</p>
+    <h1 class="article-title">Introdução ao Git —<br>Controle de Versão</h1>
+    <div class="article-meta">
+      <span class="tag git">Git</span><span class="tag gray">Fundamentos</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- O QUE É GIT -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é Git e por que usar?</p>
+    <div class="info">
+      <h3>Um sistema de fotos do seu projeto</h3>
+      <p>O Guanabara explica que o Git é como tirar <strong>fotos do seu projeto ao longo do tempo</strong>. Cada "foto" é um commit — você pode voltar para qualquer momento, comparar versões e nunca perder trabalho. Sem Git, editar código é como editar um documento sem Ctrl+Z.</p>
+    </div>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid var(--git);margin-bottom:0;">
+        <h3>Git</h3>
+        <ul>
+          <li>Sistema de controle de versão distribuído</li>
+          <li>Criado por <strong>Linus Torvalds</strong> em 2005</li>
+          <li>Roda localmente no seu computador</li>
+          <li>Gratuito e open source</li>
+          <li>Usado por 94% dos desenvolvedores no mundo</li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid #333;margin-bottom:0;">
+        <h3>GitHub</h3>
+        <ul>
+          <li>Plataforma online para hospedar repositórios Git</li>
+          <li>Fundado em 2008, comprado pela Microsoft em 2018</li>
+          <li>Adiciona colaboração, PRs, Issues, Actions...</li>
+          <li>Git ≠ GitHub — um é a ferramenta, o outro é o serviço</li>
+          <li>Alternativas: GitLab, Bitbucket</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- AS 3 ÁREAS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">As 3 áreas do Git — conceito fundamental</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>O mapa mental do Git</h3>
+      <p>Antes de qualquer comando, é essencial entender onde os arquivos estão em cada momento. O Guanabara explica que o Git tem <strong>três áreas</strong> que os arquivos percorrem antes de serem salvos definitivamente.</p>
+    </div>
+    <div class="area-flow">
+      <div class="area-box a1">
+        <div class="a-icon">📁</div>
+        <h4>Working Directory</h4>
+        <p>Onde você edita os arquivos. As mudanças aqui ainda não foram registradas pelo Git.</p>
+      </div>
+      <div class="area-arrow">→</div>
+      <div class="area-box a2">
+        <div class="a-icon">📦</div>
+        <h4>Staging Area</h4>
+        <p>A "área de preparação". Você escolhe quais mudanças vão para o próximo commit.</p>
+      </div>
+      <div class="area-arrow">→</div>
+      <div class="area-box a3">
+        <div class="a-icon">🗄️</div>
+        <h4>Repository (.git)</h4>
+        <p>O banco de dados do Git. Cada commit aqui é permanente e tem um hash único.</p>
+      </div>
+    </div>
+    <div class="cmd-block">
+      <pre><span class="cm"># Working Directory → Staging Area</span>
+<span class="git-cmd">git add</span> <span class="vr">arquivo.txt</span>     <span class="cm"># adiciona um arquivo</span>
+<span class="git-cmd">git add</span> <span class="flag">.</span>              <span class="cm"># adiciona tudo de uma vez</span>
+
+<span class="cm"># Staging Area → Repository</span>
+<span class="git-cmd">git commit</span> <span class="flag">-m</span> <span class="str">"mensagem"</span> <span class="cm"># salva no repositório local</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- INSTALAÇÃO E CONFIG -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Instalação e configuração inicial</p>
+    <div class="g2" style="margin-bottom:1rem;">
+      <div class="info" style="border-left:4px solid var(--accent2);margin-bottom:0;">
+        <h3>Windows</h3>
+        <p>Baixe o instalador em <strong>git-scm.com</strong>. Durante a instalação, deixe o Git Bash marcado. Após instalar, abra o Git Bash para usar os comandos.</p>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent3);margin-bottom:0;">
+        <h3>Linux / macOS</h3>
+        <p>Linux: <code>sudo apt install git</code><br>macOS: <code>brew install git</code><br>Ou pelo Xcode Command Line Tools.</p>
+      </div>
+    </div>
+    <div class="hi-card">
+      <h3>Configuração obrigatória — faça uma vez só</h3>
+      <p>Antes do primeiro commit, você precisa dizer ao Git quem você é. Essa informação fica em todo commit que você fizer.</p>
+    </div>
+    <div class="cmd-block">
+      <pre><span class="cm"># Configuração global (feita uma vez por máquina)</span>
+<span class="git-cmd">git config</span> <span class="flag">--global</span> user.name  <span class="str">"Lucilia Rosa"</span>
+<span class="git-cmd">git config</span> <span class="flag">--global</span> user.email <span class="str">"lucilia@email.com"</span>
+<span class="git-cmd">git config</span> <span class="flag">--global</span> core.editor <span class="str">"code --wait"</span>  <span class="cm"># VS Code como editor</span>
+
+<span class="cm"># Ver todas as configurações</span>
+<span class="git-cmd">git config</span> <span class="flag">--list</span>
+
+<span class="cm"># Verificar versão instalada</span>
+<span class="git-cmd">git</span> <span class="flag">--version</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- PRIMEIRO REPOSITÓRIO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Criando seu primeiro repositório</p>
+    <div class="cmd-block">
+      <pre><span class="cm"># Criar pasta e entrar nela</span>
+<span class="git-cmd">mkdir</span> <span class="vr">meu-projeto</span>
+<span class="git-cmd">cd</span> <span class="vr">meu-projeto</span>
+
+<span class="cm"># Inicializar o repositório Git (cria a pasta .git)</span>
+<span class="git-cmd">git init</span>
+
+<span class="cm"># Ver o status atual do repositório</span>
+<span class="git-cmd">git status</span>
+
+<span class="cm"># Ver o histórico de commits</span>
+<span class="git-cmd">git log</span>
+<span class="git-cmd">git log</span> <span class="flag">--oneline</span>           <span class="cm"># versão compacta</span>
+<span class="git-cmd">git log</span> <span class="flag">--oneline --graph</span>   <span class="cm"># com gráfico de branches</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- COMANDOS ESSENCIAIS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Comandos de navegação e inspeção</p>
+    <div class="cmd-block">
+      <pre><span class="cm"># Ver diferenças ainda não adicionadas ao staging</span>
+<span class="git-cmd">git diff</span>
+
+<span class="cm"># Ver diferenças já no staging (prontas para commit)</span>
+<span class="git-cmd">git diff</span> <span class="flag">--staged</span>
+
+<span class="cm"># Ver detalhes de um commit específico</span>
+<span class="git-cmd">git show</span> <span class="vr">&lt;hash&gt;</span>
+
+<span class="cm"># Desfazer mudanças no working directory (antes do add)</span>
+<span class="git-cmd">git restore</span> <span class="vr">arquivo.txt</span>
+
+<span class="cm"># Retirar do staging (depois do add, antes do commit)</span>
+<span class="git-cmd">git restore</span> <span class="flag">--staged</span> <span class="vr">arquivo.txt</span>
+
+<span class="cm"># Ignorar arquivos — crie um .gitignore</span>
+<span class="git-cmd">echo</span> <span class="str">"node_modules/"</span> >> .gitignore
+<span class="git-cmd">echo</span> <span class="str">"*.pyc"</span>         >> .gitignore
+<span class="git-cmd">echo</span> <span class="str">".env"</span>          >> .gitignore</pre>
+    </div>
+    <div class="info">
+      <h3>.gitignore — o que NÃO versionar</h3>
+      <p>Arquivos como senhas (<code>.env</code>), dependências (<code>node_modules/</code>), arquivos compilados (<code>*.pyc</code>) e configurações locais de IDE nunca devem ser commitados. O <code>.gitignore</code> diz ao Git para ignorá-los. O site <strong>gitignore.io</strong> gera o arquivo pronto para cada linguagem.</p>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="../../../notebook.html#git" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← voltar</span>
+      <span class="np-title">Git &amp; GitHub</span>
+    </a>
+    <a href="git-commits.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Commits</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

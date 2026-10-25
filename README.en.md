@@ -1,138 +1,161 @@
-# 📓 Lucilia's Notebook — Developer
+# 💻 Lucilia Rosa — Professional Portfolio
 
-[Português](README.md) | English
+<p align="center">
+  <strong>Modern, responsive, and bilingual portfolio for Software Engineering and Full-Stack Development</strong>
+</p>
 
-> A web development study notebook — notes organized by subject, the way I understood them.
+<p align="center">
+  <a href="README.md"><strong>Português</strong></a> •
+  <a href="README.en.md"><strong>English</strong></a>
+</p>
 
-**[View live site](https://notebookon.vercel.app)** · **[About me](https://notebookon.vercel.app/sobre-mim/sobre-mim.html)**
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" alt="Status">
+  <img src="https://img.shields.io/badge/Tech%20Stack-HTML5%20%7C%20CSS3%20%7C%20JavaScript-blue?style=flat-square" alt="Tech Stack">
+  <img src="https://img.shields.io/badge/Design-Minimalist%20%7C%20Neutral-0f172a?style=flat-square" alt="Design">
+  <img src="https://img.shields.io/badge/Languages-PT--BR%20%7C%20EN-64748b?style=flat-square" alt="Languages">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
+</p>
 
 ---
 
-## About the project
+## 📌 About the Project
 
-This is my personal technology study notebook. Each page is a hand-annotated lesson (digitally) with explanations, code examples, tables and visuals — based on online courses from Curso em Vídeo (Gustavo Guanabara) and other learning materials.
+This repository contains the source code for my **professional developer portfolio**. Designed with a strong focus on **clarity, high performance, neutral aesthetics, and contemporary software engineering design standards** (inspired by product references like *Linear, Vercel, and GitHub*).
 
-The goal is not to be formal technical documentation, but a space for review and knowledge retention — in my own words, the way I understood it.
+The purpose of this portfolio is to showcase my expertise as a **Software Developer**, highlighting:
+- **Process Automation with Python** (scripting, data pipelines, web scrapers with Playwright, and system integrations);
+- **Relational Databases & SQL** (PostgreSQL, SQL Server, complex queries, and data modeling);
+- **Full-Stack Web Development** (RESTful APIs, responsive interfaces built with modern JavaScript and React);
+- **Career Trajectory, Formal Education, and International Certifications**.
 
 ---
 
-## Project structure
+## 🚀 Key Features
+
+- 🎨 **Modern & Neutral Tech Design System**:
+  - Clean *Slate/Zinc* color palette (`#0f172a`, `#334155`, `#e2e8f0`, `#ffffff`).
+  - Professional typography powered by **Inter** and **JetBrains Mono**.
+  - Minimalist *Bento Grid* components, subtle card elevations, and crisp SVG badges.
+- 🌐 **Native Bilingual Support (i18n)**:
+  - Instant toggle between **Portuguese (PT-BR)** and **English (EN)** without page reloads.
+  - Automatically preserves language preference in `localStorage`.
+- 📁 **Embedded Certificate Viewer (Interactive Modal)**:
+  - Frosted glass modal (*backdrop-filter*) that allows viewing official certifications (TOEIC, Canada SGIC Exchange Program, Postgraduate Degree, and Bachelor’s Degrees) directly in the browser, without forcing immediate blind downloads.
+- 📊 **Dynamic Project Filters with Real-Time Counters**:
+  - Combined filtering by category (*HTML & CSS, Python, JavaScript, SQL*) and status (*Live, In Progress, Study*).
+  - Metrics and project counters calculated dynamically in the DOM.
+- 📱 **100% Responsive & Lightweight**:
+  - Built with pure **Vanilla JavaScript**—no heavy third-party libraries or bloated dependencies, ensuring lightning-fast load times and cross-browser consistency.
+
+---
+
+## 📂 Folder and File Architecture
+
+The repository follows a clean, modular Full-Stack architecture with explicit separation between **frontend**, **backend**, and **centralized documentation**:
 
 ```
-notebookon/
+Portfolio/
+├── index.html                 # Root entrypoint with automatic redirection to frontend
 │
-├── index.html                        ← Main home with subject carousel
+├── frontend/                  # Web Client & Interface Layer
+│   ├── index.html             # Landing page (Hero, Featured Projects, Skills, and Summary)
+│   ├── pages/                 # Inner application pages
+│   │   ├── about-me.html      # Full trajectory, work experience, education, and language roadmap
+│   │   ├── projects.html      # Interactive project catalog with live filtering and status badges
+│   │   └── dev-area.html      # Technical concepts guide: Frontend, Backend, and Fullstack
+│   ├── css/                   # Modularized stylesheets
+│   │   ├── style.css          # Global design tokens and Homepage styling
+│   │   ├── about-me.css       # Styles for About Me page and certificate modal
+│   │   ├── project.css        # Styles for Projects page, filters, and carousels
+│   │   └── dev-area.css       # Styles for Dev Area concept guide
+│   ├── js/                    # Client-side JavaScript & internationalization
+│   │   ├── main.js            # Homepage interactions, carousels, and i18n dictionary
+│   │   ├── about-me.js        # About Me logic, certificate modal handler, and animated counters
+│   │   ├── projects.js        # Multi-criteria filtering system and project stats calculator
+│   │   └── dev-area.js        # Supporting scripts for dev-area page
+│   └── assets/                # Static frontend assets
+│       └── img/               # Project screenshots, photography, and brand assets
 │
-├── sobre-mim/
-│   ├── sobre-mim.html                ← Personal profile, experience and resume
-│   ├── projetos.html                 ← Project portfolio
-│   └── dev-areas.html                ← Guide: Frontend, Backend and Fullstack
+├── backend/                   # Server & Services Layer (Python / FastAPI)
+│   ├── app/
+│   │   ├── main.py            # RESTful API (health, projects, and contact endpoints)
+│   │   ├── models/            # Pydantic v2 data validation schemas
+│   │   │   └── schemas.py
+│   │   └── services/          # Automation pipelines & message processing
+│   │       └── automation.py
+│   ├── requirements.txt       # Python dependencies (FastAPI, Uvicorn, Pydantic)
+│   ├── .env.example           # Environment variables template
+│   └── README.md              # Backend execution and testing guide
 │
-├── python/
-│   ├── historia-python/              ← History, ecosystem and Zen of Python
-│   ├── fundamentos/                  ← Variables, operators, conditionals, loops and functions
-│   ├── estrutura-de-dados/           ← Lists, tuples, dictionaries and sets
-│   └── orientacao-a-objetos/         ← OOP — classes, objects and the 4 pillars
+├── docs/                      # Centralized credentials, resumes, and certificates
+│   ├── lucilia-rosa-resume-pt.pdf   # Resume in Portuguese
+│   ├── lucilia-rosa-resume-en.pdf   # Resume in English
+│   ├── English-Intermediate.pdf     # Official TOEIC certificate
+│   ├── cert-english-canada.pdf      # Canada SGIC exchange program certificate
+│   ├── cert-descomplica.pdf         # Postgraduate certificate in Full Stack Development
+│   ├── cert-fatec-carapicuiba.pdf   # Systems Analysis & Development degree certificate
+│   └── cert-fatec-barueri.pdf       # IT Management degree certificate
 │
-├── html-css/
-│   ├── html/                         ← HTML history and core concepts
-│   └── css/                          ← History, selectors, Box Model and layout
+├── project/                   # Standalone projects integrated into the portfolio
+│   ├── README.md              # Documentation for integrated projects
+│   └── notebook/              # Lucilia's Notebook (Digital Full-Stack Class Notebook)
+│       ├── index.html         # Redirector to the main notebook page
+│       ├── notebook.html      # Main class index & module catalog
+│       ├── chatbot.js         # Interactive study AI assistant in pure JavaScript
+│       ├── frontend/          # Client-side modules (HTML5, CSS3, ES6+ JavaScript, React)
+│       ├── backend/           # Server-side & data modules (Python, Flask, Django, PostgreSQL)
+│       ├── devops/            # Version control & Git workflows (Git, GitHub, branches)
+│       ├── fundamentals/      # Computational foundations (Programming Logic & Algorithms)
+│       └── languages/         # Technical communication & languages (English & French)
 │
-├── git/
-│   └── controle-de-versao/           ← Commits, branches, merge, GitHub and Pull Requests
-│
-├── bd/                               ← SQL: SELECT, INSERT, UPDATE, DELETE, JOINs and modeling
-│
-├── english/
-│   ├── grammar/                      ← Articles, pronouns, verb tenses, prepositions and verbs
-│   └── vocabulary/                   ← Tech & Programming, Travel & Transport
-│
-├── img/                              ← Personal photos and site images
-└── doc/                              ← Academic certificates (PDF)
+├── README.md                  # Documentation in Portuguese
+└── README.en.md               # Documentation in English
 ```
 
 ---
 
-## Features
+## 🛠️ Tech Stack & Tools
 
-- **Subject carousel** — cards sliding horizontally per section
-- **Real-time search** — filters lessons by name, description or keyword
-- **PT / EN toggle** — full i18n language switch across all pages
-- **Expandable cards** — each subject reveals its annotated lessons on click
-- **Back to top** — floating button that appears on scroll
-- **Resume generator** — downloads CV in Portuguese or Canadian-format English
-- **Career timeline** — visual representation of professional journey
-- **Animated counters** — years of experience, companies and technologies
-- **Gallery with lightbox** — Vancouver exchange photos with keyboard navigation
-- **Certificate download** — academic degree PDFs available for download
-- **Favicon** with 📓 emoji
-- **Responsive** — works on desktop and mobile
+| Technology | Purpose & Implementation |
+| :--- | :--- |
+| **HTML5** | Semantic structure, accessibility standards, and SEO metadata |
+| **Modern CSS3** | Custom properties (tokens), CSS Grid, Flexbox, backdrop-filter, and smooth transitions |
+| **JavaScript (ES6+)** | Dynamic i18n switching, reactive filtering, modal dialogs, and carousels |
+| **Google Fonts** | Industry-standard typography featuring **Inter** and **JetBrains Mono** |
+| **Vector SVGs** | Scalable, high-density icons for socials, flags, and UI controls |
 
 ---
 
-## Lesson content
+## 💻 Running Locally
 
-| Subject | Lessons | Status |
-|---|---|---|
-| 🐍 Python — History & Ecosystem | 2 | ✅ Done |
-| 🐍 Python — Fundamentals | 5 | ✅ Done |
-| 🐍 Python — Data Structures | 4 | ✅ Done |
-| 🐍 Python — OOP | 2 | ✅ Done |
-| 🌐 HTML | 2 | ✅ Done |
-| 🎨 CSS | 2 | ✅ Done |
-| ⚡ JavaScript | — | 🔜 Coming soon |
-| 🌿 Git & GitHub | 5 | ✅ Done |
-| 🗄️ SQL | 4 | ✅ Done |
-| 🌍 English — Grammar | 5 | ✅ Done |
-| 🌍 English — Vocabulary | 2 | ✅ Done |
-| 🌍 English — Reading & Writing | — | 🔜 Coming soon |
+Because this project is built entirely on native web standards, it requires no build steps or package managers.
 
----
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/luciliarosa/Portfolio.git
+   cd Portfolio
+   ```
 
-## Technologies
-
-Built 100% with native web technologies — no frameworks, no build tools, no dependencies:
-
-- **HTML5** — semantic structure across all pages
-- **CSS3** — custom properties, Flexbox, Grid, animations and responsiveness
-- **JavaScript** — i18n, carousel, search, lightbox, CV generator and interactivity
-- **Google Fonts** — Lora, Nunito and JetBrains Mono
-- **Vercel** — continuous deployment from GitHub
+2. **Open in your browser:**
+   - Double-click `index.html` to open it locally, or
+   - Use VS Code's **Live Server** extension, or
+   - Start a lightweight Python web server:
+     ```bash
+     python3 -m http.server 8000
+     ```
+     Then navigate to: `http://localhost:8000`
 
 ---
 
-## Design
+## 📬 Contact & Socials
 
-The visual theme is inspired by a **paper notebook** — cream background with ruled lines, serif fonts and a warm color palette.
-
-| Variable | Color | Usage |
-|---|---|---|
-| `--paper` | `#faf7f2` | Main background |
-| `--ink` | `#1c1917` | Text and dark elements |
-| `--accent` | `#c84b31` | Red highlights |
-| `--accent2` | `#2563a8` | Blue links and interactions |
-| `--accent3` | `#1a7a50` | Green elements |
-| `--rose` | `#be185d` | Pink highlights |
+- **LinkedIn:** [linkedin.com/in/lucilia-rosa](https://www.linkedin.com/in/lucilia-rosa)
+- **GitHub:** [github.com/luciliarosa](https://github.com/luciliarosa)
+- **Email:** [lucilia.passos.rosa@outlook.com](mailto:lucilia.passos.rosa@outlook.com)
 
 ---
 
-## About the author
-
-**Lucilia Rosa** — Fullstack & Automation Developer · São Paulo, Brazil
-
-I work with Python, SQL and Microsoft Power Platform. I started out in computer networks and naturally transitioned into software development. I have lupus — and technology gave me the autonomy and freedom to work on my own terms.
-
-- 🐙 [github.com/luciliarosa](https://github.com/luciliarosa)
-- 💼 [linkedin.com/in/lucilia-rosa](https://www.linkedin.com/in/lucilia-rosa)
-- 📧 lucilia.passos.rosa@outlook.com
-- 🇨🇦 Open to Canada
-
----
-
-## License
-
-This project is for personal use. The lesson content is based on public courses and reinterpreted in my own words. Feel free to draw inspiration from the structure, but please do not copy the personal content.
-
----
-
-<p align="center">Made with 🍫 and lots of notes</p>
+<p align="center">
+  Crafted with care by <strong>Lucilia Rosa</strong> © 2026.
+</p>

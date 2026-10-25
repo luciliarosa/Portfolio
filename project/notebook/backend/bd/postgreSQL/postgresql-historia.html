@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐘</text></svg>"/>
+  <title>PostgreSQL — História — Lucilia's Notebook</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;--pg:#336791;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;gap:10px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .lang-toggle{display:flex;align-items:center;gap:2px;background:var(--paper2);border:1.5px solid var(--rule);border-radius:8px;padding:3px;flex-shrink:0;}
+    .lang-btn{font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--ink4);transition:background .15s,color .15s;font-family:var(--font-body);}
+    .lang-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,25,23,.10);}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag-pg{background:#e3edf7;color:#1a4f73;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 5px;border-radius:3px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    /* timeline */
+    .timeline{position:relative;padding-left:28px;margin-bottom:1.5rem;}
+    .timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--pg),rgba(51,103,145,.15));}
+    .tl-item{position:relative;margin-bottom:20px;}
+    .tl-item::before{content:'';position:absolute;left:-24px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--pg);border:2px solid var(--paper);box-shadow:0 0 0 2px var(--pg);}
+    .tl-year{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--pg);letter-spacing:.05em;margin-bottom:3px;}
+    .tl-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .tl-desc{font-size:13px;color:var(--ink2);line-height:1.65;}
+    /* curiosity card */
+    .curio{background:#fff;border:1.5px solid var(--rule);border-left:4px solid var(--pg);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:10px;}
+    .curio .cl-kw{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--pg);background:#e3edf7;padding:3px 9px;border-radius:4px;display:inline-block;margin-bottom:8px;}
+    .curio h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+    .curio p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .curio code{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:1px 5px;border-radius:3px;}
+    /* quote highlight */
+    .quote-block{background:#e3edf7;border-left:4px solid var(--pg);border-radius:var(--radius);padding:14px 20px;margin-bottom:1.5rem;}
+    .quote-block p{font-family:var(--font-serif);font-style:italic;font-size:14px;color:#1a4f73;line-height:1.75;}
+    .quote-block cite{display:block;font-family:var(--font-mono);font-size:11px;color:var(--ink4);margin-top:8px;font-style:normal;}
+    /* version badge */
+    .version-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:1.5rem;}
+    .version-card{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);}
+    .version-card .v-num{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--pg);margin-bottom:4px;}
+    .version-card .v-year{font-size:11px;color:var(--ink4);margin-bottom:6px;}
+    .version-card .v-feat{font-size:12px;color:var(--ink2);line-height:1.55;}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    [data-i18n]{transition:opacity .18s ease;}.lang-switching [data-i18n]{opacity:0;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;gap:6px;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}.version-grid{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+        <a href="../../../notebook.html" class="nav-link">Banco de Dados</a>
+    <a href="postgresql-historia.html" class="nav-link active" data-i18n="nav_hist">História</a>
+    <a href="postgresql-como-funciona.html" class="nav-link" data-i18n="nav_how">Como Funciona</a>
+    <a href="postgresql-projetos.html" class="nav-link" data-i18n="nav_proj">Projetos</a>
+  </div>
+</nav>
+
+<div class="page">
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// aula 01 · PostgreSQL · História</p>
+    <h1 class="article-title" data-i18n="title">PostgreSQL — Origem,<br>história e curiosidades</h1>
+    <div class="article-meta">
+      <span class="tag tag-pg">PostgreSQL</span>
+      <span class="tag gray" data-i18n="tag_sub">História</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Open Source · Desde 1986</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- INTRO -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_intro">O que é o PostgreSQL?</p>
+    <div class="info">
+      <h3 data-i18n="intro_h">O elefante mais poderoso do mundo dos dados</h3>
+      <p data-i18n="intro_p">PostgreSQL é um sistema gerenciador de banco de dados relacional de código aberto (<strong>RDBMS</strong>), conhecido por sua robustez, extensibilidade e conformidade com o padrão SQL. É considerado um dos bancos de dados mais avançados do mundo e tem mais de 35 anos de desenvolvimento ativo.</p>
+    </div>
+    <div class="quote-block">
+      <p data-i18n="quote_p">"PostgreSQL: The World's Most Advanced Open Source Relational Database."</p>
+      <cite data-i18n="quote_cite">— Slogan oficial do projeto, postgresql.org</cite>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- TIMELINE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_timeline">Linha do tempo — de INGRES ao PostgreSQL</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">1973 – 1985</div>
+        <div class="tl-title" data-i18n="tl1_t">Projeto INGRES — a semente</div>
+        <div class="tl-desc" data-i18n="tl1_d">Michael Stonebraker e Eugene Wong, da Universidade da Califórnia em Berkeley, criam o INGRES (INteractive Graphics REtrieval System), um dos primeiros SGBDs relacionais acadêmicos. Esse projeto serviu de base para tudo que viria depois.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1986</div>
+        <div class="tl-title" data-i18n="tl2_t">Nasce o POSTGRES</div>
+        <div class="tl-desc" data-i18n="tl2_d">Stonebraker começa o projeto <strong>POSTGRES</strong> (Post-INGRES) em Berkeley, financiado pela DARPA, pelo Exército dos EUA e pela NSF. O objetivo era ir além das limitações do modelo relacional puro, suportando tipos de dados complexos e orientação a objetos.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1988 – 1993</div>
+        <div class="tl-title" data-i18n="tl3_t">POSTGRES versões 1 a 4</div>
+        <div class="tl-desc" data-i18n="tl3_d">Várias versões acadêmicas são lançadas. O sistema usava uma linguagem de consulta chamada <strong>QUEL</strong> (não SQL). Nessa época, o código foi disponibilizado gratuitamente para universidades e empresas, estabelecendo as bases do open source.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1994</div>
+        <div class="tl-title" data-i18n="tl4_t">SQL chega ao POSTGRES</div>
+        <div class="tl-desc" data-i18n="tl4_d">Andrew Yu e Jolly Chen, estudantes de Berkeley, substituem a linguagem QUEL por um interpretador <strong>SQL</strong>. O projeto passa a se chamar <strong>Postgres95</strong> e é publicado na internet — o primeiro sistema de banco de dados open source com suporte a SQL.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1996</div>
+        <div class="tl-title" data-i18n="tl5_t">O nome PostgreSQL</div>
+        <div class="tl-desc" data-i18n="tl5_d">O projeto é renomeado para <strong>PostgreSQL</strong> para refletir o suporte ao SQL. A primeira versão pública, PostgreSQL 6.0, é lançada em janeiro de 1997. Um grupo de desenvolvedores ao redor do mundo assume a manutenção do projeto.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2000s</div>
+        <div class="tl-title" data-i18n="tl6_t">Consolidação e crescimento</div>
+        <div class="tl-desc" data-i18n="tl6_d">PostgreSQL ganha suporte a transações ACID completas, stored procedures, triggers, views e muito mais. A comunidade global cresce e grandes empresas começam a adotá-lo em produção. Em 2010, o PostgreSQL Global Development Group formaliza a governança do projeto.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2010 – hoje</div>
+        <div class="tl-title" data-i18n="tl7_t">Era moderna — JSON, paralelismo e mais</div>
+        <div class="tl-desc" data-i18n="tl7_d">Com versões anuais, o PostgreSQL recebe suporte a JSON/JSONB, queries paralelas, particionamento declarativo, replicação lógica e extensões como o <strong>PostGIS</strong>. Hoje é o banco de dados open source mais admirado do mundo, segundo pesquisas da Stack Overflow.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- VERSÕES MARCOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_versions">Versões marcantes</p>
+    <div class="version-grid">
+      <div class="version-card"><div class="v-num">PostgreSQL 6.0</div><div class="v-year">1997</div><div class="v-feat" data-i18n="v1">Primeiro lançamento público com nome PostgreSQL</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 7.1</div><div class="v-year">2001</div><div class="v-feat" data-i18n="v2">WAL (Write-Ahead Logging) — durabilidade real</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 8.0</div><div class="v-year">2005</div><div class="v-feat" data-i18n="v3">Native Windows support e tablespaces</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 9.0</div><div class="v-year">2010</div><div class="v-feat" data-i18n="v4">Streaming Replication nativa</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 9.4</div><div class="v-year">2014</div><div class="v-feat" data-i18n="v5">JSONB — JSON binário indexável</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 10</div><div class="v-year">2017</div><div class="v-feat" data-i18n="v6">Particionamento declarativo e replicação lógica</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 14</div><div class="v-year">2021</div><div class="v-feat" data-i18n="v7">Performance em writes e melhorias em JSON</div></div>
+      <div class="version-card"><div class="v-num">PostgreSQL 17</div><div class="v-year">2024</div><div class="v-feat" data-i18n="v8">Melhorias de vacuum, I/O e merge commands</div></div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- CURIOSIDADES -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_curios">Curiosidades</p>
+    <div class="curio"><span class="cl-kw">O elefante</span><h3 data-i18n="cu1_h">Por que um elefante?</h3><p data-i18n="cu1_p">O mascote oficial do PostgreSQL é um elefante chamado <strong>Slonik</strong> (palavra russa para "elefantinho"). Elefantes simbolizam força, memória e confiabilidade — exatamente o que um banco de dados precisa ser. O logo foi criado em 1997 e é mantido até hoje.</p></div>
+    <div class="curio"><span class="cl-kw">Berkeley</span><h3 data-i18n="cu2_h">Um banco de dados nascido na academia</h3><p data-i18n="cu2_p">Poucos softwares de infraestrutura crítica têm origem tão acadêmica. O PostgreSQL nasceu de pesquisas de doutorado e publicações científicas. Michael Stonebraker ganhou o <strong>Prêmio Turing em 2014</strong>, considerado o Nobel da computação, em parte por seu trabalho em INGRES e POSTGRES.</p></div>
+    <div class="curio"><span class="cl-kw">Stack Overflow</span><h3 data-i18n="cu3_h">Banco mais admirado por desenvolvedores</h3><p data-i18n="cu3_p">Nas pesquisas anuais do Stack Overflow Developer Survey, o PostgreSQL tem sido consistentemente eleito o banco de dados <strong>mais admirado e mais desejado</strong> por desenvolvedores ao redor do mundo, superando MySQL, SQL Server e MongoDB.</p></div>
+    <div class="curio"><span class="cl-kw">Licença</span><h3 data-i18n="cu4_h">Uma licença mais livre que o MIT</h3><p data-i18n="cu4_p">O PostgreSQL usa a <strong>PostgreSQL License</strong>, uma licença permissiva similar à MIT e BSD. Isso significa que você pode usar, modificar e distribuir o código — inclusive em software proprietário — sem precisar tornar seu código aberto. Empresas como Apple, Cisco e até a Amazon usam PostgreSQL internamente.</p></div>
+    <div class="curio"><span class="cl-kw">Comunidade</span><h3 data-i18n="cu5_h">Sem empresa por trás — só comunidade</h3><p data-i18n="cu5_p">Ao contrário do MySQL (Oracle) ou SQL Server (Microsoft), o PostgreSQL <strong>não pertence a nenhuma empresa</strong>. É mantido pelo PostgreSQL Global Development Group, uma associação informal de desenvolvedores voluntários e patrocinados de todo o mundo. Isso garante independência e foco total na qualidade técnica.</p></div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="../../../notebook.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label" data-i18n="nav_back_l">← voltar</span>
+      <span class="np-title" data-i18n="nav_back_t">Home</span>
+    </a>
+    <a href="postgresql-como-funciona.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label" data-i18n="nav_next_l">próxima aula →</span>
+      <span class="np-title" data-i18n="nav_next_t">Como o PostgreSQL funciona</span>
+    </a>
+  </div>
+</div>
+
+<script>
+const T={
+  pt:{
+    eyebrow:"// aula 01 · PostgreSQL · História",title:"PostgreSQL — Origem,\nhistória e curiosidades",tag_sub:"História",
+    nav_hist:"História",nav_how:"Como Funciona",nav_proj:"Projetos",
+    sec_intro:"O que é o PostgreSQL?",intro_h:"🐘 O elefante mais poderoso do mundo dos dados",intro_p:"PostgreSQL é um sistema gerenciador de banco de dados relacional de código aberto (<strong>RDBMS</strong>), conhecido por sua robustez, extensibilidade e conformidade com o padrão SQL. É considerado um dos bancos de dados mais avançados do mundo e tem mais de 35 anos de desenvolvimento ativo.",
+    quote_p:'"PostgreSQL: The World\'s Most Advanced Open Source Relational Database."',quote_cite:"— Slogan oficial do projeto, postgresql.org",
+    sec_timeline:"Linha do tempo — de INGRES ao PostgreSQL",
+    tl1_t:"Projeto INGRES — a semente",tl1_d:"Michael Stonebraker e Eugene Wong, da Universidade da Califórnia em Berkeley, criam o INGRES (INteractive Graphics REtrieval System), um dos primeiros SGBDs relacionais acadêmicos. Esse projeto serviu de base para tudo que viria depois.",
+    tl2_t:"Nasce o POSTGRES",tl2_d:"Stonebraker começa o projeto <strong>POSTGRES</strong> (Post-INGRES) em Berkeley, financiado pela DARPA, pelo Exército dos EUA e pela NSF. O objetivo era ir além das limitações do modelo relacional puro, suportando tipos de dados complexos e orientação a objetos.",
+    tl3_t:"POSTGRES versões 1 a 4",tl3_d:"Várias versões acadêmicas são lançadas. O sistema usava uma linguagem de consulta chamada <strong>QUEL</strong> (não SQL). Nessa época, o código foi disponibilizado gratuitamente para universidades e empresas, estabelecendo as bases do open source.",
+    tl4_t:"SQL chega ao POSTGRES",tl4_d:"Andrew Yu e Jolly Chen, estudantes de Berkeley, substituem a linguagem QUEL por um interpretador <strong>SQL</strong>. O projeto passa a se chamar <strong>Postgres95</strong> e é publicado na internet — o primeiro sistema de banco de dados open source com suporte a SQL.",
+    tl5_t:"O nome PostgreSQL",tl5_d:"O projeto é renomeado para <strong>PostgreSQL</strong> para refletir o suporte ao SQL. A primeira versão pública, PostgreSQL 6.0, é lançada em janeiro de 1997. Um grupo de desenvolvedores ao redor do mundo assume a manutenção do projeto.",
+    tl6_t:"Consolidação e crescimento",tl6_d:"PostgreSQL ganha suporte a transações ACID completas, stored procedures, triggers, views e muito mais. A comunidade global cresce e grandes empresas começam a adotá-lo em produção. Em 2010, o PostgreSQL Global Development Group formaliza a governança do projeto.",
+    tl7_t:"Era moderna — JSON, paralelismo e mais",tl7_d:"Com versões anuais, o PostgreSQL recebe suporte a JSON/JSONB, queries paralelas, particionamento declarativo, replicação lógica e extensões como o <strong>PostGIS</strong>. Hoje é o banco de dados open source mais admirado do mundo, segundo pesquisas da Stack Overflow.",
+    sec_versions:"Versões marcantes",v1:"Primeiro lançamento público com nome PostgreSQL",v2:"WAL (Write-Ahead Logging) — durabilidade real",v3:"Native Windows support e tablespaces",v4:"Streaming Replication nativa",v5:"JSONB — JSON binário indexável",v6:"Particionamento declarativo e replicação lógica",v7:"Performance em writes e melhorias em JSON",v8:"Melhorias de vacuum, I/O e merge commands",
+    sec_curios:"Curiosidades",
+    cu1_h:"Por que um elefante?",cu1_p:"O mascote oficial do PostgreSQL é um elefante chamado <strong>Slonik</strong> (palavra russa para \"elefantinho\"). Elefantes simbolizam força, memória e confiabilidade — exatamente o que um banco de dados precisa ser. O logo foi criado em 1997 e é mantido até hoje.",
+    cu2_h:"Um banco de dados nascido na academia",cu2_p:"Poucos softwares de infraestrutura crítica têm origem tão acadêmica. O PostgreSQL nasceu de pesquisas de doutorado e publicações científicas. Michael Stonebraker ganhou o <strong>Prêmio Turing em 2014</strong>, considerado o Nobel da computação, em parte por seu trabalho em INGRES e POSTGRES.",
+    cu3_h:"Banco mais admirado por desenvolvedores",cu3_p:"Nas pesquisas anuais do Stack Overflow Developer Survey, o PostgreSQL tem sido consistentemente eleito o banco de dados <strong>mais admirado e mais desejado</strong> por desenvolvedores ao redor do mundo, superando MySQL, SQL Server e MongoDB.",
+    cu4_h:"Uma licença mais livre que o MIT",cu4_p:"O PostgreSQL usa a <strong>PostgreSQL License</strong>, uma licença permissiva similar à MIT e BSD. Isso significa que você pode usar, modificar e distribuir o código — inclusive em software proprietário — sem precisar tornar seu código aberto. Empresas como Apple, Cisco e até a Amazon usam PostgreSQL internamente.",
+    cu5_h:"Sem empresa por trás — só comunidade",cu5_p:"Ao contrário do MySQL (Oracle) ou SQL Server (Microsoft), o PostgreSQL <strong>não pertence a nenhuma empresa</strong>. É mantido pelo PostgreSQL Global Development Group, uma associação informal de desenvolvedores voluntários e patrocinados de todo o mundo. Isso garante independência e foco total na qualidade técnica.",
+    nav_back_l:"← voltar",nav_back_t:"Home",nav_next_l:"próxima aula →",nav_next_t:"Como o PostgreSQL funciona"
+  },
+  en:{
+    eyebrow:"// lesson 01 · PostgreSQL · History",title:"PostgreSQL — Origin,\nhistory and curiosities",tag_sub:"History",
+    nav_hist:"History",nav_how:"How It Works",nav_proj:"Projects",
+    sec_intro:"What is PostgreSQL?",intro_h:"🐘 The most powerful elephant in the data world",intro_p:"PostgreSQL is an open-source relational database management system (<strong>RDBMS</strong>), known for its robustness, extensibility, and conformance to SQL standards. It is considered one of the most advanced databases in the world, with over 35 years of active development.",
+    quote_p:'"PostgreSQL: The World\'s Most Advanced Open Source Relational Database."',quote_cite:"— Official project slogan, postgresql.org",
+    sec_timeline:"Timeline — from INGRES to PostgreSQL",
+    tl1_t:"INGRES Project — the seed",tl1_d:"Michael Stonebraker and Eugene Wong at UC Berkeley create INGRES (INteractive Graphics REtrieval System), one of the first academic relational DBMSs. This project served as the foundation for everything that followed.",
+    tl2_t:"POSTGRES is born",tl2_d:"Stonebraker starts the <strong>POSTGRES</strong> (Post-INGRES) project at Berkeley, funded by DARPA, the US Army, and the NSF. The goal was to go beyond the limitations of the pure relational model, supporting complex data types and object orientation.",
+    tl3_t:"POSTGRES versions 1 through 4",tl3_d:"Several academic versions are released. The system used a query language called <strong>QUEL</strong> (not SQL). During this period, the code was made freely available to universities and companies, establishing the foundations of open source.",
+    tl4_t:"SQL arrives in POSTGRES",tl4_d:"Andrew Yu and Jolly Chen, Berkeley students, replace the QUEL language with an <strong>SQL</strong> interpreter. The project is renamed <strong>Postgres95</strong> and published on the internet — the first open-source database system with SQL support.",
+    tl5_t:"The name PostgreSQL",tl5_d:"The project is renamed to <strong>PostgreSQL</strong> to reflect SQL support. The first public version, PostgreSQL 6.0, is released in January 1997. A group of developers worldwide takes over maintenance of the project.",
+    tl6_t:"Consolidation and growth",tl6_d:"PostgreSQL gains support for full ACID transactions, stored procedures, triggers, views and much more. The global community grows and large companies begin adopting it in production. In 2010, the PostgreSQL Global Development Group formalizes project governance.",
+    tl7_t:"Modern era — JSON, parallelism and more",tl7_d:"With annual releases, PostgreSQL receives support for JSON/JSONB, parallel queries, declarative partitioning, logical replication, and extensions like <strong>PostGIS</strong>. Today it is the world's most admired open source database, according to Stack Overflow surveys.",
+    sec_versions:"Milestone versions",v1:"First public release with the PostgreSQL name",v2:"WAL (Write-Ahead Logging) — true durability",v3:"Native Windows support and tablespaces",v4:"Native Streaming Replication",v5:"JSONB — binary indexable JSON",v6:"Declarative partitioning and logical replication",v7:"Write performance and JSON improvements",v8:"Vacuum, I/O and merge command improvements",
+    sec_curios:"Curiosities",
+    cu1_h:"Why an elephant?",cu1_p:"PostgreSQL's official mascot is an elephant named <strong>Slonik</strong> (Russian for 'little elephant'). Elephants symbolize strength, memory, and reliability — exactly what a database needs to be. The logo was created in 1997 and is maintained to this day.",
+    cu2_h:"A database born in academia",cu2_p:"Few pieces of critical infrastructure software have such an academic origin. PostgreSQL was born from doctoral research and scientific publications. Michael Stonebraker won the <strong>Turing Award in 2014</strong>, considered the Nobel Prize of computing, partly for his work on INGRES and POSTGRES.",
+    cu3_h:"Most admired database by developers",cu3_p:"In annual Stack Overflow Developer Surveys, PostgreSQL has consistently been voted the <strong>most admired and most desired</strong> database by developers worldwide, surpassing MySQL, SQL Server, and MongoDB.",
+    cu4_h:"A license more permissive than MIT",cu4_p:"PostgreSQL uses the <strong>PostgreSQL License</strong>, a permissive license similar to MIT and BSD. This means you can use, modify, and distribute the code — even in proprietary software — without having to open-source your own code. Companies like Apple, Cisco, and even Amazon use PostgreSQL internally.",
+    cu5_h:"No company behind it — only community",cu5_p:"Unlike MySQL (Oracle) or SQL Server (Microsoft), PostgreSQL <strong>belongs to no company</strong>. It is maintained by the PostgreSQL Global Development Group, an informal association of volunteer and sponsored developers from around the world.",
+    nav_back_l:"← back",nav_back_t:"Home",nav_next_l:"next lesson →",nav_next_t:"How PostgreSQL works"
+  }
+};
+let lang=localStorage.getItem('nb_lang')||'pt';
+function setLang(l){lang=l;localStorage.setItem('nb_lang',l);document.body.classList.add('lang-switching');setTimeout(()=>{document.querySelectorAll('[data-i18n]').forEach(el=>{const v=T[l][el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});document.documentElement.lang=l==='pt'?'pt-BR':'en';document.getElementById('btn-pt').classList.toggle('active',l==='pt');document.getElementById('btn-en').classList.toggle('active',l==='en');document.body.classList.remove('lang-switching');},180);}
+if(lang==='en')setLang('en');
+</script>
+</body>
+</html>

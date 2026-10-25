@@ -1,0 +1,546 @@
+var lang = localStorage.getItem('nb_lang') || 'pt';
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('nb_lang', l);
+  document.body.classList.add('lang-switching');
+  setTimeout(function() {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      const page = document.body.getAttribute('data-page');
+      var v = T[l][el.getAttribute('data-i18n')];
+      if (v !== undefined) el.innerHTML = v;
+    });
+    document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
+    document.title = l === 'pt' ? 'Sobre Mim — Lucilia Rosa' : 'About Me — Lucilia Rosa';
+    document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
+    document.getElementById('btn-en').classList.toggle('active', l === 'en');
+    document.body.classList.remove('lang-switching');
+  }, 180);
+}
+
+if (lang === 'en') setLang('en');
+
+// ── FOTO DE PERFIL ──
+var photoInput = document.getElementById('photoInput');
+if (photoInput) {
+  photoInput.addEventListener('change', function() {
+    if (!this.files[0]) return;
+    document.getElementById('photoFrame').innerHTML =
+      '<img src="' + URL.createObjectURL(this.files[0]) + '" alt="Lucilia Rosa" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>';
+  });
+}
+
+// ── FOTOS DA FAMÍLIA ──
+function loadFamPhoto(n, input) {
+  if (!input.files[0]) return;
+  document.getElementById('famPhoto' + n).innerHTML =
+    '<img src="' + URL.createObjectURL(input.files[0]) + '" alt="foto" class="fam-photo-img"/>';
+}
+
+// ── GALERIA ──
+var lbCurrent = 0;
+
+function openLightbox(n) {
+  lbCurrent = n;
+  var slot = document.querySelectorAll('.gal-slot')[n];
+  var img = slot ? slot.querySelector('img') : null;
+  document.getElementById('lb-img').src = img ? img.src : '';
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || (e.target && e.target.classList.contains('lb-close')))
+    document.getElementById('lightbox').classList.remove('open');
+}
+
+function lbNav(dir, e) {
+  if (e) e.stopPropagation();
+  var total = document.querySelectorAll('.gal-slot').length;
+  lbCurrent = ((lbCurrent + dir) + total) % total;
+  openLightbox(lbCurrent);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lbNav(1, null);
+  if (e.key === 'ArrowLeft')  lbNav(-1, null);
+  if (e.key === 'Escape')     document.getElementById('lightbox').classList.remove('open');
+});
+
+// ── CONTADORES ANIMADOS ──
+function animateCounter(id, target, suffix) {
+  suffix = suffix || '';
+  var el = document.getElementById(id);
+  if (!el) return;
+  var current = 0;
+  var step = Math.ceil(target / 40);
+  var timer = setInterval(function() {
+    current = Math.min(current + step, target);
+    el.textContent = current + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 35);
+}
+
+function startCounters() {
+  animateCounter('cnt-years', 5, '+');
+  animateCounter('cnt-companies', 3, '');
+  animateCounter('cnt-edu', 4, '');
+  animateCounter('cnt-skills', 15, '+');
+}
+
+setTimeout(startCounters, 800);
+
+// ── VOLTAR AO TOPO ──
+window.addEventListener('scroll', function() {
+  var btn = document.getElementById('backToTop');
+  if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── PROJETOS DA EXPERIÊNCIA ──
+function toggleExpProjects(id, btn) {
+  var panel = document.getElementById(id);
+  var isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  var arrow = btn.querySelector('span:last-child');
+  if (arrow) arrow.textContent = isOpen ? '▾' : '▴';
+}
+
+// ── DETALHES DA FORMAÇÃO ──
+function toggleEduDetails(id, btn) {
+  var panel = document.getElementById(id);
+  var isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  var arrow = btn.querySelector('span:last-child');
+  if (arrow) arrow.textContent = isOpen ? '▾' : '▴';
+}
+
+// ── DROPDOWN NAV ──
+function toggleNavDropdown() {
+  var btn   = document.getElementById('navDropdownBtn');
+  var panel = document.getElementById('navDropdownPanel');
+  var open  = panel.classList.contains('open');
+  btn.classList.toggle('open', !open);
+  panel.classList.toggle('open', !open);
+}
+
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('navDropdown');
+  if (dd && !dd.contains(e.target)) {
+    var b = document.getElementById('navDropdownBtn');
+    var p = document.getElementById('navDropdownPanel');
+    if (b) b.classList.remove('open');
+    if (p) p.classList.remove('open');
+  }
+});
+
+function downloadCV(lang) {
+  const files = {
+    pt: '../../docs/lucilia-rosa-resume-pt.pdf',
+    en: '../../docs/lucilia-rosa-resume-en.pdf'
+  };
+
+  const link = document.createElement('a');
+  link.href = files[lang];
+  link.download = lang === 'pt' ? 'lucilia-rosa-curriculo.pdf' : 'lucilia-rosa-resume.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// ── MODAL DE CERTIFICADOS ──
+function openCertModal(pdfUrl, title) {
+  const modal = document.getElementById('certModal');
+  const iframe = document.getElementById('certIframe');
+  const titleEl = document.getElementById('certModalTitle');
+  const downloadBtn = document.getElementById('certModalDownload');
+
+  if (iframe) iframe.src = pdfUrl;
+  if (titleEl) titleEl.textContent = title || 'Certificado Oficial';
+  if (downloadBtn) {
+    downloadBtn.href = pdfUrl;
+    downloadBtn.download = pdfUrl.split('/').pop();
+  }
+  if (modal) {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeCertModal(e) {
+  if (e && e.target !== document.getElementById('certModal') && !e.target.closest('.cert-modal-close-btn')) {
+    return;
+  }
+  const modal = document.getElementById('certModal');
+  const iframe = document.getElementById('certIframe');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  if (iframe) iframe.src = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeCertModal();
+  }
+});
+
+
+var T = {
+  pt: {
+    nav_home:"Home",
+    nav_about:"Sobre mim",
+    nav_projects:"Projetos",
+
+    tl_company:"Empresa",
+    tl_institution:"Instituição",
+    tl_role:"Cargo",
+
+    nav_dd_about:"Sobre mim",
+    nav_dd_about_desc:"Trajetória, habilidades e história",
+
+    nav_dd_projects:"Projetos",
+    nav_dd_projects_desc:"HTML, Python, JavaScript e React",
+
+    nav_dd_areas:"Frontend, Backend &amp; Fullstack",
+    nav_dd_areas_desc:"O que é cada área e como se conectam",
+
+    hero_role:"Python Automation • SQL Development • System Integration",
+
+    tag_exp:"+5 anos de experiência",
+    tag_wit:"Mulher na Tech",
+    tag_canada:"Open to Canada",
+
+    cnt_years:"anos de experiência",
+    cnt_companies:"empresas",
+    cnt_edu:"formações",
+    cnt_skills:"tecnologias",
+
+    btn_cv_pt:"Baixar Currículo (PT)",
+    btn_cv_en:"Download Resume (EN)",
+
+    sec_about:"Quem sou eu",
+
+    about_p1:'Desenvolvedora de Software com experiência em automação utilizando Python, desenvolvimento SQL, integração de sistemas e otimização de processos de negócio. Atuo na criação de soluções que reduzem atividades manuais, aumentam a confiabilidade dos dados e melhoram a eficiência operacional. Tenho experiência no desenvolvimento de ferramentas internas, integrações entre plataformas e automações voltadas para processos corporativos. Além disso, possuo sólida base em infraestrutura, suporte técnico e ambientes corporativos, proporcionando uma visão abrangente dos sistemas e processos de tecnologia.',
+
+    sec_timeline:"Trajetória",
+    tl_present:"Presente",
+
+    tl1_title:"Atuação como Desenvolvedora de Sistemas",
+    tl1_desc:"Desenvolvimento de automações, dashboards e soluções orientadas a dados com Python, SQL e Power Platform.",
+
+    tl_pos_title:"Pós-Graduação em Desenvolvimento Full Stack",
+    tl_pos_desc:"Especialização prática em desenvolvimento frontend, backend, cloud computing e banco de dados.",
+
+    tl2_title:"Atuação como Analista de Sustentação",
+    tl2_desc:"Suporte técnico a plataformas corporativas, análise SQL, ajustes frontend e documentação técnica.",
+
+    tl_ads_title:"Graduação em Análise e Desenvolvimento de Sistemas",
+    tl_ads_desc:"Formação em engenharia de software, programação orientada a objetos, banco de dados e segurança da informação.",
+
+    tl3_title:"Atuação como Técnica em Redes de Computadores",
+    tl3_desc:"Monitoramento de infraestrutura, operação NOC e suporte técnico em ambientes de telecomunicações.",
+
+    tl_gti_title:"Graduação em Gestão da Tecnologia da Informação",
+    tl_gti_desc:"Formação voltada para governança de TI, infraestrutura, sistemas corporativos e gestão estratégica.",
+
+    tl4_title:"Curso Técnico em Redes de Computadores",
+    tl4_desc:"Base técnica em infraestrutura de redes, conectividade, fibra óptica e administração de equipamentos.",
+
+    exp1_role:"Atuação como Desenvolvedora de Sistemas",
+    exp1_period:"Jul 2025 – Presente",
+
+    exp1_li1:"Desenvolvi aplicações e automações em Python para eliminar processos manuais e aumentar a eficiência operacional.",
+    exp1_li2:"Elaborei consultas SQL para extração, validação e aplicação de regras de negócio.",
+    exp1_li3:"Realizei integrações entre sistemas internos, bancos de dados, ambientes SharePoint e serviços externos.",
+    exp1_li4:"Desenvolvi processos automatizados de geração de relatórios e notificações utilizando Python e tecnologias Microsoft.",
+    exp1_li5:"Atuei junto às áreas de negócio para transformar necessidades operacionais em soluções de software.",
+
+    sk_lang:"Linguagens & Frameworks",
+    sk_auto:"Automação & Plataformas",
+    sk_db:"Banco de Dados",
+    sk_tools:"Ferramentas",
+    sk_web:"Web & Sistemas",
+
+    senai_p1_title:"Automação de análise com IA",
+    senai_p1_desc:"Desenvolvi uma automação em Python para processar planilhas Excel, estruturar dados e enviar análises geradas por IA automaticamente por e-mail aos responsáveis. A solução reduziu um processo operacional de aproximadamente 1 dia para menos de 1 hora.",
+    senai_p2_title:"Automação web com Playwright",
+    senai_p2_desc:"Implementei uma automação web com Playwright para acessar portais de pesquisa, realizar downloads automáticos de relatórios e integrar os dados ao Power BI, eliminando atividades manuais recorrentes.",
+
+    exp2_role:"Atuação como Analista de Sustentação",
+    exp2_period:"Mar 2022 – Jul 2025",
+
+    exp2_li1:"Analisei e resolvi incidentes em plataformas e sistemas corporativos",
+    exp2_li2:"Realizei ajustes frontend utilizando HTML, CSS e JavaScript",
+    exp2_li3:"Executei consultas, análises e manipulação de dados com SQL",
+    exp2_li4:"Produzi e mantive documentação técnica de processos e sistemas",
+    exp2_li5:"Treinei equipes internas e novos colaboradores em ferramentas e fluxos operacionais",
+
+    vertem_p1_title:"Documentação técnica e treinamentos",
+    vertem_p1_desc:"Desenvolvi documentação técnica para ferramentas, processos internos e fluxos operacionais, além de conduzir treinamentos para novos colaboradores e equipes multidisciplinares, promovendo padronização e autonomia operacional.",
+    vertem_p2_title:"Automação de relatórios",
+    vertem_p2_desc:"Desenvolvi scripts em Python para automatizar a geração de relatórios diários e semanais, reduzindo atividades manuais, minimizando erros operacionais e liberando tempo da equipe para demandas estratégicas.",
+    vertem_p3_title:"Gestão de incidentes críticos",
+    vertem_p3_desc:"Participei ativamente de war rooms para resolução de incidentes críticos em produção, realizando troubleshooting, análise rápida de impacto e comunicação colaborativa entre equipes técnicas.",
+
+    exp3_role:"Atuação como Técnica em Redes de Computadores",
+    exp3_period:"Abr 2018 – Mar 2022",
+    
+    exp3_li1:"Diagnostiquei e resolvi problemas de infraestrutura de redes",
+    exp3_li2:"Monitorei ativos de rede, incluindo rádios wireless, backbones e equipamentos de telefonia",
+    exp3_li3:"Prestei suporte técnico para clientes corporativos e operadores em campo",
+    exp3_li4:"Gerenciei acessos e infraestrutura em ambientes de data center",
+
+    telium_p1_title:"Mapeamento de infraestrutura",
+    telium_p1_desc:"Participei de um projeto de mapeamento de ativos de rede para identificar equipamentos que necessitavam de manutenção ou substituição, contribuindo para iniciativas de padronização e confiabilidade da infraestrutura.",
+    telium_p2_title:"Operação NOC",
+    telium_p2_desc:"Atuei no Network Operations Center (NOC) realizando monitoramento contínuo de ativos de rede, suporte remoto a técnicos em field e análise de incidentes relacionados a conectividade e fibra óptica.",
+
+    btn_proj:"Ver projetos desenvolvidos",
+
+    edu1_deg:"Pós-Graduação — Desenvolvimento Full Stack",
+    edu1_per:"Mai 2023 – Out 2024",
+    edu1_focus_title:"Principais áreas de estudo",
+    edu1_desc:"Especialização prática em desenvolvimento full stack, abrangendo aplicações frontend com HTML, CSS, JavaScript e React, além de desenvolvimento backend com Node.js, APIs REST, bancos de dados relacionais e fundamentos de cloud computing na AWS.",
+    edu1_highlight:"<strong>Destaque:</strong> Formação orientada ao mercado com projetos práticos, microcertificações por módulo e experiência com ferramentas amplamente utilizadas na indústria de tecnologia.",
+
+    edu2_deg:"Tecnólogo em Análise e Desenvolvimento de Sistemas",
+    edu2_per:"Fev 2022 – Dez 2024",
+    edu2_focus_title:"Principais áreas de estudo",
+    edu2_desc:"Graduação focada em engenharia de software, programação orientada a objetos, estruturas de dados, modelagem de banco de dados, desenvolvimento de sistemas, segurança da informação e arquitetura de software.",
+    edu2_highlight:"<strong>Destaque:</strong> Formação tecnológica com forte abordagem prática, voltada para desenvolvimento de software, resolução de problemas e aplicação de boas práticas de engenharia.",
+
+    edu3_deg:"Tecnólogo em Gestão da Tecnologia da Informação",
+    edu3_per:"Fev 2015 – Dez 2017",
+    edu3_focus_title:"Principais áreas de estudo",
+    edu3_desc:"Graduação com foco em governança de TI, infraestrutura, sistemas corporativos, gestão de projetos, banco de dados, processos de negócio e planejamento estratégico aplicado à tecnologia.",
+    edu3_highlight:"<strong>Destaque:</strong> Formação que combinou visão técnica e gerencial, proporcionando experiência tanto em tecnologia quanto em gestão de ambientes corporativos.",
+
+    edu4_deg:"Técnico em Redes de Computadores",
+    edu4_per:"Jul 2012 – Jul 2014",
+    edu4_focus_title:"Principais áreas de estudo",
+    edu4_desc:"Formação técnica voltada para infraestrutura de redes, conectividade, protocolos TCP/IP, cabeamento estruturado, fibra óptica, configuração de roteadores e switches, além de administração e suporte de ambientes de rede.",
+    edu4_highlight:"<strong>Destaque:</strong> Base técnica sólida em infraestrutura e telecomunicações, responsável pelo início da trajetória profissional na área de tecnologia.",
+
+    btn_edu:"Ver grade e ênfases",
+    btn_cert:"Baixar certificado",
+    sec_skills:"Habilidades técnicas",
+
+    sec_edu:"Formação acadêmica",
+
+    sec_exchange:"🇨🇦 Intercâmbio em Vancouver",
+
+    sec_lang:"Idiomas & Comunicação Global",
+
+    lang_pt_name:"Português",
+    lang_pt_level:"Nativo",
+    lang_pt_sub:"Língua Materna · Fluência Nativa",
+    lang_pt_desc:"Comunicação nativa e eficaz para liderança de reuniões técnicas, documentação de arquitetura de software, alinhamento de requisitos de negócio e mentoria.",
+    lang_pt_tag1:"Comunicação Corporativa",
+    lang_pt_tag2:"Documentação de Software",
+    lang_pt_tag3:"Liderança de Reuniões",
+    lang_pt_tag4:"Mentoria Técnica",
+
+    lang_en_name:"Inglês",
+    lang_en_level:"Inglês Intermediário / Avançado",
+    lang_en_badge:"B1/B2 · Professional Working Proficiency",
+    lang_en_sub:"Proficiência Técnica & Internacional",
+    lang_en_desc:"Vivência internacional prática no Canadá e capacidade sólida de leitura de documentações técnicas, RFCs, escrita técnica (issues, pull requests) e reuniões de alinhamento.",
+    lang_read_label:"Leitura & Documentação Técnica",
+    lang_write_label:"Escrita & Comunicação Técnica",
+    lang_speak_label:"Conversação & Reuniões de Equipe",
+    roadmap_heading:"Marcos de Aprendizado & Certificações Oficiais",
+    btn_preview_cert:"Visualizar",
+    btn_download_cert:"Baixar PDF",
+
+    tl_exchange_title: 'Intercâmbio de 1 mês — Inglês Intensivo',
+    tl_2019_desc:      'St. George International College, Vancouver — Julho de 2019',
+    tl_2024_desc:      'Avaliação oficial internacional de proficiência linguística para ambiente de negócios',
+    tl_2026_desc:      'St. George International College, Vancouver — Agosto de 2026',
+    tl_level_label:    'Level (Inglês Intensivo)',
+    tl_sgic_btn:       'Baixar certificado SGIC',
+    lang_en_note:      'Evolução ao longo do tempo, com comprovantes oficiais',
+    lang_toeic_label:  'Teste Oficial TOEIC (ETS)',
+    lang_toeic_score:  'Pontos no TOEIC',
+    lang_toeic_btn:    'Baixar certificado TOEIC',
+  },
+
+  en: {
+    nav_home:"Home",
+    nav_about:"About me",
+    nav_projects:"Projects",
+
+    tl_company:"Company",
+    tl_institution:"Institution",
+    tl_role:"Role",
+
+    nav_dd_about:"About me",
+    nav_dd_about_desc:"Background, skills and story",
+
+    nav_dd_projects:"Projects",
+    nav_dd_projects_desc:"HTML, Python, JavaScript and React",
+
+    nav_dd_areas:"Frontend, Backend &amp; Fullstack",
+    nav_dd_areas_desc:"What each area is and how they connect",
+
+    hero_role:"Python Automation • SQL Development • System Integration",
+
+    tag_exp:"+5 years of experience",
+    tag_wit:"Woman in Tech",
+    tag_canada:"Open to Canada",
+
+    cnt_years:"years of experience",
+    cnt_companies:"companies",
+    cnt_edu:"degrees",
+    cnt_skills:"technologies",
+
+    btn_cv_pt:"Download Currículo (PT)",
+    btn_cv_en:"Download Resume (EN)",
+
+    sec_about:"Who I am",
+
+    about_p1:'Software Developer with experience in Python automation, SQL development, system integration, and business process optimization. Skilled in designing and implementing solutions that reduce manual work, improve data accuracy, and streamline operations. Experienced in building automation tools, integrating platforms through APIs, and developing internal applications to support business needs. Background in infrastructure, technical support, and software development, providing a broad understanding of enterprise systems and technology environments.',
+
+    sec_timeline:"Career Timeline",
+    tl_present:"Present",
+
+    tl1_title:"Professional Experience as Systems Developer",
+    tl1_desc:"Development of automation workflows, dashboards and data-driven solutions using Python, SQL and Microsoft Power Platform.",
+
+    tl_pos_title:"Postgraduate Degree in Full Stack Development",
+    tl_pos_desc:"Practical specialization in frontend, backend, cloud computing and database technologies.",
+
+    tl2_title:"Professional Experience as Support Analyst",
+    tl2_desc:"Technical support for enterprise platforms, SQL analysis, frontend maintenance and technical documentation.",
+
+    tl_ads_title:"Degree in Systems Analysis and Development",
+    tl_ads_desc:"Academic background in software engineering, object-oriented programming, databases and information security.",
+
+    tl3_title:"Professional Experience as Network Technician",
+    tl3_desc:"Infrastructure monitoring, NOC operations and technical support within telecommunications environments.",
+
+    tl_gti_title:"Degree in Information Technology Management",
+    tl_gti_desc:"Education focused on IT governance, infrastructure, enterprise systems and strategic management.",
+
+    tl4_title:"Technical Program in Computer Networks",
+    tl4_desc:"Technical foundation in networking infrastructure, connectivity, fiber optics and network equipment administration.",
+
+    exp1_role:"Professional Experience as Software Developer",
+    exp1_period:"Jul 2025 – Present",
+
+    exp1_li1:"Developed Python applications and automation solutions to eliminate manual processes and improve operational efficiency.",
+    exp1_li2:"Designed and executed SQL queries for data extraction, validation, and business rule implementation.",
+    exp1_li3:"Integrated internal systems, databases, SharePoint environments, and external services to automate information flows.",
+    exp1_li4:"Developed automated reporting and notification processes using Python and Microsoft technologies.",
+    exp1_li5:"Collaborated with business teams to identify process improvement opportunities and translate requirements into software solutions.",
+
+    sk_lang:"Programming & Frameworks",
+    sk_auto:"Automation & Integration",
+    sk_db:"Database Management",
+    sk_tools:"Tools",
+    sk_web:"Web Development",
+
+    senai_p1_title:"AI-Powered Analysis Automation",
+    senai_p1_desc:"Developed a Python automation workflow to process Excel spreadsheets, structure data, and automatically deliver AI-generated analysis reports by email. The solution reduced an operational process from nearly one full day to less than one hour.",
+    senai_p2_title:"Playwright Web Automation",
+    senai_p2_desc:"Implemented a Playwright-based web automation solution to access survey platforms, download reports automatically, and integrate data into Power BI dashboards, eliminating repetitive manual tasks.",
+
+    exp2_role:"Professional Experience as Support Analyst",
+    exp2_period:"Mar 2022 – Jul 2025",
+
+    exp2_li1:"Analyzed and resolved incidents across enterprise platforms and systems",
+    exp2_li2:"Performed frontend enhancements using HTML, CSS, and JavaScript",
+    exp2_li3:"Executed SQL queries, data analysis, and database manipulation",
+    exp2_li4:"Produced and maintained technical documentation for systems and processes",
+    exp2_li5:"Trained internal teams and new employees on operational workflows and tools",
+
+    vertem_p1_title:"Technical Documentation and Training",
+    vertem_p1_desc:"Developed technical documentation for internal tools, operational processes, and workflows, while leading training sessions for new employees and cross-functional teams to improve standardization and operational autonomy.",
+    vertem_p2_title:"Report Automation",
+    vertem_p2_desc:"Developed Python scripts to automate daily and weekly report generation, reducing manual activities, minimizing operational errors, and allowing the team to focus on strategic tasks.",
+    vertem_p3_title:"Critical Incident Management",
+    vertem_p3_desc:"Actively participated in production war rooms to resolve critical incidents, performing troubleshooting, rapid impact analysis, and collaborative communication across technical teams.",
+
+    exp3_role:"Professional Experience as Network Technician",
+    exp3_period:"Apr 2018 – Mar 2022",
+
+    exp3_li1:"Diagnosed and resolved network infrastructure issues",
+    exp3_li2:"Monitored network assets, including wireless radios, backbones, and telephony equipment",
+    exp3_li3:"Provided technical support for enterprise clients and field technicians",
+    exp3_li4:"Managed access control and infrastructure within data center environments",
+
+    telium_p1_title:"Infrastructure Mapping",
+    telium_p1_desc:"Participated in a network asset mapping project to identify equipment requiring maintenance or replacement, contributing to infrastructure standardization and reliability initiatives.",
+    telium_p2_title:"NOC Operations",
+    telium_p2_desc:"Worked within the Network Operations Center (NOC), monitoring network assets, providing remote support to field technicians, and analyzing connectivity and fiber optic incidents.",
+
+    btn_proj:"View projects",
+
+    sec_skills:"Technical Skills",
+
+    edu1_deg:"Postgraduate Degree — Full Stack Development",
+    edu1_per:"May 2023 – Oct 2024",
+    edu1_focus_title:"Key areas of study",
+    edu1_desc:"Practical specialization in full stack development, covering frontend applications with HTML, CSS, JavaScript, and React, as well as backend development with Node.js, REST APIs, relational databases, and AWS cloud computing fundamentals.",
+    edu1_highlight:"<strong>Highlight:</strong> Market-oriented program focused on hands-on projects, micro-certifications, and experience with widely used industry tools and technologies.",
+
+    edu2_deg:"Associate Degree in Systems Analysis and Development",
+    edu2_per:"Feb 2022 – Dec 2024",
+    edu2_focus_title:"Key areas of study",
+    edu2_desc:"Degree focused on software engineering, object-oriented programming, data structures, database modeling, systems development, information security, and software architecture.",
+    edu2_highlight:"<strong>Highlight:</strong> Technology-focused program with a strong practical approach to software development, problem-solving, and engineering best practices.",
+
+    edu3_deg:"Associate Degree in Information Technology Management",
+    edu3_per:"Feb 2015 – Dec 2017",
+    edu3_focus_title:"Key areas of study",
+    edu3_desc:"Degree focused on IT governance, infrastructure, enterprise systems, project management, databases, business processes, and strategic technology planning.",
+    edu3_highlight:"<strong>Highlight:</strong> Academic background combining both technical and business perspectives, providing experience in technology and corporate management environments.",
+
+    edu4_deg:"Technical Program in Computer Networks",
+    edu4_per:"Jul 2012 – Jul 2014",
+    edu4_focus_title:"Key areas of study",
+    edu4_desc:"Technical education focused on networking infrastructure, connectivity, TCP/IP protocols, structured cabling, fiber optics, router and switch configuration, and network administration and support.",
+    edu4_highlight:"<strong>Highlight:</strong> Strong technical foundation in infrastructure and telecommunications, marking the beginning of my professional career in technology.",
+
+    sec_edu:"Education",
+
+    btn_edu:"View curriculum and focus areas",
+    btn_cert:"Download certificate",
+
+    sec_exchange:"🇨🇦 Exchange Program in Vancouver",
+
+    sec_lang:"Languages & Global Communication",
+
+    lang_pt_name:"Portuguese",
+    lang_pt_level:"Native",
+    lang_pt_sub:"Native Speaker · C2 Level",
+    lang_pt_desc:"Effective and native communication for technical meeting leadership, software architecture documentation, business requirements alignment, and mentoring.",
+    lang_pt_tag1:"Corporate Communication",
+    lang_pt_tag2:"Software Documentation",
+    lang_pt_tag3:"Meeting Leadership",
+    lang_pt_tag4:"Technical Mentoring",
+
+    lang_en_name:"English",
+    lang_en_level:"Intermediate / Upper-Intermediate",
+    lang_en_badge:"B1/B2 · Professional Working Proficiency",
+    lang_en_sub:"Technical & International Proficiency",
+    lang_en_desc:"Hands-on international study experience in Canada and strong proficiency in technical documentation reading, RFCs, technical writing (issues, PRs), and team discussions.",
+    lang_read_label:"Reading & Technical Documentation",
+    lang_write_label:"Writing & Asynchronous Communication",
+    lang_speak_label:"Speaking & Team Meetings",
+    roadmap_heading:"Learning Milestones & Official Certifications",
+    btn_preview_cert:"Preview",
+    btn_download_cert:"Download PDF",
+
+    tl_exchange_title: '1-month exchange — Intensive English',
+    tl_2019_desc:      'St. George International College, Vancouver — July 2019',
+    tl_2024_desc:      'Official international language proficiency assessment for business environments',
+    tl_2026_desc:      'St. George International College, Vancouver — August 2026',
+    tl_level_label:    'Level (Intensive English)',
+    tl_sgic_btn:       'Download SGIC certificate',
+    lang_en_note:      'Continuous progress over time, backed by official certifications',
+    lang_toeic_label:  'Official TOEIC Test (ETS)',
+    lang_toeic_score:  'TOEIC points',
+    lang_toeic_btn:    'Download TOEIC certificate',
+  }
+}

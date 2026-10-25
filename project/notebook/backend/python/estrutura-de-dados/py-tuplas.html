@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tuplas — Lucilia's Notebook</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}
+    .nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}
+    .nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.py{background:#dbeafe;color:#1e40af;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .code-wrap{background:#1e1c1a;border-radius:var(--radius);padding:20px 22px;overflow-x:auto;box-shadow:var(--shadow-lg);margin-bottom:1.5rem;}
+    .code-wrap pre{font-family:var(--font-mono);font-size:13px;line-height:1.85;color:#e8e0d5;white-space:pre;}
+    .kw{color:#89b4fa;}.cm{color:#6c7086;}.str{color:#a6e3a1;}.fn{color:#cba6f7;}.vr{color:#fab387;}.num{color:#f9e2af;}.op{color:#f38ba8;}
+    /* tupla visual — células com cor amber */
+    .tup-visual{display:flex;gap:0;margin:1rem 0;overflow-x:auto;}
+    .tup-cell{display:flex;flex-direction:column;align-items:center;min-width:60px;}
+    .tup-cell .val{background:#FAEEDA;border:1.5px solid #BA7517;color:#854F0B;font-family:var(--font-mono);font-size:13px;font-weight:600;padding:10px 14px;border-right:none;min-width:60px;text-align:center;}
+    .tup-cell:last-child .val{border-right:1.5px solid #BA7517;}
+    .tup-cell .idx{font-family:var(--font-mono);font-size:10px;color:var(--ink4);margin-top:4px;}
+    /* lock card */
+    .lock-card{background:#fff;border:1.5px solid var(--rule);border-left:4px solid var(--accent);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .lock-card h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .lock-card p{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+    .lock-card code{font-family:var(--font-mono);font-size:12px;background:var(--paper2);padding:1px 6px;border-radius:4px;}
+    /* metodo card */
+    .metodo{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);}
+    .metodo .m-name{font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--accent2);margin-bottom:5px;}
+    .metodo p{font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:6px;}
+    .metodo .m-ex{font-family:var(--font-mono);font-size:11.5px;background:var(--paper2);padding:5px 8px;border-radius:5px;color:var(--ink3);}
+    /* compare */
+    .compare{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:1rem;}
+    .compare-header{display:grid;grid-template-columns:1fr 1fr;}
+    .compare-col-h{padding:12px 18px;font-size:12px;font-weight:700;text-align:center;}
+    .ch-lista{background:#E6F1FB;color:#0C447C;}.ch-tupla{background:#FAEEDA;color:#854F0B;}
+    .compare-body{display:grid;grid-template-columns:1fr 1fr;}
+    .compare-col{padding:11px 18px;font-size:12.5px;color:var(--ink2);line-height:1.6;border-top:1.5px solid var(--rule2);}
+    .compare-col:first-child{border-right:1.5px solid var(--rule2);}
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}
+    .np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}.compare-header,.compare-body{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../../notebook.html#python" class="nav-link">Python</a>
+    <a href="py-listas.html" class="nav-link">Listas</a>
+    <a href="py-tuplas.html" class="nav-link active">Tuplas</a>
+    <a href="py-dicionarios.html" class="nav-link">Dicionários</a>
+    <a href="py-conjuntos.html" class="nav-link">Conjuntos</a>
+  </div>
+</nav>
+
+<div class="page">
+  <nav class="breadcrumb fade">
+  </nav>
+
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 02 · Python · Estruturas de Dados · Mundo 3</p>
+    <h1 class="article-title">Tuplas em Python</h1>
+    <div class="article-meta">
+      <span class="tag py">Python</span><span class="tag gray">Mundo 3</span>
+      <span class="dot"></span><span style="font-size:12px;color:var(--ink4)">Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <!-- O QUE É -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">O que é uma tupla?</p>
+    <div class="info">
+      <h3>Uma lista que não pode ser alterada</h3>
+      <p>O Guanabara explica que tupla é como uma lista com <strong>cadeado</strong> — depois de criada, seus itens não podem ser modificados. Use quando os dados precisam ser <strong>protegidos contra alterações</strong>, como coordenadas, datas ou registros fixos.</p>
+    </div>
+    <div class="g2">
+      <div class="info" style="border-left:4px solid #BA7517;margin-bottom:0">
+        <h3>Características</h3>
+        <ul>
+          <li>Ordenada — mantém a posição dos itens</li>
+          <li><strong>Imutável</strong> — não pode ser alterada</li>
+          <li>Permite duplicatas</li>
+          <li>Mais rápida que lista (menos memória)</li>
+        </ul>
+      </div>
+      <div class="info" style="border-left:4px solid var(--accent);margin-bottom:0">
+        <h3>Sintaxe</h3>
+        <ul>
+          <li>Criada com parênteses: <code>( )</code></li>
+          <li>Ou sem parênteses: <code>a, b, c</code></li>
+          <li>Tupla de 1 elemento precisa de vírgula: <code>(1,)</code></li>
+          <li>Índice idêntico à lista: começa em <code>0</code></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISUAL -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Visualizando uma tupla</p>
+    <div class="tup-visual">
+      <div class="tup-cell"><div class="val">"SP"</div><div class="idx">0</div></div>
+      <div class="tup-cell"><div class="val">"RJ"</div><div class="idx">1</div></div>
+      <div class="tup-cell"><div class="val">"MG"</div><div class="idx">2</div></div>
+      <div class="tup-cell"><div class="val">"RS"</div><div class="idx">3</div></div>
+      <div class="tup-cell"><div class="val" style="border-right:1.5px solid #BA7517">"BA"</div><div class="idx">4</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--ink4);margin-top:4px;">Os valores não podem ser trocados após a criação</p>
+
+    <div class="code-wrap" style="margin-top:1rem;">
+      <pre><span class="cm"># Criando tuplas</span>
+<span class="vr">estados</span> = (<span class="str">"SP"</span>, <span class="str">"RJ"</span>, <span class="str">"MG"</span>, <span class="str">"RS"</span>, <span class="str">"BA"</span>)
+<span class="vr">ponto</span>   = (<span class="num">10.5</span>, <span class="num">-3.2</span>)       <span class="cm"># coordenada x, y</span>
+<span class="vr">pessoa</span>  = <span class="str">"Lucilia"</span>, <span class="num">21</span>, <span class="str">"SP"</span>  <span class="cm"># sem parênteses também funciona</span>
+<span class="vr">unico</span>   = (<span class="str">"só um"</span>,)           <span class="cm"># tupla de 1 item — vírgula obrigatória!</span>
+
+<span class="fn">print</span>(<span class="vr">estados</span>[<span class="num">0</span>])   <span class="cm"># → SP</span>
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="vr">estados</span>)) <span class="cm"># → 5</span>
+
+<span class="cm"># Tentativa de alterar — gera TypeError!</span>
+<span class="cm"># estados[0] = "PR"  → TypeError: 'tuple' object does not support item assignment</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- IMUTABILIDADE -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">A imutabilidade na prática</p>
+    <div class="lock-card">
+      <h3>Por que usar imutável?</h3>
+      <p>Quando você quer garantir que os dados <strong>não vão ser alterados por acidente</strong> no código. Exemplos clássicos: coordenadas geográficas <code>(lat, lon)</code>, data de nascimento, configurações do sistema, retorno de múltiplos valores de uma função.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="cm"># Tupla como retorno de função</span>
+<span class="kw">def</span> <span class="fn">minmax</span>(<span class="vr">lista</span>):
+    <span class="kw">return</span> <span class="fn">min</span>(<span class="vr">lista</span>), <span class="fn">max</span>(<span class="vr">lista</span>)  <span class="cm"># retorna tupla</span>
+
+<span class="vr">menor</span>, <span class="vr">maior</span> = <span class="fn">minmax</span>([<span class="num">3</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">5</span>])
+<span class="fn">print</span>(<span class="str">f"Menor: {menor}, Maior: {maior}"</span>)  <span class="cm"># → Menor: 1, Maior: 9</span>
+
+<span class="cm"># Desempacotamento de tupla</span>
+<span class="vr">pessoa</span> = (<span class="str">"Lucilia"</span>, <span class="num">21</span>, <span class="str">"São Paulo"</span>)
+<span class="vr">nome</span>, <span class="vr">idade</span>, <span class="vr">cidade</span> = <span class="vr">pessoa</span>
+<span class="fn">print</span>(<span class="str">f"{nome} tem {idade} anos e mora em {cidade}"</span>)</pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- MÉTODOS -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Métodos disponíveis (só 2!)</p>
+    <div class="g2" style="margin-bottom:1.5rem;">
+      <div class="metodo">
+        <div class="m-name">count(valor)</div>
+        <p>Conta quantas vezes o valor aparece na tupla.</p>
+        <div class="m-ex">t = (1, 2, 2, 3, 2)<br>t.count(2)  # → 3</div>
+      </div>
+      <div class="metodo">
+        <div class="m-name">index(valor)</div>
+        <p>Retorna o índice da primeira ocorrência do valor.</p>
+        <div class="m-ex">t = ("a", "b", "c")<br>t.index("b")  # → 1</div>
+      </div>
+    </div>
+    <div class="info">
+      <h3>Mas posso usar outras operações!</h3>
+      <p>Mesmo sem métodos de alteração, tuplas aceitam: <code>len()</code>, <code>in</code> / <code>not in</code>, fatiamento <code>[:]</code>, iteração com <code>for</code>, <code>min()</code>, <code>max()</code> e <code>sum()</code>.</p>
+    </div>
+    <div class="code-wrap">
+      <pre><span class="vr">t</span> = (<span class="num">5</span>, <span class="num">3</span>, <span class="num">8</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">2</span>)
+
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="vr">t</span>))      <span class="cm"># → 6</span>
+<span class="fn">print</span>(<span class="fn">min</span>(<span class="vr">t</span>))      <span class="cm"># → 1</span>
+<span class="fn">print</span>(<span class="fn">max</span>(<span class="vr">t</span>))      <span class="cm"># → 9</span>
+<span class="fn">print</span>(<span class="fn">sum</span>(<span class="vr">t</span>))      <span class="cm"># → 28</span>
+<span class="fn">print</span>(<span class="num">8</span> <span class="kw">in</span> <span class="vr">t</span>)      <span class="cm"># → True</span>
+<span class="fn">print</span>(<span class="vr">t</span>[<span class="num">2</span>:<span class="num">5</span>])      <span class="cm"># → (8, 1, 9)</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- LISTA VS TUPLA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Lista vs Tupla — quando usar cada uma?</p>
+    <div class="compare">
+      <div class="compare-header">
+        <div class="compare-col-h ch-lista">Lista [ ]</div>
+        <div class="compare-col-h ch-tupla">Tupla ( )</div>
+      </div>
+      <div class="compare-body"><div class="compare-col">Dados que vão mudar</div><div class="compare-col">Dados fixos, constantes</div></div>
+      <div class="compare-body"><div class="compare-col">Adicionar/remover itens</div><div class="compare-col">Proteger dados de modificação</div></div>
+      <div class="compare-body"><div class="compare-col">Carrinho de compras</div><div class="compare-col">Coordenadas GPS</div></div>
+      <div class="compare-body"><div class="compare-col">Lista de tarefas</div><div class="compare-col">Dias da semana</div></div>
+      <div class="compare-body"><div class="compare-col">Mais métodos disponíveis</div><div class="compare-col">Mais rápida e leve</div></div>
+    </div>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="py-listas.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span>
+      <span class="np-title">Listas</span>
+    </a>
+    <a href="py-dicionarios.html" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">próxima aula →</span>
+      <span class="np-title">Dicionários</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

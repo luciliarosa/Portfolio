@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>GitHub e Pull Requests — Lucilia's Notebook</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--paper:#faf7f2;--paper2:#f3efe8;--paper3:#ede8df;--ink:#1c1917;--ink2:#44403c;--ink3:#78716c;--ink4:#a8a29e;--rule:rgba(28,25,23,.10);--rule2:rgba(28,25,23,.06);--accent:#c84b31;--accent2:#2563a8;--accent3:#1a7a50;--git:#f05033;--shadow:0 2px 12px rgba(28,25,23,.08);--shadow-lg:0 8px 32px rgba(28,25,23,.13);--radius:10px;--font-body:'Nunito',sans-serif;--font-serif:'Lora',serif;--font-mono:'JetBrains Mono',monospace;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);min-height:100vh;background-image:repeating-linear-gradient(transparent,transparent 31px,rgba(28,25,23,.045) 31px,rgba(28,25,23,.045) 32px);background-attachment:fixed;}
+    .nav{position:sticky;top:0;z-index:100;background:rgba(250,247,242,.92);backdrop-filter:blur(8px);border-bottom:1.5px solid var(--rule);padding:0 2rem;display:flex;align-items:center;height:56px;}
+    .nav-brand{font-family:var(--font-serif);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:2rem;white-space:nowrap;}
+    .nav-links{display:flex;align-items:center;gap:4px;flex:1;overflow-x:auto;}.nav-links::-webkit-scrollbar{display:none;}
+    .nav-link{font-size:13px;font-weight:600;color:var(--ink3);text-decoration:none;padding:6px 12px;border-radius:6px;transition:background .15s,color .15s;white-space:nowrap;}
+    .nav-link:hover{background:var(--paper3);color:var(--ink);}.nav-link.active{background:var(--ink);color:var(--paper);}
+    .nav-sep{width:1px;height:18px;background:var(--rule);margin:0 4px;flex-shrink:0;}
+    .page{max-width:800px;margin:0 auto;padding:0 1.5rem 5rem;}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink4);padding:16px 0 0;}
+    .breadcrumb a{color:var(--ink3);text-decoration:none;}.breadcrumb a:hover{color:var(--accent2);}
+    .article-hero{padding:2rem 0 2.5rem;}
+    .article-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--ink4);letter-spacing:.06em;margin-bottom:10px;}
+    .article-title{font-family:var(--font-serif);font-size:clamp(26px,5vw,40px);font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:12px;}
+    .article-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dot{width:3px;height:3px;border-radius:50%;background:var(--ink4);}
+    .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .tag.git{background:#fce7f3;color:#9d174d;}.tag.gray{background:var(--paper3);color:var(--ink3);}
+    hr{border:none;border-top:1.5px solid var(--rule2);margin:2rem 0;}
+    .sec-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .sec-title::after{content:'';flex:1;height:1px;background:var(--rule2);}
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .info{background:var(--paper2);border:1.5px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:1rem;}
+    .info h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+    .info p{font-size:13px;color:var(--ink2);line-height:1.7;}
+    .info code{font-family:var(--font-mono);font-size:12px;background:#fff;padding:1px 6px;border-radius:4px;}
+    .info ul{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+    .info li{font-size:13px;color:var(--ink2);display:flex;gap:8px;line-height:1.6;}
+    .info li::before{content:'→';color:var(--accent2);font-weight:700;flex-shrink:0;}
+    .cmd-block{background:#1e1c1a;border-radius:var(--radius);padding:18px 22px;margin-bottom:1.5rem;box-shadow:var(--shadow-lg);}
+    .cmd-block pre{font-family:var(--font-mono);font-size:13px;line-height:1.9;color:#e8e0d5;white-space:pre;}
+    .cm{color:#6c7086;}.str{color:#a6e3a1;}.vr{color:#fab387;}.flag{color:#cba6f7;}.git-cmd{color:#f38ba8;}
+    /* PR steps */
+    .pr-step{background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);margin-bottom:8px;}
+    .pr-num{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;}
+    .pr-step h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+    .pr-step p{font-size:12.5px;color:var(--ink2);line-height:1.6;}
+    /* ref table */
+    .ref-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+    .ref-table thead tr{background:var(--paper2);}
+    .ref-table th{padding:10px 16px;font-size:11px;font-weight:700;color:var(--ink4);text-align:left;letter-spacing:.05em;}
+    .ref-table td{padding:10px 16px;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--rule2);}
+    .ref-table td:first-child{font-family:var(--font-mono);font-size:12px;color:var(--accent2);white-space:nowrap;}
+    .ref-table tr:hover td{background:var(--paper2);}
+    /* nav pages */
+    .nav-pages{display:flex;gap:12px;margin-top:2.5rem;flex-wrap:wrap;}
+    .nav-page{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--rule);border-radius:var(--radius);padding:14px 18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s;box-shadow:var(--shadow);}
+    .nav-page:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+    .np-label{font-size:11px;color:var(--ink4);font-weight:700;}.np-title{font-size:14px;font-weight:700;color:var(--accent2);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    .fade{animation:fadeUp .45s ease both;}
+    @media(max-width:600px){.nav{padding:0 1rem;}.page{padding:0 1rem 4rem;}.g2,.g3{grid-template-columns:1fr;}.ref-table{font-size:11.5px;}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="../../../notebook.html" class="nav-brand"><span>📓</span> Lucilia's Notebook</a>
+  <div class="nav-links">
+    <a href="../../../notebook.html" class="nav-link">Home</a>
+    <span class="nav-sep"></span>
+    <a href="../../../notebook.html#git" class="nav-link">GIT</a>
+    <a href="git-intro.html" class="nav-link">Introdução</a>
+    <a href="git-commits.html" class="nav-link">Commits</a>
+    <a href="git-branches.html" class="nav-link">Branches</a>
+    <a href="git-merge.html" class="nav-link">Merge</a>
+    <a href="git-github.html" class="nav-link active">GitHub &amp; PRs</a>
+  </div>
+</nav>
+<div class="page">
+  <nav class="breadcrumb fade">
+  </nav>
+  <header class="article-hero fade">
+    <p class="article-eyebrow">// aula 05 · Git &amp; GitHub</p>
+    <h1 class="article-title">GitHub — Repositórios<br>remotos e Pull Requests</h1>
+    <div class="article-meta">
+      <span class="tag git">GitHub</span><span class="tag gray">Colaboração</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)">Baseado no Curso em Vídeo — Guanabara</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Repositório remoto — conectando ao GitHub</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>Local vs Remoto</h3>
+      <p>O repositório <strong>local</strong> é o <code>.git</code> na sua máquina. O repositório <strong>remoto</strong> é o que fica no GitHub. Você sincroniza os dois com <code>push</code> (envia) e <code>pull</code> (recebe).</p>
+    </div>
+    <div class="cmd-block">
+      <pre><span class="cm"># Conectar um repositório local a um remoto</span>
+<span class="git-cmd">git remote add</span> <span class="vr">origin</span> <span class="str">https://github.com/luciliarosa/notebookon.git</span>
+
+<span class="cm"># Ver os remotos configurados</span>
+<span class="git-cmd">git remote</span> <span class="flag">-v</span>
+
+<span class="cm"># Trocar a URL do remoto</span>
+<span class="git-cmd">git remote set-url</span> <span class="vr">origin</span> <span class="str">https://github.com/luciliarosa/repo.git</span>
+
+<span class="cm"># Enviar para o GitHub (primeiro push)</span>
+<span class="git-cmd">git push</span> <span class="flag">-u</span> <span class="vr">origin main</span>
+
+<span class="cm"># Enviar nos próximos (já com -u configurado)</span>
+<span class="git-cmd">git push</span>
+
+<span class="cm"># Enviar uma branch específica</span>
+<span class="git-cmd">git push</span> <span class="vr">origin feature/login</span>
+
+<span class="cm"># Baixar atualizações do remoto</span>
+<span class="git-cmd">git pull</span>                     <span class="cm"># fetch + merge</span>
+<span class="git-cmd">git pull</span> <span class="flag">--rebase</span>           <span class="cm"># fetch + rebase (histórico mais limpo)</span>
+<span class="git-cmd">git fetch</span>                    <span class="cm"># só baixa, não aplica</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Clonando repositórios</p>
+    <div class="cmd-block">
+      <pre><span class="cm"># Clonar um repositório existente</span>
+<span class="git-cmd">git clone</span> <span class="str">https://github.com/usuario/repositorio.git</span>
+
+<span class="cm"># Clonar em uma pasta com nome diferente</span>
+<span class="git-cmd">git clone</span> <span class="str">https://github.com/usuario/repositorio.git</span> <span class="vr">minha-pasta</span>
+
+<span class="cm"># Clonar só a branch específica</span>
+<span class="git-cmd">git clone</span> <span class="flag">-b</span> <span class="vr">develop</span> <span class="str">https://github.com/usuario/repositorio.git</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Pull Request — o coração do trabalho em equipe</p>
+    <div class="info" style="margin-bottom:1.5rem;">
+      <h3>Pedindo para integrar seu código</h3>
+      <p>Um <strong>Pull Request (PR)</strong> é uma solicitação para que seu código seja revisado e integrado em outra branch. É a principal forma de colaboração no GitHub — você não faz merge diretamente na main, você pede que alguém <em>revise primeiro</em>. O Guanabara chama isso de "cultura de revisão de código".</p>
+    </div>
+    <div class="pr-step"><div class="pr-num">1</div><div><h3>Cria uma branch nova</h3><p>Nunca trabalhe direto na <code>main</code>. Crie uma branch com um nome descritivo: <code>feature/adiciona-dark-mode</code>.</p></div></div>
+    <div class="pr-step"><div class="pr-num">2</div><div><h3>Faz commits na sua branch</h3><p>Desenvolve a funcionalidade com commits organizados e com mensagens claras.</p></div></div>
+    <div class="pr-step"><div class="pr-num">3</div><div><h3>Envia a branch para o GitHub</h3><p><code>git push origin feature/adiciona-dark-mode</code></p></div></div>
+    <div class="pr-step"><div class="pr-num">4</div><div><h3>Abre o Pull Request no GitHub</h3><p>No site do GitHub, clica em "Compare &amp; pull request". Escreve um título e descrição explicando o que foi feito e por quê.</p></div></div>
+    <div class="pr-step"><div class="pr-num">5</div><div><h3>Revisão do código (Code Review)</h3><p>Outros membros do time analisam o código, deixam comentários, pedem mudanças ou aprovam. Você responde e faz ajustes na mesma branch.</p></div></div>
+    <div class="pr-step"><div class="pr-num">6</div><div><h3>Merge do PR</h3><p>Após aprovado, o PR é mergeado na <code>main</code> pelo botão "Merge pull request" no GitHub. A branch pode ser deletada em seguida.</p></div></div>
+  </section>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Fork — contribuindo com projetos de outros</p>
+    <div class="info" style="margin-bottom:1rem;">
+      <h3>Uma cópia do repositório na sua conta</h3>
+      <p>Fork é uma cópia completa de um repositório para a sua conta no GitHub. Usado para <strong>contribuir com projetos open source</strong> — você faz fork, modifica na sua cópia, e abre um PR para o repositório original.</p>
+    </div>
+    <div class="cmd-block">
+      <pre><span class="cm"># Após fazer o fork no GitHub, clone o SEU fork</span>
+<span class="git-cmd">git clone</span> <span class="str">https://github.com/luciliarosa/projeto-original.git</span>
+
+<span class="cm"># Adicionar o repositório original como "upstream"</span>
+<span class="git-cmd">git remote add</span> <span class="vr">upstream</span> <span class="str">https://github.com/autor-original/projeto.git</span>
+
+<span class="cm"># Sincronizar seu fork com o original</span>
+<span class="git-cmd">git fetch</span> <span class="vr">upstream</span>
+<span class="git-cmd">git merge</span> <span class="vr">upstream/main</span></pre>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- REFERÊNCIA RÁPIDA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title">Referência rápida — todos os comandos essenciais</p>
+    <table class="ref-table" style="margin-bottom:1.5rem;">
+      <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+      <tbody>
+        <tr><td>git init</td><td>Inicializa um repositório Git na pasta atual</td></tr>
+        <tr><td>git clone &lt;url&gt;</td><td>Clona um repositório remoto localmente</td></tr>
+        <tr><td>git status</td><td>Mostra o estado atual dos arquivos</td></tr>
+        <tr><td>git add .</td><td>Adiciona todos os arquivos ao staging</td></tr>
+        <tr><td>git commit -m "msg"</td><td>Salva um snapshot com a mensagem</td></tr>
+        <tr><td>git log --oneline</td><td>Histórico de commits resumido</td></tr>
+        <tr><td>git diff</td><td>Mostra diferenças ainda não no staging</td></tr>
+        <tr><td>git branch</td><td>Lista as branches locais</td></tr>
+        <tr><td>git switch -c &lt;nome&gt;</td><td>Cria e muda para uma nova branch</td></tr>
+        <tr><td>git merge &lt;branch&gt;</td><td>Une a branch especificada na atual</td></tr>
+        <tr><td>git rebase &lt;branch&gt;</td><td>Reaplica commits em cima de outra base</td></tr>
+        <tr><td>git stash</td><td>Guarda alterações não commitadas</td></tr>
+        <tr><td>git stash pop</td><td>Recupera o último stash guardado</td></tr>
+        <tr><td>git remote add origin &lt;url&gt;</td><td>Conecta o repo local ao GitHub</td></tr>
+        <tr><td>git push -u origin main</td><td>Envia commits e configura o upstream</td></tr>
+        <tr><td>git pull</td><td>Baixa e integra mudanças do remoto</td></tr>
+        <tr><td>git fetch</td><td>Baixa mudanças sem integrar</td></tr>
+        <tr><td>git restore &lt;arquivo&gt;</td><td>Descarta mudanças no working directory</td></tr>
+        <tr><td>git reset --soft HEAD~1</td><td>Desfaz o último commit, mantém mudanças</td></tr>
+        <tr><td>git revert &lt;hash&gt;</td><td>Cria commit que desfaz outro (seguro)</td></tr>
+        <tr><td>git tag v1.0.0</td><td>Marca um commit com uma versão</td></tr>
+        <tr><td>git config --global ...</td><td>Configura usuário, e-mail, editor</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="nav-pages fade">
+    <a href="git-merge.html" class="nav-page" style="align-items:flex-start">
+      <span class="np-label">← aula anterior</span><span class="np-title">Merge e Conflitos</span>
+    </a>
+    <a href="../../../notebook.html#git" class="nav-page" style="align-items:flex-end">
+      <span class="np-label">concluído</span><span class="np-title">Git &amp; GitHub — módulo completo</span>
+    </a>
+  </div>
+</div>
+</body>
+</html>

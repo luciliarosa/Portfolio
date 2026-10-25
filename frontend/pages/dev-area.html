@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Frontend, Backend &amp; Fullstack — Lucilia Rosa</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f172a'/><path d='M10 12l-4 4 4 4M22 12l4 4-4 4M18 10l-4 12' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/dev-area.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="nav-brand-wrap">
+    <a href="../index.html" class="nav-brand">Lucilia Rosa</a>
+    <span class="nav-brand-tag">Software Dev</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link" data-i18n="nav_home">Home</a>
+      <a href="about-me.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav_projects">Projetos</a>
+      <a href="dev-area.html" class="nav-link active" data-i18n="nav_areas">Frontend · Backend · Fullstack</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')" title="Português">PT</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')" title="English">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <header class="article-hero fade">
+    <p class="article-eyebrow" data-i18n="eyebrow">// conceitos essenciais · desenvolvimento web</p>
+    <h1 class="article-title" data-i18n="article_title">Frontend, Backend<br>&amp; Fullstack —<br><span style="font-size:.6em;font-style:italic;color:var(--ink3);">O que é cada área e como se conectam</span></h1>
+    <div class="article-meta">
+      <span class="tag tag-blue">Dev Concepts</span>
+      <span class="tag tag-gray" data-i18n="tag_level">Iniciante</span>
+      <span class="dot"></span>
+      <span style="font-size:12px;color:var(--ink4)" data-i18n="meta_sub">Guia completo para entender as áreas do dev</span>
+    </div>
+  </header>
+
+  <hr/>
+
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_intro">A grande divisão do desenvolvimento web</p>
+    <div class="info">
+      <p data-i18n="intro_p1">Quando falamos em desenvolvimento web, tudo que existe num site ou aplicação pode ser dividido em duas grandes partes: <strong>o que o usuário vê</strong> (Frontend) e <strong>o que acontece nos bastidores</strong> (Backend). Quem trabalha com as duas é chamado de <strong>Fullstack</strong>.</p>
+      <p data-i18n="intro_p2">Entender essa divisão é fundamental — tanto para escolher seu caminho de carreira quanto para trabalhar em equipe e entender o que cada pessoa faz no projeto.</p>
+    </div>
+  </section>
+
+  <!-- METÁFORA -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_meta">A metáfora do restaurante</p>
+    <div class="meta-card">
+      <p style="font-size:13.5px;color:var(--ink3);line-height:1.75;margin-bottom:1.2rem;" data-i18n="meta_intro">A forma mais fácil de entender a diferença é imaginar um restaurante funcionando:</p>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="meta-icon">🍽️</div>
+          <p class="meta-title" data-i18n="meta_front_title">Frontend é o Salão</p>
+          <p class="meta-desc" data-i18n="meta_front_desc">O cardápio bonito, a mesa bem arrumada, o garçom que anota seu pedido e a música ambiente. É tudo que o cliente vê, toca e interage diretamente.</p>
+        </div>
+        <div class="meta-item">
+          <div class="meta-icon">🍳</div>
+          <p class="meta-title" data-i18n="meta_back_title">Backend é a Cozinha</p>
+          <p class="meta-desc" data-i18n="meta_back_desc">A despensa com os ingredientes (banco de dados), o fogão e as receitas (lógica do servidor). O cliente nunca entra lá, mas sem ela não tem comida.</p>
+        </div>
+        <div class="meta-item">
+          <div class="meta-icon">👨‍🍳</div>
+          <p class="meta-title" data-i18n="meta_full_title">Fullstack é o Dono</p>
+          <p class="meta-desc" data-i18n="meta_full_desc">Entende o suficiente da cozinha para saber se a receita funciona e entende o suficiente do salão para saber se o cliente está satisfeito.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- FRONTEND -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_front">Frontend — O que o usuário vê</p>
+    <div class="area-card">
+      <div class="area-header">
+        <div class="area-badge badge-front">Frontend</div>
+        <p class="area-sub" data-i18n="front_sub">Interface, experiência do usuário e interatividade no navegador</p>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.8;margin-bottom:1.2rem;" data-i18n="front_p1">Frontend é a camada visual de qualquer aplicação web ou mobile. Tudo que você enxerga nesta tela agora — as cores, os botões, os cards, a animação ao rolar a página — foi construído por uma pessoa desenvolvedora frontend.</p>
+      <div class="stack-box">
+        <p class="stack-label" data-i18n="stack_front_label">A tríade fundamental do Frontend</p>
+        <div class="triad-grid">
+          <div class="triad-item"><span class="triad-tag tag-html">HTML</span><p class="triad-title" data-i18n="html_role">A Estrutura</p><p class="triad-desc" data-i18n="html_desc">Define o que existe na página: textos, títulos, imagens, formulários, links e seções. Sem HTML não há página.</p></div>
+          <div class="triad-item"><span class="triad-tag tag-css">CSS</span><p class="triad-title" data-i18n="css_role">O Estilo</p><p class="triad-desc" data-i18n="css_desc">Define a aparência: cores, fontes, espaçamentos, layout responsivo (mobile e desktop) e animações visuais.</p></div>
+          <div class="triad-item"><span class="triad-tag tag-js">JavaScript</span><p class="triad-title" data-i18n="js_role">A Interatividade</p><p class="triad-desc" data-i18n="js_desc">Dá vida à página: validações de formulário, animações dinâmicas, requisições de dados sem recarregar e lógica do usuário.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BACKEND -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_back">Backend — Os bastidores</p>
+    <div class="area-card">
+      <div class="area-header">
+        <div class="area-badge badge-back">Backend</div>
+        <p class="area-sub" data-i18n="back_sub">Servidor, banco de dados, regras de negócio e segurança</p>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.8;margin-bottom:1.2rem;" data-i18n="back_p1">Backend é o motor que roda nos bastidores. Quando você clica em "Comprar" ou "Entrar", o Frontend envia essas informações para o Backend — que valida quem você é, consulta o saldo no banco de dados e confirma a transação com segurança.</p>
+    </div>
+  </section>
+
+  <!-- FULLSTACK -->
+  <section style="margin-bottom:2rem" class="fade">
+    <p class="sec-title" data-i18n="sec_full">Fullstack — A visão completa</p>
+    <div class="area-card">
+      <div class="area-header">
+        <div class="area-badge badge-full">Fullstack</div>
+        <p class="area-sub" data-i18n="full_sub">A pessoa que conecta as duas pontas da aplicação</p>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.8;margin-bottom:1.2rem;" data-i18n="full_p1">Desenvolvedores Fullstack dominam tanto a criação de interfaces com Frontend quanto a lógica de servidores e persistência de dados com Backend. Essa visão de 360 graus permite criar produtos digitais completos do zero à produção.</p>
+    </div>
+  </section>
+
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" style="max-width:900px;margin:0 auto;padding:2rem 1.5rem 3rem;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;">
+  <span>© 2026 Lucilia Rosa. Todos os direitos reservados.</span>
+  <a href="../index.html" style="font-size:13px;color:var(--ink3);text-decoration:none;">Home</a>
+</footer>
+
+<script src="../js/dev-area.js"></script>
+</body>
+</html>
