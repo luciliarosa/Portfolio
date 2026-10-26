@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucilia Rosa — Software Developer</title>
+    <meta name="description" content="Portfólio de Lucilia Rosa — Desenvolvedora de Software focada em Automação com Python, SQL e Desenvolvimento Web Full-Stack." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f172a'/><path d='M10 12l-4 4 4 4M22 12l4 4-4 4M18 10l-4 12' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="index">
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <div class="nav-brand-wrap">
+        <a href="index.html" class="nav-brand">
+          Lucilia Rosa
+        </a>
+        <span class="nav-brand-tag">Software Dev</span>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="index.html" class="nav-link active" data-i18n="nav_home">Home</a>
+          <a href="pages/about-me.html" class="nav-link" data-i18n="nav_about">Sobre mim</a>
+          <a href="pages/projects.html" class="nav-link" data-i18n="nav_projects">Projetos</a>
+        </div>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')" title="Português">PT</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')" title="English">EN</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+      <div class="hero-left">
+        <div class="hero-status-row fade-up">
+          <div class="hero-badge-status">
+            <span class="status-dot"></span>
+            <span data-i18n="hero_status">Disponível para novas oportunidades</span>
+          </div>
+          <span class="hero-badge-location">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span data-i18n="hero_location">São Paulo, SP · Brasil</span>
+          </span>
+        </div>
+
+        <h1 class="hero-name fade-up">Lucilia Rosa</h1>
+
+        <p class="hero-title fade-up">
+          <span data-i18n="hero_title">Software Developer · Automação & Full-Stack</span>
+        </p>
+
+        <p class="hero-bio fade-up" data-i18n="hero_bio">
+          Desenvolvedora focada em automação de processos, integração de sistemas, banco de dados SQL e desenvolvimento web full-stack. Experiência na criação de soluções corporativas eficientes que otimizam rotinas e resolvem problemas reais com Python e tecnologias modernas.
+        </p>
+
+        <div class="hero-actions fade-up">
+          <a href="#projetos" class="btn-primary">
+            <span data-i18n="cta_projects">Ver projetos</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </a>
+          <a href="pages/about-me.html" class="btn-secondary">
+            <span data-i18n="cta_about">Sobre mim</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+
+          <div class="hero-socials">
+            <a href="https://github.com/luciliarosa" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/lucilia-rosa" target="_blank" rel="noopener noreferrer" class="social-btn" title="LinkedIn" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c.97 0 1.75-.79 1.75-1.76s-.78-1.75-1.75-1.75c-.97 0-1.76.78-1.76 1.75s.79 1.76 1.76 1.76m1.39 9.74v-8.37H5.07v8.37h2.78z"/></svg>
+            </a>
+            <a href="mailto:lucilia.passos.rosa@outlook.com" class="social-btn" title="Email" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right fade-up">
+        <div class="hero-avatar-box">
+          <img src="assets/img/lucilia.jpeg" alt="Lucilia Rosa" class="hero-avatar-img" />
+        </div>
+        <p class="hero-caption">// Software & Automation</p>
+      </div>
+    </header>
+
+    <main class="page">
+      <!-- SKILLS SECTION -->
+      <section class="sec fade-up">
+        <div class="sec-header">
+          <p class="sec-label" data-i18n="sec_skills">Habilidades & Tecnologias</p>
+        </div>
+        <div class="skills-categories">
+          <!-- Categoria 1: Backend & Dados -->
+          <div class="skill-category-card">
+            <div class="scc-header">
+              <div class="scc-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              </div>
+              <h3 class="scc-title" data-i18n="skills_cat_backend">Back-end & Dados</h3>
+            </div>
+            <div class="scc-pills">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">SQL</span>
+              <span class="tech-pill">PostgreSQL</span>
+              <span class="tech-pill">REST APIs</span>
+              <span class="tech-pill">Modelagem de Dados</span>
+            </div>
+          </div>
+
+          <!-- Categoria 2: Frontend & Web -->
+          <div class="skill-category-card">
+            <div class="scc-header">
+              <div class="scc-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
+              <h3 class="scc-title" data-i18n="skills_cat_frontend">Front-end & Web</h3>
+            </div>
+            <div class="scc-pills">
+              <span class="tech-pill">JavaScript</span>
+              <span class="tech-pill">React</span>
+              <span class="tech-pill">HTML5</span>
+              <span class="tech-pill">CSS3 Moderno</span>
+              <span class="tech-pill">Design Responsivo</span>
+            </div>
+          </div>
+
+          <!-- Categoria 3: Automação & Ferramentas -->
+          <div class="skill-category-card">
+            <div class="scc-header">
+              <div class="scc-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </div>
+              <h3 class="scc-title" data-i18n="skills_cat_automation">Automação & Processos</h3>
+            </div>
+            <div class="scc-pills">
+              <span class="tech-pill">Power Platform</span>
+              <span class="tech-pill">Scripts Python</span>
+              <span class="tech-pill">Git & GitHub</span>
+              <span class="tech-pill">Linux & Bash</span>
+              <span class="tech-pill">Integrações de Sistemas</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIÊNCIA PROFISSIONAL (RESUMIDA) -->
+      <section class="sec fade-up" id="experiencia">
+        <div class="sec-header">
+          <div>
+            <p class="sec-label" data-i18n="sec_experience">Experiência Profissional</p>
+            <p class="sec-subtitle" data-i18n="exp_summary">Trajetória profissional em desenvolvimento de sistemas, sustentação e infraestrutura.</p>
+          </div>
+          <a href="pages/about-me.html" class="sec-link-more" data-i18n="exp_btn">Ver trajetória completa →</a>
+        </div>
+
+        <div class="exp-compact-list">
+          <!-- Item 1: SENAI -->
+          <div class="exp-compact-item">
+            <div class="eci-header">
+              <div class="eci-role-wrap">
+                <h3 class="eci-role" data-i18n="exp_role1">Desenvolvedora de Sistemas</h3>
+                <span class="eci-company">SENAI-SP</span>
+              </div>
+              <div class="eci-meta">
+                <span class="eci-badge-active">
+                  <span class="status-dot"></span>
+                  <span data-i18n="exp_badge_current">Atual</span>
+                </span>
+                <span class="eci-date" data-i18n="exp_date1">Jul 2025 – Presente</span>
+              </div>
+            </div>
+            <p class="eci-desc" data-i18n="exp_focus1">
+              Automação de processos corporativos com Python, integração com IA e consultas analíticas em SQL.
+            </p>
+            <div class="eci-stack-wrap">
+              <span class="eci-stack-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <span>Stack</span>
+              </span>
+              <div class="eci-tags">
+                <span class="exp-tech-badge badge-python"><span class="badge-dot"></span>Python</span>
+                <span class="exp-tech-badge badge-sql"><span class="badge-dot"></span>SQL</span>
+                <span class="exp-tech-badge badge-playwright"><span class="badge-dot"></span>Playwright</span>
+                <span class="exp-tech-badge badge-powerbi"><span class="badge-dot"></span>Power BI</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: Vertem -->
+          <div class="exp-compact-item">
+            <div class="eci-header">
+              <div class="eci-role-wrap">
+                <h3 class="eci-role" data-i18n="exp_role2">Analista de Sustentação</h3>
+                <span class="eci-company">Vertem</span>
+              </div>
+              <div class="eci-meta">
+                <span class="eci-date" data-i18n="exp_date2">Mar 2022 – Jul 2025</span>
+              </div>
+            </div>
+            <p class="eci-desc" data-i18n="exp_focus2">
+              Sustentação de plataformas corporativas de missão crítica, troubleshooting em produção e manipulação de bases SQL.
+            </p>
+            <div class="eci-stack-wrap">
+              <span class="eci-stack-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <span>Stack</span>
+              </span>
+              <div class="eci-tags">
+                <span class="exp-tech-badge badge-sql"><span class="badge-dot"></span>SQL</span>
+                <span class="exp-tech-badge badge-python"><span class="badge-dot"></span>Python</span>
+                <span class="exp-tech-badge badge-js"><span class="badge-dot"></span>JavaScript</span>
+                <span class="exp-tech-badge badge-servicenow"><span class="badge-dot"></span>ServiceNow</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3: Telium Networks -->
+          <div class="exp-compact-item">
+            <div class="eci-header">
+              <div class="eci-role-wrap">
+                <h3 class="eci-role" data-i18n="exp_role3">Técnica em Redes</h3>
+                <span class="eci-company">Telium Networks</span>
+              </div>
+              <div class="eci-meta">
+                <span class="eci-date" data-i18n="exp_date3">Abr 2018 – Mar 2022</span>
+              </div>
+            </div>
+            <p class="eci-desc" data-i18n="exp_focus3">
+              Operação de redes em ambiente NOC, monitoramento de infraestrutura de telecomunicações e suporte a ativos Cisco e MikroTik.
+            </p>
+            <div class="eci-stack-wrap">
+              <span class="eci-stack-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <span>Stack</span>
+              </span>
+              <div class="eci-tags">
+                <span class="exp-tech-badge badge-network"><span class="badge-dot"></span>TCP/IP</span>
+                <span class="exp-tech-badge badge-cisco"><span class="badge-dot"></span>Cisco</span>
+                <span class="exp-tech-badge badge-mikrotik"><span class="badge-dot"></span>MikroTik</span>
+                <span class="exp-tech-badge badge-zabbix"><span class="badge-dot"></span>Zabbix NOC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJETOS EM DESTAQUE -->
+      <section class="sec fade-up" id="projetos">
+        <div class="sec-header">
+          <div>
+            <p class="sec-label" data-i18n="sec_projects">Projetos em Destaque</p>
+            <p class="sec-subtitle" data-i18n="sec_projects_desc">Aplicações reais em produção, com código aberto e arquitetura moderna.</p>
+          </div>
+          <a href="pages/projects.html" class="sec-link-more" data-i18n="all_projects">Ver todos os projetos →</a>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Projeto 1: Luci College (Full-Stack Python + PostgreSQL) -->
+          <article class="project-card">
+            <div class="pc-preview">
+              <div class="pc-window-bar">
+                <div class="pc-dots">
+                  <span class="pc-dot dot-close"></span>
+                  <span class="pc-dot dot-min"></span>
+                  <span class="pc-dot dot-max"></span>
+                </div>
+                <span class="pc-window-url">luci-college.vercel.app</span>
+                <span class="pc-status live">
+                  <span class="status-dot"></span>
+                  <span data-i18n="status_live">Live</span>
+                </span>
+              </div>
+              <div class="card-carousel" data-images='[
+                "assets/img/project2-1.png",
+                "assets/img/project2-2.png",
+                "assets/img/project2-3.png",
+                "assets/img/project2-4.png"
+              ]'></div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-meta">
+                <span class="pc-category-tag" data-i18n="proj2_cat">Full-Stack Web App</span>
+                <span class="pc-year">2025</span>
+              </div>
+              <h3 class="pc-name" data-i18n="proj2_name">Luci College</h3>
+              <p class="pc-desc" data-i18n="proj2_desc">
+                Plataforma web de catálogo e resgate de recompensas para alunos com gamificação acadêmica. Arquitetura robusta com back-end em Python, persistência em PostgreSQL e interface responsiva em JavaScript.
+              </p>
+              <div class="pc-tags">
+                <span class="pc-tag">Python</span>
+                <span class="pc-tag">Flask</span>
+                <span class="pc-tag">PostgreSQL</span>
+                <span class="pc-tag">JavaScript</span>
+              </div>
+            </div>
+            <div class="pc-footer">
+              <div class="pc-actions">
+                <a href="https://luci-college.vercel.app/" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  <span data-i18n="btn_live_demo">Deploy</span>
+                </a>
+                <a href="https://github.com/luciliarosa/LuciCollege.git" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-secondary" title="Código no GitHub">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  <span>GitHub</span>
+                </a>
+              </div>
+              <a href="pages/projects.html" class="pc-link-details" data-i18n="btn_details">Detalhes →</a>
+            </div>
+          </article>
+
+          <!-- Projeto 2: Lucilia's Notebook -->
+          <article class="project-card">
+            <div class="pc-preview">
+              <div class="pc-window-bar">
+                <div class="pc-dots">
+                  <span class="pc-dot dot-close"></span>
+                  <span class="pc-dot dot-min"></span>
+                  <span class="pc-dot dot-max"></span>
+                </div>
+                <span class="pc-window-url">luciliarosa.dev/notebook</span>
+                <span class="pc-status live">
+                  <span class="status-dot"></span>
+                  <span data-i18n="status_live">Live</span>
+                </span>
+              </div>
+              <div class="card-carousel" data-images='[
+                "assets/img/project1.png",
+                "assets/img/project2.png",
+                "assets/img/project3.png",
+                "assets/img/project4.png"
+              ]'></div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-meta">
+                <span class="pc-category-tag" data-i18n="proj1_cat">Web Application</span>
+                <span class="pc-year">2024</span>
+              </div>
+              <h3 class="pc-name" data-i18n="proj1_name">Lucilia's Notebook</h3>
+              <p class="pc-desc" data-i18n="proj1_desc">
+                Caderno digital de estudos sobre engenharia de software e full-stack. Reúne conceitos de lógica, Python, bancos de dados e Git. Desenvolvido no front-end com JavaScript puro, HTML5 e CSS3 moderno.
+              </p>
+              <div class="pc-tags">
+                <span class="pc-tag">HTML5</span>
+                <span class="pc-tag">CSS3</span>
+                <span class="pc-tag">JavaScript</span>
+                <span class="pc-tag">Git</span>
+              </div>
+            </div>
+            <div class="pc-footer">
+              <div class="pc-actions">
+                <a href="../project/notebook/notebook.html" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  <span data-i18n="btn_live_demo">Deploy</span>
+                </a>
+                <a href="https://github.com/luciliarosa/notebookon.git" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-secondary" title="Código no GitHub">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  <span>GitHub</span>
+                </a>
+              </div>
+              <a href="pages/projects.html" class="pc-link-details" data-i18n="btn_details">Detalhes →</a>
+            </div>
+          </article>
+
+          <!-- Projeto 3: Jogo da Velha -->
+          <article class="project-card">
+            <div class="pc-preview">
+              <div class="pc-window-bar">
+                <div class="pc-dots">
+                  <span class="pc-dot dot-close"></span>
+                  <span class="pc-dot dot-min"></span>
+                  <span class="pc-dot dot-max"></span>
+                </div>
+                <span class="pc-window-url">jogodavelha.vercel.app</span>
+                <span class="pc-status live">
+                  <span class="status-dot"></span>
+                  <span data-i18n="status_live">Live</span>
+                </span>
+              </div>
+              <div class="card-carousel" data-images='[
+                "assets/img/project3-1.png",
+                "assets/img/project3-2.png",
+                "assets/img/project3-3.png",
+                "assets/img/project3-4.png"
+              ]'></div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-meta">
+                <span class="pc-category-tag" data-i18n="proj3_cat">Interactive UI</span>
+                <span class="pc-year">2024</span>
+              </div>
+              <h3 class="pc-name" data-i18n="proj3_name">Jogo da Velha</h3>
+              <p class="pc-desc" data-i18n="proj3_desc">
+                Aplicação interativa desenvolvida com foco em manipulação de DOM, boas práticas em JavaScript puro e regras de vitória/empate em tempo real sem dependências externas.
+              </p>
+              <div class="pc-tags">
+                <span class="pc-tag">JavaScript</span>
+                <span class="pc-tag">HTML5</span>
+                <span class="pc-tag">CSS3</span>
+                <span class="pc-tag">DOM API</span>
+              </div>
+            </div>
+            <div class="pc-footer">
+              <div class="pc-actions">
+                <a href="https://jogodavelha-master.vercel.app" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-primary">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  <span data-i18n="btn_live_demo">Deploy</span>
+                </a>
+                <a href="https://github.com/luciliarosa/jogodavelha-master.git" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn-secondary" title="Código no GitHub">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                  <span>GitHub</span>
+                </a>
+              </div>
+              <a href="pages/projects.html" class="pc-link-details" data-i18n="btn_details">Detalhes →</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SOBRE MIM (VISÃO EXECUTIVA) -->
+      <section class="sec fade-up">
+        <div class="sec-header">
+          <p class="sec-label" data-i18n="sec_about">Sobre mim</p>
+        </div>
+        <div class="about-card">
+          <div class="about-block">
+            <h4 data-i18n="about_h1">Perfil & Abordagem</h4>
+            <p data-i18n="about_p1">
+              Desenvolvedora de Software baseada em São Paulo, com sólida experiência em sustentação corporativa, desenvolvimento e automação de fluxos. Atualmente aprofundando engenharia de software com Python e ecossistemas cloud, combinando rigor técnico a soluções focadas em impacto de negócio.
+            </p>
+            <div style="margin-top: 18px;">
+              <a href="pages/about-me.html" class="sec-link-more" data-i18n="full_about">Ler história completa →</a>
+            </div>
+          </div>
+          <div class="about-block">
+            <h4 data-i18n="about_h2">Principais Entregas & Competências</h4>
+            <ul class="about-list">
+              <li>
+                <span class="about-list-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span data-i18n="about_li1">Desenvolvimento de aplicações web completas e APIs RESTful</span>
+              </li>
+              <li>
+                <span class="about-list-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span data-i18n="about_li2">Automação de rotinas corporativas com Python e Power Platform</span>
+              </li>
+              <li>
+                <span class="about-list-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span data-i18n="about_li3">Modelagem relacional, consultas avançadas e sustentação em SQL</span>
+              </li>
+              <li>
+                <span class="about-list-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span data-i18n="about_li4">Criação de dashboards gerenciais e fluxos orientados a dados</span>
+              </li>
+              <li>
+                <span class="about-list-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span data-i18n="about_li5">Controle de versão, colaboração e boas práticas com Git & GitHub</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <span>© 2026 Lucilia Rosa. <span data-i18n="footer_rights">Todos os direitos reservados.</span></span>
+      <div style="display:flex;gap:16px;">
+        <a href="https://github.com/luciliarosa" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;">GitHub</a>
+        <a href="https://www.linkedin.com/in/lucilia-rosa" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;">LinkedIn</a>
+        <a href="pages/about-me.html" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;" data-i18n="nav_about">Sobre mim</a>
+      </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

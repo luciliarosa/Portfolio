@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sobre Mim — Lucilia Rosa</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f172a'/><path d='M10 12l-4 4 4 4M22 12l4 4-4 4M18 10l-4 12' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="stylesheet" href="../css/about-me.css">
+</head>
+<body data-page="aboutme">
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="nav-brand-wrap">
+    <a href="../index.html" class="nav-brand">Lucilia Rosa</a>
+    <span class="nav-brand-tag">Software Dev</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link" data-i18n="nav_home">Home</a>
+      <a href="about-me.html" class="nav-link active" data-i18n="nav_about">Sobre mim</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav_projects">Projetos</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')" title="Português">PT</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')" title="English">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <!-- HERO -->
+  <div class="hero fade">
+    <div class="photo-frame" id="photoFrame" title="Lucilia Rosa">
+      <img src="../assets/img/lucilia.jpeg" alt="Lucilia Rosa"/>
+    </div>
+    <div class="hero-text">
+      <h1 class="hero-name">Lucilia Rosa</h1>
+      <p class="hero-role" data-i18n="hero_role">Python Automation • SQL Development • System Integration</p>
+      <div class="hero-links">
+        <a href="https://github.com/luciliarosa" target="_blank" rel="noopener noreferrer" class="hero-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/lucilia-rosa" target="_blank" rel="noopener noreferrer" class="hero-link">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c.97 0 1.75-.79 1.75-1.76s-.78-1.75-1.75-1.75c-.97 0-1.76.78-1.76 1.75s.79 1.76 1.76 1.76m1.39 9.74v-8.37H5.07v8.37h2.78z"/></svg>
+          LinkedIn
+        </a>
+        <a href="mailto:lucilia.passos.rosa@outlook.com" class="hero-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          Email
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTADORES -->
+  <div class="counters fade">
+    <div class="counter-card">
+      <div class="counter-num" id="cnt-years">0</div>
+      <div class="counter-label" data-i18n="cnt_years">anos de experiência</div>
+    </div>
+    <div class="counter-card">
+      <div class="counter-num" id="cnt-companies">0</div>
+      <div class="counter-label" data-i18n="cnt_companies">empresas</div>
+    </div>
+    <div class="counter-card">
+      <div class="counter-num" id="cnt-edu">0</div>
+      <div class="counter-label" data-i18n="cnt_edu">formações</div>
+    </div>
+    <div class="counter-card">
+      <div class="counter-num" id="cnt-skills">0</div>
+      <div class="counter-label" data-i18n="cnt_skills">tecnologias</div>
+    </div>
+  </div>
+
+  <!-- BOTÕES CV -->
+  <div class="cv-btns fade">
+    <button class="cv-btn" onclick="downloadCV('pt')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      <span data-i18n="btn_cv_pt">Baixar Currículo (PT)</span>
+    </button>
+    <button class="cv-btn cv-btn-en" onclick="downloadCV('en')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      <span data-i18n="btn_cv_en">Download Resume (EN)</span>
+    </button>
+  </div>
+
+  <hr/>
+
+  <!-- QUEM SOU EU -->
+  <section style="margin-bottom:2.5rem" class="fade fade-d1">
+    <p class="sec-title" data-i18n="sec_about">Quem sou eu</p>
+    <div class="about-text">
+      <p data-i18n="about_p1">
+        Desenvolvedora de Software com experiência em automação utilizando Python, desenvolvimento SQL, integração de sistemas e otimização de processos de negócio. 
+        Atuo na criação de soluções que reduzem atividades manuais, aumentam a confiabilidade dos dados e melhoram a eficiência operacional. 
+        Tenho experiência no desenvolvimento de ferramentas internas, integrações entre plataformas e automações voltadas para processos corporativos. 
+        Além disso, possuo sólida base em infraestrutura, suporte técnico e ambientes corporativos, proporcionando uma visão abrangente dos sistemas e processos de tecnologia.
+      </p>
+    </div>
+  </section>
+
+  <!-- EXPERIÊNCIA PROFISSIONAL -->
+  <section style="margin-bottom:2.5rem" class="fade fade-d3">
+    <p class="sec-title" data-i18n="sec_exp">Experiência profissional</p>
+
+    <!-- SENAI -->
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <p class="exp-role" data-i18n="exp1_role">Desenvolvedora de Sistemas</p>
+          <p class="exp-company">SENAI Brás — Full-time</p>
+        </div>
+        <p class="exp-period" data-i18n="exp1_period">Jul 2025 – Presente</p>
+      </div>
+      <ul class="exp-list">
+        <li data-i18n="exp1_li1">Desenvolvi aplicações e automações em Python para eliminar processos manuais e aumentar a eficiência operacional.</li>
+        <li data-i18n="exp1_li2">Elaborei consultas SQL para extração, validação e aplicação de regras de negócio.</li>
+        <li data-i18n="exp1_li3">Realizei integrações entre sistemas internos, bancos de dados, ambientes SharePoint e serviços externos.</li>
+        <li data-i18n="exp1_li4">Desenvolvi processos automatizados de geração de relatórios e notificações utilizando Python e tecnologias Microsoft.</li>
+        <li data-i18n="exp1_li5">Atuei junto às áreas de negócio para transformar necessidades operacionais em soluções de software.</li>
+      </ul>
+      <div class="exp-techs">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">SQL</span>
+        <span class="tech-chip">Power BI</span>
+        <span class="tech-chip">Power Automate</span>
+        <span class="tech-chip">Power Apps</span>
+      </div>
+      <button class="exp-projects-btn" onclick="toggleExpProjects('senai-proj', this)">
+        <span data-i18n="btn_proj">Ver projetos desenvolvidos</span> <span>▾</span>
+      </button>
+      <div class="exp-projects-panel" id="senai-proj">
+        <div class="exp-proj-grid">
+          <div class="exp-proj-card">
+            <h4 data-i18n="senai_p1_title">Automação de análise com IA</h4>
+            <p data-i18n="senai_p1_desc">Desenvolvi uma automação em Python para processar planilhas Excel, estruturar dados e enviar análises geradas por IA automaticamente por e-mail aos responsáveis. A solução reduziu um processo operacional de aproximadamente 1 dia para menos de 1 hora.</p>
+            <div class="epc-techs"><span class="epc-chip">Python</span><span class="epc-chip">OpenAI API</span><span class="epc-chip">openpyxl</span><span class="epc-chip">smtplib</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <h4 data-i18n="senai_p2_title">Automação com Playwright</h4>
+            <p data-i18n="senai_p2_desc">Implementei uma automação web com Playwright para acessar portais de pesquisa, realizar downloads automáticos de relatórios e integrar os dados ao Power BI, eliminando atividades manuais recorrentes.</p>
+            <div class="epc-techs"><span class="epc-chip">Python</span><span class="epc-chip">Playwright</span><span class="epc-chip">Power BI</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERTEM -->
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <p class="exp-role" data-i18n="exp2_role">Analista de Sustentação</p>
+          <p class="exp-company">Vertem — Full-time</p>
+        </div>
+        <p class="exp-period" data-i18n="exp2_period">Mar 2022 – Jul 2025</p>
+      </div>
+      <ul class="exp-list">
+        <li data-i18n="exp2_li1">Analisei e resolvi incidentes em plataformas e sistemas corporativos.</li>
+        <li data-i18n="exp2_li2">Realizei ajustes frontend utilizando HTML, CSS e JavaScript.</li>
+        <li data-i18n="exp2_li3">Executei consultas, análises e manipulação de dados com SQL.</li>
+        <li data-i18n="exp2_li4">Produzi e mantive documentação técnica de processos e sistemas.</li>
+        <li data-i18n="exp2_li5">Treinei equipes internas e novos colaboradores em ferramentas e fluxos operacionais.</li>
+      </ul>
+      <div class="exp-techs">
+        <span class="tech-chip">SQL</span>
+        <span class="tech-chip">HTML</span>
+        <span class="tech-chip">CSS</span>
+        <span class="tech-chip">JavaScript</span>
+        <span class="tech-chip">Python</span>
+      </div>
+      <button class="exp-projects-btn" onclick="toggleExpProjects('vertem-proj', this)">
+        <span data-i18n="btn_proj">Ver projetos desenvolvidos</span> <span>▾</span>
+      </button>
+      <div class="exp-projects-panel" id="vertem-proj">
+        <div class="exp-proj-grid">
+          <div class="exp-proj-card">
+            <h4 data-i18n="vertem_p1_title">Documentação técnica e treinamentos</h4>
+            <p data-i18n="vertem_p1_desc">Desenvolvi documentação técnica para ferramentas, processos internos e fluxos operacionais, além de conduzir treinamentos para novos colaboradores e equipes multidisciplinares.</p>
+            <div class="epc-techs"><span class="epc-chip">Confluence</span><span class="epc-chip">SharePoint</span><span class="epc-chip">Notion</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <h4 data-i18n="vertem_p2_title">Automação de relatórios</h4>
+            <p data-i18n="vertem_p2_desc">Desenvolvi scripts em Python para automatizar a geração de relatórios diários e semanais, reduzindo atividades manuais e minimizando erros operacionais.</p>
+            <div class="epc-techs"><span class="epc-chip">Python</span><span class="epc-chip">pandas</span><span class="epc-chip">Excel</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <h4 data-i18n="vertem_p3_title">Gestão de incidentes críticos</h4>
+            <p data-i18n="vertem_p3_desc">Participei ativamente de war rooms para resolução de incidentes críticos em produção, realizando troubleshooting e análise rápida de impacto.</p>
+            <div class="epc-techs"><span class="epc-chip">SQL</span><span class="epc-chip">Troubleshooting</span><span class="epc-chip">ServiceNow</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELIUM -->
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <p class="exp-role" data-i18n="exp3_role">Técnica em Redes de Computadores</p>
+          <p class="exp-company">Telium Networks — Full-time</p>
+        </div>
+        <p class="exp-period" data-i18n="exp3_period">Abr 2018 – Mar 2022</p>
+      </div>
+      <ul class="exp-list">
+        <li data-i18n="exp3_li1">Diagnostiquei e resolvi problemas de infraestrutura de redes.</li>
+        <li data-i18n="exp3_li2">Monitorei ativos de rede, incluindo rádios wireless, backbones e equipamentos de telefonia.</li>
+        <li data-i18n="exp3_li3">Prestei suporte técnico para clientes corporativos e operadores em campo.</li>
+        <li data-i18n="exp3_li4">Gerenciei acessos e infraestrutura em ambientes de data center.</li>
+      </ul>
+      <div class="exp-techs">
+        <span class="tech-chip">TCP/IP</span>
+        <span class="tech-chip">Cisco</span>
+        <span class="tech-chip">MikroTik</span>
+        <span class="tech-chip">Fibra Óptica</span>
+        <span class="tech-chip">NOC</span>
+      </div>
+      <button class="exp-projects-btn" onclick="toggleExpProjects('telium-proj', this)">
+        <span data-i18n="btn_proj">Ver projetos desenvolvidos</span> <span>▾</span>
+      </button>
+      <div class="exp-projects-panel" id="telium-proj">
+        <div class="exp-proj-grid">
+          <div class="exp-proj-card">
+            <h4 data-i18n="telium_p1_title">Mapeamento de infraestrutura</h4>
+            <p data-i18n="telium_p1_desc">Participei de um projeto de mapeamento de ativos de rede para identificar equipamentos que necessitavam de manutenção ou substituição.</p>
+            <div class="epc-techs"><span class="epc-chip">Inventário de rede</span><span class="epc-chip">Documentação</span><span class="epc-chip">Field survey</span></div>
+          </div>
+          <div class="exp-proj-card">
+            <h4 data-i18n="telium_p2_title">Operação NOC</h4>
+            <p data-i18n="telium_p2_desc">Atuei no Network Operations Center (NOC) realizando monitoramento contínuo de ativos de rede, suporte remoto e análise de incidentes.</p>
+            <div class="epc-techs"><span class="epc-chip">Zabbix</span><span class="epc-chip">OTDR</span><span class="epc-chip">Wireless</span><span class="epc-chip">VoIP</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- HABILIDADES TÉCNICAS -->
+  <section style="margin-bottom:2.5rem" class="fade fade-d3">
+    <p class="sec-title" data-i18n="sec_skills">Habilidades técnicas</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4 data-i18n="sk_lang">Linguagens &amp; Frameworks</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">HTML5</span>
+          <span class="skill-pill">CSS3</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4 data-i18n="sk_auto">Automação &amp; Plataformas</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Power Automate</span>
+          <span class="skill-pill">Power Apps</span>
+          <span class="skill-pill">Power BI</span>
+          <span class="skill-pill">Excel Avançado</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4 data-i18n="sk_db">Banco de Dados</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">SQL Server</span>
+          <span class="skill-pill">PostgreSQL</span>
+          <span class="skill-pill">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4 data-i18n="sk_tools">Ferramentas</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Git</span>
+          <span class="skill-pill">GitHub</span>
+          <span class="skill-pill">Postman</span>
+          <span class="skill-pill">VS Code</span>
+          <span class="skill-pill">SharePoint</span>
+        </div>
+      </div>
+      <div class="skill-group" style="grid-column: 1 / -1;">
+        <h4 data-i18n="sk_web">Web &amp; Sistemas</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">APIs REST</span>
+          <span class="skill-pill" data-i18n="sk_int">Integração de Sistemas</span>
+          <span class="skill-pill" data-i18n="sk_doc">Documentação Técnica</span>
+          <span class="skill-pill">Troubleshooting</span>
+          <span class="skill-pill">Modelagem de Dados</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- FORMAÇÃO ACADÊMICA -->
+  <section style="margin-bottom:2.5rem" class="fade fade-d4">
+    <p class="sec-title" data-i18n="sec_edu">Formação acadêmica</p>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:10px 24px;box-shadow:var(--shadow-sm);">
+
+      <div class="edu-item">
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu1_deg">Pós-Graduação — Desenvolvimento Full Stack</p>
+          <p class="edu-inst">Descomplica</p>
+          <p class="edu-period" data-i18n="edu1_per">Mai 2023 – Out 2024</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu1-panel', this)">
+            <span data-i18n="btn_edu">Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu1-panel">
+            <p class="edp-title" data-i18n="edu1_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Frontend</span><span class="edu-tag">Backend</span>
+              <span class="edu-tag">React</span><span class="edu-tag">Node.js</span>
+              <span class="edu-tag">AWS Cloud</span><span class="edu-tag">Database Management</span>
+              <span class="edu-tag">UX/UI</span><span class="edu-tag">Python</span>
+            </div>
+            <p data-i18n="edu1_desc">Especialização prática em desenvolvimento full stack, abrangendo aplicações frontend com HTML, CSS, JavaScript e React, além de desenvolvimento backend com Node.js, APIs REST, bancos de dados relacionais e fundamentos de cloud computing na AWS.</p>
+            <div class="edu-highlight" data-i18n="edu1_highlight"><strong>Destaque:</strong> Formação orientada ao mercado com projetos práticos, microcertificações por módulo e experiência com ferramentas amplamente utilizadas na indústria de tecnologia.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-cert-action primary" onclick="openCertModal('../../docs/cert-descomplica.pdf', 'Pós-Graduação Full Stack — Descomplica')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span data-i18n="btn_preview_cert">Visualizar</span>
+              </button>
+              <a href="../../docs/cert-descomplica.pdf" download class="btn-cert-action">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span data-i18n="btn_cert">Baixar certificado</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu2_deg">Tecnólogo em Análise e Desenvolvimento de Sistemas</p>
+          <p class="edu-inst">FATEC Carapicuíba</p>
+          <p class="edu-period" data-i18n="edu2_per">Fev 2022 – Dez 2024</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu2-panel', this)">
+            <span data-i18n="btn_edu">Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu2-panel">
+            <p class="edp-title" data-i18n="edu2_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Algorithms and Logic</span><span class="edu-tag">OOP</span>
+              <span class="edu-tag">Software Engineering</span><span class="edu-tag">Database Management</span>
+              <span class="edu-tag">Data Structures</span><span class="edu-tag">Operating Systems</span>
+              <span class="edu-tag">Information Security</span><span class="edu-tag">Project Management</span>
+            </div>
+            <p data-i18n="edu2_desc">Graduação focada em engenharia de software, programação orientada a objetos, estruturas de dados, modelagem de banco de dados, desenvolvimento de sistemas, segurança da informação e arquitetura de software.</p>
+            <div class="edu-highlight" data-i18n="edu2_highlight"><strong>Destaque:</strong> Formação tecnológica com forte abordagem prática, voltada para desenvolvimento de software, resolução de problemas e aplicação de boas práticas de engenharia.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-cert-action primary" onclick="openCertModal('../../docs/cert-fatec-carapicuiba.pdf', 'Graduação ADS — FATEC Carapicuíba')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span data-i18n="btn_preview_cert">Visualizar</span>
+              </button>
+              <a href="../../docs/cert-fatec-carapicuiba.pdf" download class="btn-cert-action">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span data-i18n="btn_cert">Baixar certificado</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu3_deg">Tecnólogo em Gestão da Tecnologia da Informação</p>
+          <p class="edu-inst">FATEC Barueri</p>
+          <p class="edu-period">Fev 2015 – Dez 2017</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu3-panel', this)">
+            <span data-i18n="btn_edu">Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu3-panel">
+            <p class="edp-title" data-i18n="edu3_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">IT Management</span><span class="edu-tag">IT Governance</span>
+              <span class="edu-tag">IT Infrastructure</span><span class="edu-tag">Information Systems</span>
+              <span class="edu-tag">Programming</span><span class="edu-tag">Database Management</span>
+              <span class="edu-tag">Strategic Planning</span><span class="edu-tag">COBIT / ITIL Frameworks</span>
+            </div>
+            <p data-i18n="edu3_desc">Graduação com foco em governança de TI, infraestrutura, sistemas corporativos, gestão de projetos, banco de dados, processos de negócio e planejamento estratégico aplicado à tecnologia.</p>
+            <div class="edu-highlight" data-i18n="edu3_highlight"><strong>Destaque:</strong> Formação que combinou visão técnica e gerencial, proporcionando experiência tanto em tecnologia quanto em gestão de ambientes corporativos.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-cert-action primary" onclick="openCertModal('../../docs/cert-fatec-barueri.pdf', 'Graduação GTI — FATEC Barueri')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span data-i18n="btn_preview_cert">Visualizar</span>
+              </button>
+              <a href="../../docs/cert-fatec-barueri.pdf" download class="btn-cert-action">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span data-i18n="btn_cert">Baixar certificado</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div style="flex:1">
+          <p class="edu-degree" data-i18n="edu4_deg">Técnico em Redes de Computadores</p>
+          <p class="edu-inst">SENAI Jandira</p>
+          <p class="edu-period" data-i18n="edu4_per">Jul 2012 – Jul 2014</p>
+          <button class="edu-details-btn" onclick="toggleEduDetails('edu4-panel', this)">
+            <span data-i18n="btn_edu">Ver grade e ênfases</span> <span>▾</span>
+          </button>
+          <div class="edu-details-panel" id="edu4-panel">
+            <p class="edp-title" data-i18n="edu4_focus_title">Ênfase do curso</p>
+            <div class="edu-tags">
+              <span class="edu-tag">TCP/IP</span>
+              <span class="edu-tag">Routers e Switches</span><span class="edu-tag">Fiber Optics</span>
+              <span class="edu-tag">Network Security</span><span class="edu-tag">Operating Systems</span>
+              <span class="edu-tag">Computer Assembly and Maintenance</span><span class="edu-tag">Wireless</span>
+            </div>
+            <p data-i18n="edu4_desc">Formação técnica voltada para infraestrutura de redes, conectividade, protocolos TCP/IP, cabeamento estruturado, fibra óptica, configuração de roteadores e switches, além de administração e suporte de ambientes de rede.</p>
+            <div class="edu-highlight" data-i18n="edu4_highlight"><strong>Destaque:</strong> Base técnica sólida em infraestrutura e telecomunicações, responsável pelo início da trajetória profissional na área de tecnologia.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- IDIOMAS & COMUNICAÇÃO GLOBAL -->
+  <section style="margin-bottom:3rem" class="fade fade-d4">
+    <p class="sec-title" data-i18n="sec_lang">Idiomas & Comunicação Global</p>
+
+    <div class="lang-bento">
+      <!-- PORTUGUÊS -->
+      <div class="lang-card-modern">
+        <div class="lang-card-header">
+          <div class="lang-header-left">
+            <div class="flag-badge" title="Brasil">
+              <svg viewBox="0 0 32 32">
+                <rect width="32" height="32" rx="16" fill="#16a34a"/>
+                <polygon points="16,4 29,16 16,28 3,16" fill="#facc15"/>
+                <circle cx="16" cy="16" r="6" fill="#1d4ed8"/>
+                <path d="M11 15c2-2 7-1 10 1" stroke="#ffffff" stroke-width="1" fill="none"/>
+              </svg>
+            </div>
+            <div class="lang-title-wrap">
+              <span class="lang-name-main" data-i18n="lang_pt_name">Português</span>
+              <span class="lang-sub-label" data-i18n="lang_pt_sub">Língua Materna · Fluência Nativa</span>
+            </div>
+          </div>
+          <span class="lang-badge-cefr" data-i18n="lang_pt_level">Nativo / C2</span>
+        </div>
+        <p class="lang-card-desc" data-i18n="lang_pt_desc">
+          Comunicação nativa e eficaz para liderança de reuniões técnicas, documentação de arquitetura de software, alinhamento de requisitos de negócio e mentoria.
+        </p>
+        <div class="lang-tags">
+          <span class="lang-tag-pill" data-i18n="lang_pt_tag1">Comunicação Corporativa</span>
+          <span class="lang-tag-pill" data-i18n="lang_pt_tag2">Documentação de Software</span>
+          <span class="lang-tag-pill" data-i18n="lang_pt_tag3">Liderança de Reuniões</span>
+          <span class="lang-tag-pill" data-i18n="lang_pt_tag4">Mentoria Técnica</span>
+        </div>
+      </div>
+
+      <!-- INGLÊS -->
+      <div class="lang-card-modern">
+        <div class="lang-card-header">
+          <div class="lang-header-left">
+            <div class="flag-badge" title="Canadá">
+              <svg viewBox="0 0 32 32">
+                <rect width="32" height="32" rx="16" fill="#ffffff"/>
+                <rect x="0" y="0" width="8" height="32" fill="#ef4444"/>
+                <rect x="24" y="0" width="8" height="32" fill="#ef4444"/>
+                <path d="M16 7l1.5 4 3.5-.5-2.5 3 2 3-4-1-1 4.5-1-4.5-4 1 2-3-2.5-3 3.5.5z" fill="#ef4444"/>
+              </svg>
+            </div>
+            <div class="lang-title-wrap">
+              <span class="lang-name-main" data-i18n="lang_en_name">Inglês</span>
+              <span class="lang-sub-label" data-i18n="lang_en_sub">Proficiência Técnica & Internacional</span>
+            </div>
+          </div>
+          <span class="lang-badge-cefr highlight" data-i18n="lang_en_badge">B1/B2 · Professional Working</span>
+        </div>
+
+        <p class="lang-card-desc" data-i18n="lang_en_desc">
+          Vivência internacional prática no Canadá e capacidade sólida de leitura de documentações técnicas, RFCs, escrita técnica (issues, pull requests) e reuniões de alinhamento.
+        </p>
+
+        <!-- BARRAS DE PROFICIÊNCIA TÉCNICA -->
+        <div class="lang-meters">
+          <div class="meter-item">
+            <div class="meter-header">
+              <span data-i18n="lang_read_label">Leitura & Documentação Técnica</span>
+              <span class="meter-pct">90%</span>
+            </div>
+            <div class="meter-bar">
+              <div class="meter-fill" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="meter-item">
+            <div class="meter-header">
+              <span data-i18n="lang_write_label">Escrita & Comunicação Técnica</span>
+              <span class="meter-pct">80%</span>
+            </div>
+            <div class="meter-bar">
+              <div class="meter-fill" style="width: 80%;"></div>
+            </div>
+          </div>
+          <div class="meter-item">
+            <div class="meter-header">
+              <span data-i18n="lang_speak_label">Conversação & Reuniões de Equipe</span>
+              <span class="meter-pct">70%</span>
+            </div>
+            <div class="meter-bar">
+              <div class="meter-fill" style="width: 70%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROADMAP / TIMELINE INTERATIVA -->
+        <p class="roadmap-title" data-i18n="roadmap_heading">Marcos de Aprendizado & Certificações Oficiais</p>
+        <div class="lang-roadmap">
+          <!-- 2026 -->
+          <div class="roadmap-card featured">
+            <span class="roadmap-year-badge">2026</span>
+            <div class="roadmap-info">
+              <div class="roadmap-header-row">
+                <span class="roadmap-title-text" data-i18n="tl_exchange_title">Intercâmbio de 1 mês — Inglês Intensivo</span>
+                <span class="roadmap-score-pill">Level 6</span>
+              </div>
+              <span class="roadmap-sub-text" data-i18n="tl_2026_desc">St. George International College, Vancouver — Agosto de 2026</span>
+            </div>
+            <div class="roadmap-actions">
+              <button type="button" class="btn-cert-action primary" onclick="openCertModal('../../docs/cert-english-canada.pdf', 'Certificado SGIC Vancouver (2026)')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span data-i18n="btn_preview_cert">Visualizar</span>
+              </button>
+              <a href="../../docs/cert-english-canada.pdf" download class="btn-cert-action" title="Baixar PDF">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 2024 -->
+          <div class="roadmap-card">
+            <span class="roadmap-year-badge">2024</span>
+            <div class="roadmap-info">
+              <div class="roadmap-header-row">
+                <span class="roadmap-title-text" data-i18n="lang_toeic_label">Teste Oficial TOEIC (ETS)</span>
+                <span class="roadmap-score-pill">430 pts</span>
+              </div>
+              <span class="roadmap-sub-text" data-i18n="tl_2024_desc">Avaliação oficial internacional de proficiência linguística para ambiente de negócios</span>
+            </div>
+            <div class="roadmap-actions">
+              <button type="button" class="btn-cert-action primary" onclick="openCertModal('../../docs/English-Intermediate.pdf', 'Certificado Oficial TOEIC (2024)')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span data-i18n="btn_preview_cert">Visualizar</span>
+              </button>
+              <a href="../../docs/English-Intermediate.pdf" download class="btn-cert-action" title="Baixar PDF">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 2019 -->
+          <div class="roadmap-card">
+            <span class="roadmap-year-badge">2019</span>
+            <div class="roadmap-info">
+              <div class="roadmap-header-row">
+                <span class="roadmap-title-text" data-i18n="tl_exchange_title">Intercâmbio de 1 mês — Inglês Intensivo</span>
+                <span class="roadmap-score-pill">Level 4</span>
+              </div>
+              <span class="roadmap-sub-text" data-i18n="tl_2019_desc">St. George International College, Vancouver — Julho de 2019</span>
+            </div>
+            <div class="roadmap-actions">
+              <span class="roadmap-score-pill" style="color:var(--text-muted);">Concluído</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL INTERATIVO DE CERTIFICADOS -->
+<div class="cert-modal-backdrop" id="certModal" onclick="closeCertModal(event)">
+  <div class="cert-modal-dialog" onclick="event.stopPropagation()">
+    <div class="cert-modal-header">
+      <div class="cert-modal-title-wrap">
+        <div class="cert-modal-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </div>
+        <span class="cert-modal-title" id="certModalTitle">Certificado Oficial</span>
+      </div>
+      <div class="cert-modal-controls">
+        <a id="certModalDownload" href="#" download class="cert-modal-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span data-i18n="btn_download_cert">Baixar PDF</span>
+        </a>
+        <button class="cert-modal-close-btn" onclick="closeCertModal()" title="Fechar (Esc)">✕</button>
+      </div>
+    </div>
+    <div class="cert-modal-body">
+      <iframe id="certIframe" src="" title="Certificado Preview"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>© 2026 Lucilia Rosa. <span data-i18n="footer_rights">Todos os direitos reservados.</span></span>
+  <div style="display:flex;gap:16px;">
+    <a href="https://github.com/luciliarosa" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;">GitHub</a>
+    <a href="https://www.linkedin.com/in/lucilia-rosa" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;">LinkedIn</a>
+    <a href="../index.html" style="color:var(--text-muted);text-decoration:none;font-size:12.5px;">Home</a>
+  </div>
+</footer>
+
+<script src="../js/about-me.js"></script>
+</body>
+</html>
