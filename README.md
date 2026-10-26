@@ -97,18 +97,7 @@ Portfolio/
 │   ├── cert-fatec-carapicuiba.pdf   # Certificado Tecnólogo ADS (FATEC)
 │   └── cert-fatec-barueri.pdf       # Certificado Tecnólogo GTI (FATEC)
 │
-├── project/                   # Projetos e aplicações integradas ao portfólio
-│   ├── README.md              # Documentação dos projetos integrados
-│   └── notebook/              # Lucilia's Notebook (Caderno Digital Full-Stack)
-│       ├── index.html         # Redirecionador para a página principal
-│       ├── notebook.html      # Página principal e catálogo de aulas
-│       ├── chatbot.js         # Assistente virtual de estudos em JavaScript puro
-│       ├── frontend/          # Módulos cliente (HTML5, CSS3, JavaScript ES6+ e React)
-│       ├── backend/           # Módulos servidor e dados (Python, Flask, Django e PostgreSQL)
-│       ├── devops/            # Controle de versão (Git, GitHub e fluxos de branch)
-│       ├── fundamentals/      # Base computacional (Lógica de Programação e Algoritmos)
-│       └── languages/         # Idiomas e comunicação técnica (Inglês e Francês)
-│
+
 ├── README.md                  # Documentação em Português
 └── README.en.md               # Documentação em Inglês
 ```

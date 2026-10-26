@@ -97,18 +97,7 @@ Portfolio/
 │   ├── cert-fatec-carapicuiba.pdf   # Systems Analysis & Development degree certificate
 │   └── cert-fatec-barueri.pdf       # IT Management degree certificate
 │
-├── project/                   # Standalone projects integrated into the portfolio
-│   ├── README.md              # Documentation for integrated projects
-│   └── notebook/              # Lucilia's Notebook (Digital Full-Stack Class Notebook)
-│       ├── index.html         # Redirector to the main notebook page
-│       ├── notebook.html      # Main class index & module catalog
-│       ├── chatbot.js         # Interactive study AI assistant in pure JavaScript
-│       ├── frontend/          # Client-side modules (HTML5, CSS3, ES6+ JavaScript, React)
-│       ├── backend/           # Server-side & data modules (Python, Flask, Django, PostgreSQL)
-│       ├── devops/            # Version control & Git workflows (Git, GitHub, branches)
-│       ├── fundamentals/      # Computational foundations (Programming Logic & Algorithms)
-│       └── languages/         # Technical communication & languages (English & French)
-│
+
 ├── README.md                  # Documentation in Portuguese
 └── README.en.md               # Documentation in English
 ```
